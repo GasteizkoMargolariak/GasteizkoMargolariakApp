@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Shape for the slider menu -->
+
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+	<item>
+	    <shape>
+	        <gradient
+	            android:angle="0"
+	            android:centerY="10%"
+	            android:centerX="0.1"
+	            android:startColor="@color/background_menu_gradient"
+	            android:endColor="@color/background_menu"
+	            android:type="linear" />
+	    </shape>
+	</item>
+</selector>

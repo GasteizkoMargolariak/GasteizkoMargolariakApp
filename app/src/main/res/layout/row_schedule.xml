@@ -1,0 +1,90 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_schedule"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".75"
+        android:orientation="horizontal"
+        android:tileMode="repeat" >
+
+        <RelativeLayout
+            android:id="@+id/schedule_timeline"
+            android:layout_width="20dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/ImageView02"
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/menu_lablanca_schedule"
+                android:scaleType="fitXY"
+                android:src="@drawable/timeline" />
+
+            <ImageView
+                android:id="@+id/ImageView01"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/menu_lablanca_schedule"
+                android:src="@drawable/schedule_point" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_row_schedule_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/schedule_timeline"
+            android:layout_toStartOf="@id/schedule_timeline"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_row_schedule_content"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".25"
+        android:orientation="vertical"
+        android:paddingBottom="15dp" >
+
+        <TextView
+            android:id="@+id/tv_row_schedule_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/tv_row_schedule_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2" />
+
+        <TextView
+            android:id="@+id/tv_row_schedule_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tv_row_schedule_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </LinearLayout>
+    
+</LinearLayout>

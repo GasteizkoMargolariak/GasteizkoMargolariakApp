@@ -1,0 +1,177 @@
+package com.ivalentin.gm;
+
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.io.File;
+import java.util.Locale;
+
+/**
+ * Created by seavenois on 09/06/16.
+ */
+public class GalleryLayout extends Fragment{
+
+    //Main View
+    private View view;
+
+    /**
+     * Run when the fragment is inflated.
+     * Assigns views, gets the date and does the first call to the {@link #populate} function.
+     *
+     * @param inflater A LayoutInflater to manage views
+     * @param container The container View
+     * @param savedInstanceState Bundle containing the state
+     *
+     * @return The fragment view
+     *
+     * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
+    @SuppressLint("InflateParams") //Throws unknown error when done properly.
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //Load the layout
+        view = inflater.inflate(R.layout.fragment_layout_gallery, null);
+
+        //Set the title
+        ((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_gallery));
+
+        populate();
+
+        return view;
+    }
+
+    /**
+     * Populates the list of activities around.
+     * It uses the default layout as parent.
+     */
+    public void populate(){
+
+        //Assign elements
+        LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_gallery_album_list);
+        LinearLayout entry;
+
+        //An inflater
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+
+        SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+        final Cursor cursor;
+        String currLang = Locale.getDefault().getDisplayLanguage();
+        if (!currLang.equals("es") && !currLang.equals("eu")){
+            currLang = "en";
+        }
+
+        //Get data from the database
+        cursor = db.rawQuery("SELECT id, name_" + currLang+ " AS title FROM album ORDER BY random();", null);
+
+        //Loop
+        while (cursor.moveToNext()){
+
+            //Create a new row
+            entry = (LinearLayout) factory.inflate(R.layout.row_gallery, null);
+
+            //Set margins
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(10, 10, 10, 25);
+            entry.setLayoutParams(layoutParams);
+
+            //Set title
+            TextView tvTitle = (TextView) entry.findViewById(R.id.tv_row_gallery_title);
+            tvTitle.setText(cursor.getString(1));
+
+            //Set hidden id
+            TextView tvId = (TextView) entry.findViewById(R.id.tv_row_gallery_hidden);
+            tvId.setText(cursor.getString(0));
+
+            //Get images
+            ImageView preview[] = new ImageView[4];
+            preview[0] = (ImageView) entry.findViewById(R.id.iv_row_gallery_0);
+            preview[1] = (ImageView) entry.findViewById(R.id.iv_row_gallery_1);
+            preview[2] = (ImageView) entry.findViewById(R.id.iv_row_gallery_2);
+            preview[3] = (ImageView) entry.findViewById(R.id.iv_row_gallery_3);
+
+            //Set counter
+            Cursor cursorImage = db.rawQuery("SELECT id, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + " ORDER BY random() LIMIT 4;", null);
+            TextView tvPhotoCounter = (TextView) entry.findViewById(R.id.tv_row_gallery_counter);
+            tvPhotoCounter.setText(String.format(getResources().getQuantityString(R.plurals.gallery_photo_count, cursorImage.getCount()), cursorImage.getCount()));
+
+            int i = 0;
+            while (cursorImage.moveToNext()){
+                String image = cursorImage.getString(1);
+
+                //Check if image exists
+                File f;
+                f = new File(this.getContext().getFilesDir().toString() + "/img/galeria/miniature/" + image);
+                if (f.exists()){
+                    //If the image exists, set it.
+                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/galeria/miniature/" + image);
+                    preview[i].setImageBitmap(myBitmap);
+                }
+                else {
+                    //If not, create directories and download asynchronously
+                    File fpath;
+                    fpath = new File(this.getContext().getFilesDir().toString() + "/img/galeria/miniature/");
+                    fpath.mkdirs();
+                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
+                }
+                i ++;
+
+            }
+
+
+            //Set onCLickListener
+            entry.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
+                    //TODO: Change
+                    Fragment fragment = new AlbumLayout();
+                    Bundle bundle = new Bundle();
+                    //Pass post id
+                    int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_gallery_hidden)).getText().toString());
+                    bundle.putInt("album", id);
+                    fragment.setArguments(bundle);
+
+                    FragmentManager fm = GalleryLayout.this.getActivity().getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+
+                    ft.replace(R.id.activity_main_content_fragment, fragment);
+                    ft.addToBackStack("album_" + id);
+                    ft.commit();
+                    //setSectionTitle(title);
+                }
+            });
+
+            //Set onClick event
+            /*content = (LinearLayout) entry.findViewById(R.id.ll_row_schedule_content);
+            content.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    TextView tvName = (TextView) v.findViewById(R.id.tv_row_schedule_id);
+                    int id = Integer.parseInt(tvName.getText().toString());
+                    showDialog(id);
+                }
+            });*/
+
+            //Add to the list
+            llList.addView(entry);
+        }
+
+    }
+}

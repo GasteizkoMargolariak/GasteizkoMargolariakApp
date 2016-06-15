@@ -1,0 +1,8 @@
+<!-- Bitmap to use as background of the dotted timeline in schedules. -->
+
+<bitmap
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:src="@drawable/schedule_timeline"
+	android:tileMode="repeat"
+	android:gravity="center"
+	android:dither="true" />

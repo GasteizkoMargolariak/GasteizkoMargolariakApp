@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+	<!-- App related strings -->
+
+	<string name="app_name">Gasteizko Margolariak</string>
+	<string name="app_name_software">Aplicación Gasteizko Margolariak</string>
+	<string name="app_email">gasteizkomargolariak@gmail.com</string>
+	
+
+	<!-- Arrow buttons -->
+
+	<string name="arrow_left">&lt;</string>
+	<string name="arrow_right">&gt;</string>
+
+
+	<!-- Menu sections -->
+
+	<string name="menu_home">Home</string>
+	<string name="menu_lablanca">La Blanca</string>
+	<string name="menu_lablanca_schedule">Programa de fiestas</string>
+	<string name="menu_lablanca_gm_schedule">Programa Margolari</string>
+	<string name="menu_lablanca_around">Cerca de mi</string>
+	<string name="menu_lablanca_location">Encuentranos</string>
+	<string name="menu_activities">Actividades</string>
+	<string name="menu_blog">Blog</string>
+	<string name="menu_gallery">Galería</string>
+	<string name="menu_about">Nosotros</string>
+	<string name="menu_settings">Preferencias</string>
+
+	<!-- Schedule strings -->
+
+	<string name="schedule_filter">Buscar&#8230;</string>
+	<string name="schedule_close">Cerrar</string>
+	<string name="schedule_host">Organiza %1$s</string>
+
+
+	<!-- Month names -->
+
+	<string name="month_07">Julio</string>
+	<string name="month_08">Agosto</string>
+
+
+	<!-- Day strings -->
+	<string name="today">Hoy</string>
+	<string name="tomorrow">Mañana</string>
+
+
+	<!-- "Titles" for days -->
+
+	<string name="day_title_25">Santiago</string>
+	<string name="day_title_4">Celedón</string>
+	<string name="day_title_5">La Blanca</string>
+	<string name="day_title_6">Día Margolari</string>
+	<string name="day_title_7">Celedón Txiki</string>
+	<string name="day_title_8">Blusa Veterano</string>
+	<string name="day_title_9">Despedida</string>
+
+
+	<!-- About section strings -->
+
+	<string name="about_copyright">Copyright 2015 @Iñigo Valentin</string>
+	<string name="about_email">i@inigovalentin.com</string>
+	<string name="about_license">Este programa es software libre. Usted puede distribuirlo y modificarlo de acuerdo con los términos de la GNU General Public License versión 3 publicada por la Free Software Foundation.\n\nEste programa se distrubuye con la espereanza de que sea útil, pero SIN NINGUNA GARANTIA. Consulte la GNU General Public License para más informacion en http://www.gnu.org/licenses/.\n\nEl nombre "Gasteizko Margolariak" y su logotipo son propiedad de Gasteizko Margolariak.</string>
+	<string name="about_code">&lt;div style="background-color:#bbbbbb;padding:6px;border-radius:5px;border-style:solid;border-width:2px;border-color:#333333;text-align:center;">Puedes ver y descargar el codigo fuente de esta aplicacion en &lt;a href="https://github.com/Seavenois/GM">Github&lt;/a>&lt;/div></string>
+
+
+	<!-- Around section string -->
+	
+	<string name="around_no_events_0">No hay eventos proximamente.</string>
+	<string name="around_no_events_1">Según se acerquen las fiestas, ¡aquí irán apareceido actividades cerca de ti!</string>
+	<string name="around_no_events_button">Ver el programa de fiestas</string>
+	<string name="around_no_gps">Enciende el GPS de tu teléfono para poder localizar eventos a tu alrededor.</string>
+	<string name="around_no_gps_button">Abrir ajustes</string>
+	<string name="around_distance">A %1$s %2$s de ti (%3$s minutos andando)</string>
+
+
+	<!-- Home section strings -->
+
+	<string name="home_section_schedule">Actividades en la ciudad</string>
+	<string name="home_section_gm">Actividades de Margolariak</string>
+	<string name="home_section_around">Cerca de mi</string>
+	<string name="home_section_location">Encuéntranos</string>
+	<string name="home_section_location_text_0">¡Gasteizko Margolariak está cerca!</string>
+	<string name="home_section_location_text_1">¡Están a solo %1$s de ti! (Unos %2$d minutos andando)</string>
+	<string name="home_section_social">Síguenos</string>
+	<string name="home_section_join">Hazte Margolari</string>
+	<string name="home_section_schedule_see">Ver programa</string>
+	<string name="home_section_gm_see">Ver todas</string>
+	<string name="home_section_around_see">Ver más</string>
+	<string name="home_section_location_see">Mapa</string>
+	<string name="home_section_social_see">Síguenos</string>
+	<string name="home_section_join_see">Precios</string>
+	<string name="home_section_join_header">¡Únete a Gasteizko Margolariak por el mejor precio!</string>
+	<string name="home_section_join_text">¡Escoge días sueltos o elige nuestros packs en oferta!</string>
+	<string name="home_section_join_footer">Mira los precios y elige la opción que mejor se adapte a ti.</string>
+
+	
+	<!-- Prices dialog strings -->
+
+	<string name="prices_title">Precios</string>
+	<string name="prices_close">Cerrar</string>
+	<string name="prices_section_days">Días sueltos</string>
+	<string name="prices_section_packs">Packs de ofertas</string>
+	<string name="prices_section_calculator">Calculadora de precios</string>
+	<string name="prices_section_howto">Como pagar</string>
+	<string name="prices_day_name_0">25 de julio</string>
+	<string name="prices_day_name_1">5 de agosto</string>
+	<string name="prices_day_name_2">6 de agosto</string>
+	<string name="prices_day_name_3">7 de agosto</string>
+	<string name="prices_day_name_4">8 de agosto</string>
+	<string name="prices_day_name_5">9 de agosto</string>
+	<string name="prices_calculator">Elige los días que te interesen. Los descuentos se aplicarán automáticamente.</string>
+	<string name="prices_total">Total: </string>
+	<string name="prices_total_0">Total: 0€</string>
+	<string name="prices_howto_0">Deberás hacer un ingreso en la cuenta 3035 0012 71 0120111936 de la Caja Laboral indicando tu nombre completo y los días que has elegido.</string>
+	<string name="prices_howto_1">p.e.: Kepa Barrenengoetxea 5, 6, 9</string>
+	<string name="prices_howto_2">Si optas por los packs de 5 o 6 días, no es necesario indicar los días, bastará con tu nombre completo.</string>
+	<string name="prices_howto_3">Los pagos para el día de Santiago (25 de julio) deberán realizarse antes del 22 de julio.</string>
+	<string name="prices_howto_4">Los pagos para fiestas de La Blanca (del 4 al 9 de Agosto) deberán realizarse antes del 1 de agosto.</string>
+	<string name="prices_contact_text">Si tienes qualquier duda o pregunta, no dudes en escribirnos.</string>
+	<string name="prices_contact_button">Enviar e-mail</string>
+	<string name="prices_contact_subject">Quiero apuntarme</string>
+
+
+	<!-- Settings section strings -->
+
+	<string name="settings_section_notification">NOTIFICACIONES</string>
+	<string name="settings_notification">Notificaciones</string>
+	<string name="settings_notification_on">Recibir notificaciones</string>
+	<string name="settings_notification_off">No recibir notificaciones</string>
+	<string name="settings_notification_gm">Notificaciones de Margolariak</string>
+	<string name="settings_notification_gm_on">Recibir notificaciones de Margolariak</string>
+	<string name="settings_notification_gm_off">No recibir notificaciones de Margolariak</string>
+	<string name="settings_section_account">USUARIO</string>
+	<string name="settings_account_gm">Margolari</string>
+	<string name="settings_account_gm_on">Soy Margolari</string>
+	<string name="settings_account_gm_off">No soy Margolari</string>
+	<string name="settings_account_name">Nombre</string>
+	<string name="settings_account_message_title">Nombre de usuario</string>
+	<string name="settings_account_message_text">Introduce un nombre de usuario para ayudarnos a ofrecerte actividades más interesantes.</string>
+	<string name="settings_account_message_save">Guardar</string>
+	<string name="settings_account_message_cancel">Cancelar</string>
+	<string name="settings_account_unset"> </string>
+	<string name="settings_account_name_disclaimer">No publicaremos ni compartiremos tu nombre o información asociada a él con nadie.</string>
+
+
+	<!-- Location section strings -->
+
+	<string name="location_not_reporting">Gasteizko Margolariak no está compartiendo su ubicación en estos momentos.</string>
+	<string name="location_now">Pero, según su programa, puedes encontrarles ahora en %1$s.</string>
+	<string name="location_today">Pero, según su programa, puedes encontrarles hoy a las %1$s en %2$s.</string>
+	<string name="location_tomorrow">Pero, según su programa, puedes encontrarles mañana a las %1$s en %2$s.</string>
+	<string name="location_button">Ver el programa Margolari</string>
+	
+
+	<!-- Accesibility strings -->
+	
+	<string name="accesibility_event">Evento</string>
+	<string name="accesibility_event_gm">Evento organizado Gasteizko Margolariak</string>
+	<string name="accesibility_event_schedule">Evento en la ciudad</string>
+	
+	
+	<!-- Social networks strings -->
+
+	<string name="social_web">Web</string>
+	<string name="social_facebook">Facebook</string>
+	<string name="social_mail">e-mail</string>
+	<string name="social_whatsapp">Whatsapp</string>
+	<string name="social_twitter">Twitter</string>
+	<string name="social_googleplus">Google+</string>
+	<string name="social_youtube">Youtube</string>
+	<string name="social_instagram">Instagram</string>
+	<string name="social_web_link">http://margolariak.com/</string>
+	<string name="social_mail_link">mailto:gasteizkomargolariak@gmail.com</string>
+	<string name="social_whatsapp_link">smsto:+34637140371</string>
+	<string name="social_whatsapp_package">com.whatsapp</string>
+	<string name="social_whatsapp_chat">chat</string>
+	<string name="social_whatsapp_error">Error de conexión con Whatsapp. Está instalado?</string>
+	<string name="social_facebook_link">http://facebook.com/gmargolariak</string>
+	<string name="social_twitter_link">http://twitter.com/gmargolariak</string>
+	<string name="social_googleplus_link">https://plus.google.com/106661466029005469492</string>
+	<string name="social_youtube_link">https://www.youtube.com/user/GasteizkoMargolariak</string>
+	<string name="social_instagram_link">https://instagram.com/gmargolariak/</string>
+
+	
+	<!-- Misc strings -->
+	
+	<string name="kilometers">kilómetros</string>
+	<string name="meters">metros</string>
+	<string name="eur">€</string>
+	
+	
+	<!-- Notification dialog strings -->
+	
+	<string name="notification_close">Cerrar</string>
+	<string name="notification_action_schedule">Ver programa de fiestas</string>
+	<string name="notification_action_gm">Ver programa Margolari</string>
+	
+	<!-- Sync dialog strings -->
+	
+	<string name="dialog_sync_title">Sincronizando</string>
+	<string name="dialog_sync_text">Descargando los últimos contenidos en tu teléfono.</string>
+	<string name="dialog_sync_internet">La primera vez que usas esta aplicación debes disponer de una conexión a internet.</string>
+	<string name="dialog_sync_failed_title">Error de sincronización</string>
+	<string name="dialog_sync_failed_text">No se pudierdon descargar los contenidos\n\nAsegúrate de que dispones de conexión a internet e inténtalo de nuevo.</string>
+	<string name="dialog_sync_failed_close">Cerrar</string>
+	
+</resources>

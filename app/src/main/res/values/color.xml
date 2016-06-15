@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    
+    <!-- Color for text that looks like a link -->
+    
+    <color name="link">#0000ff</color>
+    
+    
+    <!-- Basic colors -->
+    
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    
+    
+    <!-- Text colors -->
+    
+	<color name="text_dialog">#333333</color>
+    
+	
+    <!-- Backgrounds for several sections -->
+    
+    <color name="background_app">#c6e4f6</color>
+    <color name="background_app_gradient">#ffffff</color>
+    <color name="background_menu">#4c9ed8</color>
+    <color name="background_menu_gradient">#99ff77</color>
+    <color name="background_notification">#000000</color>
+    <color name="background_separator">#000000</color>
+
+
+    <color name="section_background">#9bc1da</color>
+    <color name="section_border">#9cd3d9</color>
+
+    <color name="entry_background">#ffffff</color>
+    <color name="entry_border">#9cd3d9</color>
+    
+    <!--Color for the menu entries-->
+    <color name="menu_entry">#ffffff</color>
+
+    <!-- Color for the "About Section" -->
+    
+    <color name="about_code_background">#999999</color>
+    
+    
+    <!-- Colors for the "Home" section -->
+    
+    <color name="home_section_background">#66bb66</color>
+    
+    
+    <!-- Color for the entres in the Around me section -->
+    <color name="around_background">#11000000</color>
+    <color name="around_border">#55337733</color>
+    
+    <!-- Colors for settings section -->
+    
+    <color name="settings_header">#aaaaaa</color>
+    <color name="settings_header_background">#444444</color>
+    <color name="settings_disabled">#55000000</color>
+    
+    
+    <!-- Colors for gradients -->
+    
+    <color name="background_bar">#9bc1da</color>
+    <color name="background_bar_gradient">#bdf8fd</color>
+    <color name="background_date">#cccccc</color>
+    <color name="background_date_gradient">#888888</color>
+    
+    
+    <!-- Color for the arrow buttons -->
+    
+    <color name="arrow_button_start">#aaaaee</color>
+    <color name="arrow_button_center">#eeeeff</color>
+    <color name="arrow_button_start_pressed">#7777bb</color>
+    <color name="arrow_button_center_pressed">#bbbbcc</color>
+    <color name="arrow_button_border">#222290</color>
+
+    <!--Color for input fields-->
+    <color name="input_background">#223344</color>
+    <color name="input_background_pressed">#446688</color>
+    <color name="input_border">#9cd3d9</color>
+    <color name="input_text_color">#cccccc</color>
+    <color name="input_hint_color">#999999</color>
+    <color name="input_button_color">#cccccc</color>
+
+
+    <color name="album_border">#111111</color>
+    <color name="album_background">#aaaaaa</color>
+
+</resources>
