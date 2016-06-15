@@ -30,22 +30,31 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
 				android:textColor="@color/menu_entry" />
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:background="@color/background_separator"/>
 
-			<TextView
-                android:id="@+id/menu_location"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-				android:gravity="center_vertical"
-                android:text="@string/menu_location"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/ll_menu_location"
+				android:visibility="gone">
+
+				<View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_separator"/>
+
+				<TextView
+                    android:id="@+id/menu_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu_location"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold"
+                    android:textColor="@color/menu_entry" />
+			</LinearLayout>
 
 			<View
 				android:layout_width="fill_parent"
@@ -65,43 +74,46 @@
 				android:textColor="@color/menu_entry" />
 
             <TextView
-                android:id="@+id/menu_lablanca_schedule"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+				android:id="@+id/menu_lablanca_schedule"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:layout_marginTop="10dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_lablanca_schedule"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textColor="@color/menu_entry" />
+				android:gravity="center_vertical"
+				android:text="@string/menu_lablanca_schedule"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textColor="@color/menu_entry"
+				android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/menu_lablanca_gm_schedule"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+				android:id="@+id/menu_lablanca_gm_schedule"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:layout_marginTop="10dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_lablanca_gm_schedule"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textColor="@color/menu_entry" />
+				android:gravity="center_vertical"
+				android:text="@string/menu_lablanca_gm_schedule"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textColor="@color/menu_entry"
+				android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/menu_lablanca_around"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+				android:id="@+id/menu_lablanca_around"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:layout_marginTop="10dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_lablanca_around"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textColor="@color/menu_entry" />
+				android:gravity="center_vertical"
+				android:text="@string/menu_lablanca_around"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textColor="@color/menu_entry"
+				android:visibility="gone"/>
 
 			<View
 				android:layout_width="fill_parent"

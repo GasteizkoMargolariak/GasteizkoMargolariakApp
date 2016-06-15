@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 			public void onClick(View v) { mLayout.toggleMenu(); }
 		});
 		
-		//Assign menu items and icons
+		//Assign menu items
 		TextView menuItem[] = new TextView[8];
 		menuItem[0] = (TextView) findViewById(R.id.menu_home);
 		menuItem[1] = (TextView) findViewById(R.id.menu_location);
@@ -296,6 +296,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 		menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
 		menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
 		menuLablancaItem[2] = (TextView) findViewById(R.id.menu_lablanca_around);
+
+		//Todo: Read settings and display needed menu entries
 
 		//Set click listers for menu items
 		menuItem[0].setOnClickListener(new OnClickListener() {

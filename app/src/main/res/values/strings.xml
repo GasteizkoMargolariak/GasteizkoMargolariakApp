@@ -75,10 +75,12 @@
 
 	<!-- Around section string -->
 
+	<string name="around_header">Nearby events</string>
 	<string name="around_no_events_0">There are no upcoming events.</string>
 	<string name="around_no_events_1">Wait for the festivals te be closer, and you will see activities around you!</string>
 	<string name="around_no_events_button">Check out festivals schedule</string>
-	<string name="around_no_gps">Turn on GPS to be able to see events around you.</string>
+	<string name="around_no_gps">GPS turned off</string>
+	<string name="around_no_gps_text">Turn on GPS to be able to see events around you.</string>
 	<string name="around_no_gps_button">Open settings</string>
 	<string name="around_distance">%1$s %2$s away from you (About %3$s minutes walking)</string>
 
