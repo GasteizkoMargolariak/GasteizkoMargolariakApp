@@ -55,13 +55,13 @@ class PostComment extends AsyncTask<String, String, Integer> {
      * */
     @Override
     protected void onPreExecute() {
-        Log.e("PRE", "START");
+        //Log.e("PRE", "START");
         super.onPreExecute();
-        btSend = (Button) form.findViewById(R.id.bt_post_comment_send);
+        btSend = (Button) form.findViewById(R.id.bt_comment_send);
         pb = (ProgressBar) form.findViewById(R.id.pb_comment);
         btSend.setVisibility(View.GONE);
         pb.setVisibility(View.VISIBLE);
-        Log.e("PRE", "END");
+        //Log.e("PRE", "END");
     }
 
     /**
@@ -69,7 +69,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
      * */
     @Override
     protected Integer doInBackground(String... f_url) {
-        Log.e("DIB", "START");
+        //.e("DIB", "START");
         int count;
         URL url;
         String urlString, urlParams;
@@ -78,7 +78,6 @@ class PostComment extends AsyncTask<String, String, Integer> {
             //url = new URL(GM.SERVER + "/" + type + "/comment.php?user=" + user + "&text=" + text);
             urlString = GM.SERVER + "/" + type + "/comment.php?user=" + URLEncoder.encode(user) + "&text=" + URLEncoder.encode(text);
             urlParams = "user=" + URLEncoder.encode(user) + "&text=" + URLEncoder.encode(text);
-            Log.e("TYPE", type);
             switch (type){
                 case "blog":
                     urlParams = urlParams + "&post=" + id;
@@ -121,7 +120,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
             conn.connect();
 
 
-            Log.e("URL", urlString);
+            //Log.e("URL", urlString);
             //url = new URL(urlString);
             //HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             //connection.setRequestMethod("GET");
@@ -131,28 +130,33 @@ class PostComment extends AsyncTask<String, String, Integer> {
             Log.d("Comment status", "" + code);
 
             if (code == 200){
-                //TODO: Insert into local db
+                //Insert into local db
                 SQLiteDatabase db = context.openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
                 String table = "";
+                String item = "";
                 switch (type){
                     case "blog":
                         table = "post_comment";
+                        item = "post";
                         break;
                     case "galeria":
                         table = "photo_comment";
+                        item = "photo";
                         break;
                     case "actividades":
                         table = "activity_comment";
+                        item = "activity";
                         break;
                 }
-                db.rawQuery("INSERT INTO " + table + " (post, text, username, lang) VALUES (" + id + ", '" + text + "', '" + user + "', '" + language + "');", null);
+                db.execSQL("INSERT INTO " + table + " (" + item + ", text, username, lang, dtime) VALUES (" + id + ", '" + text + "', '" + user + "', '" + language + "', datetime('NOW'));");
+                //Log.e("Query", "INSERT INTO " + table + " (" + item + ", text, username, lang, dtime) VALUES (" + id + ", '" + text + "', '" + user + "', '" + language + "', datetime('NOW'));");
                 db.close();
             }
 
         } catch (Exception e) {
             Log.e("Error posting: ", e.getMessage());
         }
-        Log.e("DIB", "END");
+        //Log.e("DIB", "END");
         return code;
     }
 
@@ -163,19 +167,19 @@ class PostComment extends AsyncTask<String, String, Integer> {
      * **/
     @Override
     protected void onPostExecute(Integer a) {
-        Log.e("POS", "START");
+        //Log.e("POS", "START");
         //Log.d("Comment posted", type);
 
         if (code == 200) {
             //Clear form
-            EditText formText = (EditText) form.findViewById(R.id.et_post_comment_text);
-            EditText formUser = (EditText) form.findViewById(R.id.et_post_comment_name);
+            EditText formText = (EditText) form.findViewById(R.id.et_comment_text);
+            EditText formUser = (EditText) form.findViewById(R.id.et_comment_name);
             formUser.setText("");
             formText.setText("");
 
             //TODO: Update counter
 
-            //TODO: Insert comment in list
+            //Insert comment in list
             LayoutInflater factory = LayoutInflater.from(context);
             LinearLayout entry = (LinearLayout) factory.inflate(R.layout.row_comment, null);
 
@@ -198,6 +202,6 @@ class PostComment extends AsyncTask<String, String, Integer> {
         pb.setVisibility(View.GONE);
 
         //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
-        Log.e("POS", "END");
+        //Log.e("POS", "END");
     }
 }

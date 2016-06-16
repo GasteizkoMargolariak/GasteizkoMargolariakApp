@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +88,10 @@ public class AlbumLayout extends Fragment {
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_album, null);
 
+			//Set left and right layouts
+			LinearLayout left = (LinearLayout) entry.findViewById(R.id.ll_row_album_left);
+			LinearLayout right = (LinearLayout) entry.findViewById(R.id.ll_row_album_right);
+
             //Set margins
             //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             //layoutParams.setMargins(10, 10, 10, 25);
@@ -117,6 +123,27 @@ public class AlbumLayout extends Fragment {
                 fpath.mkdirs();
                 new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
             }
+
+			//Set onClickListener
+			left.setOnClickListener(new View.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+				//Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
+				Fragment fragment = new PhotoLayout();
+				Bundle bundle = new Bundle();
+				//Pass post id
+				int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_album_hidden_left)).getText().toString());
+				bundle.putInt("photo", id);
+				fragment.setArguments(bundle);
+
+				FragmentManager fm = AlbumLayout.this.getActivity().getSupportFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+
+				ft.replace(R.id.activity_main_content_fragment, fragment);
+				ft.addToBackStack("photo_" + id);
+				ft.commit();
+				}
+			});
             
             //If odd pass, to the right line
             if (imageCursor.moveToNext()){
@@ -149,6 +176,26 @@ public class AlbumLayout extends Fragment {
                     fpath.mkdirs();
                     new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
                 }
+
+				//Set onClickListener
+				right.setOnClickListener(new View.OnClickListener(){
+					@Override
+					public void onClick(View v) {
+					Fragment fragment = new PhotoLayout();
+					Bundle bundle = new Bundle();
+					//Pass post id
+					int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_album_hidden_right)).getText().toString());
+					bundle.putInt("photo", id);
+					fragment.setArguments(bundle);
+
+					FragmentManager fm = AlbumLayout.this.getActivity().getSupportFragmentManager();
+					FragmentTransaction ft = fm.beginTransaction();
+
+					ft.replace(R.id.activity_main_content_fragment, fragment);
+					ft.addToBackStack("photo_" + id);
+					ft.commit();
+					}
+				});
             }
 
             llList.addView(entry);

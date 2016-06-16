@@ -70,9 +70,9 @@ public class PostLayout extends Fragment {
 
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_post_title);
         TextView tvDate = (TextView) view.findViewById(R.id.tv_post_date);
-        final TextView tvComments = (TextView) view.findViewById(R.id.tv_post_comments);
+        final TextView tvComments = (TextView) view.findViewById(R.id.tv_comments);
         WebView wvText = (WebView) view.findViewById(R.id.wv_post_text);
-        LinearLayout llCommentList = (LinearLayout) view.findViewById(R.id.ll_post_comment_list);
+        LinearLayout llCommentList = (LinearLayout) view.findViewById(R.id.ll_comment_list);
 
         //Set fields
         tvTitle.setText(cursor.getString(1));
@@ -118,7 +118,7 @@ public class PostLayout extends Fragment {
         final int commentCount = commentCursor.getCount();
         cursor.moveToFirst();
         LinearLayout entry;
-        LinearLayout commentList = (LinearLayout) view.findViewById(R.id.ll_post_comment_list);
+        LinearLayout commentList = (LinearLayout) view.findViewById(R.id.ll_comment_list);
         LayoutInflater factory = LayoutInflater.from(getActivity());
         while (commentCursor.moveToNext()) {
             entry = (LinearLayout) factory.inflate(R.layout.row_comment, null);
@@ -137,9 +137,9 @@ public class PostLayout extends Fragment {
         commentCursor.close();
 
         //Set up comment form
-        final EditText etCommentText = (EditText) view.findViewById(R.id.et_post_comment_text);
-        final EditText etCommentName = (EditText) view.findViewById(R.id.et_post_comment_name);
-        Button btSendComment = (Button) view.findViewById(R.id.bt_post_comment_send);
+        final EditText etCommentText = (EditText) view.findViewById(R.id.et_comment_text);
+        final EditText etCommentName = (EditText) view.findViewById(R.id.et_comment_name);
+        Button btSendComment = (Button) view.findViewById(R.id.bt_comment_send);
 
         btSendComment.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -158,8 +158,8 @@ public class PostLayout extends Fragment {
                 }
 
                 //Start async task
-                LinearLayout form = (LinearLayout) view.findViewById(R.id.ll_post_new_comment);
-                LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_post_comment_list);
+                LinearLayout form = (LinearLayout) view.findViewById(R.id.ll_new_comment);
+                LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_comment_list);
                 new PostComment("blog", user, text, currLang, cursor.getInt(0), form, list, commentCount, tvComments, context).execute();
 
             }

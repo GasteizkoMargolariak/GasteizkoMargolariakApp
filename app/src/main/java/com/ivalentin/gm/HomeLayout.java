@@ -287,7 +287,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 		//Get data from the database of the future activities
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + currLang + " AS title, text_" + currLang + " AS text, price, after_" + currLang + " AS after FROM activity WHERE date < date('now') ORDER BY date LIMIT 2;", null);
+		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + currLang + " AS title, text_" + currLang + " AS text, price, after_" + currLang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC LIMIT 2;", null);
 
 		//Show section
 		LinearLayout llActivitiesPast = (LinearLayout) view.findViewById(R.id.ll_home_section_activities_past);
@@ -374,6 +374,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
 				}
 			}
+			cursorImage.close();
 
 			//Set onCLickListener
 			entry.setOnClickListener(new View.OnClickListener() {
@@ -427,7 +428,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 		//Get data from the database of the future activities
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + currLang+ " AS title, text_" + currLang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date DESC LIMIT 2;", null);
+		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + currLang+ " AS title, text_" + currLang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date LIMIT 2;", null);
 
 		//If there are future activities...
 		if (cursor.getCount() > 0) {
@@ -504,6 +505,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
 					}
 				}
+
+				cursorImage.close();
 
 				//Set onCLickListener
 				entry.setOnClickListener(new View.OnClickListener() {
@@ -625,6 +628,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				}
 			}
 
+			cursorImage.close();
+
 			//Set onCLickListener
 			entry.setOnClickListener(new View.OnClickListener(){
 				@Override
@@ -694,6 +699,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 			}
 			i ++;
 		}
+		cursor.close();
 		
 		//Get offers
 		cursor = db.rawQuery("SELECT price, days FROM offer ORDER BY id;", null);
@@ -721,11 +727,15 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 					i ++;
 				}
 			}
+			closestOffer.close();
 		}
 		
 		//Set text
 		tvTotal.setText(v.getContext().getResources().getString(R.string.prices_total) + " " + total + v.getContext().getResources().getString(R.string.eur));
-		
+
+
+		cursor.close();
+		db.close();
 		//Return the total price
 		return total;
 	}

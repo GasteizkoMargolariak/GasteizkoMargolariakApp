@@ -78,7 +78,7 @@ public class GalleryLayout extends Fragment{
         }
 
         //Get data from the database
-        cursor = db.rawQuery("SELECT id, name_" + currLang+ " AS title FROM album ORDER BY random();", null);
+        cursor = db.rawQuery("SELECT DISTINCT album.id AS id, album.name_" + currLang + " AS name FROM photo, album, photo_album WHERE photo.id = photo AND album.id = album ORDER BY uploaded DESC;", null);
 
         //Loop
         while (cursor.moveToNext()){
