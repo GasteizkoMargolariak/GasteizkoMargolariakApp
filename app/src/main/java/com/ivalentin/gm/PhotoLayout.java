@@ -32,6 +32,7 @@ public class PhotoLayout extends Fragment {
 	private View view;
 
 	String currLang;
+	String albumName;
 
 	Integer photos[];
 	int position;
@@ -48,6 +49,7 @@ public class PhotoLayout extends Fragment {
 
 		//Get bundled id
 		Bundle bundle = this.getArguments();
+		albumName = bundle.getString(albumName, "");
 		int id = bundle.getInt("photo", -1);
 		if (id == -1) {
 			//TODO: Error, do something
@@ -142,16 +144,26 @@ public class PhotoLayout extends Fragment {
 		LinearLayout llCommentList = (LinearLayout) v.findViewById(R.id.ll_comment_list);
 
 		//Set fields
-		tvTitle.setText(cursor.getString(2));
-		((MainActivity) getActivity()).setSectionTitle(cursor.getString(2));
-		tvDescription.setText(cursor.getString(3));
+		if (cursor.getString(2).length() > 0) {
+			tvTitle.setVisibility(View.VISIBLE);
+			tvTitle.setText(cursor.getString(2));
+			((MainActivity) getActivity()).setSectionTitle(cursor.getString(2));
+		}
+		else{
+			tvTitle.setVisibility(View.GONE);
+			((MainActivity) getActivity()).setSectionTitle(albumName);
+		}
+
+		if (cursor.getString(3).length() > 0) {
+			tvDescription.setVisibility(View.VISIBLE);
+			tvDescription.setText(cursor.getString(3));
+		}
+		else{
+			tvDescription.setVisibility(View.GONE);
+		}
 		tvDate.setText(GM.formatDate(cursor.getString(4), currLang, true));
 
-		//Close the cursor
-		//cursor.close();
-
 		//Get image
-
 		String image = cursor.getString(1);
 
 		//Check if image exists

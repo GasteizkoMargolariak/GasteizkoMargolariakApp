@@ -49,7 +49,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
                 android:id="@+id/tv_photo_date"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"/>
 
             <LinearLayout
                 android:orientation="horizontal"

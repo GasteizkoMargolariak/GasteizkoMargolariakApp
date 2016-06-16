@@ -30,9 +30,10 @@ public class AlbumLayout extends Fragment {
     //Main View
     private View view;
 
-    String currLang;
+    private String currLang;
+	private String albumName;
 
-    Context context;
+    private Context context;
 
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @Override
@@ -63,16 +64,14 @@ public class AlbumLayout extends Fragment {
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_album_title);
         TextView tvDescription = (TextView) view.findViewById(R.id.tv_album_description);
         tvTitle.setText(cursor.getString(1));
+		albumName = cursor.getString(1);
         if (cursor.getString(2).length() < 1){
             tvDescription.setVisibility(View.GONE);
         }
         else {
             tvDescription.setText(cursor.getString(2));
         }
-        cursor.close();
-
-
-
+		cursor.close();
 
 
         //Assign elements
@@ -92,14 +91,14 @@ public class AlbumLayout extends Fragment {
 			LinearLayout left = (LinearLayout) entry.findViewById(R.id.ll_row_album_left);
 			LinearLayout right = (LinearLayout) entry.findViewById(R.id.ll_row_album_right);
 
-            //Set margins
-            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            //layoutParams.setMargins(10, 10, 10, 25);
-            //entry.setLayoutParams(layoutParams);
-
             //Set title
             TextView tvTitleLeft = (TextView) entry.findViewById(R.id.tv_row_album_title_left);
-            tvTitleLeft.setText(imageCursor.getString(1));
+			if (imageCursor.getString(1).length() > 0) {
+				tvTitleLeft.setText(imageCursor.getString(1));
+			}
+			else{
+				tvTitleLeft.setVisibility(View.GONE);
+			}
 
             //Set id
             TextView tvHiddenLeft = (TextView) entry.findViewById(R.id.tv_row_album_hidden_left);
@@ -108,6 +107,7 @@ public class AlbumLayout extends Fragment {
             //Set image
             ImageView ivLeft = (ImageView) entry.findViewById(R.id.iv_row_album_left);
             image = imageCursor.getString(2);
+
             //Check if image exists
             File f;
             f = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
@@ -124,6 +124,12 @@ public class AlbumLayout extends Fragment {
                 new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
             }
 
+			//Count comments
+			Cursor cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
+			TextView tvCommentsLeft = (TextView) entry.findViewById(R.id.tv_row_album_comments_left);
+			tvCommentsLeft.setText(" " + cursorComments.getCount());
+			cursorComments.close();
+
 			//Set onClickListener
 			left.setOnClickListener(new View.OnClickListener(){
 				@Override
@@ -134,6 +140,7 @@ public class AlbumLayout extends Fragment {
 				//Pass post id
 				int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_album_hidden_left)).getText().toString());
 				bundle.putInt("photo", id);
+				bundle.putString("albumName", albumName);
 				fragment.setArguments(bundle);
 
 				FragmentManager fm = AlbumLayout.this.getActivity().getSupportFragmentManager();
@@ -153,7 +160,12 @@ public class AlbumLayout extends Fragment {
 
                 //Set title
                 TextView tvTitleRight = (TextView) entry.findViewById(R.id.tv_row_album_title_right);
-                tvTitleRight.setText(imageCursor.getString(1));
+				if (imageCursor.getString(1).length() > 0) {
+					tvTitleRight.setText(imageCursor.getString(1));
+				}
+				else{
+					tvTitleRight.setVisibility(View.GONE);
+				}
 
                 //Set id
                 TextView tvHiddenRight = (TextView) entry.findViewById(R.id.tv_row_album_hidden_right);
@@ -177,6 +189,12 @@ public class AlbumLayout extends Fragment {
                     new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
                 }
 
+				//Count comments
+				cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
+				TextView tvCommentsRight = (TextView) entry.findViewById(R.id.tv_row_album_comments_right);
+				tvCommentsRight.setText(" " + cursorComments.getCount());
+				cursorComments.close();
+
 				//Set onClickListener
 				right.setOnClickListener(new View.OnClickListener(){
 					@Override
@@ -186,6 +204,7 @@ public class AlbumLayout extends Fragment {
 					//Pass post id
 					int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_album_hidden_right)).getText().toString());
 					bundle.putInt("photo", id);
+					bundle.putString("albumName", albumName);
 					fragment.setArguments(bundle);
 
 					FragmentManager fm = AlbumLayout.this.getActivity().getSupportFragmentManager();
