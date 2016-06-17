@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,18 +110,18 @@ public class AlbumLayout extends Fragment {
 
             //Check if image exists
             File f;
-            f = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+            f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
             if (f.exists()){
                 //If the image exists, set it.
-                Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+                Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
                 ivLeft.setImageBitmap(myBitmap);
             }
             else {
                 //If not, create directories and download asynchronously
                 File fpath;
-                fpath = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/");
+                fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                 fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
+                new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
             }
 
 			//Count comments
@@ -143,7 +143,7 @@ public class AlbumLayout extends Fragment {
 				bundle.putString("albumName", albumName);
 				fragment.setArguments(bundle);
 
-				FragmentManager fm = AlbumLayout.this.getActivity().getSupportFragmentManager();
+				FragmentManager fm = AlbumLayout.this.getActivity().getFragmentManager();
 				FragmentTransaction ft = fm.beginTransaction();
 
 				ft.replace(R.id.activity_main_content_fragment, fragment);
@@ -175,18 +175,18 @@ public class AlbumLayout extends Fragment {
                 ImageView ivRight = (ImageView) entry.findViewById(R.id.iv_row_album_right);
                 image = imageCursor.getString(2);
                 //Check if image exists
-                f = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+                f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
                 if (f.exists()){
                     //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
                     ivRight.setImageBitmap(myBitmap);
                 }
                 else {
                     //If not, create directories and download asynchronously
                     File fpath;
-                    fpath = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/");
+                    fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
+                    new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
                 }
 
 				//Count comments
@@ -207,7 +207,7 @@ public class AlbumLayout extends Fragment {
 					bundle.putString("albumName", albumName);
 					fragment.setArguments(bundle);
 
-					FragmentManager fm = AlbumLayout.this.getActivity().getSupportFragmentManager();
+					FragmentManager fm = AlbumLayout.this.getActivity().getFragmentManager();
 					FragmentTransaction ft = fm.beginTransaction();
 
 					ft.replace(R.id.activity_main_content_fragment, fragment);

@@ -24,13 +24,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -228,17 +228,17 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 			String image = cursor.getString(2);
 			//Check if image exists
 			File f;
-			f = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+			f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
 			if (f.exists()) {
 				//If the image exists, set it.
-				Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+				Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
 				ivPhoto[counter].setImageBitmap(myBitmap);
 			} else {
 				//If not, create directories and download asynchronously
 				File fpath;
-				fpath = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/");
+				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
 				fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
 			}
 
 			//Set listeners for images
@@ -256,7 +256,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 					fragment.setArguments(bundle);
 
-					FragmentManager fm = HomeLayout.this.getActivity().getSupportFragmentManager();
+					FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
 					FragmentTransaction ft = fm.beginTransaction();
 
 					ft.replace(R.id.activity_main_content_fragment, fragment);
@@ -361,17 +361,17 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 				//Check if image exists
 				File f;
-				f = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+				f = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
 				if (f.exists()) {
 					//If the image exists, set it.
-					Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+					Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
 					iv.setImageBitmap(myBitmap);
 				} else {
 					//If not, create directories and download asynchronously
 					File fpath;
-					fpath = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/");
+					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
 				}
 			}
 			cursorImage.close();
@@ -388,7 +388,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				bundle.putInt("activity", id);
 				fragment.setArguments(bundle);
 
-				FragmentManager fm = HomeLayout.this.getActivity().getSupportFragmentManager();
+				FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
 				FragmentTransaction ft = fm.beginTransaction();
 
 				ft.replace(R.id.activity_main_content_fragment, fragment);
@@ -492,17 +492,17 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 					//Check if image exists
 					File f;
-					f = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+					f = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
 					if (f.exists()) {
 						//If the image exists, set it.
-						Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+						Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
 						iv.setImageBitmap(myBitmap);
 					} else {
 						//If not, create directories and download asynchronously
 						File fpath;
-						fpath = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/");
+						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
 					}
 				}
 
@@ -520,7 +520,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 						bundle.putInt("activity", id);
 						fragment.setArguments(bundle);
 
-						FragmentManager fm = HomeLayout.this.getActivity().getSupportFragmentManager();
+						FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
 						FragmentTransaction ft = fm.beginTransaction();
 
 						ft.replace(R.id.activity_main_content_fragment, fragment);
@@ -613,18 +613,18 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 				//Check if image exists
 				File f;
-				f = new File(this.getContext().getFilesDir().toString() + "/img/blog/miniature/" + image);
+				f = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
 				if (f.exists()){
 					//If the image exists, set it.
-					Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/blog/miniature/" + image);
+					Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
 					iv.setImageBitmap(myBitmap);
 				}
 				else {
 					//If not, create directories and download asynchronously
 					File fpath;
-					fpath = new File(this.getContext().getFilesDir().toString() + "/img/blog/miniature/");
+					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
+					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
 				}
 			}
 
@@ -641,7 +641,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				bundle.putInt("post", id);
 				fragment.setArguments(bundle);
 
-				FragmentManager fm = HomeLayout.this.getActivity().getSupportFragmentManager();
+				FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
 				FragmentTransaction ft = fm.beginTransaction();
 
 				ft.replace(R.id.activity_main_content_fragment, fragment);

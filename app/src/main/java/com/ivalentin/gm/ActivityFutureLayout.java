@@ -7,17 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.Locale;
@@ -26,9 +23,6 @@ import java.util.Locale;
  * Created by seavenois on 14/06/16.
  */
 public class ActivityFutureLayout extends Fragment {
-
-    //Main View
-    private View view;
 
     String currLang;
 
@@ -39,7 +33,7 @@ public class ActivityFutureLayout extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Load the layout
-        view = inflater.inflate(R.layout.fragment_layout_activity_future, null);
+        View view = inflater.inflate(R.layout.fragment_layout_activity_future, null);
         context = view.getContext();
 
         //Get bundled id
@@ -89,18 +83,18 @@ public class ActivityFutureLayout extends Fragment {
 
             //Check if image exists
             File f;
-            f = new File(this.getContext().getFilesDir().toString() + "/img/actividades/preview/" + image);
+            f = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image);
             if (f.exists()){
                 //If the image exists, set it.
-                Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/actividades/preview/" + image);
+                Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image);
                 images[i].setImageBitmap(myBitmap);
             }
             else {
                 //If not, create directories and download asynchronously
                 File fpath;
-                fpath = new File(this.getContext().getFilesDir().toString() + "/img/actividades/preview/");
+                fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
                 fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;
@@ -137,7 +131,7 @@ public class ActivityFutureLayout extends Fragment {
 
                 //Set description
                 TextView tvSchDescription = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_description);
-                if (cursor.getString(1).equals(cursor.getString(2)) == false){
+                if (!cursor.getString(1).equals(cursor.getString(2))){
                     tvSchDescription.setVisibility(View.GONE);
                 }
                 else {
@@ -150,7 +144,7 @@ public class ActivityFutureLayout extends Fragment {
 
                 //Set address
                 TextView tvSchAddress = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_address);
-                if (cursor.getString(4).equals(cursor.getString(5)) == false){
+                if (!cursor.getString(4).equals(cursor.getString(5))){
                     tvSchAddress.setVisibility(View.GONE);
                 }
                 else {

@@ -2,7 +2,7 @@ package com.ivalentin.gm;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ public class AboutLayout extends Fragment{
 
 	/**
 	 * Run when the fragment is inflated.
-	 * Assigns views, gets the date and does the first call to the {@link populate function}.
+	 * Assigns views, gets the date and does the first call to the {@link @populate function}.
 	 * 
 	 * @param inflater A LayoutInflater to manage views
 	 * @param container The container View

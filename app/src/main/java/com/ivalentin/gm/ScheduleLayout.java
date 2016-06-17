@@ -26,8 +26,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
+import android.app.Fragment;
+//import android.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -236,7 +236,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
         TextView tvRowTitle, tvRowTime, tvRowDesc, tvRowPlace, tvRowId;
         
         //Icon next to the location text
-        Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.pinpoint, null);
+        Drawable icon = getResources().getDrawable(R.drawable.pinpoint);
         //icon.setBounds(0, 0, 80, 80);
 		
 		//Set date selector texts

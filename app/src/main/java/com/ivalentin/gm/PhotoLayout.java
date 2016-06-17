@@ -1,13 +1,13 @@
 package com.ivalentin.gm;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +58,27 @@ public class PhotoLayout extends Fragment {
 		photos = loadPhotos(id);
 		position = getPosition(photos, id);
 
+		//Assign next/previous buttons listener
+		Button btnPrevious = (Button) view.findViewById(R.id.bt_photo_previous);
+		Button btnNext = (Button) view.findViewById(R.id.bt_photo_next);
+		btnPrevious.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (position > 0){
+					position --;
+					populate(position);
+				}
+			}
+		});
+		btnNext.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (position < photos.length - 1){
+					position ++;
+					populate(position);
+				}
+			}
+		});
 
 		populate(id, view);
 
@@ -117,7 +138,13 @@ public class PhotoLayout extends Fragment {
 		cursor.close();
 		db.close();
 
+		//Set listeners for previous, next buttons
+
 		return list;
+	}
+
+	private void populate(int id){
+		populate(id, view);
 	}
 
 	private void populate(int id, View v){
@@ -168,18 +195,18 @@ public class PhotoLayout extends Fragment {
 
 		//Check if image exists
 		File f;
-		f = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+		f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
 		if (f.exists()){
 			//If the image exists, set it.
-			Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image);
+			Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
 			imageView.setImageBitmap(myBitmap);
 		}
 		else {
 			//If not, create directories and download asynchronously
 			File fpath;
-			fpath = new File(this.getContext().getFilesDir().toString() + "/img/galeria/preview/");
+			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
 			fpath.mkdirs();
-			new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/preview/" + image, imageView).execute();
+			new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, imageView).execute();
 		}
 
 

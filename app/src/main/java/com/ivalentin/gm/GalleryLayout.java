@@ -8,10 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,18 +116,18 @@ public class GalleryLayout extends Fragment{
 
                 //Check if image exists
                 File f;
-                f = new File(this.getContext().getFilesDir().toString() + "/img/galeria/miniature/" + image);
+                f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image);
                 if (f.exists()){
                     //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/galeria/miniature/" + image);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image);
                     preview[i].setImageBitmap(myBitmap);
                 }
                 else {
                     //If not, create directories and download asynchronously
                     File fpath;
-                    fpath = new File(this.getContext().getFilesDir().toString() + "/img/galeria/miniature/");
+                    fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
+                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
                 }
                 i ++;
 
@@ -139,8 +138,6 @@ public class GalleryLayout extends Fragment{
             entry.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
-                    //TODO: Change
                     Fragment fragment = new AlbumLayout();
                     Bundle bundle = new Bundle();
                     //Pass post id
@@ -148,7 +145,7 @@ public class GalleryLayout extends Fragment{
                     bundle.putInt("album", id);
                     fragment.setArguments(bundle);
 
-                    FragmentManager fm = GalleryLayout.this.getActivity().getSupportFragmentManager();
+                    FragmentManager fm = GalleryLayout.this.getActivity().getFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
 
                     ft.replace(R.id.activity_main_content_fragment, fragment);

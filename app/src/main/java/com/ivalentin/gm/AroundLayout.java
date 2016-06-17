@@ -1,3 +1,5 @@
+//TODO: Rework this file
+
 package com.ivalentin.gm;
 
 import java.text.DecimalFormat;
@@ -33,8 +35,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
+import android.app.Fragment;
+//import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,7 +108,7 @@ public class AroundLayout extends Fragment implements LocationListener, OnMapRea
 	
 	/**
 	 * Run when the fragment is inflated.
-	 * Assigns views, gets the date and does the first call to the {@link populate function}.
+	 * Assigns views, gets the date and does the first call to the {@link @populate function}.
 	 * 
 	 * @param inflater A LayoutInflater to manage views
 	 * @param container The container View
@@ -209,7 +211,7 @@ public class AroundLayout extends Fragment implements LocationListener, OnMapRea
         TextView tvRowTitle, tvRowDescription, tvRowAddress, tvRowDistance, tvRowTime, tvRowId;
         
         //Icon next to the location text
-        Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.pinpoint, null);
+        Drawable icon = getResources().getDrawable(R.drawable.pinpoint);
         icon.setBounds(0, 0, 80, 80);
 				
 		//Read from database
@@ -271,7 +273,7 @@ public class AroundLayout extends Fragment implements LocationListener, OnMapRea
 				
 			}
 			catch (ParseException e){
-				Log.e("Error parsing date for around event", e.toString());
+				Log.e("Error parsing date", e.toString());
 			}
         }
         
@@ -424,7 +426,7 @@ public class AroundLayout extends Fragment implements LocationListener, OnMapRea
 				}
 			}
 			catch (Exception ex){
-				Log.e("Error parsing around event date", ex.toString());
+				Log.e("Error parsing date", ex.toString());
 			}
 			
 			//Set time
@@ -435,7 +437,7 @@ public class AroundLayout extends Fragment implements LocationListener, OnMapRea
 					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(3))) + " - " + timeFormat.format(timeFormat.parse(cursor.getString(4))));
 			}
 			catch (ParseException ex){
-				Log.e("Error parsing around event time", ex.toString());
+				Log.e("Error parsing time", ex.toString());
 			}
 			
 			//Set place
@@ -570,7 +572,7 @@ public class AroundLayout extends Fragment implements LocationListener, OnMapRea
 			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 14);
 			map.animateCamera(cameraUpdate);
 		} catch (Exception e) {
-			Log.e("Error initializing mapss", e.toString());
+			Log.e("Error initializing maps", e.toString());
 		}
 		//Set GM marker
 		MarkerOptions mo = new MarkerOptions();

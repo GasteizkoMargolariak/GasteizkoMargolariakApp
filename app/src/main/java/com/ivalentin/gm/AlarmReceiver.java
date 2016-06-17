@@ -17,19 +17,21 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
+//import android.app.Notification;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.WakefulBroadcastReceiver;
+//import android.content.WakefulBroadcastReceiver;
+import android.content.BroadcastReceiver;
 import android.util.Log;
 
 /**
  * Manages alarms to perform actions in the background, such as sync and receive notifications.
  * 
- * @see WakefulBroadcastReceiver
+ * @see BroadcastReceiver
  * 
  * @author Iñigo Valentin
  *
  */
-public class AlarmReceiver extends WakefulBroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
 	
     // The app's AlarmManager, which provides access to the system alarm services.
     private AlarmManager alarmMgr;

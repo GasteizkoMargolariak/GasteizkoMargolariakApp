@@ -7,7 +7,7 @@ import android.content.Intent;
 /**
  * Broadcast receiver that receives the BOOT_COMPLETED event and sets an alarm.
  * 
- * @see BroadCastReceiver
+ * @see @android.content.BroadCastReceiver
  * 
  * @author Iñigo Valentin
  *

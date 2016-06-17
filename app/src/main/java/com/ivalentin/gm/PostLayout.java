@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,18 +93,18 @@ public class PostLayout extends Fragment {
 
             //Check if image exists
             File f;
-            f = new File(this.getContext().getFilesDir().toString() + "/img/blog/preview/" + image);
+            f = new File(this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image);
             if (f.exists()){
                 //If the image exists, set it.
-                Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/blog/preview/" + image);
+                Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image);
                 images[i].setImageBitmap(myBitmap);
             }
             else {
                 //If not, create directories and download asynchronously
                 File fpath;
-                fpath = new File(this.getContext().getFilesDir().toString() + "/img/blog/preview/");
+                fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/preview/");
                 fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getContext().getFilesDir().toString() + "/img/blog/preview/" + image, images[i]).execute();
+                new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i]).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

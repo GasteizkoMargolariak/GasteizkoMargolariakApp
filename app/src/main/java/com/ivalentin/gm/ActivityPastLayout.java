@@ -7,17 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.Locale;
@@ -93,18 +89,18 @@ public class ActivityPastLayout extends Fragment {
 
             //Check if image exists
             File f;
-            f = new File(this.getContext().getFilesDir().toString() + "/img/actividades/preview/" + image);
+            f = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image);
             if (f.exists()){
                 //If the image exists, set it.
-                Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/actividades/preview/" + image);
+                Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image);
                 images[i].setImageBitmap(myBitmap);
             }
             else {
                 //If not, create directories and download asynchronously
                 File fpath;
-                fpath = new File(this.getContext().getFilesDir().toString() + "/img/actividades/preview/");
+                fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
                 fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

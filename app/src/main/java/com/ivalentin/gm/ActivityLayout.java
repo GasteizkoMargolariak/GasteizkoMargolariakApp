@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,17 +128,17 @@ public class ActivityLayout extends Fragment{
 
                     //Check if image exists
                     File f;
-                    f = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+                    f = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
                     if (f.exists()) {
                         //If the image exists, set it.
-                        Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+                        Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
                         iv.setImageBitmap(myBitmap);
                     } else {
                         //If not, create directories and download asynchronously
                         File fpath;
-                        fpath = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/");
+                        fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                         fpath.mkdirs();
-                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
                     }
                 }
 
@@ -154,7 +154,7 @@ public class ActivityLayout extends Fragment{
                         bundle.putInt("activity", id);
                         fragment.setArguments(bundle);
 
-                        FragmentManager fm = ActivityLayout.this.getActivity().getSupportFragmentManager();
+                        FragmentManager fm = ActivityLayout.this.getActivity().getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
 
                         ft.replace(R.id.activity_main_content_fragment, fragment);
@@ -219,17 +219,17 @@ public class ActivityLayout extends Fragment{
 
                 //Check if image exists
                 File f;
-                f = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+                f = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
                 if (f.exists()) {
                     //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
                     iv.setImageBitmap(myBitmap);
                 } else {
                     //If not, create directories and download asynchronously
                     File fpath;
-                    fpath = new File(this.getContext().getFilesDir().toString() + "/img/actividades/miniature/");
+                    fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
                 }
             }
 
@@ -245,7 +245,7 @@ public class ActivityLayout extends Fragment{
                 bundle.putInt("activity", id);
                 fragment.setArguments(bundle);
 
-                FragmentManager fm = ActivityLayout.this.getActivity().getSupportFragmentManager();
+                FragmentManager fm = ActivityLayout.this.getActivity().getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
 
                 ft.replace(R.id.activity_main_content_fragment, fragment);

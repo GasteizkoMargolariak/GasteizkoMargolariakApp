@@ -4,10 +4,11 @@ import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+//import android.content.res.ResourcesCompat;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +19,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -34,9 +35,11 @@ import android.widget.TextView;
  * @author Iñigo Valentin
  *
  */
-public class MainActivity extends AppCompatActivity implements LocationListener{
-		
-	//Set of GPS coordinates
+public class MainActivity extends Activity implements LocationListener{
+	//public class MainActivity extends AppCompatActivity implements LocationListener{
+
+
+		//Set of GPS coordinates
 	private double[] coordinates = new double[2];
 	
 	//The main layout of the app
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 	 * @param fromSliderMenu Indicates if the call has been made from the slider menu, so it can be closed.
 	 */
 	public void loadSection (byte section, boolean fromSliderMenu){
-		FragmentManager fm = MainActivity.this.getSupportFragmentManager();
+		FragmentManager fm = MainActivity.this.getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		Fragment fragment = null;
 		String title = "";
@@ -158,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 	 * @param title The title of the current section.
 	 */
 	public void setSectionTitle(String title){
-		TextView tvTitle = (TextView) findViewById(R.id.activity_main_content_title); 
+		TextView tvTitle = (TextView) findViewById(R.id.activity_main_content_title);
 		tvTitle.setText(title);
 	}
 	
@@ -266,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 		alarm.onReceive(this, this.getIntent());
 		
 		//Remove title bar.
-	    this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    super.onCreate(savedInstanceState);
 	    
 	    //Set layout.
@@ -408,10 +411,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 					btDialogAction = (Button) dialog.findViewById(R.id.bt_dialog_notification_action);
 					if (action != null){
 						switch (action) {
+
+							//TODO: In here, load the icon the same way I do with photos
 							//If the notification action opens the GM schedule
 							case GM.EXTRA_ACTION_GM:
 								//Set the icon
-								dialogIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_gm, null);
+								dialogIcon = getResources().getDrawable(R.drawable.icon_gm);
 								dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 								tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
 								tvDialogTitle.setCompoundDrawablePadding(20);
@@ -432,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 							//If the notification action opens the city schedule
 							case GM.EXTRA_ACTION_SCHEDULE:
 								//Set the icon
-								dialogIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_program, null);
+								dialogIcon = getResources().getDrawable(R.drawable.icon_program);
 								dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 								tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
 								tvDialogTitle.setCompoundDrawablePadding(20);
@@ -453,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 							//If the notification is just text
 							default:
 								//Set the icon
-								dialogIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_about, null);
+								dialogIcon = getResources().getDrawable(R.drawable.icon_about);
 								dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 								tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
 								tvDialogTitle.setCompoundDrawablePadding(20);
@@ -557,7 +562,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 	 */
 	@Override
 	public void onBackPressed(){
-		FragmentManager fm = getSupportFragmentManager();
+		FragmentManager fm = getFragmentManager();
 		if (fm.getBackStackEntryCount() > 1){
 			fm.popBackStack();
 		}

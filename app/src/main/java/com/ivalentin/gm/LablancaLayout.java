@@ -1,6 +1,6 @@
 package com.ivalentin.gm;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 
 /**
  * Created by seavenois on 09/06/16.

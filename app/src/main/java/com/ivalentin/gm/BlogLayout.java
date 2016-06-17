@@ -7,11 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.Locale;
@@ -197,18 +195,18 @@ public class BlogLayout extends Fragment{
 
                 //Check if image exists
                 File f;
-                f = new File(this.getContext().getFilesDir().toString() + "/img/blog/miniature/" + image);
+                f = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
                 if (f.exists()){
                     //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getContext().getFilesDir().toString() + "/img/blog/miniature/" + image);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
                     iv.setImageBitmap(myBitmap);
                 }
                 else {
                     //If not, create directories and download asynchronously
                     File fpath;
-                    fpath = new File(this.getContext().getFilesDir().toString() + "/img/blog/miniature/");
+                    fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getContext().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
+                    new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
                 }
             }
 
@@ -229,7 +227,7 @@ public class BlogLayout extends Fragment{
                 bundle.putInt("post", id);
                 fragment.setArguments(bundle);
 
-                FragmentManager fm = BlogLayout.this.getActivity().getSupportFragmentManager();
+                FragmentManager fm = BlogLayout.this.getActivity().getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
 
                 ft.replace(R.id.activity_main_content_fragment, fragment);
