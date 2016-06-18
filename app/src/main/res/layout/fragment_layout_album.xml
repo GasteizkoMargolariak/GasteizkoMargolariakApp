@@ -25,12 +25,12 @@
             android:text="Large Text"
             android:id="@+id/tv_album_title" />
 
-        <TextView
+        <WebView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/tv_album_description"
+            android:id="@+id/wv_album_description"
             android:layout_margin="7dp"
             android:background="@drawable/entry"
             android:padding="7dp" />

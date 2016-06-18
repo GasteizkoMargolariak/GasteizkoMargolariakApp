@@ -23,37 +23,43 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 14/06/16.
+ * Fragment to display photos of a selected album.
+ * Album id is passed in a bundle.
+ * Album name is also passed, to be displayed on photos with no title.
+ * Everything is done when the view is inflated.
+ *
+ * @author Iñigo Valentin
+ *
+ * @see Fragment
+ *
  */
 public class AlbumLayout extends Fragment {
 
     //Main View
-    private View view;
+    //private View view;
 
-    private String currLang;
-	private String albumName;
-
-    private Context context;
+    //private String currLang;
+	//private String albumName;
 
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Load the layout
-        view = inflater.inflate(R.layout.fragment_layout_album, null);
-        context = view.getContext();
+        View view = inflater.inflate(R.layout.fragment_layout_album, null);
 
         //Get bundled id
         Bundle bundle = this.getArguments();
         int id = bundle.getInt("album", -1);
         if (id == -1){
-            //TODO: Error, do something
+			Log.e("Album error", "No such album: " + id);
+			this.getActivity().onBackPressed();
         }
 
         //Get data from database
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        currLang = Locale.getDefault().getDisplayLanguage();
+        String currLang = Locale.getDefault().getDisplayLanguage();
         if (!currLang.equals("es") && !currLang.equals("eu")){
             currLang = "en";
         }
@@ -62,14 +68,14 @@ public class AlbumLayout extends Fragment {
 
         //Set album elements
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_album_title);
-        TextView tvDescription = (TextView) view.findViewById(R.id.tv_album_description);
+        WebView tvDescription = (WebView) view.findViewById(R.id.wv_album_description);
         tvTitle.setText(cursor.getString(1));
-		albumName = cursor.getString(1);
+		final String albumName = cursor.getString(1);
         if (cursor.getString(2).length() < 1){
             tvDescription.setVisibility(View.GONE);
         }
         else {
-            tvDescription.setText(cursor.getString(2));
+            tvDescription.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
         }
 		cursor.close();
 
@@ -89,7 +95,6 @@ public class AlbumLayout extends Fragment {
 
 			//Set left and right layouts
 			LinearLayout left = (LinearLayout) entry.findViewById(R.id.ll_row_album_left);
-			LinearLayout right = (LinearLayout) entry.findViewById(R.id.ll_row_album_right);
 
             //Set title
             TextView tvTitleLeft = (TextView) entry.findViewById(R.id.tv_row_album_title_left);
@@ -120,14 +125,15 @@ public class AlbumLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-                fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
+                if(fpath.mkdirs()) {
+					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
+				}
             }
 
 			//Count comments
 			Cursor cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
 			TextView tvCommentsLeft = (TextView) entry.findViewById(R.id.tv_row_album_comments_left);
-			tvCommentsLeft.setText(" " + cursorComments.getCount());
+			tvCommentsLeft.setText(cursorComments.getCount());
 			cursorComments.close();
 
 			//Set onClickListener
@@ -155,8 +161,8 @@ public class AlbumLayout extends Fragment {
             //If odd pass, to the right line
             if (imageCursor.moveToNext()){
 
-                LinearLayout llRight = (LinearLayout) entry.findViewById(R.id.ll_row_album_right);
-                llRight.setVisibility(View.VISIBLE);
+                LinearLayout right = (LinearLayout) entry.findViewById(R.id.ll_row_album_right);
+                right.setVisibility(View.VISIBLE);
 
                 //Set title
                 TextView tvTitleRight = (TextView) entry.findViewById(R.id.tv_row_album_title_right);
@@ -185,14 +191,15 @@ public class AlbumLayout extends Fragment {
                     //If not, create directories and download asynchronously
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-                    fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
+                    if(fpath.mkdirs()) {
+						new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
+					}
                 }
 
 				//Count comments
 				cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
 				TextView tvCommentsRight = (TextView) entry.findViewById(R.id.tv_row_album_comments_right);
-				tvCommentsRight.setText(" " + cursorComments.getCount());
+				tvCommentsRight.setText(cursorComments.getCount());
 				cursorComments.close();
 
 				//Set onClickListener

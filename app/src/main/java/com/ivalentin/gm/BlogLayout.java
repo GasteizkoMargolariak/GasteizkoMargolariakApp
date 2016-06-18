@@ -32,8 +32,8 @@ public class BlogLayout extends Fragment{
     //Main View
     private View view;
 
-    int offset = 0;
-    int totalPost = 0;
+    private int offset = 0;
+    private int totalPost = 0;
 
     /**
      * Run when the fragment is inflated.

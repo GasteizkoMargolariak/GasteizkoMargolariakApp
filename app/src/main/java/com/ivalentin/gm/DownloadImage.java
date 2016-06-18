@@ -13,12 +13,28 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-class DownloadImage extends AsyncTask<String, String, String> {
+/**
+ * Async task to download images on the fly.
+ * The remote image file, the local path, and the ImageView where the image will be loaded are set on the constructor.
+ *
+ * @author Iñigo Valentin
+ *
+ */
+class DownloadImage extends AsyncTask<Void, Void, Void> {
 
-    String file;
-    String path;
-    ImageView iv;
+    private String file;
+    private String path;
+    private ImageView iv;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param file URL of the remote file.
+	 * @param path Path, including file name, where the image will be saved.
+	 * @param iv ImageView that will hold the image.
+	 *
+	 * @see android.widget.ImageView
+	 */
     public DownloadImage(String file, String path, ImageView iv) {
         super();
         this.file = file;
@@ -27,18 +43,18 @@ class DownloadImage extends AsyncTask<String, String, String> {
     }
 
     /**
-     * Before starting background thread
-     * */
+     * Before starting background thread do nothing.
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
     }
 
     /**
-     * Downloading file in background thread
-     * */
+     * Downloading file in background thread.
+	 */
     @Override
-    protected String doInBackground(String... f_url) {
+    protected Void doInBackground(Void... v) {
         int count;
         try {
 
@@ -51,7 +67,6 @@ class DownloadImage extends AsyncTask<String, String, String> {
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
             // Output stream to write file
-
             OutputStream output = new FileOutputStream(path);
             byte data[] = new byte[1024];
 
@@ -81,15 +96,12 @@ class DownloadImage extends AsyncTask<String, String, String> {
 
 
     /**
-     * After completing background task
-     * **/
+     * After completing background task, set the image on the ImageView.
+     */
     @Override
-    protected void onPostExecute(String file_url) {
+    protected void onPostExecute(Void v) {
         Log.d("File downloaded", path);
         Bitmap myBitmap = BitmapFactory.decodeFile(path);
-
-        //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
-
         iv.setImageBitmap(myBitmap);
     }
 

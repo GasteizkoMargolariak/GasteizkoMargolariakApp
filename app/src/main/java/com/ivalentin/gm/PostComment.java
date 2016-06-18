@@ -1,5 +1,6 @@
 package com.ivalentin.gm;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -53,13 +54,11 @@ class PostComment extends AsyncTask<String, String, Integer> {
      * */
     @Override
     protected void onPreExecute() {
-        //Log.e("PRE", "START");
         super.onPreExecute();
         btSend = (Button) form.findViewById(R.id.bt_comment_send);
         pb = (ProgressBar) form.findViewById(R.id.pb_comment);
         btSend.setVisibility(View.GONE);
         pb.setVisibility(View.VISIBLE);
-        //Log.e("PRE", "END");
     }
 
     /**
@@ -67,14 +66,10 @@ class PostComment extends AsyncTask<String, String, Integer> {
      * */
     @Override
     protected Integer doInBackground(String... f_url) {
-        //.e("DIB", "START");
-        int count;
         URL url;
-        String urlString, urlParams;
+        String urlParams;
         try {
 
-            //url = new URL(GM.SERVER + "/" + type + "/comment.php?user=" + user + "&text=" + text);
-            urlString = GM.SERVER + "/" + type + "/comment.php?user=" + URLEncoder.encode(user) + "&text=" + URLEncoder.encode(text);
             urlParams = "user=" + URLEncoder.encode(user) + "&text=" + URLEncoder.encode(text);
             switch (type){
                 case "blog":
@@ -87,7 +82,8 @@ class PostComment extends AsyncTask<String, String, Integer> {
                     urlParams = urlParams + "&activity=" + id;
                     break;
                 default:
-                    //TODO, error, stop
+                    Log.e("Comment error", "Unknown section: " + type);
+                    return -1;
             }
             switch (language){
                 case "es":
@@ -116,13 +112,6 @@ class PostComment extends AsyncTask<String, String, Integer> {
             DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
             wr.write(postData);
             conn.connect();
-
-
-            //Log.e("URL", urlString);
-            //url = new URL(urlString);
-            //HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            //connection.setRequestMethod("GET");
-            //connection.connect();
 
             code = conn.getResponseCode();
             Log.d("Comment status", "" + code);
@@ -162,7 +151,8 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
     /**
      * After completing background task
-     * **/
+     */
+    @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @Override
     protected void onPostExecute(Integer a) {
         //Log.e("POS", "START");
@@ -198,8 +188,5 @@ class PostComment extends AsyncTask<String, String, Integer> {
         //Show button again
         btSend.setVisibility(View.VISIBLE);
         pb.setVisibility(View.GONE);
-
-        //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
-        //Log.e("POS", "END");
     }
 }

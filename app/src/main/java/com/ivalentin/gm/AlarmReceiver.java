@@ -3,7 +3,6 @@ package com.ivalentin.gm;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import android.app.AlarmManager;
@@ -17,9 +16,7 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
-//import android.app.Notification;
 import android.support.v4.app.TaskStackBuilder;
-//import android.content.WakefulBroadcastReceiver;
 import android.content.BroadcastReceiver;
 import android.util.Log;
 
@@ -52,15 +49,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         
     	Log.d("Alarm", "Received");
-    	
-    	//Synchronize database. //TODO: I don't think i need this here.
-    	//new Sync(context).execute();
-
-		//The received web page, line by line.
-		List<String> output = null;
-		
-		//Boolean that will prevent the process to go on if something goes wrong.
-		boolean success = true;
 		    	
 		//Open the preferences to be available several times later.
 		SharedPreferences settings = context.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
@@ -69,8 +57,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 		//Check if the user wants to receive notifications
 		if (settings.getInt(GM.PREF_NOTIFICATION , GM.DEFAULT_PREF_NOTIFICATION) == 1){
-			success = true;
-			
+
 			//Get the file
 			try{
 				fu = new FetchURL();
@@ -79,14 +66,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 				//Parse info
 				String o = fu.getOutput().toString();
-				while (o.indexOf("<notification>") != -1){
+				while (o.contains("<notification>")){
 					//Get non-language-dependant fields
 					String notification = o.substring(o.indexOf("<notification>") + 14, o.indexOf("</notification>"));
 					String id = notification.substring(notification.indexOf("<id>") + 4, notification.indexOf("</id>"));
 					String action = notification.substring(notification.indexOf("<id>") + 4, notification.indexOf("</id>"));
 
 					//Is the notification seen already?
-					if(settings.getBoolean(GM.NOTIFICATION_SEEN_ + id, false) == false){
+					if(!settings.getBoolean(GM.NOTIFICATION_SEEN_ + id, false)){
 
 						//If not, get language dependant values
 						String currLang = Locale.getDefault().getDisplayLanguage();
@@ -149,14 +136,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 						//Mark as notified
 						SharedPreferences.Editor editor = settings.edit();
 						editor.putBoolean(GM.NOTIFICATION_SEEN_ + id, true);
-						editor.commit();
+						editor.apply();
 					}
 				o = o.substring(o.indexOf("</notification>") + 15);
 				}
 			}
 			catch(Exception ex) {
 				Log.e("Notification error", "Error fetching remote file: " + ex.toString());
-				success = false;
 			}
     	}
 		
@@ -165,23 +151,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 		fu = new FetchURL();
 		fu.Run(GM.SERVER + "/app/location.php");
 		String lat = "", lon = "";
-		output = fu.getOutput();
+		String o = fu.getOutput().toString();
 		Log.d("Alarm", "Fetched location");
-		for(int i = 0; i < output.size(); i++){
-			if (output.get(i).length() >= 25){
-				if (output.get(i).substring(0, 25).equals("<location>none</location>"))
-					result = false;
-			}
-			if (output.get(i).length() >= 6){
-				if (output.get(i).substring(0, 5).equals("<lat>")){
-					lat = output.get(i).substring(5, output.get(i).length()-6);
-					result = true;
-				}
-				if (output.get(i).substring(0, 5).equals("<lon>")){
-					lon = output.get(i).substring(5, output.get(i).length()-6);
-					result = true;
-				}
-			}
+		if (o.contains("<location>none</location>"))
+			result = false;
+		if (o.contains("<lat>") && o.contains("<lon>")){
+			lat = o.substring(o.indexOf("<lat>") + 5, o.indexOf("</lat>"));
+			lon = o.substring(o.indexOf("<lon>") + 5, o.indexOf("</lon>"));
+			result = true;
 		}
 		if (result){
 			SharedPreferences.Editor editor = settings.edit();
@@ -190,7 +167,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 	    	Date date = new Date();
 	    	editor.putString(GM.PREF_GM_LOCATION, dateFormat.format(date));
-	    	editor.commit();
+	    	editor.apply();
 		}
     }
 
@@ -215,7 +192,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     /**
      * Cancels the alarm.
-     * @param context
+     * @param context The application context
      */
     public void cancelAlarm(Context context) {
     	

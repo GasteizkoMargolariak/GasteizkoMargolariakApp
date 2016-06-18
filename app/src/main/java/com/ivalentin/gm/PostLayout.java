@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,13 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 12/06/16.
+ * Section that shows a post of the blog, with details and comments.
+ * Contains info from almost every other section.
+ *
+ * @author Iñigo Valentin
+ *
+ * @see Fragment
+ *
  */
 public class PostLayout extends Fragment {
 
@@ -46,7 +53,8 @@ public class PostLayout extends Fragment {
         Bundle bundle = this.getArguments();
         int id = bundle.getInt("post", -1);
         if (id == -1){
-            //TODO: Error, do something
+            Log.e("Post error", "No such post: " + id);
+            this.getActivity().onBackPressed();
         }
 
         //Get data from database
@@ -103,8 +111,9 @@ public class PostLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/preview/");
-                fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i]).execute();
+                if (fpath.mkdirs()) {
+					new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i]).execute();
+				}
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;
@@ -117,7 +126,6 @@ public class PostLayout extends Fragment {
         final int commentCount = commentCursor.getCount();
         cursor.moveToFirst();
         LinearLayout entry;
-        LinearLayout commentList = (LinearLayout) view.findViewById(R.id.ll_comment_list);
         LayoutInflater factory = LayoutInflater.from(getActivity());
         while (commentCursor.moveToNext()) {
             entry = (LinearLayout) factory.inflate(R.layout.row_comment, null);
@@ -164,6 +172,7 @@ public class PostLayout extends Fragment {
             }
         });
 
+        cursor.close();
         db.close();
         return view;
     }

@@ -22,16 +22,18 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 09/06/16.
+ * Fragment of the gallery section.
+ *
+ * @see Fragment
+ *
+ * @author Iñigo Valentin
+ *
  */
 public class GalleryLayout extends Fragment{
 
-    //Main View
-    private View view;
-
     /**
      * Run when the fragment is inflated.
-     * Assigns views, gets the date and does the first call to the {@link #populate} function.
+     * Assigns views, gets the date and does the first call to the {@link @populate()} function.
      *
      * @param inflater A LayoutInflater to manage views
      * @param container The container View
@@ -46,12 +48,12 @@ public class GalleryLayout extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Load the layout
-        view = inflater.inflate(R.layout.fragment_layout_gallery, null);
+        View view = inflater.inflate(R.layout.fragment_layout_gallery, null);
 
         //Set the title
         ((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_gallery));
 
-        populate();
+        populate(view);
 
         return view;
     }
@@ -60,7 +62,8 @@ public class GalleryLayout extends Fragment{
      * Populates the list of activities around.
      * It uses the default layout as parent.
      */
-    public void populate(){
+    @SuppressLint("InflateParams") //Throws unknown error when done properly.
+    private void populate(View view){
 
         //Assign elements
         LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_gallery_album_list);
@@ -126,49 +129,43 @@ public class GalleryLayout extends Fragment{
                     //If not, create directories and download asynchronously
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
-                    fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
+                    if (fpath.mkdirs()) {
+                        new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
+                    }
                 }
                 i ++;
 
             }
-
+            cursorImage.close();
 
             //Set onCLickListener
             entry.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Fragment fragment = new AlbumLayout();
-                    Bundle bundle = new Bundle();
-                    //Pass post id
-                    int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_gallery_hidden)).getText().toString());
-                    bundle.putInt("album", id);
-                    fragment.setArguments(bundle);
+                Fragment fragment = new AlbumLayout();
+                Bundle bundle = new Bundle();
 
-                    FragmentManager fm = GalleryLayout.this.getActivity().getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
+                //Pass post id
+                int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_gallery_hidden)).getText().toString());
+                bundle.putInt("album", id);
+                fragment.setArguments(bundle);
 
-                    ft.replace(R.id.activity_main_content_fragment, fragment);
-                    ft.addToBackStack("album_" + id);
-                    ft.commit();
-                    //setSectionTitle(title);
+                FragmentManager fm = GalleryLayout.this.getActivity().getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                ft.replace(R.id.activity_main_content_fragment, fragment);
+                ft.addToBackStack("album_" + id);
+                ft.commit();
                 }
             });
-
-            //Set onClick event
-            /*content = (LinearLayout) entry.findViewById(R.id.ll_row_schedule_content);
-            content.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    TextView tvName = (TextView) v.findViewById(R.id.tv_row_schedule_id);
-                    int id = Integer.parseInt(tvName.getText().toString());
-                    showDialog(id);
-                }
-            });*/
 
             //Add to the list
             llList.addView(entry);
         }
+
+        //Close database
+        cursor.close();
+        db.close();
 
     }
 }

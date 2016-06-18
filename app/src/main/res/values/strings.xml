@@ -14,6 +14,9 @@
 	<string name="app_email">gasteizkomargolariak@gmail.com</string>
 
 
+	<!-- Common strings -->
+	<string name="price">Price: %1$d</string>
+
 	<!-- Arrow buttons -->
 
 	<string name="arrow_left">&lt;</string>

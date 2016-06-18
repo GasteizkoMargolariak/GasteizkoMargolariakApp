@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,15 +23,21 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 16/06/16.
+ * Section that shows a photo of the gallery, with details and comments.
+ * Contains info from almost every other section.
+ *
+ * @author Iñigo Valentin
+ *
+ * @see Fragment
+ *
  */
 public class PhotoLayout extends Fragment {
 
 	//Main View
 	private View view;
 
-	String currLang;
-	String albumName;
+	private String currLang;
+	private String albumName;
 
 	Integer photos[];
 	int position;
@@ -49,10 +54,11 @@ public class PhotoLayout extends Fragment {
 
 		//Get bundled id
 		Bundle bundle = this.getArguments();
-		albumName = bundle.getString(albumName, "");
+		albumName = bundle.getString("albumName", "");
 		int id = bundle.getInt("photo", -1);
 		if (id == -1) {
-			//TODO: Error, do something
+			Log.e("Photo error", "No such photo: " + id);
+			this.getActivity().onBackPressed();
 		}
 
 		photos = loadPhotos(id);
@@ -66,7 +72,7 @@ public class PhotoLayout extends Fragment {
 			public void onClick(View v) {
 				if (position > 0){
 					position --;
-					populate(position);
+					populate(photos[position]);
 				}
 			}
 		});
@@ -75,7 +81,7 @@ public class PhotoLayout extends Fragment {
 			public void onClick(View v) {
 				if (position < photos.length - 1){
 					position ++;
-					populate(position);
+					populate(photos[position]);
 				}
 			}
 		});
@@ -121,7 +127,6 @@ public class PhotoLayout extends Fragment {
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
 
 		//Get album id for the photo
-		//Log.e("QUERY", "SELECT album FROM photo_album WHERE photo = " + id + ";");
 		Cursor cAlbum = db.rawQuery("SELECT album FROM photo_album WHERE photo = " + id + ";", null);
 		cAlbum.moveToFirst();
 		int album = cAlbum.getInt(0);
@@ -138,8 +143,6 @@ public class PhotoLayout extends Fragment {
 		cursor.close();
 		db.close();
 
-		//Set listeners for previous, next buttons
-
 		return list;
 	}
 
@@ -147,6 +150,7 @@ public class PhotoLayout extends Fragment {
 		populate(id, view);
 	}
 
+	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	private void populate(int id, View v){
 
 		final int photoId = id;
@@ -205,9 +209,27 @@ public class PhotoLayout extends Fragment {
 			//If not, create directories and download asynchronously
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-			fpath.mkdirs();
-			new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, imageView).execute();
+			if (fpath.mkdirs()) {
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, imageView).execute();
+			}
 		}
+
+		//Hide or show comments, as needed
+		Button btNext = (Button) v.findViewById(R.id.bt_photo_next);
+		Button btPrevious = (Button) v.findViewById(R.id.bt_photo_previous);
+		if (position == 0){
+			btPrevious.setVisibility(View.INVISIBLE);
+		}
+		else{
+			btPrevious.setVisibility(View.VISIBLE);
+		}
+		if (position == photos.length - 1){
+			btNext.setVisibility(View.INVISIBLE);
+		}
+		else{
+			btNext.setVisibility(View.VISIBLE);
+		}
+
 
 
 		//Get comments
@@ -216,8 +238,8 @@ public class PhotoLayout extends Fragment {
 		final int commentCount = commentCursor.getCount();
 		cursor.moveToFirst();
 		LinearLayout entry;
-		LinearLayout commentList = (LinearLayout) v.findViewById(R.id.ll_comment_list);
 		LayoutInflater factory = LayoutInflater.from(getActivity());
+		llCommentList.removeAllViews();
 		while (commentCursor.moveToNext()) {
 			entry = (LinearLayout) factory.inflate(R.layout.row_comment, null);
 

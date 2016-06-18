@@ -1,11 +1,6 @@
 package com.ivalentin.gm;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Locale;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -18,7 +13,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,9 +52,6 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	
 	//The location of the user
 	private double[] coordinates = new double[2];
-	
-	//Layouts for each section
-	private LinearLayout llLocation, llLablanca, llGmschedule, llCityschedule, llAround, llGallery, llSocial;
 
 	//Language
 	private String currLang;
@@ -79,7 +69,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 * 
 	 * @param inflater A LayoutInflater to handle the views
 	 * @param container The parent View
-	 * //@param sanvedInstanceState Bundle with the saved state
+	 * @param savedInstanceState Bundle with the saved state
 	 * 
 	 * @return The fragment view
 	 * 
@@ -109,59 +99,13 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		Bundle bundle = this.getArguments();
 		coordinates[0] = bundle.getDouble("lat", 0);
 		coordinates[1] = bundle.getDouble("lon", 0);
-		
-		//Get current date
-		Calendar cal;
-		Date maxDate;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd-", Locale.US);
-		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
-		Date date = new Date();
-		
-		//Assign the layouts
-		llLocation = (LinearLayout) view.findViewById(R.id.ll_home_section_location);
-		llLablanca = (LinearLayout) view.findViewById(R.id.ll_home_section_lablanca);
-		llGmschedule = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule);
-		llCityschedule = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule);
-		llAround = (LinearLayout) view.findViewById(R.id.ll_home_section_around);
 
-
-		llGallery = (LinearLayout) view.findViewById(R.id.ll_home_section_gallery);
-		llSocial = (LinearLayout) view.findViewById(R.id.ll_home_section_social);
-
-		//Set onClick events for links
-		//TODO: Dont do it like this, do it in separate functions
-		llLocation.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LOCATION, false);
-			}
-		});
-		llLablanca.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA, false);
-			}
-		});
-		llGmschedule.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
-			}
-		});
-		llCityschedule.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
-			}
-		});
-		llAround.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_AROUND, false);
-			}
-		});
-
+		//TODO: These methods are empty yet
+		setUpLocation(view);
+		setUpLablanca(view);
+		setUpGmschedule(view);
+		setUpCityschedule(view);
+		setUpAround(view);
 
 		//Set up the blog section
 		setUpBlog(view);
@@ -174,11 +118,68 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		//Set up the gallery section
 		setUpGallery(view);
 
-
-		//TODO: Add listeners for social
-
 	    //Return the view itself.
 		return view;
+	}
+
+	/**
+	 * Populates the Social section of the home screen.
+	 *
+	 * @return The number of entries shown.
+	 */
+	private int setUpSocial(View view) {
+		//TODO: setUpSocial(View view)
+		return 0;
+	}
+
+	/**
+	 * Populates the Around section of the home screen.
+	 *
+	 * @return The number of entries shown.
+	 */
+	private int setUpAround(View view) {
+		//TODO: setUpAround(View view)
+		return 0;
+	}
+
+	/**
+	 * Populates the GM Schedule section of the home screen.
+	 *
+	 * @return The number of entries shown.
+	 */
+	private int setUpGmschedule(View view) {
+		//TODO: setUpGMschedule(View view)
+		return 0;
+	}
+
+	/**
+	 * Populates the City Schedule section of the home screen.
+	 *
+	 * @return The number of entries shown.
+	 */
+	private int setUpCityschedule(View view) {
+		//TODO: setUpCitySchedule(View view)
+		return 0;
+	}
+
+	/**
+	 * Populates the La Blanca section of the home screen.
+	 *
+	 * @return True if the section has been shown, false otherwise.
+	 */
+	private boolean setUpLablanca(View view) {
+		//TODO: setUpLablanca(View view)
+		return false;
+	}
+
+	/**
+	 * Populates the Location section of the home screen.
+	 *
+	 * @return True if the section has been shown, false otherwise.
+	 */
+	private boolean setUpLocation(View view) {
+		//TODO: setUpLocation(View view)
+		return false;
 	}
 
 	/**
@@ -208,12 +209,6 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		ivPhoto[2] = (ImageView) view.findViewById(R.id.iv_home_section_gallery_2);
 		ivPhoto[3] = (ImageView) view.findViewById(R.id.iv_home_section_gallery_3);
 
-		TextView tvHidden[] = new TextView[4];
-		tvHidden[0] = (TextView) view.findViewById(R.id.tv_home_section_gallery_hidden_0);
-		tvHidden[1] = (TextView) view.findViewById(R.id.tv_home_section_gallery_hidden_1);
-		tvHidden[2] = (TextView) view.findViewById(R.id.tv_home_section_gallery_hidden_2);
-		tvHidden[3] = (TextView) view.findViewById(R.id.tv_home_section_gallery_hidden_3);
-
 		//Get data from the database of the future activities
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
 		Cursor cursor = db.rawQuery("SELECT id, album, file, uploaded FROM photo, photo_album WHERE id = photo ORDER BY uploaded DESC LIMIT 4;", null);
@@ -237,31 +232,32 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				//If not, create directories and download asynchronously
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-				fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
+				if (fpath.mkdirs()) {
+					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
+				}
 			}
 
 			//Set listeners for images
 			ivPhoto[counter].setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Fragment fragment = new AlbumLayout();
-					Bundle bundle = new Bundle();
+				Fragment fragment = new AlbumLayout();
+				Bundle bundle = new Bundle();
 
-					int photoId = Integer.parseInt((String) v.getTag(R.string.key_0));
-					int albumId = Integer.parseInt((String) v.getTag(R.string.key_1));
+				int photoId = Integer.parseInt((String) v.getTag(R.string.key_0));
+				int albumId = Integer.parseInt((String) v.getTag(R.string.key_1));
 
-					bundle.putInt("album", albumId);
-					bundle.putInt("photo", photoId);
+				bundle.putInt("album", albumId);
+				bundle.putInt("photo", photoId);
 
-					fragment.setArguments(bundle);
+				fragment.setArguments(bundle);
 
-					FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
-					FragmentTransaction ft = fm.beginTransaction();
+				FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
 
-					ft.replace(R.id.activity_main_content_fragment, fragment);
-					ft.addToBackStack("album_" + albumId);
-					ft.commit();
+				ft.replace(R.id.activity_main_content_fragment, fragment);
+				ft.addToBackStack("album_" + albumId);
+				ft.commit();
 				}
 			});
 
@@ -282,6 +278,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 *
 	 * @return The number of entries shown
 	 */
+	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	private int setUpPastActivities(View view){
 		int counter = 0;
 
@@ -297,7 +294,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		llActivitiesPast.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES, false);
+			((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES, false);
 			}
 		});
 
@@ -370,8 +367,9 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+					if (fpath.mkdirs()) {
+						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+					}
 				}
 			}
 			cursorImage.close();
@@ -417,6 +415,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 *
 	 * @return The number of entries shown
 	 */
+	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	private int setUpFutureActivities(View view){
 		int counter = 0;
 
@@ -465,7 +464,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 				//Set price
 				TextView tvPrice = (TextView) entry.findViewById(R.id.tv_row_home_activity_price);
-				tvPrice.setText(cursor.getString(5) + "€");
+				tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
 
 				//Set text
 				String text = Html.fromHtml(cursor.getString(4)).toString();
@@ -501,8 +500,9 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 						//If not, create directories and download asynchronously
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+						if (fpath.mkdirs()) {
+							new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+						}
 					}
 				}
 
@@ -512,7 +512,6 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				entry.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						//Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
 						Fragment fragment = new ActivityFutureLayout();
 						Bundle bundle = new Bundle();
 						//Pass post id
@@ -548,6 +547,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 *
 	 * @return The number of entries shown
 	 */
+	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	private int setUpBlog(View view){
 
 		int counter = 0;
@@ -623,8 +623,9 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
-					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
+					if (fpath.mkdirs()) {
+						new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
+					}
 				}
 			}
 
@@ -670,7 +671,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 * 
 	 * @return The total price
 	 */
-	private int calculatePrice(Dialog v){
+	/*private int calculatePrice(Dialog v){
 		
 		//Locate views
 		CheckBox[] cbDayName = new CheckBox[6];
@@ -738,7 +739,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		db.close();
 		//Return the total price
 		return total;
-	}
+	}*/
 
 	/**
 	 * Starts the map in the dialogs.

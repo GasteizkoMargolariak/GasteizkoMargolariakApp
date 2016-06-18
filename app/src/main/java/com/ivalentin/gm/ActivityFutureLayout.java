@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +21,16 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 14/06/16.
+ * Fragment to display upcoming activities.
+ * The id of the activity to display is passes in a bundle.
+ * Everything is done on the onCreateView method.
+ *
+ * @author Iñigo Valentin
+ *
+ * @see Fragment
+ *
  */
 public class ActivityFutureLayout extends Fragment {
-
-    String currLang;
-
-    Context context;
 
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @Override
@@ -34,22 +38,23 @@ public class ActivityFutureLayout extends Fragment {
 
         //Load the layout
         View view = inflater.inflate(R.layout.fragment_layout_activity_future, null);
-        context = view.getContext();
 
         //Get bundled id
         Bundle bundle = this.getArguments();
         int id = bundle.getInt("activity", -1);
         if (id == -1){
-            //TODO: Error, do something
+            Log.e("Activity error", "No such activity: " + id);
+            this.getActivity().onBackPressed();
         }
 
         //Get data from database
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        currLang = Locale.getDefault().getDisplayLanguage();
+        String currLang = Locale.getDefault().getDisplayLanguage();
         if (!currLang.equals("es") && !currLang.equals("eu")){
             currLang = "en";
         }
+
         cursor = db.rawQuery("SELECT id, title_" + currLang+ " AS title, text_" + currLang + " AS text, date, city, price FROM activity WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
@@ -72,7 +77,7 @@ public class ActivityFutureLayout extends Fragment {
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
         wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
         tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", currLang, false));
-        tvPrice.setText(cursor.getString(5) + "€");
+        tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
         tvCity.setText(cursor.getString(4));
 
         //Get images
@@ -93,8 +98,9 @@ public class ActivityFutureLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
-                fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                if(fpath.mkdirs()) {
+                    new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                }
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;
@@ -115,11 +121,6 @@ public class ActivityFutureLayout extends Fragment {
             while (cursorItinerary.moveToNext()) {
                 //Create a new row
                 entry = (LinearLayout) factory.inflate(R.layout.row_activity_schedule, null);
-
-                //Set margins
-                //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                //layoutParams.setMargins(10, 10, 10, 25);
-                //entry.setLayoutParams(layoutParams);
 
                 //Set time
                 TextView tvSchTime = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_time);

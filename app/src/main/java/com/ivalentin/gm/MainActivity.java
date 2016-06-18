@@ -36,10 +36,8 @@ import android.widget.TextView;
  *
  */
 public class MainActivity extends Activity implements LocationListener{
-	//public class MainActivity extends AppCompatActivity implements LocationListener{
 
-
-		//Set of GPS coordinates
+	//Set of GPS coordinates
 	private double[] coordinates = new double[2];
 	
 	//The main layout of the app

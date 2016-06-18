@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,36 +20,42 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 14/06/16.
+ * Fragment to display past activities.
+ * The id of the activity to display is passes in a bundle.
+ *
+ * @author Iñigo Valentin
+ *
+ * @see Fragment
+ *
  */
 public class ActivityPastLayout extends Fragment {
 
     //Main View
-    private View view;
+    //private View view;
 
-    String currLang;
+    //String currLang;
 
-    Context context;
+    //Context context;
 
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Load the layout
-        view = inflater.inflate(R.layout.fragment_layout_activity_past, null);
-        context = view.getContext();
+        View view = inflater.inflate(R.layout.fragment_layout_activity_past, null);
 
         //Get bundled id
         Bundle bundle = this.getArguments();
         int id = bundle.getInt("activity", -1);
         if (id == -1){
-            //TODO: Error, do something
+            Log.e("Activity error", "No such activity: " + id);
+            this.getActivity().onBackPressed();
         }
 
         //Get data from database
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        currLang = Locale.getDefault().getDisplayLanguage();
+        String currLang = Locale.getDefault().getDisplayLanguage();
         if (!currLang.equals("es") && !currLang.equals("eu")){
             currLang = "en";
         }
@@ -99,8 +106,9 @@ public class ActivityPastLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
-                fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                if(fpath.mkdirs()) {
+                    new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                }
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

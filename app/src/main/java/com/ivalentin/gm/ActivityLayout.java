@@ -23,12 +23,14 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 09/06/16.
+ * Fragment to display activities.
+ *
+ * @author Iñigo Valentin
+ *
+ * @see Fragment
+ *
  */
 public class ActivityLayout extends Fragment{
-
-    //Main View
-    private View view;
 
     /**
      * Run when the fragment is inflated.
@@ -47,12 +49,12 @@ public class ActivityLayout extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Load the layout
-        view = inflater.inflate(R.layout.fragment_layout_activities, null);
+        View view = inflater.inflate(R.layout.fragment_layout_activities, null);
 
         //Set the title
         ((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_activities));
 
-        populate();
+        populate(view);
         return view;
     }
 
@@ -60,7 +62,8 @@ public class ActivityLayout extends Fragment{
      * Populates the list of activities.
      * It uses the default layout as parent.
      */
-    public void populate(){
+    @SuppressLint("InflateParams") //Throws unknown error when done properly.
+    public void populate(View view){
         LinearLayout llListFuture = (LinearLayout) view.findViewById(R.id.ll_activities_future_list);
         LinearLayout llListPast = (LinearLayout) view.findViewById(R.id.ll_activities_past_list);
         LinearLayout entry;
@@ -101,7 +104,7 @@ public class ActivityLayout extends Fragment{
 
                 //Set price
                 TextView tvPrice = (TextView) entry.findViewById(R.id.tv_row_activity_future_price);
-                tvPrice.setText(cursor.getString(5) + "€");
+                tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
 
                 //Set text
                 String text = Html.fromHtml(cursor.getString(4)).toString();
@@ -137,10 +140,12 @@ public class ActivityLayout extends Fragment{
                         //If not, create directories and download asynchronously
                         File fpath;
                         fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-                        fpath.mkdirs();
-                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                        if(fpath.mkdirs()) {
+                            new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                        }
                     }
                 }
+                cursorImage.close();
 
                 //Set onCLickListener
                 entry.setOnClickListener(new View.OnClickListener() {
@@ -228,10 +233,12 @@ public class ActivityLayout extends Fragment{
                     //If not, create directories and download asynchronously
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-                    fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                    if (fpath.mkdirs()) {
+                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                    }
                 }
             }
+            cursorImage.close();
 
             //Set onCLickListener
             entry.setOnClickListener(new View.OnClickListener() {

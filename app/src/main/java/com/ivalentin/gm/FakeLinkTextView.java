@@ -1,3 +1,5 @@
+//TODO: Delete this file
+
 package com.ivalentin.gm;
 
 import android.content.Context;

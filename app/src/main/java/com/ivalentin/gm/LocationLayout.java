@@ -1,3 +1,5 @@
+//TODO: Rework this file
+
 package com.ivalentin.gm;
 
 import java.text.SimpleDateFormat;

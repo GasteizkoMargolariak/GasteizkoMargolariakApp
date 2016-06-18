@@ -1,3 +1,5 @@
+//TODO: Rework this file
+
 package com.ivalentin.gm;
 
 import java.text.DateFormat;
@@ -293,9 +295,9 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	    
 	    //Get data from database
 	    if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE)
-	    	cursor = db.rawQuery("SELECT event.id, event.name, event.description, event.place, place.id, place.name, event.start FROM " + GM.DB_EVENT + ", " + GM.DB_PLACE + " WHERE " + GM.DB_EVENT_GM + " = 1 AND place.id = event.place AND start BETWEEN '" + minDateStr + "' AND '" + maxDateStr + "' AND (lower(event.name) LIKE '%" + filter + "%' OR lower(event.description) LIKE '%" + filter + "%' OR lower(place.name) LIKE '%" + filter + "%') ORDER BY " + GM.DB_EVENT_START + ";", null);
+	    	cursor = db.rawQuery("SELECT event.id, event.name, event.description, event.place, place.id, place.name, event.start FROM event, place WHERE event = 1 AND place.id = event.place AND start BETWEEN '" + minDateStr + "' AND '" + maxDateStr + "' AND (lower(event.name) LIKE '%" + filter + "%' OR lower(event.description) LIKE '%" + filter + "%' OR lower(place.name) LIKE '%" + filter + "%') ORDER BY start;", null);
 	    else
-	    	cursor = db.rawQuery("SELECT event.id, event.name, event.description, event.place, place.id, place.name, event.start FROM " + GM.DB_EVENT + ", " + GM.DB_PLACE + " WHERE " + GM.DB_EVENT_SCHEDULE + " = 1 AND place.id = event.place AND start BETWEEN '" + minDateStr + "' AND '" + maxDateStr + "' AND (lower(event.name) LIKE '%" + filter + "%' OR lower(event.description) LIKE '%" + filter + "%' OR lower(place.name) LIKE '%" + filter + "%') ORDER BY " + GM.DB_EVENT_START + ";", null);
+	    	cursor = db.rawQuery("SELECT event.id, event.name, event.description, event.place, place.id, place.name, event.start FROM event, place WHERE event = 1 AND place.id = event.place AND start BETWEEN '" + minDateStr + "' AND '" + maxDateStr + "' AND (lower(event.name) LIKE '%" + filter + "%' OR lower(event.description) LIKE '%" + filter + "%' OR lower(place.name) LIKE '%" + filter + "%') ORDER BY start;", null);
 		
 	    //Clear the list
 		list.removeAllViews();
