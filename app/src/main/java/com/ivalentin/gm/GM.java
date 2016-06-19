@@ -261,6 +261,21 @@ public final class GM {
 	 */
 	static final int LOCATION_ACCURACY = 20;
 
+	public static final String getLang(){
+		String currLang = Locale.getDefault().getISO3Language();//getDisplayLanguage();
+		switch (currLang){
+			case "spa":
+				currLang = "es";
+				break;
+			case "eus":
+				currLang = "eu";
+				break;
+			default:
+				currLang = "en";
+		}
+		return currLang;
+	}
+
 	/**
 	 * Formats a datetime format strings and returns a human readable date, depending on the language
 	 *

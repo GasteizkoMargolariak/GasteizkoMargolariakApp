@@ -209,9 +209,8 @@ public class PhotoLayout extends Fragment {
 			//If not, create directories and download asynchronously
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-			if (fpath.mkdirs()) {
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, imageView).execute();
-			}
+			fpath.mkdirs();
+			new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, imageView).execute();
 		}
 
 		//Hide or show comments, as needed

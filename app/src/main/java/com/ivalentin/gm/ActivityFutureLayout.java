@@ -98,9 +98,8 @@ public class ActivityFutureLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
-                if(fpath.mkdirs()) {
-                    new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
-                }
+                fpath.mkdirs();
+                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

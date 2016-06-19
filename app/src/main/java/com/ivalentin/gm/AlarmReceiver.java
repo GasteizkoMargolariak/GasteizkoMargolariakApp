@@ -2,6 +2,7 @@ package com.ivalentin.gm;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -162,11 +163,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 		}
 		if (result){
 			SharedPreferences.Editor editor = settings.edit();
-	    	editor.putString(GM.PREF_GM_LATITUDE, lat);
-	    	editor.putString(GM.PREF_GM_LONGITUDE, lon);
-	    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-	    	Date date = new Date();
-	    	editor.putString(GM.PREF_GM_LOCATION, dateFormat.format(date));
+	    	editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(Double.parseDouble(lat)));
+			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(Double.parseDouble(lon)));
+			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()));
 	    	editor.apply();
 		}
     }

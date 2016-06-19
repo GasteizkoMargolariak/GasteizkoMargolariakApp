@@ -125,9 +125,8 @@ public class AlbumLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-                if(fpath.mkdirs()) {
-					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
-				}
+                fpath.mkdirs();
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
             }
 
 			//Count comments
@@ -191,9 +190,8 @@ public class AlbumLayout extends Fragment {
                     //If not, create directories and download asynchronously
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-                    if(fpath.mkdirs()) {
-						new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
-					}
+                    fpath.mkdirs();
+					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
                 }
 
 				//Count comments

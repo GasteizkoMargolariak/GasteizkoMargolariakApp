@@ -34,7 +34,39 @@
 				android:background="@drawable/entry"
 				android:padding="7dp">
 
-            </LinearLayout>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="@string/home_section_location_text_0"
+					android:id="@+id/textView9"/>
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:gravity="center_horizontal"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp">
+
+					<ImageView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:id="@+id/imageView12"
+						android:src="@drawable/pinpoint_gm"
+						android:layout_margin="7dp"
+						android:layout_gravity="center_vertical"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Medium Text"
+						android:id="@+id/tv_home_section_location_distance"
+						android:layout_gravity="center_vertical"
+						android:layout_margin="7dp"/>
+				</LinearLayout>
+			</LinearLayout>
 
 		</LinearLayout>
 
@@ -398,47 +430,43 @@
 					android:gravity="center_horizontal" >
 
 					<ImageView
-						android:id="@+id/imageView4"
+						android:id="@+id/iv_home_section_social_phone"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
-						android:contentDescription="@string/social_web"
-						android:maxWidth="60dp"
-						android:src="@drawable/social_web" />
+						android:contentDescription="@string/social_mail"
+						android:maxWidth="50dp"
+						android:src="@drawable/social_mail"/>
 
 					<ImageView
-						android:id="@+id/imageView5"
+						android:id="@+id/iv_home_section_social_mail"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_web"
-						android:maxWidth="60dp"
+						android:maxWidth="50dp"
 						android:src="@drawable/social_mail" />
 
 					<ImageView
-						android:id="@+id/imageView6"
+						android:id="@+id/iv_home_section_social_whatsapp"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_web"
-						android:maxWidth="60dp"
+						android:maxWidth="50dp"
 						android:src="@drawable/social_whatsapp" />
 
 					<ImageView
-						android:id="@+id/imageView7"
+						android:id="@+id/iv_home_section_social_facebook"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_facebook"
-						android:maxWidth="60dp"
+						android:maxWidth="50dp"
 						android:src="@drawable/social_facebook" />
 				</LinearLayout>
 
@@ -448,47 +476,43 @@
 					android:gravity="center_horizontal" >
 
 					<ImageView
-						android:id="@+id/imageView8"
+						android:id="@+id/iv_home_section_social_twitter"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_twitter"
-						android:maxWidth="60dp"
+						android:maxWidth="50dp"
 						android:src="@drawable/social_twitter" />
 
 					<ImageView
-						android:id="@+id/imageView9"
+						android:id="@+id/iv_home_section_social_googleplus"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_googleplus"
-						android:maxWidth="60dp"
+						android:maxWidth="50dp"
 						android:src="@drawable/social_googleplus" />
 
 					<ImageView
-						android:id="@+id/imageView10"
+						android:id="@+id/iv_home_section_social_youtube"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_youtube"
-						android:maxWidth="60dp"
+						android:maxWidth="50dp"
 						android:src="@drawable/social_youtube" />
 
 					<ImageView
-						android:id="@+id/imageView11"
+						android:id="@+id/iv_home_section_social_instagram"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="16dp"
-						android:layout_weight=".25"
+						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_instagram"
-						android:maxWidth="60dp"
+						android:maxWidth="50dp"
 						android:src="@drawable/social_instagram" />
 				</LinearLayout>
 			</LinearLayout>

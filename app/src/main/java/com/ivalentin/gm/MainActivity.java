@@ -4,22 +4,17 @@ import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-//import android.content.res.ResourcesCompat;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -35,22 +30,22 @@ import android.widget.TextView;
  * @author Iñigo Valentin
  *
  */
-public class MainActivity extends Activity implements LocationListener{
+public class MainActivity extends Activity{//} implements LocationListener{
 
-	//Set of GPS coordinates
-	private double[] coordinates = new double[2];
-	
 	//The main layout of the app
 	private MainLayout mLayout;
-	
-	//The location manager to get GPS coordinates
-	private LocationManager locationManager;
-	
-	//GPS coordinates provider
-	private String provider;
-	
-	//Alarm to get location
+
+	//Alarm to get location and notifications.
 	AlarmReceiver alarm;
+
+	/**
+	 * Getter for the activity top view.
+	 *
+	 * @return The activity top view.
+	 */
+	public View getMainView(){
+		return getWindow().getDecorView().getRootView();
+	}
 		
 	/**
 	 * Loads a section in the main screen.
@@ -67,28 +62,23 @@ public class MainActivity extends Activity implements LocationListener{
 		switch (section){
 			case GM.SECTION_HOME:
 				fragment = new HomeLayout();
-				//Pass current GPS coordinates
-				bundle.putDouble("lat", coordinates[0]);
-				bundle.putDouble("lon", coordinates[1]);
-				fragment.setArguments(bundle);
 				title = getString(R.string.menu_home);
 				break;
 
 			case GM.SECTION_LOCATION:
 				fragment = new LocationLayout();
-				//Pass current GPS coordinates
-				bundle.putDouble("lat", coordinates[0]);
-				bundle.putDouble("lon", coordinates[1]);
-				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_location);
 				break;
 
 			case GM.SECTION_LABLANCA:
-				fragment = new LablancaLayout();
-				//Pass current GPS coordinates
-				bundle.putDouble("lat", coordinates[0]);
-				bundle.putDouble("lon", coordinates[1]);
-				fragment.setArguments(bundle);
+				//Get settings
+				SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+				if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1){
+					fragment = new LablancaLayout();
+				}
+				else{
+					fragment = new LablancaNoFestivalsLayout();
+				}
 				title = getString(R.string.menu_lablanca);
 				break;
 
@@ -108,10 +98,6 @@ public class MainActivity extends Activity implements LocationListener{
 
 			case GM.SECTION_LABLANCA_AROUND:
 				fragment = new AroundLayout();
-				//Pass current GPS coordinates
-				bundle.putDouble("lat", coordinates[0]);
-				bundle.putDouble("lon", coordinates[1]);
-				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_around);
 				break;
 
@@ -151,8 +137,7 @@ public class MainActivity extends Activity implements LocationListener{
 		if (fromSliderMenu)
 			mLayout.toggleMenu();
 	}
-	
-	
+
 	/**
 	 * Sets the title of the current section.
 	 * 
@@ -162,71 +147,7 @@ public class MainActivity extends Activity implements LocationListener{
 		TextView tvTitle = (TextView) findViewById(R.id.activity_main_content_title);
 		tvTitle.setText(title);
 	}
-	
-	/** 
-	 * Run when the app resumes. It's extended to request
-	 * location updates when the app is resumed.
-	 * 
-	 * @see android.support.v4.app.FragmentActivity#onResume()
-	 */
-	@Override
-	protected void onResume() {
-		super.onResume();
-		alarm.onReceive(this, this.getIntent());
-		locationManager.requestLocationUpdates(provider, GM.LOCATION_ACCURACY, 1, this);
-	}
 
-	/**
-	 * Run when the app is paused.Extended to remove the location
-	 * listener updates when the Activity is paused.
-	 *  
-	 * @see android.support.v4.app.FragmentActivity#onPause()
-	 */
-	@Override
-	protected void onPause() {
-		super.onPause();
-		locationManager.removeUpdates(this);
-	}
-
-	/**
-	 * Called when the location is updated.
-	 * 
-	 * @param location The updated location.
-	 * 
-	 * @see android.location.LocationListener#onLocationChanged(android.location.Location)
-	 * 
-	 */
-	@Override
-	public void onLocationChanged(Location location) {
-		coordinates[0] = location.getLatitude();
-		coordinates[1] = location.getLongitude();
-	}
-
-	/**
-	 * Extended for nothing. Needed because the class implements LocationListener.
-	 * 
-	 * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
-	 */
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {}
-	
-	/**
-	 * Extended for nothing. Needed because the class implements LocationListener.
-	 * 
-	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderEnabled(String provider) {}
-
-	/**
-	 * Extended for nothing. Needed because the class implements LocationListener.
-	 * 
-	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderDisabled(String provider) {}
-	  
-	  
 	/**
 	 * Runs when the activity is created. 
 	 * 
@@ -234,32 +155,14 @@ public class MainActivity extends Activity implements LocationListener{
 	 * 
 	 * @see android.support.v7.app.AppCompatActivity#onCreate(android.os.Bundle)
 	 */
-	//@SuppressLint("TrulyRandom") //I don't care about getting "potentially unsecured numbers" here
+	@SuppressLint("TrulyRandom") //I don't care about getting "potentially unsecured numbers" here
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
-		//Set the location manager.
-	    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	   	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
-	    
-	    //Define the criteria how to select the location provider: use default.
-	    Criteria criteria = new Criteria();
-	    provider = locationManager.getBestProvider(criteria, false);
-	    Location location = locationManager.getLastKnownLocation(provider);
 
 	    //Get intent extras
 	    String action = getIntent().getStringExtra(GM.EXTRA_ACTION);
 	    String actionText = getIntent().getStringExtra(GM.EXTRA_TEXT);
 	    String actionTitle = getIntent().getStringExtra(GM.EXTRA_TITLE);
-	    
-	    // Initialize the location fields.
-	    if (location != null){
-	    	//System.out.println("Provider " + provider + " has been selected.");
-	    	onLocationChanged(location);
-	    }
-	    else{
-	    	Log.e("Location", "Location not available");
-	    }
 
 		//Set an alarm for notifications..
 	    alarm = new AlarmReceiver();
@@ -333,21 +236,39 @@ public class MainActivity extends Activity implements LocationListener{
 			@Override
 			public void onClick(View v) { loadSection(GM.SECTION_SETTINGS, true); }
 		});
-		menuLablancaItem[0].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_LABLANCA_SCHEDULE, true); }
-		});
-		menuLablancaItem[1].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true); }
-		});
-		menuLablancaItem[2].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_LABLANCA_AROUND, true); }
-		});
+
+
+		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
+
+			menuLablancaItem[0].setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
+				}
+			});
+
+			menuLablancaItem[1].setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
+				}
+			});
+
+			menuLablancaItem[2].setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					loadSection(GM.SECTION_LABLANCA_AROUND, true);
+				}
+			});
+
+			//Show the entries
+			for (int i = 0; i < 3; i ++){
+				menuLablancaItem[i].setVisibility(View.VISIBLE);
+			}
+		}
 
 		//If the user code is not set, generate one
-		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 		if (preferences.getString(GM.USER_CODE, "").length() == 0){
 			SecureRandom random = new SecureRandom();
 			String newCode = new BigInteger(130, random).toString(32).substring(0, 8);

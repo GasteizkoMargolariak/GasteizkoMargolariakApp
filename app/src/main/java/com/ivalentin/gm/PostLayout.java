@@ -92,11 +92,8 @@ public class PostLayout extends Fragment {
 
         //Get images
         Cursor imageCursor = db.rawQuery("SELECT image, idx FROM post_image WHERE post = " + id + " ORDER BY idx LIMIT 5;", null);
-        //imageCursor.moveToFirst();
-        //Log.e("IMGCOUNT", "" + cursor.getCount());
         int i = 0;
         while (imageCursor.moveToNext()) {
-            //Log.e("IMG", "" + i);
             String image = imageCursor.getString(0);
 
             //Check if image exists
@@ -111,9 +108,8 @@ public class PostLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/preview/");
-                if (fpath.mkdirs()) {
-					new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i]).execute();
-				}
+                fpath.mkdirs();
+				new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i]).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

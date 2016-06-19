@@ -14,14 +14,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.app.Fragment;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -34,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Section that will be seen when the app is started. 
@@ -48,20 +53,14 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 	//The location manager
 	LocationManager locationManager;
-	Location listener;
-	
-	//The location of the user
-	private double[] coordinates = new double[2];
 
-	//Language
-	private String currLang;
-	
 	//Map stuff for the dialog
 	private MapView mapView;
 	private Bundle bund;
 	private GoogleMap map;
 	private LatLng location;
 	private String markerName = "";
+	private View view;
 	
 	/**
 	 * Run when the fragment is inflated.
@@ -80,28 +79,19 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout.
-		View view = inflater.inflate(R.layout.fragment_layout_home, null);
+		view = inflater.inflate(R.layout.fragment_layout_home, null);
 
-		//Get language
-		currLang = Locale.getDefault().getDisplayLanguage();
-		if (!currLang.equals("es") && !currLang.equals("eu")){
-			currLang = "en";
-		}
-				
 		//Set Location manager
+		//TODO: Only do this if location is required
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
+		locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), 1000, 0, this);
+		onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+		//locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
 		
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_home));
-	    
-		//Get the location passed from MainActivity so we dont have to wait for it to be aquired.
-		Bundle bundle = this.getArguments();
-		coordinates[0] = bundle.getDouble("lat", 0);
-		coordinates[1] = bundle.getDouble("lon", 0);
 
 		//TODO: These methods are empty yet
-		setUpLocation(view);
 		setUpLablanca(view);
 		setUpGmschedule(view);
 		setUpCityschedule(view);
@@ -118,6 +108,13 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		//Set up the gallery section
 		setUpGallery(view);
 
+		//Asynchronously set up location section
+		new HomeSectionLocation(((MainActivity) getActivity()).getMainView()).execute();
+		setUpLocation(view);
+
+		//Setup the social section
+		setUpSocial(view);
+
 	    //Return the view itself.
 		return view;
 	}
@@ -127,9 +124,92 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 *
 	 * @return The number of entries shown.
 	 */
-	private int setUpSocial(View view) {
-		//TODO: setUpSocial(View view)
-		return 0;
+	private void setUpSocial(View view) {
+		ImageView phone = (ImageView) view.findViewById(R.id.iv_home_section_social_phone);
+		ImageView mail = (ImageView) view.findViewById(R.id.iv_home_section_social_mail);
+		ImageView whatsapp = (ImageView) view.findViewById(R.id.iv_home_section_social_whatsapp);
+		ImageView facebook = (ImageView) view.findViewById(R.id.iv_home_section_social_facebook);
+		ImageView twitter = (ImageView) view.findViewById(R.id.iv_home_section_social_twitter);
+		ImageView googleplus = (ImageView) view.findViewById(R.id.iv_home_section_social_googleplus);
+		ImageView instagram = (ImageView) view.findViewById(R.id.iv_home_section_social_instagram);
+
+		phone.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = v.getContext().getString(R.string.social_phone_link);
+				Intent intent = new Intent(Intent.ACTION_DIAL);
+				intent.setData(Uri.parse(url));
+				startActivity(intent);
+			}
+		});
+
+		mail.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = v.getContext().getString(R.string.social_mail_link);
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
+
+		whatsapp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				try {
+					Uri mUri = Uri.parse(getString(R.string.social_whatsapp_link));
+					Intent mIntent = new Intent(Intent.ACTION_SENDTO, mUri);
+					mIntent.setPackage(getString(R.string.social_whatsapp_package));
+					mIntent.putExtra(getString(R.string.social_whatsapp_chat), true);
+					startActivity(mIntent);
+				} catch (Exception e) {
+					Toast.makeText(v.getContext(), getString(R.string.social_whatsapp_error), Toast.LENGTH_LONG).show();
+				}
+			}
+		});
+
+		facebook.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = v.getContext().getString(R.string.social_facebook_link);
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
+
+		twitter.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = v.getContext().getString(R.string.social_twitter_link);
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
+
+		googleplus.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = v.getContext().getString(R.string.social_googleplus_link);
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
+
+		instagram.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = v.getContext().getString(R.string.social_instagram_link);
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
+
+		return;
 	}
 
 	/**
@@ -183,6 +263,30 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	}
 
 	/**
+	 * Populates the Location section of the home screen.
+	 *
+	 * @return True if the section has been shown, false otherwise.
+	 */
+	private boolean setUpLocation(Location location, View view) {
+		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		if (preferences.getString(GM.PREF_GM_LOCATION, "").length() > 0){
+			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
+			Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
+			Double distance = Distance.calculateDistance(lat, lon, location.getLatitude(), location.getLongitude(), 'K');
+			TextView text = (TextView) view.findViewById(R.id.tv_home_section_location_distance);
+			if (distance <= 2) {
+				distance = 1000 * distance;
+				text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
+			}
+			else{
+				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format("%.02f", distance)));
+			}
+
+		}
+		return false;
+	}
+
+	/**
 	 * Populates the Gallery section of the home screen.
 	 * Loads four photos.
 	 * Tapping them takes to the respective album, tapping anywhere else, to the gallery section.
@@ -232,32 +336,31 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				//If not, create directories and download asynchronously
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-				if (fpath.mkdirs()) {
-					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
-				}
+				fpath.mkdirs();
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
 			}
 
 			//Set listeners for images
 			ivPhoto[counter].setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-				Fragment fragment = new AlbumLayout();
-				Bundle bundle = new Bundle();
+					Fragment fragment = new AlbumLayout();
+					Bundle bundle = new Bundle();
 
-				int photoId = Integer.parseInt((String) v.getTag(R.string.key_0));
-				int albumId = Integer.parseInt((String) v.getTag(R.string.key_1));
+					int photoId = Integer.parseInt((String) v.getTag(R.string.key_0));
+					int albumId = Integer.parseInt((String) v.getTag(R.string.key_1));
 
-				bundle.putInt("album", albumId);
-				bundle.putInt("photo", photoId);
+					bundle.putInt("album", albumId);
+					bundle.putInt("photo", photoId);
 
-				fragment.setArguments(bundle);
+					fragment.setArguments(bundle);
 
-				FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
-				FragmentTransaction ft = fm.beginTransaction();
+					FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
+					FragmentTransaction ft = fm.beginTransaction();
 
-				ft.replace(R.id.activity_main_content_fragment, fragment);
-				ft.addToBackStack("album_" + albumId);
-				ft.commit();
+					ft.replace(R.id.activity_main_content_fragment, fragment);
+					ft.addToBackStack("album_" + albumId);
+					ft.commit();
 				}
 			});
 
@@ -281,10 +384,11 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	private int setUpPastActivities(View view){
 		int counter = 0;
+		String lang = GM.getLang();
 
 		//Get data from the database of the future activities
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + currLang + " AS title, text_" + currLang + " AS text, price, after_" + currLang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC LIMIT 2;", null);
+		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, price, after_" + lang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC LIMIT 2;", null);
 
 		//Show section
 		LinearLayout llActivitiesPast = (LinearLayout) view.findViewById(R.id.ll_home_section_activities_past);
@@ -343,7 +447,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", currLang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -367,9 +471,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-					if (fpath.mkdirs()) {
-						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
-					}
+					fpath.mkdirs();
+					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
 				}
 			}
 			cursorImage.close();
@@ -418,6 +521,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	private int setUpFutureActivities(View view){
 		int counter = 0;
+		String lang = GM.getLang();
 
 		LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_home_section_activities_future_content);
 		LinearLayout entry;
@@ -427,7 +531,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 		//Get data from the database of the future activities
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + currLang+ " AS title, text_" + currLang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date LIMIT 2;", null);
+		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang+ " AS title, text_" + lang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date LIMIT 2;", null);
 
 		//If there are future activities...
 		if (cursor.getCount() > 0) {
@@ -476,7 +580,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 				//Set date
 				TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", currLang, false));
+				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
 
 				//Set hidden id
 				TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -500,9 +604,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 						//If not, create directories and download asynchronously
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-						if (fpath.mkdirs()) {
-							new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
-						}
+						fpath.mkdirs();
+						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
 					}
 				}
 
@@ -549,8 +652,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	private int setUpBlog(View view){
-
 		int counter = 0;
+		String lang = GM.getLang();
 
 		LinearLayout llBlog = (LinearLayout) view.findViewById(R.id.ll_home_section_blog);
 		llBlog.setOnClickListener(new OnClickListener(){
@@ -571,7 +674,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		final Cursor cursor;
 
 		//Get data from the database
-		cursor = db.rawQuery("SELECT id, title_" + currLang+ " AS title, text_" + currLang + " AS text, dtime FROM post ORDER BY dtime DESC LIMIT 2;", null);
+		cursor = db.rawQuery("SELECT id, title_" + lang + " AS title, text_" + lang + " AS text, dtime FROM post ORDER BY dtime DESC LIMIT 2;", null);
 
 		//Loop
 		while (cursor.moveToNext()){
@@ -598,7 +701,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_blog_date);
-			tvDate.setText(GM.formatDate(cursor.getString(3), currLang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(3), lang, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_blog_hidden);
@@ -623,9 +726,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
-					if (fpath.mkdirs()) {
-						new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
-					}
+					fpath.mkdirs();
+					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
 				}
 			}
 
@@ -792,11 +894,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		coordinates[0] = location.getLatitude();
-		coordinates[1] = location.getLongitude();
-		//updateLocation();
-		//populateAround();
-		
+		setUpLocation(location, view);
 	}
 
 	/**
@@ -849,6 +947,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 */
 	@Override
 	public void onPause(){
+		//TODO: Only do this if location is required
 		locationManager.removeUpdates(this);
 		if (map != null)
 			map.setMyLocationEnabled(false);
@@ -870,7 +969,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 			mapView.onResume();
 		if (map != null)
 			map.setMyLocationEnabled(true);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
+		//TODO: Only do this if location is required
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		super.onResume();
 	}
 	

@@ -56,6 +56,8 @@
 	<string name="today">Today</string>
 	<string name="tomorrow">Tomorrow</string>
 
+	<string name="distance_m">meters</string>
+	<string name="distance_k">kilometers</string>
 
 	<!-- "Titles" for days -->
 
@@ -85,7 +87,8 @@
 	<string name="around_no_gps">GPS turned off</string>
 	<string name="around_no_gps_text">Turn on GPS to be able to see events around you.</string>
 	<string name="around_no_gps_button">Open settings</string>
-	<string name="around_distance">%1$s %2$s away from you (About %3$s minutes walking)</string>
+	<string name="around_distance_short">%1$s meters away from you (About %2$s minutes walking)</string>
+	<string name="around_distance_long">%1$s kilometers away from you </string>
 
 
 	<!-- Home section strings -->
@@ -102,7 +105,8 @@
 	<string name="home_section_social">Follow us</string>
 
 	<string name="home_section_location_text_0">Gasteizko Margolariak is around!</string>
-	<string name="home_section_location_text_1">They are just %1$s away from you! (About %2$d minutes walking)</string>
+	<string name="home_section_location_text_short">They are just %1$d meters away from you!\n(About %2$d minutes walking)</string>
+	<string name="home_section_location_text_long">They are just %1$s kilometers away from you!</string>
 
 	<string name="home_section_join">Join Gasteizko Margolariak</string>
 	<string name="home_section_schedule_see">See all</string>
@@ -198,6 +202,18 @@
 		<item quantity="other">%1$d photos</item>
 	</plurals>
 
+	<!--La Blanca section strings-->
+	<string name="lablanca_title">La Blanca</string>
+	<string name="lablanca_nofestivals">Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas.</string>
+	<string name="lablanca_prices">Prices</string>
+	<string name="lablanca_prices_days">Single days</string>
+	<string name="lablanca_prices_pack">Packs</string>
+	<string name="lablanca_schedule">Schedule</string>
+	<string name="lablanca_schedule_city">Cty schedule</string>
+	<string name="lablanca_schedule_gm">Margolariak schedule</string>
+	<string name="lablanca_date_july">July %1$s</string>
+	<string name="lablanca_date_august">August %1$s</string>
+
 	<!-- Comments section and form strings -->
 	<string name="comment_your_comment">Your comment</string>
 	<plurals name="comment_comments">
@@ -220,7 +236,7 @@
 
 	<!-- Social networks strings -->
 
-	<string name="social_web">Web</string>
+	<string name="social_phone">Phone</string>
 	<string name="social_facebook">Facebook</string>
 	<string name="social_mail">e-mail</string>
 	<string name="social_whatsapp">Whatsapp</string>
@@ -228,6 +244,7 @@
 	<string name="social_googleplus">Google+</string>
 	<string name="social_youtube">Youtube</string>
 	<string name="social_instagram">Instagram</string>
+	<string name="social_phone_link">tel:+34637140371</string>
 	<string name="social_web_link">http://margolariak.com/</string>
 	<string name="social_mail_link">mailto:gasteizkomargolariak@gmail.com</string>
 	<string name="social_whatsapp_link">smsto:+34637140371</string>
