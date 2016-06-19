@@ -62,7 +62,7 @@ public class LablancaLayout extends Fragment {
 		cursor.moveToFirst();
 
 		//Set text
-		WebView headerText = (WebView) view.findViewById(R.id.tv_lablanca_header);
+		WebView headerText = (WebView) view.findViewById(R.id.wv_lablanca_header);
 		headerText.loadDataWithBaseURL(null, cursor.getString(0), "text/html", "utf-8", null);
 
 		//Set image
