@@ -1,5 +1,6 @@
 package com.ivalentin.gm;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 	private boolean isLocationReported;
 	private LatLng coord;
 	private View view;
+	private Activity activity;
 
 	/**
 	 * Constructor.
@@ -41,8 +43,9 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 	 *
 	 * @see android.widget.ImageView
 	 */
-	public HomeSectionLocation(View v) {
+	public HomeSectionLocation(View v, Activity a) {
 		super();
+		this.activity = a;
 		this.view = v;
 	}
 
@@ -100,7 +103,7 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 			editor.apply();
 
 			//Show menu entry
-			LinearLayout menuEntry = (LinearLayout) view.findViewById(R.id.ll_menu_location);
+			LinearLayout menuEntry = (LinearLayout) activity.findViewById(R.id.ll_menu_location);
 			menuEntry.setVisibility(View.VISIBLE);
 
 			//Set up home view section

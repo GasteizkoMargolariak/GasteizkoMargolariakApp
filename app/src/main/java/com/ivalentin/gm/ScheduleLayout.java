@@ -41,6 +41,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,23 +56,18 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 	
 	//Array with data about the days of the festival
-	private String[][] days = new String[GM.TOTAL_DAYS][4];
-	
-	//Currently selected day
-	private int selected;
-	
+	//private String[][] days = new String[GM.TOTAL_DAYS][4];
+	Bundle bund;
+
+	private String dates[] = new String[20];
+	private int dateCount = 0;
+	private int selected = 0;
+
 	//Indicates official schedule
 	private int schedule;
-	
-	//Arrow buttons
-	private Button btL, btR;
-	
-	//TextViews in the date selector
-	private TextView tvDayNumber, tvDayTitle, tvDayMonth;
-	
+
 	//Map stuff for the dialog
 	private MapView mapView;
-	private Bundle bund;
 	private GoogleMap map;
 	private LatLng location;
 	private View view;
@@ -90,7 +86,13 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
+
+		Calendar calendar = Calendar.getInstance();
+		String year = Integer.toString(calendar.get(Calendar.YEAR));
+
+
+
+
 		//Set bundle for the map
 		bund = savedInstanceState;
 		
@@ -106,56 +108,37 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_schedule));
 		else
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_gm_schedule));
-		
-		
-		//Populate days array
-		days[GM.DAY_25] = new String[] {"2015-07-25", "25", getString(R.string.month_07), getString(R.string.day_title_25)};
-		days[GM.DAY_4] = new String[] {"2015-08-04", "4", getString(R.string.month_08), getString(R.string.day_title_4)};
-		days[GM.DAY_5] = new String[] {"2015-08-05", "5", getString(R.string.month_08), getString(R.string.day_title_5)};
-		days[GM.DAY_6] = new String[] {"2015-08-06", "6", getString(R.string.month_08), getString(R.string.day_title_6)};
-		days[GM.DAY_7] = new String[] {"2015-08-07", "7", getString(R.string.month_08), getString(R.string.day_title_7)};
-		days[GM.DAY_8] = new String[] {"2015-08-08", "8", getString(R.string.month_08), getString(R.string.day_title_8)};
-		days[GM.DAY_9] = new String[] {"2015-08-09", "9", getString(R.string.month_08), getString(R.string.day_title_9)};
-		
-		//Assign parent layout
-		final LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_schedule_list);
-		
-		//Assign textViews
-		tvDayNumber = (TextView) view.findViewById(R.id.tv_schedule_day_number);
-		tvDayMonth = (TextView) view.findViewById(R.id.tv_schedule_day_month);
-		tvDayTitle = (TextView) view.findViewById(R.id.tv_schedule_day_title);
-		
+
+		//Populate the dates array
+		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		Cursor cursor;
+		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
+			cursor = db.rawQuery("SELECT DISTINCT date(start) FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 1;", null);
+		}
+		else{
+			cursor = db.rawQuery("SELECT DISTINCT date(start) FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 0;", null);
+		}
+		while (cursor.moveToNext()){
+			dates[dateCount] = cursor.getString(0);
+			dateCount ++;
+			//TODO: Check if some date is of today, and set selected
+		}
+
 		//Assign buttons
-		btL = (Button) view.findViewById(R.id.bt_schedule_l);
-		btR = (Button) view.findViewById(R.id.bt_schedule_r);
+		Button btL = (Button) view.findViewById(R.id.bt_schedule_l);
+		Button btR = (Button) view.findViewById(R.id.bt_schedule_r);
 		btL.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (selected > GM.DAY_25){
-					selected --;
-					
-					//If August 4 selected and GM schedule, skip
-					if (selected == GM.DAY_4 && schedule != GM.SECTION_LABLANCA_SCHEDULE)
-						selected --;
-					
-					String filter = ((EditText) view.findViewById(R.id.et_schedule_filter)).getText().toString();
-					populateSchedule(selected, list, schedule, filter);
-				}
+				selected --;
+				populateSchedule();
 			}
 		});
 		btR.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (selected < GM.DAY_9){
-					selected ++;
-					
-					//If August 4 selected and GM schedule, skip
-					if (selected == GM.DAY_4 && schedule != GM.SECTION_LABLANCA_SCHEDULE)
-						selected ++;
-					
-					String filter = ((EditText) view.findViewById(R.id.et_schedule_filter)).getText().toString();
-					populateSchedule(selected, list, schedule, filter);
-				}
+				selected ++;
+				populateSchedule();
 			}
 		});
 		
@@ -172,43 +155,13 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	        @Override
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
 	        	//Repopulate when the text is changed
-	        	populateSchedule(selected, list, schedule, s.toString());
+	        	populateSchedule();
 	          
 	        }
 		});
 		
-		//Get the date
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-		Date date = new Date();
-		String curDate = dateFormat.format(date);
-		
-		//Try to find out if the current date is before, after, or in the middle of the festivals.
-		try {
-			if (dateFormat.parse(curDate).before(dateFormat.parse(days[GM.DAY_25][0]))){
-				selected = GM.DAY_25;
-			}
-			else if (dateFormat.parse(curDate).after(dateFormat.parse(days[GM.DAY_9][0]))){
-				selected = GM.DAY_9;
-			}
-			else{
-				for (int i = 0; i < GM.TOTAL_DAYS; i++){
-					if (curDate.equals(days[i][0])){
-						selected = i;
-					}
-				}
-			}
-			//If August 4 and Margolari schedule, move one day forward
-			if (selected == GM.DAY_4 && schedule != GM.SECTION_LABLANCA_SCHEDULE){
-				selected ++;
-			}
-		}
-		catch (ParseException e) {
-			selected = GM.DAY_25;
-			Log.e("Error selecting date", e.toString());
-		}
-		
 		//Populate the activity list
-		populateSchedule(selected, list, schedule, "");
+		populateSchedule();
 		
 		//Return the fragment view
 		return view;
@@ -217,55 +170,192 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	/**
 	 * Populates the list of activities with the ones n the selected day.
 	 * 
-	 * @param selected The day to show activities from
-	 * @param list The layout where the items will be added
-	 * @param schedule GM.SECTION_SCHEDULE if city schedule, GM.SECTION_GM_SCHEDULE if gm schedule
-	 * @param f Search filter texts
 	 */
 	@SuppressLint("InflateParams") //Views are added from a loop: I can't specify the parent when inflating.
-	private void populateSchedule(int selected, LinearLayout list, int schedule, String f){
+	private int populateSchedule(){
+
+		int eventCount = 0;
+
+		//Hide or show buttons
+		Button btNext = (Button) view.findViewById(R.id.bt_schedule_r);
+		Button btPrevious = (Button) view.findViewById(R.id.bt_schedule_l);
+		if (selected <= 0){
+			btPrevious.setVisibility(View.INVISIBLE);
+		}
+		else{
+			btPrevious.setVisibility(View.VISIBLE);
+		}
+		if (selected >= dateCount - 1){
+			btNext.setVisibility(View.INVISIBLE);
+		}
+		else{
+			btNext.setVisibility(View.VISIBLE);
+		}
+
+		//If there are no events,return now
+		if (selected < 0 || selected >= dateCount){
+			return eventCount;
+		}
 		
+		//Search filter
+		String filter = ((EditText) view.findViewById(R.id.et_schedule_filter)).getText().toString().toLowerCase(Locale.US);
+
+		Calendar calendar = Calendar.getInstance();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US);
+		try {
+			calendar.setTime(dateFormat.parse(dates[selected] + " 06:00:00"));
+		}
+		catch (Exception ex){
+			Log.e("Datetime error", ex.toString());
+		}
+
+		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+
+		String lang = GM.getLang();
+
 		//A layout to be populated with one activity
-		LinearLayout entry, content;
-		
-		//The filter
-		String filter = f.toLowerCase(Locale.US);
-		
+		LinearLayout entry, list;
+
 		//An inflater
         LayoutInflater factory = LayoutInflater.from(getActivity());
         
         //Views in each row
-        TextView tvRowTitle, tvRowTime, tvRowDesc, tvRowPlace, tvRowId;
+        TextView tvRowTitle, tvRowTime, tvRowDesc, tvRowPlace, tvRowId, tvRowAddress;
         
         //Icon next to the location text
         Drawable icon = getResources().getDrawable(R.drawable.pinpoint);
         //icon.setBounds(0, 0, 80, 80);
 		
 		//Set date selector texts
-		tvDayNumber.setText(days[selected][1]);
-		tvDayMonth.setText(days[selected][2]);
-		tvDayTitle.setText(days[selected][3]);
-		
-		//Show or hide the arrow buttons
-		switch (selected){
-			case GM.DAY_25:
-				btL.setVisibility(View.INVISIBLE);
-				btR.setVisibility(View.VISIBLE);
+		TextView tvDayNumber = (TextView) view.findViewById(R.id.tv_schedule_day_number);
+		TextView tvDayMonth = (TextView) view.findViewById(R.id.tv_schedule_day_month);
+		TextView tvDayTitle = (TextView) view.findViewById(R.id.tv_schedule_day_title);
+
+
+		tvDayNumber.setText(Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+		switch (calendar.get(Calendar.MONTH)){
+			case 6:
+				tvDayMonth.setText(getString(R.string.schedule_month_july));
 				break;
-			case GM.DAY_9:
-				btL.setVisibility(View.VISIBLE);
-				btR.setVisibility(View.INVISIBLE);
+			case 7:
+				tvDayMonth.setText(getString(R.string.schedule_month_august));
 				break;
-			default:
-				btL.setVisibility(View.VISIBLE);
-				btR.setVisibility(View.VISIBLE);				
 		}
-		
+		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE){
+			Cursor cursorDay = db.rawQuery("SELECT name_" + lang + " FROM festival_day WHERE date(date) = '" + dates[selected] + "';", null);
+			if (cursorDay.getCount() > 0) {
+				cursorDay.moveToFirst();
+				tvDayTitle.setText(cursorDay.getString(0));
+			}
+			else{
+				tvDayTitle.setText("");
+			}
+			cursorDay.close();
+		}
+
+
+		//Get day end date
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(sdf.parse(dates[selected]));
+		}
+		catch(Exception ex){
+			Log.e("Date parsing error", ex.toString());
+			return eventCount;
+		}
+		c.add(Calendar.DATE, 1);  // number of days to add
+		String endDate = sdf.format(c.getTime());
+
+		String query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' AND ";
+
+		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE){
+			query = query + "gm = 1 ";
+			//cursor= db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE gm = 1 AND place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' ORDER BY start;", null);
+		}
+		else{
+			query = query + "gm = 0 ";
+			//cursor= db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE gm = 0 AND place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' ORDER BY start;", null);
+		}
+		if (filter.length() > 0){
+			query = query + "AND (title_" + lang + " like '%" +filter + "%' OR description_" + lang + " like '%" +filter + "%' OR name_" + lang + " like '%" +filter + "%' OR address_" + lang + " like '%" +filter + "%') ";
+		}
+		Cursor cursor = db.rawQuery(query, null);
+
+		//If there are entries, clear the list
+		list = (LinearLayout) view.findViewById(R.id.ll_schedule_list);
+		if (cursor.getCount() > 0){
+			list.removeAllViews();
+		}
+
+		while (cursor.moveToNext()){
+			eventCount ++;
+
+			entry = (LinearLayout) factory.inflate(R.layout.row_schedule, null);
+
+			//Set id
+			tvRowId = (TextView) entry.findViewById(R.id.tv_row_schedule_id);
+			tvRowId.setText(cursor.getString(0));
+
+			//Set title
+			tvRowTitle = (TextView) entry.findViewById(R.id.tv_row_schedule_title);
+			tvRowTitle.setText(cursor.getString(1));
+
+			//Set description
+			tvRowDesc = (TextView) entry.findViewById(R.id.tv_row_schedule_description);
+			if (cursor.getString(2).length() <= 0  || cursor.getString(2).equals(cursor.getString(1))){
+				tvRowDesc.setVisibility(View.GONE);
+			}
+			else {
+				tvRowDesc.setText(cursor.getString(2));
+			}
+
+			//Set place
+			tvRowPlace = (TextView) entry.findViewById(R.id.tv_row_schedule_place);
+			tvRowPlace.setText(cursor.getString(6));
+
+			//Set address
+			tvRowAddress = (TextView) entry.findViewById(R.id.tv_row_schedule_address);
+			if (cursor.getString(7).length() <= 0  || cursor.getString(7).equals(cursor.getString(6))) {
+				tvRowAddress.setVisibility(View.GONE);
+			}
+			else{
+				tvRowAddress.setText(cursor.getString(7));
+			}
+
+			//Set icon
+			if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE){
+				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_schedule_pinpoint);
+				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
+			}
+
+
+			//Set time
+			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_schedule_time);
+			String tm = cursor.getString(4).substring(cursor.getString(4).length() - 8, cursor.getString(4).length() - 3);
+			tvRowTime.setText(tm);
+
+			//Set clisk listener
+			entry.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					TextView tvId = (TextView) v.findViewById(R.id.tv_row_schedule_id);
+					int id = Integer.parseInt(tvId.getText().toString());
+					showDialog(id);
+				}
+			});
+
+			//Add the view
+			list.addView(entry);
+		}
+
+		cursor.close();
+		db.close();
+		return eventCount;
+
 		//Read from database
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor;
-		
-		//Elements to parse, format and operate with dates
+
+		/*//Elements to parse, format and operate with dates
 		Calendar cal;
 		Date maxDate, minDate;
 		String maxDateStr, minDateStr;
@@ -351,8 +441,8 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
         list.invalidate();
         
         //Close cursor and database
-        cursor.close();
-        db.close();
+        cursor.close();*/
+        //db.close();
 	}
 	
 	
@@ -387,7 +477,9 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		
 		//Get info about the event
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor = db.rawQuery("SELECT event.id, event.name, description, start, end, place.name, address, lat, lon, host FROM event, place WHERE place.id = event.place AND event.id = " + id + ";", null);
+		String lang = GM.getLang();
+		//Cursor cursor = db.rawQuery("SELECT event.id, event.name, description, start, end, place.name, address, lat, lon, host FROM event, place WHERE place.id = event.place AND event.id = " + id + ";", null);
+		Cursor cursor = db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host FROM festival_event, place WHERE place = place.id AND festival_event.id = " + id + ";", null);
 		if (cursor.getCount() > 0){
 			cursor.moveToNext();
 		
@@ -399,12 +491,13 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			tvDescription.setText(cursor.getString(2));
 			
 			//Set host
-			if (cursor.getString(9) != null){
-				Cursor hostCursor = db.rawQuery("SELECT name FROM people WHERE id = " + cursor.getString(9) + ";", null);
+			if (cursor.getString(10) != null){
+				Cursor hostCursor = db.rawQuery("SELECT name_" + lang + " FROM people WHERE id = " + cursor.getString(10) + ";", null);
 				if (hostCursor.moveToNext()){
 					tvHost.setVisibility(View.VISIBLE);
 					tvHost.setText(String.format(getString(R.string.schedule_host), hostCursor.getString(0)));
 				}
+				hostCursor.close();
 			}
 			else{
 				tvHost.setVisibility(View.GONE);
@@ -412,7 +505,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			
 			//Set date
 			try{
-				Date day = dateFormat.parse(cursor.getString(3));
+				Date day = dateFormat.parse(cursor.getString(4));
 				Date date = new Date();
 				//If the event is today, show "Today" instead of the date
 				if (dayFormat.format(day).equals(dayFormat.format(date)))
@@ -441,21 +534,21 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			
 			//Set time
 			try{
-				if (cursor.getString(4) == null)
-					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(3))));
+				if (cursor.getString(5).length() == 0)
+					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))));
 				else
-					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(3))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(4))));
+					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(5))));
 			}
 			catch (ParseException ex){
 				Log.e("Error parsing time", ex.toString());
 			}
 			
 			//Set the place
-			tvPlace.setText(cursor.getString(5));
-			tvAddress.setText(cursor.getString(6));
+			tvPlace.setText(cursor.getString(6));
+			tvAddress.setText(cursor.getString(7));
 			
 			//Set up map
-			location = new LatLng(Double.parseDouble(cursor.getString(7)), Double.parseDouble(cursor.getString(8)));
+			location = new LatLng(Double.parseDouble(cursor.getString(8)), Double.parseDouble(cursor.getString(9)));
 			mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
 			mapView.onCreate(bund);
 			
@@ -516,7 +609,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * Called when the fragment is brought back into the foreground. 
 	 * Resumes the map and the location manager.
 	 * 
-	 * @see android.support.v4.app.Fragment#onResume()
+	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
 	public void onResume() {
@@ -531,7 +624,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * Called when the fragment is destroyed. 
 	 * Finishes the map. 
 	 * 
-	 * @see android.support.v4.app.Fragment#onDestroy()
+	 * @see android.app.Fragment#onDestroy()
 	 */
 	@Override
 	public void onDestroy() {
@@ -539,7 +632,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		if (map != null)
 			map.setMyLocationEnabled(false);
 		if (mapView != null){
-			mapView.onResume();
+			//mapView.onResume();
 			mapView.onDestroy();
 		}
 	}
@@ -548,7 +641,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * Called when the fragment is paused. 
 	 * Finishes the map. 
 	 * 
-	 * @see android.support.v4.app.Fragment#onPause()
+	 * @see android.app.Fragment#onPause()
 	 */
 	@Override
 	public void onPause() {
@@ -556,7 +649,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		if (map != null)
 			map.setMyLocationEnabled(false);
 		if (mapView != null){
-			mapView.onPause();
+			//mapView.onPause();
 		}
 	}
 
@@ -564,7 +657,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * Called in a situation of low memory.
 	 * Lets the map handle this situation.
 	 * 
-	 * @see android.support.v4.app.Fragment#onLowMemory()
+	 * @see android.app.Fragment#onLowMemory()
 	 */
 	@Override
 	public void onLowMemory() {

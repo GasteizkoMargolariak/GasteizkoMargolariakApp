@@ -214,6 +214,10 @@
 	<string name="lablanca_date_july">July %1$s</string>
 	<string name="lablanca_date_august">August %1$s</string>
 
+	<!--Schedule section strings-->
+	<string name="schedule_month_july">July</string>
+	<string name="schedule_month_august">August</string>
+
 	<!-- Comments section and form strings -->
 	<string name="comment_your_comment">Your comment</string>
 	<plurals name="comment_comments">
@@ -233,6 +237,10 @@
 	<string name="accesibility_event_gm">Event organized by Gasteizko Margolariak</string>
 	<string name="accesibility_event_schedule">Event in the municipal schedule</string>
 
+
+	<!--Schedule section strings -->
+	<string name="schedule_now">Now</string>
+	<string name="schedule_later">Later</string>
 
 	<!-- Social networks strings -->
 

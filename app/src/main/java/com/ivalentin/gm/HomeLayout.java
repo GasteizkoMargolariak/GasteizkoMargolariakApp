@@ -1,6 +1,9 @@
 package com.ivalentin.gm;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -109,14 +112,180 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		setUpGallery(view);
 
 		//Asynchronously set up location section
-		new HomeSectionLocation(((MainActivity) getActivity()).getMainView()).execute();
+		new HomeSectionLocation(view, this.getActivity()).execute();
 		setUpLocation(view);
+
+		//Set up schedule sections
+		setUpSchedule(1, view);
+		setUpSchedule(0, view);
 
 		//Setup the social section
 		setUpSocial(view);
 
 	    //Return the view itself.
 		return view;
+	}
+
+	/**
+	 * Populates the schedule sections of the home screen.
+	 *
+	 * @return The number of entries shown.
+	 */
+	private int setUpSchedule(int gm, View view){
+		int count = 0;
+
+		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 0) {
+			return count;
+		}
+
+		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendarEnd;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+		String nowString = dateFormat.format(calendar.getTime());
+		String endString;
+		String query;
+
+		//An inflater
+		LayoutInflater factory = LayoutInflater.from(getActivity());
+
+		//Views in each row
+		TextView tvRowTitle, tvRowTime, tvRowPlace, tvRowId;
+
+		//Assign layouts
+		LinearLayout section, listNow, listNext, now, next, entry;
+		if (gm == 1) {
+			section = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule);
+			listNow = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_now_list);
+			listNext = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_later_list);
+			now = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_now_content);
+			next = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_later_content);
+
+		}
+		else{
+			section = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule);
+			listNow = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule_now_list);
+			listNext = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule_later_list);
+			now = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule_now_content);
+			next = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule_later_content);
+		}
+
+		//Set query for current events
+		String lang = GM.getLang();
+		calendarEnd = calendar;
+		calendarEnd.add(Calendar.MINUTE, -40);
+		endString = dateFormat.format(calendarEnd.getTime());
+		query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND ((start <= '" + nowString + "' AND end > '" + nowString + "') OR (start > '" + endString + "' AND start < '" + nowString + "')) AND gm = " + gm + " ORDER BY start LIMIT 2";
+
+		//Execute query and loop
+		Cursor cursorNow = db.rawQuery(query, null);
+		if (cursorNow.getCount() == 0){
+			now.setVisibility(View.GONE);
+		}
+		while (cursorNow.moveToNext()){
+			count ++;
+
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
+
+			//Set id
+			tvRowId = (TextView) entry.findViewById(R.id.tv_row_home_schedule_id);
+			tvRowId.setText(cursorNow.getString(0));
+
+			//Set title
+			tvRowTitle = (TextView) entry.findViewById(R.id.tv_row_home_schedule_title);
+			tvRowTitle.setText(cursorNow.getString(1));
+
+			//Set place
+			tvRowPlace = (TextView) entry.findViewById(R.id.tv_row_home_schedule_place);
+			tvRowPlace.setText(cursorNow.getString(6));
+
+			//Set icon
+			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE){
+				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_home_schedule_pinpoint);
+				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
+			}
+
+			//Set time
+			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_home_schedule_time);
+			String tm = cursorNow.getString(4).substring(cursorNow.getString(4).length() - 8, cursorNow.getString(4).length() - 3);
+			tvRowTime.setText(tm);
+
+			//Add the view
+			listNow.addView(entry);
+		}
+		cursorNow.close();
+
+		//Prepare query for upcaming events
+		calendarEnd = calendar;
+		calendarEnd.add(Calendar.MINUTE, 320);
+		endString = dateFormat.format(calendarEnd.getTime());
+		query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND start > '" + nowString + "' AND start < '" + endString + "' AND gm = " + gm + " ORDER BY start LIMIT 2";
+
+		//Execute query and loop
+		Cursor cursorNext = db.rawQuery(query, null);
+		if (cursorNext.getCount() == 0){
+			next.setVisibility(View.GONE);
+		}
+		while (cursorNext.moveToNext()){
+			count ++;
+
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
+
+			//Set id
+			tvRowId = (TextView) entry.findViewById(R.id.tv_row_home_schedule_id);
+			tvRowId.setText(cursorNext.getString(0));
+
+			//Set title
+			tvRowTitle = (TextView) entry.findViewById(R.id.tv_row_home_schedule_title);
+			tvRowTitle.setText(cursorNext.getString(1));
+
+			//Set place
+			tvRowPlace = (TextView) entry.findViewById(R.id.tv_row_home_schedule_place);
+			tvRowPlace.setText(cursorNext.getString(6));
+
+			//Set icon
+			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE){
+				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_home_schedule_pinpoint);
+				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
+			}
+
+
+			//Set time
+			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_home_schedule_time);
+			String tm = cursorNext.getString(4).substring(cursorNext.getString(4).length() - 8, cursorNext.getString(4).length() - 3);
+			tvRowTime.setText(tm);
+
+			//Add the view
+			listNext.addView(entry);
+		}
+		cursorNext.close();
+
+
+
+		if (count > 0){
+			section.setVisibility(View.VISIBLE);
+			if (gm == 1) {
+				section.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
+					}
+				});
+
+			}
+			else{
+				section.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
+					}
+				});
+			}
+		}
+
+		db.close();
+		return count;
 	}
 
 	/**
