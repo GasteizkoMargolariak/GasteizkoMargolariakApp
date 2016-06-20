@@ -71,28 +71,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 					//Get non-language-dependant fields
 					String notification = o.substring(o.indexOf("<notification>") + 14, o.indexOf("</notification>"));
 					String id = notification.substring(notification.indexOf("<id>") + 4, notification.indexOf("</id>"));
-					String action = notification.substring(notification.indexOf("<id>") + 4, notification.indexOf("</id>"));
+					String action = notification.substring(notification.indexOf("<action>") + 8, notification.indexOf("</action>"));
 
 					//Is the notification seen already?
 					if(!settings.getBoolean(GM.NOTIFICATION_SEEN_ + id, false)){
 
-						//If not, get language dependant values
-						String currLang = Locale.getDefault().getDisplayLanguage();
-						String text, title;
-						switch (currLang){
-							case "es":
-								title = notification.substring(notification.indexOf("<title_es>") + 10, notification.indexOf("</title_es>"));
-								text = notification.substring(notification.indexOf("<text_es>") + 9, notification.indexOf("</text_es>"));
-								break;
-							case "eu":
-								title = notification.substring(notification.indexOf("<title_eu>") + 10, notification.indexOf("</title_eu>"));
-								text = notification.substring(notification.indexOf("<text_eu>") + 9, notification.indexOf("</text_eu>"));
-								break;
-							default:
-								title = notification.substring(notification.indexOf("<title_en>") + 10, notification.indexOf("</title_en>"));
-								text = notification.substring(notification.indexOf("<text_en>") + 9, notification.indexOf("</text_en>"));
-								break;
-						}
+						String lang = GM.getLang();
+						String title = notification.substring(notification.indexOf("<title_" + lang + ">") + 10, notification.indexOf("</title_" + lang + ">"));
+						String text = notification.substring(notification.indexOf("<text_" + lang + ">") + 9, notification.indexOf("</text_" + lang + ">"));
+
 
 						//Get the notification manager ready
 						NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -168,6 +155,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()));
 	    	editor.apply();
 		}
+
+		//Perform a background sync
+		new Sync(context).execute();
     }
 
     /**

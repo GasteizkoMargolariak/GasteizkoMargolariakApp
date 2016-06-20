@@ -189,43 +189,7 @@ public class SettingsLayout extends Fragment{
 				}
 			}	
 		});
-		
-		//Set click listener for the "Name" preference
-		rlAccountName.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-				View dialogLayout = inflater.inflate(R.layout.dialog_change_username, null);
-				AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-				builder.setTitle(view.getContext().getString(R.string.settings_account_message_title));
-				// Set up the input
-				final EditText input = (EditText) dialogLayout.findViewById(R.id.et_change_username);
-				builder.setView(dialogLayout);
 
-				// Set up the buttons
-				builder.setPositiveButton(view.getContext().getString(R.string.settings_account_message_save), new DialogInterface.OnClickListener() { 
-				    @Override
-				    public void onClick(DialogInterface dialog, int which) {
-				        userName = input.getText().toString();
-				        tvAccountName.setText(userName);
-				        SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-						SharedPreferences.Editor editor = preferences.edit();
-						editor.putString(GM.USER_NAME, userName);
-						editor.commit();
-				    }
-				});
-				builder.setNegativeButton(view.getContext().getString(R.string.settings_account_message_cancel), new DialogInterface.OnClickListener() {
-				    @Override
-				    public void onClick(DialogInterface dialog, int which) {
-				        dialog.cancel();
-				    }
-				});
-
-				builder.show();
-			}
-		});
-		
-		
 		return view;
 	}
 }

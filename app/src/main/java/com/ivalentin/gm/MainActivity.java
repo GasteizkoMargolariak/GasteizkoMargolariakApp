@@ -11,6 +11,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
@@ -165,10 +166,31 @@ public class MainActivity extends Activity{//} implements LocationListener{
 	    String actionTitle = getIntent().getStringExtra(GM.EXTRA_TITLE);
 
 		//Set an alarm for notifications..
-	    alarm = new AlarmReceiver();
-		alarm.setAlarm(this);
-		alarm.onReceive(this, this.getIntent());
-		
+		//Wait a little
+		final Intent intent = this.getIntent();
+		final Context context = this;
+
+		Thread t = new Thread() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(20000);
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							alarm = new AlarmReceiver();
+							alarm.setAlarm(context);
+							alarm.onReceive(context, intent);
+						}
+					});
+				} catch (InterruptedException e) {
+				}
+			}
+		};
+
+		t.start();
+
 		//Remove title bar.
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    super.onCreate(savedInstanceState);
@@ -325,63 +347,141 @@ public class MainActivity extends Activity{//} implements LocationListener{
 		    				dialog.dismiss();
 		    			}
 		    		});
-					
+
+					//Set the icon
+					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
+					dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
+					tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
+					tvDialogTitle.setCompoundDrawablePadding(20);
+
+					//Get preferences
+					int festivals = preferences.getInt(GM.PREF_DB_FESTIVALS, 0);
+
 					//Set the action button
 					btDialogAction = (Button) dialog.findViewById(R.id.bt_dialog_notification_action);
 					if (action != null){
+						Log.e("Acton", action);
 						switch (action) {
 
-							//TODO: In here, load the icon the same way I do with photos
-							//If the notification action opens the GM schedule
-							case GM.EXTRA_ACTION_GM:
-								//Set the icon
-								dialogIcon = getResources().getDrawable(R.drawable.icon_gm);
-								dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
-								tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
-								tvDialogTitle.setCompoundDrawablePadding(20);
+							case GM.EXTRA_ACTION_LABLANCA:
 
 								//Set up the action button
 								btDialogAction.setVisibility(View.VISIBLE);
-								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gm));
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_lablanca));
 								btDialogAction.setOnClickListener(new OnClickListener() {
 									@Override
 									public void onClick(View v) {
 										dialog.dismiss();
-										loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
+										loadSection(GM.SECTION_LABLANCA, false);
 									}
 								});
-								//}
 								break;
 
-							//If the notification action opens the city schedule
-							case GM.EXTRA_ACTION_SCHEDULE:
-								//Set the icon
-								dialogIcon = getResources().getDrawable(R.drawable.icon_program);
-								dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
-								tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
-								tvDialogTitle.setCompoundDrawablePadding(20);
+							case GM.EXTRA_ACTION_LOCATION:
 
+								//TODO: Check for a recent location!
 								//Set up the action button
 								btDialogAction.setVisibility(View.VISIBLE);
-								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_schedule));
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
 								btDialogAction.setOnClickListener(new OnClickListener() {
 									@Override
 									public void onClick(View v) {
 										dialog.dismiss();
-										loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
+										loadSection(GM.SECTION_LOCATION, false);
 									}
 								});
-								//}
+								break;
+
+							case GM.EXTRA_ACTION_BLOG:
+
+								//Set up the action button
+								btDialogAction.setVisibility(View.VISIBLE);
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_blog));
+								btDialogAction.setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										dialog.dismiss();
+										loadSection(GM.SECTION_BLOG, false);
+									}
+								});
+								break;
+
+							case GM.EXTRA_ACTION_ACTIVITIES:
+
+								//Set up the action button
+								btDialogAction.setVisibility(View.VISIBLE);
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_activities));
+								btDialogAction.setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										dialog.dismiss();
+										loadSection(GM.SECTION_ACTIVITIES, false);
+									}
+								});
+								break;
+
+							case GM.EXTRA_ACTION_GALLERY:
+
+								//Set up the action button
+								btDialogAction.setVisibility(View.VISIBLE);
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gallery));
+								btDialogAction.setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										dialog.dismiss();
+										loadSection(GM.SECTION_GALLERY, false);
+									}
+								});
+								break;
+
+							case GM.EXTRA_ACTION_GMSCHEDULE:
+
+								if (festivals == 1) {
+									//Set up the action button
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gmschedule));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
+										}
+									});
+								}
+								break;
+
+							case GM.EXTRA_ACTION_CITYSCHEDULE:
+								if (festivals == 1) {
+									//Set up the action button
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_cityschedule));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
+										}
+									});
+								}
+								break;
+
+							case GM.EXTRA_ACTION_AROUND:
+								if (festivals == 1) {
+									//Set up the action button
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_around));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION_LABLANCA_AROUND, false);
+										}
+									});
+								}
 								break;
 
 							//If the notification is just text
 							default:
-								//Set the icon
-								dialogIcon = getResources().getDrawable(R.drawable.icon_about);
-								dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
-								tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
-								tvDialogTitle.setCompoundDrawablePadding(20);
-
 								//Hide action button
 								btDialogAction.setVisibility(View.GONE);
 						}

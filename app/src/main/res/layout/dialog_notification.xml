@@ -1,30 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_app"
+    android:background="@drawable/section"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:padding="7dp" >
 
     <TextView
         android:id="@+id/tv_dialog_notification_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
         android:ellipsize="end"
-        android:gravity="center_horizontal"
         android:maxLines="2"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/text_dialog"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/tv_dialog_notification_separator"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/tv_dialog_notification_title"
-        android:layout_margin="15dp"
-        android:background="@color/black" />
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:text="Title"/>
 
     <LinearLayout
         android:id="@+id/ll_dialog_notification_buttons"
@@ -32,22 +21,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/bt_dialog_notification_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/arrowbutton" />
+            android:background="@drawable/button_selector"
+            android:text="Action"
+            android:textColor="@color/input_text_color"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/bt_dialog_notification_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/arrowbutton"
-            android:text="@string/notification_close" />
+            android:background="@drawable/button_selector"
+            android:text="@string/notification_close"
+            android:textColor="@color/input_text_color"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -56,20 +50,22 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/ll_dialog_notification_buttons"
-        android:layout_below="@id/tv_dialog_notification_separator" >
+        android:layout_below="@id/tv_dialog_notification_title"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:background="@drawable/entry">
 
             <TextView
                 android:id="@+id/tv_dialog_notification_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:textColor="@color/text_dialog"
-                android:textSize="18sp" />
+                android:layout_margin="7dp"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Text"/>
 
         </LinearLayout>
     </ScrollView>

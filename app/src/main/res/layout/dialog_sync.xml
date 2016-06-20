@@ -1,43 +1,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/background_app"
-    android:orientation="vertical" >
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@drawable/section"
+              android:orientation="vertical"
+              android:padding="7dp">
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:gravity="center_horizontal"
         android:text="@string/dialog_sync_title"
-        android:textColor="@color/text_dialog"
-        android:textSize="30sp" />
+        android:textAppearance="@android:style/TextAppearance.Large"/>
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_margin="15dp"
-        android:background="@color/black" />
-
-    <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tv_dialog_sync_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:text="@string/dialog_sync_text"
-        android:textColor="@color/text_dialog"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:text="@string/dialog_sync_internet"
-        android:textColor="@color/text_dialog"
-        android:textSize="20sp" />
+        android:text="@string/dialog_sync_text_0"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:background="@drawable/entry"
+        android:padding="7dp"
+        android:layout_marginTop="10dp"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"

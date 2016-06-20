@@ -65,16 +65,51 @@ public final class GM {
 	 * Constant to set extras on the main intent.
 	 */
 	static final String EXTRA_ACTION = "action";
-	
+
 	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the oficial schedule.
+	 * Value for {@see GM.EXTRA_ACTION} that opens a notification as text.
 	 */
-	static final String EXTRA_ACTION_SCHEDULE = "schedule";
+	static final String EXTRA_ACTION_TEXT = "text";
+
+	/**
+	 * Value for {@see GM.EXTRA_ACTION} that opens the lablanca section.
+	 */
+	static final String EXTRA_ACTION_LABLANCA = "lablanca";
+
+	/**
+	 * Value for {@see GM.EXTRA_ACTION} that opens the official schedule.
+	 */
+	static final String EXTRA_ACTION_CITYSCHEDULE = "cityschedule";
 	
 	/**
 	 * Value for {@see GM.EXTRA_ACTION} that opens the GM schedule.
 	 */
-	static final String EXTRA_ACTION_GM = "gm";
+	static final String EXTRA_ACTION_GMSCHEDULE = "gmschedule";
+
+	/**
+	 * Value for {@see GM.EXTRA_ACTION} that opens the location secton.
+	 */
+	static final String EXTRA_ACTION_LOCATION = "location";
+
+	/**
+	 * Value for {@see GM.EXTRA_ACTION} that opens the around section.
+	 */
+	static final String EXTRA_ACTION_AROUND = "around";
+
+	/**
+	 * Value for {@see GM.EXTRA_ACTION} that opens the blog.
+	 */
+	static final String EXTRA_ACTION_BLOG = "blog";
+
+	/**
+	 * Value for {@see GM.EXTRA_ACTION} that opens the activities section.
+	 */
+	static final String EXTRA_ACTION_ACTIVITIES = "activities";
+
+	/**
+	 * Value for {@see GM.EXTRA_ACTION} that opens the gallery section.
+	 */
+	static final String EXTRA_ACTION_GALLERY = "gallery";
 	
 	/**
 	 * Constant for section "Home".

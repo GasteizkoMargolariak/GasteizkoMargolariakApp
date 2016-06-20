@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 /**
  * AsyncTask that synchronizes the online database to the device.
@@ -31,6 +32,10 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 	private MainActivity activity;
 	private boolean fg;
 	private int newVersion;
+	private String strings[];
+	private boolean doProgress = false;
+	private long millis = 0;
+	TextView tv;
 	
 	
 	/**
@@ -41,8 +46,18 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 	protected void onPreExecute(){
 		if (pbSync != null)
 			pbSync.setVisibility(View.VISIBLE);
-		if (dialog != null){
+		if (dialog != null) {
 			dialog.show();
+			strings = new String[5];
+			strings[0] = myContextRef.getString(R.string.dialog_sync_text_0);
+			strings[1] = myContextRef.getString(R.string.dialog_sync_text_1);
+			strings[2] = myContextRef.getString(R.string.dialog_sync_text_2);
+			strings[3] = myContextRef.getString(R.string.dialog_sync_text_3);
+			strings[4] = myContextRef.getString(R.string.dialog_sync_text_4);
+			tv = (TextView) dialog.findViewById(R.id.tv_dialog_sync_text);
+			int idx = 0 + (int) (Math.random() * ((4) + 1));
+			tv.setText(strings[idx]);
+			doProgress = true;
 		}
 		Log.d("Sync", "Starting full sync");
 	}
@@ -87,7 +102,11 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 		}
 		Log.d("Sync", "Full sync finished");
 	}
-	
+
+	public Sync(Activity myContextRef){
+		this.myContextRef = myContextRef;
+	}
+
     /**
      * Called when the AsyncTask is created.
      * 
@@ -129,7 +148,20 @@ public class Sync extends AsyncTask<Void, Void, Void> {
         pbSync = null;
         fg = false;
     }
-	
+
+	@Override
+	protected void onProgressUpdate(Void...progress) {
+		//Log.e("UPDATE", "UP");
+		if (doProgress){
+			if (millis + 500 < System.currentTimeMillis()) {
+				millis = System.currentTimeMillis();
+				int idx = 0 + (int) (Math.random() * ((4) + 1));
+				//Log.e("String", strings[idx]);
+				tv.setText(strings[idx]);
+			}
+		}
+	}
+
 	/**
 	 * The sweet stuff. Actually performs the sync. 
 	 * 
@@ -137,6 +169,8 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	@Override
 	protected Void doInBackground(Void... params) {
+
+		publishProgress();
 
 		//Gets the remote page.
     	FetchURL fu;
@@ -157,6 +191,8 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 		
 		//Get the file
 		try{
+			publishProgress();
+
 			String user = preferences.getString(GM.USER_NAME, "");
 			String code = preferences.getString(GM.USER_CODE, "");
 			int dbVersion = preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION);
@@ -164,8 +200,10 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 			fu.Run(GM.SERVER + "/app/sync.php?user=" + user + "&code=" + code + "&fg=" + fg + "&v=" + dbVersion);
 			//All the info
 			o = fu.getOutput().toString();
+			publishProgress();
 		}
 		catch(Exception ex){
+			publishProgress();
 			Log.e("Sync error", "Error fetching remote file: " + ex.toString());
 			success = false;
 		}
@@ -173,6 +211,8 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 		int errorCount = 0;
 
 		if (success){
+
+			publishProgress();
 
 			//Parse the contents of the page
 			//Check if the database is synced
@@ -214,6 +254,8 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 								queryFields = "(";
 								queryValues = "(";
 								while (row.contains(">,")) {
+
+										publishProgress();
 
 										try {
 											if (row.length() < 5) {

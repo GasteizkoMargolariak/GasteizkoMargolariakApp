@@ -132,7 +132,7 @@ public class AlbumLayout extends Fragment {
 			//Count comments
 			Cursor cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
 			TextView tvCommentsLeft = (TextView) entry.findViewById(R.id.tv_row_album_comments_left);
-			tvCommentsLeft.setText(cursorComments.getCount());
+			tvCommentsLeft.setText(Integer.toString(cursorComments.getCount()));
 			cursorComments.close();
 
 			//Set onClickListener
@@ -197,7 +197,7 @@ public class AlbumLayout extends Fragment {
 				//Count comments
 				cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
 				TextView tvCommentsRight = (TextView) entry.findViewById(R.id.tv_row_album_comments_right);
-				tvCommentsRight.setText(cursorComments.getCount());
+				tvCommentsRight.setText(Integer.toString(cursorComments.getCount()));
 				cursorComments.close();
 
 				//Set onClickListener

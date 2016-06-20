@@ -276,14 +276,24 @@
 	<!-- Notification dialog strings -->
 	
 	<string name="notification_close">Close</string>
-	<string name="notification_action_schedule">Open festival schedule</string>
-	<string name="notification_action_gm">Open Margolariak Schedule</string>
+	<string name="notification_action_lablanca"> Open La Blanca </string>
+	<string name="notification_action_gmschedule"> Open Margolari schedule </string>
+	<string name="notification_action_cityschedule"> Open city schedule </string>
+	<string name="notification_action_location"> Show location </string>
+	<string name="notification_action_around"> Show events </string>
+	<string name="notification_action_blog"> Open blog </string>
+	<string name="notification_action_activities"> Open activities </string>
+	<string name="notification_action_gallery"> Open gallery </string>
 	
 	
 	<!-- Sync dialog strings -->
 	
 	<string name="dialog_sync_title">Fetching content</string>
-	<string name="dialog_sync_text">Downloading the latest content.</string>
+	<string name="dialog_sync_text_0">Locating Don Margolo...</string>
+	<string name="dialog_sync_text_1">Starting up the van...</string>
+	<string name="dialog_sync_text_2">Serving kalimotxos...</string>
+	<string name="dialog_sync_text_3">\"...tu eres el piloto...\"</string>
+	<string name="dialog_sync_text_4">Afinando la tuba...</string>
 	<string name="dialog_sync_internet">You must have an active network connection the first time you run this app.</string>
 	<string name="dialog_sync_failed_title">Synchronization failed</string>
 	<string name="dialog_sync_failed_text">Couldn\'t download content.\n\nMake sure you have a network connection and try again.</string>

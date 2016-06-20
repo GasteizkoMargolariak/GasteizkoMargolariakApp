@@ -22,7 +22,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:layout_weight=".5"
-            android:background="@drawable/arrowbutton"
+            android:background="@drawable/button_selector"
             android:minHeight="40dp"
             android:text="@string/schedule_close" />
 
