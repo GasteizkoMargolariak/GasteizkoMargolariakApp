@@ -4,15 +4,10 @@
 
 	<!-- App related strings -->
 
-	<string name="app_name">Gasteizko Margolariak</string>
-	<string name="app_name_software">Aplicación Gasteizko Margolariak</string>
 	<string name="app_email">gasteizkomargolariak@gmail.com</string>
 	
 
 	<!-- Arrow buttons -->
-
-	<string name="arrow_left">&lt;</string>
-	<string name="arrow_right">&gt;</string>
 
 
 	<!-- Menu sections -->
@@ -22,7 +17,6 @@
 	<string name="menu_lablanca_schedule">Programa de fiestas</string>
 	<string name="menu_lablanca_gm_schedule">Programa Margolari</string>
 	<string name="menu_lablanca_around">Cerca de mi</string>
-	<string name="menu_lablanca_location">Encuentranos</string>
 	<string name="menu_activities">Actividades</string>
 	<string name="menu_blog">Blog</string>
 	<string name="menu_gallery">Galería</string>
@@ -49,19 +43,9 @@
 
 	<!-- "Titles" for days -->
 
-	<string name="day_title_25">Santiago</string>
-	<string name="day_title_4">Celedón</string>
-	<string name="day_title_5">La Blanca</string>
-	<string name="day_title_6">Día Margolari</string>
-	<string name="day_title_7">Celedón Txiki</string>
-	<string name="day_title_8">Blusa Veterano</string>
-	<string name="day_title_9">Despedida</string>
-
 
 	<!-- About section strings -->
 
-	<string name="about_copyright">Copyright 2015 @Iñigo Valentin</string>
-	<string name="about_email">i@inigovalentin.com</string>
 	<string name="about_license">Este programa es software libre. Usted puede distribuirlo y modificarlo de acuerdo con los términos de la GNU General Public License versión 3 publicada por la Free Software Foundation.\n\nEste programa se distrubuye con la espereanza de que sea útil, pero SIN NINGUNA GARANTIA. Consulte la GNU General Public License para más informacion en http://www.gnu.org/licenses/.\n\nEl nombre "Gasteizko Margolariak" y su logotipo son propiedad de Gasteizko Margolariak.</string>
 	<string name="about_code">&lt;div style="background-color:#bbbbbb;padding:6px;border-radius:5px;border-style:solid;border-width:2px;border-color:#333333;text-align:center;">Puedes ver y descargar el codigo fuente de esta aplicacion en &lt;a href="https://github.com/Seavenois/GM">Github&lt;/a>&lt;/div></string>
 
@@ -71,9 +55,8 @@
 	<string name="around_no_events_0">No hay eventos proximamente.</string>
 	<string name="around_no_events_1">Según se acerquen las fiestas, ¡aquí irán apareceido actividades cerca de ti!</string>
 	<string name="around_no_events_button">Ver el programa de fiestas</string>
-	<string name="around_no_gps">Enciende el GPS de tu teléfono para poder localizar eventos a tu alrededor.</string>
+	<string name="around_no_gps">GPS desconectado</string>
 	<string name="around_no_gps_button">Abrir ajustes</string>
-	<string name="around_distance">A %1$s %2$s de ti (%3$s minutos andando)</string>
 
 
 	<!-- Home section strings -->
@@ -83,7 +66,6 @@
 	<string name="home_section_around">Cerca de mi</string>
 	<string name="home_section_location">Encuéntranos</string>
 	<string name="home_section_location_text_0">¡Gasteizko Margolariak está cerca!</string>
-	<string name="home_section_location_text_1">¡Están a solo %1$s de ti! (Unos %2$d minutos andando)</string>
 	<string name="home_section_social">Síguenos</string>
 	<string name="home_section_join">Hazte Margolari</string>
 	<string name="home_section_schedule_see">Ver programa</string>
@@ -98,30 +80,6 @@
 
 	
 	<!-- Prices dialog strings -->
-
-	<string name="prices_title">Precios</string>
-	<string name="prices_close">Cerrar</string>
-	<string name="prices_section_days">Días sueltos</string>
-	<string name="prices_section_packs">Packs de ofertas</string>
-	<string name="prices_section_calculator">Calculadora de precios</string>
-	<string name="prices_section_howto">Como pagar</string>
-	<string name="prices_day_name_0">25 de julio</string>
-	<string name="prices_day_name_1">5 de agosto</string>
-	<string name="prices_day_name_2">6 de agosto</string>
-	<string name="prices_day_name_3">7 de agosto</string>
-	<string name="prices_day_name_4">8 de agosto</string>
-	<string name="prices_day_name_5">9 de agosto</string>
-	<string name="prices_calculator">Elige los días que te interesen. Los descuentos se aplicarán automáticamente.</string>
-	<string name="prices_total">Total: </string>
-	<string name="prices_total_0">Total: 0€</string>
-	<string name="prices_howto_0">Deberás hacer un ingreso en la cuenta 3035 0012 71 0120111936 de la Caja Laboral indicando tu nombre completo y los días que has elegido.</string>
-	<string name="prices_howto_1">p.e.: Kepa Barrenengoetxea 5, 6, 9</string>
-	<string name="prices_howto_2">Si optas por los packs de 5 o 6 días, no es necesario indicar los días, bastará con tu nombre completo.</string>
-	<string name="prices_howto_3">Los pagos para el día de Santiago (25 de julio) deberán realizarse antes del 22 de julio.</string>
-	<string name="prices_howto_4">Los pagos para fiestas de La Blanca (del 4 al 9 de Agosto) deberán realizarse antes del 1 de agosto.</string>
-	<string name="prices_contact_text">Si tienes qualquier duda o pregunta, no dudes en escribirnos.</string>
-	<string name="prices_contact_button">Enviar e-mail</string>
-	<string name="prices_contact_subject">Quiero apuntarme</string>
 
 
 	<!-- Settings section strings -->
@@ -165,46 +123,74 @@
 	<!-- Social networks strings -->
 
 	<string name="social_web">Web</string>
-	<string name="social_facebook">Facebook</string>
-	<string name="social_mail">e-mail</string>
-	<string name="social_whatsapp">Whatsapp</string>
-	<string name="social_twitter">Twitter</string>
-	<string name="social_googleplus">Google+</string>
-	<string name="social_youtube">Youtube</string>
-	<string name="social_instagram">Instagram</string>
-	<string name="social_web_link">http://margolariak.com/</string>
-	<string name="social_mail_link">mailto:gasteizkomargolariak@gmail.com</string>
-	<string name="social_whatsapp_link">smsto:+34637140371</string>
-	<string name="social_whatsapp_package">com.whatsapp</string>
-	<string name="social_whatsapp_chat">chat</string>
 	<string name="social_whatsapp_error">Error de conexión con Whatsapp. Está instalado?</string>
-	<string name="social_facebook_link">http://facebook.com/gmargolariak</string>
-	<string name="social_twitter_link">http://twitter.com/gmargolariak</string>
-	<string name="social_googleplus_link">https://plus.google.com/106661466029005469492</string>
-	<string name="social_youtube_link">https://www.youtube.com/user/GasteizkoMargolariak</string>
-	<string name="social_instagram_link">https://instagram.com/gmargolariak/</string>
 
-	
+
 	<!-- Misc strings -->
 	
 	<string name="kilometers">kilómetros</string>
 	<string name="meters">metros</string>
-	<string name="eur">€</string>
-	
-	
+
+
 	<!-- Notification dialog strings -->
 	
 	<string name="notification_close">Cerrar</string>
 	<string name="notification_action_schedule">Ver programa de fiestas</string>
-	<string name="notification_action_gm">Ver programa Margolari</string>
-	
+
 	<!-- Sync dialog strings -->
 	
 	<string name="dialog_sync_title">Sincronizando</string>
-	<string name="dialog_sync_text">Descargando los últimos contenidos en tu teléfono.</string>
 	<string name="dialog_sync_internet">La primera vez que usas esta aplicación debes disponer de una conexión a internet.</string>
 	<string name="dialog_sync_failed_title">Error de sincronización</string>
 	<string name="dialog_sync_failed_text">No se pudierdon descargar los contenidos\n\nAsegúrate de que dispones de conexión a internet e inténtalo de nuevo.</string>
 	<string name="dialog_sync_failed_close">Cerrar</string>
-	
+	<string name="activity_city">Cudad:</string>
+	<string name="activity_future">Proximas actividades</string>
+	<string name="activity_no_future">No hay actividades planeadas proximamanete. Cuando organicemos algo, aparecera aquí.</string>
+	<string name="activity_past">Actividades pasadas</string>
+	<string name="activity_price">Precio:</string>
+	<string name="activity_schedule">Itinerario</string>
+	<string name="around_distance_long">A %1$s kilometros de ti</string>
+	<string name="around_distance_short">A %1$s metros de ti (%2$s minutos andando)</string>
+	<string name="around_header">Eventos cercanos</string>
+	<string name="around_no_gps_text">Conecta el GPS para ver eventos a tu alrededor.</string>
+	<string name="comment_name">Nombre…</string>
+	<string name="comment_send">Publicar</string>
+	<string name="comment_text">Comentario…</string>
+	<string name="comment_toast_text">Introduce un comentario</string>
+	<string name="comment_toast_user">Introduce un nombre</string>
+	<string name="comment_your_comment">Tu comentario</string>
+	<string name="dialog_sync_text_0">Contactando con Don Margolo&#8230;</string>
+	<string name="dialog_sync_text_1">Arrancando la furgo&#8230;</string>
+	<string name="dialog_sync_text_2">Preparando kalimotxos&#8230;</string>
+	<string name="dialog_sync_text_3">\"&#8230;tu eres el piloto&#8230;\"</string>
+	<string name="dialog_sync_text_4">Afinando la tuba&#8230;</string>
+	<string name="distance_k">kilometros</string>
+	<string name="distance_m">metros</string>
+	<string name="gallery_albums">Albums</string>
+	<string name="gallery_upload">Subir fotos</string>
+	<string name="gallery_upload_button">Subir</string>
+	<string name="gallery_upload_text">¿Tienes fotografías? ¡Ayudanos a construir esta galería!</string>
+	<string name="home_section_activities_future">Proximas actividades</string>
+	<string name="home_section_gmschedule">Programa Margolari</string>
+	<string name="home_section_location_text_short">¡Están a solo %1$d metros de ti! (Unos %2$d minutos andando)</string>
+	<string name="home_section_location_text_long">¡Están a solo %1$s kilometros de ti!</string>
+	<string name="lablanca_date_august">%1$s de agosto</string>
+	<string name="lablanca_date_july">%1$s de julio</string>
+	<string name="lablanca_nofestivals">Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas.</string>
+	<string name="lablanca_prices">Precios</string>
+	<string name="lablanca_prices_days">Dias sueltos</string>
+	<string name="lablanca_prices_pack">Packs</string>
+	<string name="lablanca_schedule">Programa</string>
+	<string name="lablanca_schedule_city">Programa de Fiestas</string>
+	<string name="lablanca_schedule_gm">Programa Margolari</string>
+	<string name="lablanca_title">La Blanca</string>
+	<string name="menu_location">Encuentranos</string>
+	<string name="notification_action_gmschedule">Ver programa Margolari</string>
+	<string name="schedule_later">Siguiente</string>
+	<string name="schedule_month_august">Agosto</string>
+	<string name="schedule_month_july">Julio</string>
+	<string name="schedule_now">Ahora</string>
+	<string name="section_title_blog">Blog</string>
+
 </resources>

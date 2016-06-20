@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- Tag keys -->
+
+	<!-- App related strings -->
+
+	<string name="app_email">gasteizkomargolariak@gmail.com</string>
+
+
+	<!-- Common strings -->
+
+	<!-- Arrow buttons -->
+
+
+	<string name="section_title_blog">Blog</string>
+
+	<!-- Menu sections -->
+
+	<string name="menu_home">Etxea</string>
+	<string name="menu_lablanca">Andre Zuria</string>
+	<string name="menu_lablanca_schedule">Jaiako programa</string>
+	<string name="menu_lablanca_gm_schedule">Margolari programa</string>
+	<string name="menu_lablanca_around">Nire inguruan</string>
+	<string name="menu_location">Aurkitu</string>
+	<string name="menu_activities">Ekitaldeak</string>
+	<string name="menu_blog">Blog</string>
+	<string name="menu_gallery">Galeria</string>
+	<string name="menu_about">Gu</string>
+	<string name="menu_settings">Ezarpenak</string>
+
+	<!-- Schedule strings -->
+
+	<string name="schedule_filter">Bilatu…</string>
+	<string name="schedule_close">Itzali</string>
+	<string name="schedule_host">Antolatu: %1$s</string>
+
+
+	<!-- Month names -->
+
+	<string name="month_07">Uztaila</string>
+	<string name="month_08">Abuztua</string>
+
+
+	<!-- Day strings -->
+	<string name="today">Gaur</string>
+	<string name="tomorrow">Bihar</string>
+
+	<string name="distance_m">metroak</string>
+	<string name="distance_k">kilometroak</string>
+
+	<!-- "Titles" for days -->
+
+
+	<!-- About section strings -->
+
+	<string name="about_license">This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details at http://www.gnu.org/licenses/.\n\nThe name "Gasteizko Margolariak" and its logotype are property of Gasteizko Margolariak.</string>
+	<string name="about_code">&lt;div style="background-color:#bbbbbb;padding:6px;border-radius:5px;border-style:solid;border-width:2px;border-color:#333333;text-align:center;">You can get the source code for this project at &lt;a href="https://github.com/Seavenois/GM">Github&lt;/a>&lt;/div></string>
+
+
+	<!-- Around section string -->
+
+	<string name="around_header">Ondoko ekitaldiak</string>
+	<string name="around_no_events_0">Ez dira okdoko ekitaldik</string>
+	<string name="around_no_events_button">Ikusi jaiako programa</string>
+	<string name="around_no_gps">GPS itxalita dago</string>
+	<string name="around_no_gps_text">Piztu ezazu GPS zure inguruko ekitaldiak ikusteko.</string>
+	<string name="around_no_gps_button">Ireki ezarpenak</string>
+	<string name="around_distance_short">Zure inguruan %1$s metoko (%2$s minutu oinez)</string>
+	<string name="around_distance_long">Zure inguruan %1$s kilometroko</string>
+
+
+	<!-- Home section strings -->
+
+	<string name="home_section_location">Aurkitu Gasteizko Margolariak</string>
+	<string name="home_section_lablanca">Andre Zuria</string>
+	<string name="home_section_gmschedule">Margolari Programa</string>
+	<string name="home_section_cityschedule">Jaiako programa</string>
+	<string name="home_section_around">Nire ondoan</string>
+	<string name="home_section_activities_future">Datozen jarduerak</string>
+	<string name="home_section_blog">Asken postak</string>
+	<string name="home_section_gallery">Asken argazkiak</string>
+	<string name="home_section_activities_past">Asken jarduerak</string>
+	<string name="home_section_social">Jarraitu</string>
+
+	<string name="home_section_location_text_0">Gasteizko Margolariak ondoan dago!</string>
+	<string name="home_section_location_text_short">Zure inguruan %1$s metokoan daude (%2$s minutu oinez)</string>
+	<string name="home_section_location_text_long">Zure inguruan %1$s kilometrokoan daude!</string>
+
+	<string name="home_section_join">Bildu Gasteizko Margolariak</string>
+	<string name="home_section_schedule_see">Guztiak ikusi</string>
+	<string name="home_section_gm_see">Demak ikusi</string>
+	<string name="home_section_around_see">Gehiago ikusi</string>
+	<string name="home_section_location_see">Mapa</string>
+	<string name="home_section_social_see">Jarraitu</string>
+	<string name="home_section_join_see">kusi prezioak</string>
+	<string name="home_section_join_header">Bildu Gasteizko Margolariak prezio txikien</string>
+	<string name="home_section_join_text">Ordaindu egun egunero edo oferta bat aukeratu!</string>
+	<string name="home_section_join_footer">Kontsulta ezazu gure prezioak eta aukeratu!</string>
+
+
+	<!-- Prices dialog strings -->
+
+
+	<!-- Settings section strings -->
+
+	<string name="settings_section_notification">NOTIFICATIONS</string>
+	<string name="settings_notification">Notifications</string>
+	<string name="settings_notification_on">Receive notifications</string>
+	<string name="settings_notification_off">Don\'t receive notifications</string>
+	<string name="settings_notification_gm">Margolari notifications</string>
+	<string name="settings_notification_gm_on">Receive Margolari notifications</string>
+	<string name="settings_notification_gm_off">Don\'t receive Margolari notifications</string>
+	<string name="settings_section_account">ACCOUNT</string>
+	<string name="settings_account_gm">Margolari</string>
+	<string name="settings_account_gm_on">I am Margolari</string>
+	<string name="settings_account_gm_off">I am not Margolari</string>
+	<string name="settings_account_name">Name</string>
+	<string name="settings_account_message_title">Set username</string>
+	<string name="settings_account_message_text">Set a username to help us identify you and offer you better activities.</string>
+	<string name="settings_account_message_save">Save</string>
+	<string name="settings_account_message_cancel">Cancel</string>
+	<string name="settings_account_unset">Not set</string>
+	<string name="settings_account_name_disclaimer">We will not share your name or any other personal info with third parties.</string>
+
+
+	<!-- Location section strings -->
+
+	<string name="location_not_reporting">Gasteizko Margolariak ez dago lokalizazioa bidalitzen.</string>
+	<string name="location_button">Konsultatu Margolari programa</string>
+
+	<!-- Blog section strings -->
+
+	<!-- Activity section strings -->
+	<string name="activity_city">Hiria:</string>
+	<string name="activity_price">Prezioa:</string>
+	<string name="activity_no_future">Oraindik ex dira datozen jarduerak. Bat prestatzen dugunean, hemen agertzeko da.</string>
+	<string name="activity_schedule">Ordutegia</string>
+	<string name="activity_future">Datozen jarduerak</string>
+	<string name="activity_past">Iraganeko jarduerak</string>
+
+
+	<!--Gallery section strings-->
+	<string name="gallery_upload">Argaskiak kargatu</string>
+	<string name="gallery_upload_text">Badaukazu argazkirik?</string>
+	<string name="gallery_upload_button">Kargatu</string>
+	<string name="gallery_albums">Albums</string>
+	<plurals name="gallery_photo_count">
+		<item quantity="one">%1$d photo</item>
+		<item quantity="other">%1$d photos</item>
+	</plurals>
+
+	<!--La Blanca section strings-->
+	<string name="lablanca_title">Andre Zuria</string>
+	<string name="lablanca_prices">Prezioak</string>
+	<string name="lablanca_prices_days">Egun bakarrak</string>
+	<string name="lablanca_prices_pack">Packs</string>
+	<string name="lablanca_schedule">Programa</string>
+	<string name="lablanca_schedule_city">Jaiako programa</string>
+	<string name="lablanca_schedule_gm">Margolari programa</string>
+	<string name="lablanca_date_july">Uztalaren %1$san</string>
+	<string name="lablanca_date_august">Abuztuaren %1$san</string>
+
+	<!--Schedule section strings-->
+	<string name="schedule_month_july">Uztaila</string>
+	<string name="schedule_month_august">Abuztua</string>
+
+	<!-- Comments section and form strings -->
+	<string name="comment_your_comment">Zure iruzkina</string>
+	<plurals name="comment_comments">
+		<item quantity="one">%1$d comment</item>
+		<item quantity="other">%1$d comments</item>
+	</plurals>
+	<string name="comment_text">Iruzkina…</string>
+	<string name="comment_name">Izena…</string>
+	<string name="comment_send">Argitatu</string>
+	<string name="comment_toast_user">Idatzi ezazu iruzkin bat</string>
+	<string name="comment_toast_text">Idatzi ezazu iruzkin bat</string>
+
+
+	<!-- Accesibility strings -->
+
+	<string name="accesibility_event">Ekitaldia</string>
+	<string name="accesibility_event_gm">Gertaera anfitrioi Gasteizko Margolariak arabera</string>
+	<string name="accesibility_event_schedule">Event in the municipal schedule</string>
+
+
+	<!--Schedule section strings -->
+	<string name="schedule_now">Orain</string>
+	<string name="schedule_later">Hurrengoa</string>
+
+	<!-- Social networks strings -->
+
+	<string name="social_whatsapp_error">Instalatuta dago WhatsApp?</string>
+
+
+	<!-- Misc strings -->
+	
+	<string name="kilometers">kilometroak</string>
+	<string name="meters">metroak</string>
+
+
+	<!-- Notification dialog strings -->
+	
+	<string name="notification_close">Itzali</string>
+	<string name="notification_action_lablanca">Ireki Andre Zuria</string>
+	<string name="notification_action_gmschedule">Ikusi Margolari programa</string>
+	<string name="notification_action_cityschedule">Ireki jaiako programa</string>
+	<string name="notification_action_location">Ikus lokalizazioia</string>
+	<string name="notification_action_around">Ikusi ekitaldiak</string>
+	<string name="notification_action_blog">Ireki blog</string>
+	<string name="notification_action_activities">Ireki ekitaldiak</string>
+	<string name="notification_action_gallery">Ireki galeria</string>
+	
+	
+	<!-- Sync dialog strings -->
+	
+	<string name="dialog_sync_title">Sinkronizatzen</string>
+	<string name="dialog_sync_text_0">Locating Don Margolo...</string>
+	<string name="dialog_sync_text_1">Starting up the van...</string>
+	<string name="dialog_sync_text_2">Serving kalimotxos...</string>
+	<string name="dialog_sync_text_3">\"...tu eres el piloto...\"</string>
+	<string name="dialog_sync_text_4">Afinando la tuba...</string>
+	<string name="dialog_sync_failed_title">Sinkronizazioko errakuntza</string>
+	<string name="dialog_sync_failed_text">Couldn\'t download content.\n\nMake sure you have a network connection and try again.</string>
+	<string name="dialog_sync_failed_close">Itxali</string>
+	<string name="home_section_gm">Gertaera anfitrioi Gasteizko Margolariak arabera</string>
+	<string name="home_section_schedule">Hirian ekitaldiak</string>
+	<string name="notification_action_schedule">Ireki jaiako programa</string>
+
+</resources>
