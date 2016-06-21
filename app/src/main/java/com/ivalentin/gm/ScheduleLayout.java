@@ -33,6 +33,7 @@ import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -172,31 +173,29 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * 
 	 */
 	@SuppressLint("InflateParams") //Views are added from a loop: I can't specify the parent when inflating.
-	private int populateSchedule(){
+	private int populateSchedule() {
 
 		int eventCount = 0;
 
 		//Hide or show buttons
 		Button btNext = (Button) view.findViewById(R.id.bt_schedule_r);
 		Button btPrevious = (Button) view.findViewById(R.id.bt_schedule_l);
-		if (selected <= 0){
+		if (selected <= 0) {
 			btPrevious.setVisibility(View.INVISIBLE);
-		}
-		else{
+		} else {
 			btPrevious.setVisibility(View.VISIBLE);
 		}
-		if (selected >= dateCount - 1){
+		if (selected >= dateCount - 1) {
 			btNext.setVisibility(View.INVISIBLE);
-		}
-		else{
+		} else {
 			btNext.setVisibility(View.VISIBLE);
 		}
 
 		//If there are no events,return now
-		if (selected < 0 || selected >= dateCount){
+		if (selected < 0 || selected >= dateCount) {
 			return eventCount;
 		}
-		
+
 		//Search filter
 		String filter = ((EditText) view.findViewById(R.id.et_schedule_filter)).getText().toString().toLowerCase(Locale.US);
 
@@ -204,8 +203,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US);
 		try {
 			calendar.setTime(dateFormat.parse(dates[selected] + " 06:00:00"));
-		}
-		catch (Exception ex){
+		} catch (Exception ex) {
 			Log.e("Datetime error", ex.toString());
 		}
 
@@ -217,15 +215,15 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		LinearLayout entry, list;
 
 		//An inflater
-        LayoutInflater factory = LayoutInflater.from(getActivity());
-        
-        //Views in each row
-        TextView tvRowTitle, tvRowTime, tvRowDesc, tvRowPlace, tvRowId, tvRowAddress;
-        
-        //Icon next to the location text
-        Drawable icon = getResources().getDrawable(R.drawable.pinpoint);
-        //icon.setBounds(0, 0, 80, 80);
-		
+		LayoutInflater factory = LayoutInflater.from(getActivity());
+
+		//Views in each row
+		TextView tvRowTitle, tvRowTime, tvRowDesc, tvRowPlace, tvRowId, tvRowAddress;
+
+		//Icon next to the location text
+		Drawable icon = getResources().getDrawable(R.drawable.pinpoint);
+		//icon.setBounds(0, 0, 80, 80);
+
 		//Set date selector texts
 		TextView tvDayNumber = (TextView) view.findViewById(R.id.tv_schedule_day_number);
 		TextView tvDayMonth = (TextView) view.findViewById(R.id.tv_schedule_day_month);
@@ -233,7 +231,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 
 		tvDayNumber.setText(Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
-		switch (calendar.get(Calendar.MONTH)){
+		switch (calendar.get(Calendar.MONTH)) {
 			case 6:
 				tvDayMonth.setText(getString(R.string.schedule_month_july));
 				break;
@@ -241,13 +239,12 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 				tvDayMonth.setText(getString(R.string.schedule_month_august));
 				break;
 		}
-		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE){
+		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 			Cursor cursorDay = db.rawQuery("SELECT name_" + lang + " FROM festival_day WHERE date(date) = '" + dates[selected] + "';", null);
 			if (cursorDay.getCount() > 0) {
 				cursorDay.moveToFirst();
 				tvDayTitle.setText(cursorDay.getString(0));
-			}
-			else{
+			} else {
 				tvDayTitle.setText("");
 			}
 			cursorDay.close();
@@ -259,8 +256,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		Calendar c = Calendar.getInstance();
 		try {
 			c.setTime(sdf.parse(dates[selected]));
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			Log.e("Date parsing error", ex.toString());
 			return eventCount;
 		}
@@ -269,27 +265,26 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 		String query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' AND ";
 
-		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE){
+		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 			query = query + "gm = 1 ";
 			//cursor= db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE gm = 1 AND place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' ORDER BY start;", null);
-		}
-		else{
+		} else {
 			query = query + "gm = 0 ";
 			//cursor= db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE gm = 0 AND place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' ORDER BY start;", null);
 		}
-		if (filter.length() > 0){
-			query = query + "AND (title_" + lang + " like '%" +filter + "%' OR description_" + lang + " like '%" +filter + "%' OR name_" + lang + " like '%" +filter + "%' OR address_" + lang + " like '%" +filter + "%') ";
+		if (filter.length() > 0) {
+			query = query + "AND (title_" + lang + " like '%" + filter + "%' OR description_" + lang + " like '%" + filter + "%' OR name_" + lang + " like '%" + filter + "%' OR address_" + lang + " like '%" + filter + "%') ";
 		}
 		Cursor cursor = db.rawQuery(query, null);
 
 		//If there are entries, clear the list
 		list = (LinearLayout) view.findViewById(R.id.ll_schedule_list);
-		if (cursor.getCount() > 0){
+		if (cursor.getCount() > 0) {
 			list.removeAllViews();
 		}
 
-		while (cursor.moveToNext()){
-			eventCount ++;
+		while (cursor.moveToNext()) {
+			eventCount++;
 
 			entry = (LinearLayout) factory.inflate(R.layout.row_schedule, null);
 
@@ -303,10 +298,9 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 			//Set description
 			tvRowDesc = (TextView) entry.findViewById(R.id.tv_row_schedule_description);
-			if (cursor.getString(2).length() <= 0  || cursor.getString(2).equals(cursor.getString(1))){
+			if (cursor.getString(2).length() <= 0 || cursor.getString(2).equals(cursor.getString(1))) {
 				tvRowDesc.setVisibility(View.GONE);
-			}
-			else {
+			} else {
 				tvRowDesc.setText(cursor.getString(2));
 			}
 
@@ -316,15 +310,14 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 			//Set address
 			tvRowAddress = (TextView) entry.findViewById(R.id.tv_row_schedule_address);
-			if (cursor.getString(7).length() <= 0  || cursor.getString(7).equals(cursor.getString(6))) {
+			if (cursor.getString(7).length() <= 0 || cursor.getString(7).equals(cursor.getString(6))) {
 				tvRowAddress.setVisibility(View.GONE);
-			}
-			else{
+			} else {
 				tvRowAddress.setText(cursor.getString(7));
 			}
 
 			//Set icon
-			if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE){
+			if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_schedule_pinpoint);
 				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
 			}
@@ -336,7 +329,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			tvRowTime.setText(tm);
 
 			//Set clisk listener
-			entry.setOnClickListener(new OnClickListener(){
+			entry.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					TextView tvId = (TextView) v.findViewById(R.id.tv_row_schedule_id);
@@ -353,98 +346,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		db.close();
 		return eventCount;
 
-		//Read from database
-
-		/*//Elements to parse, format and operate with dates
-		Calendar cal;
-		Date maxDate, minDate;
-		String maxDateStr, minDateStr;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-		cal = Calendar.getInstance();
-		
-		//Get date of the selected daye
-	    try {
-			cal.setTime(dayFormat.parse(days[selected][0]));
-		} catch (ParseException e) {
-			Log.e("Error parsing date", e.toString());
-		}
-	    
-	    //Set margins so the days goes from 6:00 in the morning to 5:59 the next day, instead of from 00:00 to 23:59
-	    cal.add(Calendar.HOUR_OF_DAY, 6); 
-	    minDate = cal.getTime();
-	    
-	    //If its the last day, include events of the next one
-	    if (selected == GM.DAY_9)
-	    	cal.add(Calendar.HOUR_OF_DAY, 36);
-	    else
-	    	cal.add(Calendar.HOUR_OF_DAY, 24);
-	    maxDate = cal.getTime();
-	    maxDateStr = dateFormat.format(maxDate);
-	    minDateStr = dateFormat.format(minDate);
-	    
-	    //Get data from database
-	    if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE)
-	    	cursor = db.rawQuery("SELECT event.id, event.name, event.description, event.place, place.id, place.name, event.start FROM event, place WHERE event = 1 AND place.id = event.place AND start BETWEEN '" + minDateStr + "' AND '" + maxDateStr + "' AND (lower(event.name) LIKE '%" + filter + "%' OR lower(event.description) LIKE '%" + filter + "%' OR lower(place.name) LIKE '%" + filter + "%') ORDER BY start;", null);
-	    else
-	    	cursor = db.rawQuery("SELECT event.id, event.name, event.description, event.place, place.id, place.name, event.start FROM event, place WHERE event = 1 AND place.id = event.place AND start BETWEEN '" + minDateStr + "' AND '" + maxDateStr + "' AND (lower(event.name) LIKE '%" + filter + "%' OR lower(event.description) LIKE '%" + filter + "%' OR lower(place.name) LIKE '%" + filter + "%') ORDER BY start;", null);
-		
-	    //Clear the list
-		list.removeAllViews();
-		
-        //Loop
-        while (cursor.moveToNext()){
-        	
-        	
-        	//Create a new row
-        	entry = (LinearLayout) factory.inflate(R.layout.row_schedule, null);
-        	
-        	//Set id        	
-        	tvRowId = (TextView) entry.findViewById(R.id.tv_row_schedule_id);
-        	tvRowId.setText(cursor.getString(0));
-        	
-        	//Set title
-        	tvRowTitle = (TextView) entry.findViewById(R.id.tv_row_schedule_title);
-        	tvRowTitle.setText(cursor.getString(1));
-        	
-        	//Set description
-        	tvRowDesc = (TextView) entry.findViewById(R.id.tv_row_schedule_description);
-        	tvRowDesc.setText(cursor.getString(2));
-        	
-        	//Set place
-        	tvRowPlace = (TextView) entry.findViewById(R.id.tv_row_schedule_place);
-        	tvRowPlace.setText(cursor.getString(5));
-        	icon.setBounds(0, 0, (int) (tvRowPlace.getTextSize() * 1.5), (int) (tvRowPlace.getTextSize() * 1.5));
-        	tvRowPlace.setCompoundDrawables(icon, null, null, null);
-        	
-        	//Set time
-        	tvRowTime = (TextView) entry.findViewById(R.id.tv_row_schedule_time);
-        	String tm = cursor.getString(6).substring(cursor.getString(6).length() - 8, cursor.getString(6).length() - 3);
-        	tvRowTime.setText(tm);
-        	
-        	//Set onClick event
-        	content = (LinearLayout) entry.findViewById(R.id.ll_row_schedule_content);
-        	content.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-	            	TextView tvName = (TextView) v.findViewById(R.id.tv_row_schedule_id);
-	            	int id = Integer.parseInt(tvName.getText().toString());
-					showDialog(id);
-				}
-        	});
-        	
-        	//Add to the list
-        	list.addView(entry);
-        }
-        
-        //Invalidate the list so it is redrawn
-        list.invalidate();
-        
-        //Close cursor and database
-        cursor.close();*/
-        //db.close();
 	}
-	
 	
 	/**
 	 * Shows a dialog with info about the selected event.
@@ -578,8 +480,15 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			});
 			
 			//Show the dialog
-			WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+			WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+			lp.copyFrom(dialog.getWindow().getAttributes());
+			lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+			lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+			lp.gravity = Gravity.CENTER;
 			lp.dimAmount = 0.0f;
+			dialog.getWindow().setAttributes(lp);
+
+			//Show dialog
 			dialog.show();
 			
 			//Start the map

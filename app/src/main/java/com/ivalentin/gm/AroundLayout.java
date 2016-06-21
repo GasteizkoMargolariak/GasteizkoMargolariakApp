@@ -321,10 +321,10 @@ public class AroundLayout extends Fragment implements LocationListener, OnMapRea
 	        	tvRowDistance = (TextView) entry.findViewById(R.id.tv_row_around_distance);
 	        	distance = eventList.get(i).getDistance(coordinates);
 	        	if (distance < 1000){
-	        		tvRowDistance.setText(String.format(getResources().getString(R.string.around_distance), Math.round(distance), getResources().getString(R.string.meters), Math.round(distance * 0.012)));
+	        		tvRowDistance.setText(String.format(getResources().getString(R.string.around_distance_short), Math.round(distance), Math.round(distance * 0.012)));
 	        	}
 	        	else
-	        		tvRowDistance.setText(String.format(getResources().getString(R.string.around_distance), df.format(distance / 1000), getResources().getString(R.string.kilometers), Math.round(distance * 0.012)));
+	        		tvRowDistance.setText(String.format(getResources().getString(R.string.around_distance_long), df.format(distance / 1000)));
 	        	
 	        	//Set time
 	        	tvRowTime = (TextView) entry.findViewById(R.id.tv_row_around_time);

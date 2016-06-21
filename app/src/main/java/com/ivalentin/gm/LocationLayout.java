@@ -75,7 +75,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback{
 		v = inflater.inflate(R.layout.fragment_layout_location, container, false);
 		
 		//Set the title
-		((MainActivity) getActivity()).setSectionTitle(v.getContext().getString(R.string.menu_lablanca_location));
+		((MainActivity) getActivity()).setSectionTitle(v.getContext().getString(R.string.menu_location));
 		
 		//LinearLayouts to be shown or hidden
 		LinearLayout llReport = (LinearLayout) v.findViewById(R.id.ll_fragment_location_reported);

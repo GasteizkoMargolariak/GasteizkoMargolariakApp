@@ -17,9 +17,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -68,7 +70,7 @@ public class MainActivity extends Activity{//} implements LocationListener{
 
 			case GM.SECTION_LOCATION:
 				fragment = new LocationLayout();
-				title = getString(R.string.menu_lablanca_location);
+				title = getString(R.string.menu_location);
 				break;
 
 			case GM.SECTION_LABLANCA:
@@ -115,11 +117,6 @@ public class MainActivity extends Activity{//} implements LocationListener{
 			case GM.SECTION_GALLERY:
 				fragment = new GalleryLayout();
 				title = getString(R.string.menu_blog);
-				break;
-
-			case GM.SECTION_ABOUT:
-				fragment = new AboutLayout();
-				title = getString(R.string.menu_about);
 				break;
 
 			case GM.SECTION_SETTINGS:
@@ -207,15 +204,14 @@ public class MainActivity extends Activity{//} implements LocationListener{
 		});
 		
 		//Assign menu items
-		TextView menuItem[] = new TextView[8];
+		TextView menuItem[] = new TextView[7];
 		menuItem[0] = (TextView) findViewById(R.id.menu_home);
 		menuItem[1] = (TextView) findViewById(R.id.menu_location);
 		menuItem[2] = (TextView) findViewById(R.id.menu_lablanca);
 		menuItem[3] = (TextView) findViewById(R.id.menu_activities);
 		menuItem[4] = (TextView) findViewById(R.id.menu_blog);
 		menuItem[5] = (TextView) findViewById(R.id.menu_gallery);
-		menuItem[6] = (TextView) findViewById(R.id.menu_about);
-		menuItem[7] = (TextView) findViewById(R.id.menu_settings);
+		menuItem[6] = (TextView) findViewById(R.id.menu_settings);
 
 		//Assign buttons for la blanca submenu
 		TextView menuLablancaItem[] = new TextView[3];
@@ -251,10 +247,6 @@ public class MainActivity extends Activity{//} implements LocationListener{
 			public void onClick(View v) { loadSection(GM.SECTION_GALLERY, true); }
 		});
 		menuItem[6].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_ABOUT, true); }
-		});
-		menuItem[7].setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) { loadSection(GM.SECTION_SETTINGS, true); }
 		});
@@ -489,8 +481,17 @@ public class MainActivity extends Activity{//} implements LocationListener{
 					else{
 						btDialogAction.setVisibility(View.GONE);
 					}
-	
-					//Show the dialog
+
+					//Set dialog parameters
+					WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+					lp.copyFrom(dialog.getWindow().getAttributes());
+					lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+					lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+					lp.gravity = Gravity.CENTER;
+					lp.dimAmount = 0.4f;
+					dialog.getWindow().setAttributes(lp);
+
+					//Show dialog
 					dialog.show();
 				}
 			}
@@ -567,6 +568,15 @@ public class MainActivity extends Activity{//} implements LocationListener{
 		//Set up the window
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_sync);
+
+		//Set dialog parameters
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+		lp.copyFrom(dialog.getWindow().getAttributes());
+		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		lp.gravity = Gravity.CENTER;
+		lp.dimAmount = 0.4f;
+		dialog.getWindow().setAttributes(lp);
 		
 		//Sync
 		ProgressBar pbSync = (ProgressBar) findViewById(R.id.pb_sync);

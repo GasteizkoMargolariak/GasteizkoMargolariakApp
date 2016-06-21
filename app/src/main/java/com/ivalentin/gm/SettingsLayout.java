@@ -1,19 +1,21 @@
 package com.ivalentin.gm;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,12 +27,6 @@ import android.widget.TextView;
  */
 public class SettingsLayout extends Fragment{
 
-	//The user name
-	private String userName;
-	
-	//Color to store default text color before change them
-	private ColorStateList defaultColorTitle, defaultColorSummary;
-	
 	/**
 	 * Run when the fragment is inflated.
 	 * Assigns the view and the click listeners. 
@@ -53,63 +49,25 @@ public class SettingsLayout extends Fragment{
 		
 		//Get views.
 		RelativeLayout rlNotification = (RelativeLayout) view.findViewById(R.id.rl_settings_notifications);
-		RelativeLayout rlNotificationGm = (RelativeLayout) view.findViewById(R.id.rl_settings_notifications_gm);
-		RelativeLayout rlAccountGm = (RelativeLayout) view.findViewById(R.id.rl_settings_gm);
-		RelativeLayout rlAccountName = (RelativeLayout) view.findViewById(R.id.rl_settings_account_name);
 		final CheckBox cbNotification = (CheckBox) view.findViewById(R.id.cb_settings_notifications);
-		final CheckBox cbNotificationGm = (CheckBox) view.findViewById(R.id.cb_settings_notifications_gm);
-		final CheckBox cbAccountGm = (CheckBox) view.findViewById(R.id.cb_settings_gm);
 		final TextView tvNotification = (TextView) view.findViewById(R.id.tv_settings_notifications_summary);
-		final TextView tvNotificationGmTitle = (TextView) view.findViewById(R.id.tv_settings_notifications_gm);
-		final TextView tvNotificationGm = (TextView) view.findViewById(R.id.tv_settings_notifications_gm_summary);
-		final TextView tvAccountGm = (TextView) view.findViewById(R.id.tv_settings_gm_summary);
-		final TextView tvAccountName = (TextView) view.findViewById(R.id.tv_settings_account_name_summary);
-		
-		//Get TextView defaultColors
-		defaultColorTitle = tvNotificationGmTitle.getTextColors();
-		defaultColorSummary = tvNotificationGm.getTextColors();
-		
-		//Set initial state of the settings
+		TextView tvLicense = (TextView) view.findViewById(R.id.tv_setting_license);
+		TextView tvPrivacy = (TextView) view.findViewById(R.id.tv_setting_privacy);
+		TextView tvAbout = (TextView) view.findViewById(R.id.tv_setting_about);
+		TextView tvTransparency = (TextView) view.findViewById(R.id.tv_setting_transparency);
+
+
+		//Set initial state of the notification  settings
 		SharedPreferences settings = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 		if (settings.getInt(GM.PREF_NOTIFICATION, GM.DEFAULT_PREF_NOTIFICATION) == 1){
 			cbNotification.setChecked(true);
 			tvNotification.setText(view.getContext().getString(R.string.settings_notification_on));
-			cbNotificationGm.setEnabled(true);
 		}
 		else{
 			cbNotification.setChecked(false);
 			tvNotification.setText(view.getContext().getString(R.string.settings_notification_off));
-			cbNotificationGm.setEnabled(false);
-			tvNotificationGm.setTextColor(view.getResources().getColor(R.color.settings_disabled));
-			tvNotificationGmTitle.setTextColor(view.getResources().getColor(R.color.settings_disabled));
 		}
-		
-		if (settings.getInt(GM.PREF_NOTIFICATION_GM, GM.DEFAULT_PREF_NOTIFICATION_GM) == 1){
-			cbNotificationGm.setChecked(true);
-			tvNotificationGm.setText(view.getContext().getString(R.string.settings_notification_gm_on));
-		}
-		else{
-			cbNotificationGm.setChecked(false);
-			tvNotificationGm.setText(view.getContext().getString(R.string.settings_notification_gm_off));
-		}
-		
-		if (settings.getInt(GM.PREF_GM, GM.DEFAULT_PREF_GM) == 1){
-			cbAccountGm.setChecked(true);
-			tvAccountGm.setText(view.getContext().getString(R.string.settings_account_gm_on));
-		}
-		else{
-			cbAccountGm.setChecked(false);
-			tvAccountGm.setText(view.getContext().getString(R.string.settings_account_gm_off));
-		}
-		
-		String username = settings.getString(GM.USER_NAME, GM.DEFAULT_PREF_USERNAME);
-		if (username.length() > 0){
-			tvAccountName.setText(username);
-		}
-		else{
-			tvAccountName.setText(view.getContext().getString(R.string.settings_account_unset));
-		}
-		
+
 		//Set click listener for "Notification" preference
 		rlNotification.setOnClickListener(new OnClickListener(){
 			@Override
@@ -117,79 +75,96 @@ public class SettingsLayout extends Fragment{
 				if (cbNotification.isChecked()){
 					cbNotification.setChecked(false);
 					tvNotification.setText(view.getContext().getString(R.string.settings_notification_off));
-					cbNotificationGm.setEnabled(false);
 					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = preferences.edit();
 					editor.putInt(GM.PREF_NOTIFICATION, 0);
 					editor.commit();
-					//Change color of disabled preference
-					tvNotificationGm.setTextColor(view.getResources().getColor(R.color.settings_disabled));
-					tvNotificationGmTitle.setTextColor(view.getResources().getColor(R.color.settings_disabled));
 				}
 				else{
 					cbNotification.setChecked(true);
 					tvNotification.setText(view.getContext().getString(R.string.settings_notification_on));
-					cbNotificationGm.setEnabled(true);
 					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = preferences.edit();
 					editor.putInt(GM.PREF_NOTIFICATION, 1);
 					editor.commit();
-					//Change color of disabled preferences
-					tvNotificationGmTitle.setTextColor(defaultColorTitle);
-					tvNotificationGm.setTextColor(defaultColorSummary);
 				}
 			}
 			
 		});
-		
-		//Set click listener for the "GM notifications" preference
-		rlNotificationGm.setOnClickListener(new OnClickListener(){
+
+		//Set listener for the other buttons
+		tvLicense.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (cbNotificationGm.isEnabled()){
-					if (cbNotificationGm.isChecked()){
-						cbNotificationGm.setChecked(false);
-						tvNotificationGm.setText(view.getContext().getString(R.string.settings_notification_gm_off));
-						SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-						SharedPreferences.Editor editor = preferences.edit();
-						editor.putInt(GM.PREF_NOTIFICATION_GM, 0);
-						editor.commit();
-					}
-					else{
-						cbNotificationGm.setChecked(true);
-						tvNotificationGm.setText(view.getContext().getString(R.string.settings_notification_gm_on));
-						SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-						SharedPreferences.Editor editor = preferences.edit();
-						editor.putInt(GM.PREF_NOTIFICATION_GM, 1);
-						editor.commit();
-					}
-				}
-			}			
+				String title = v.getResources().getString(R.string.settings_license);
+				String text = v.getResources().getString(R.string.settings_license_content);
+				showDialog(title, text);
+			}
 		});
-		
-		//Set click listener for the "I am margolari" preference
-		rlAccountGm.setOnClickListener(new OnClickListener(){
+		tvPrivacy.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (cbAccountGm.isChecked()){
-					cbAccountGm.setChecked(false);
-					tvAccountGm.setText(view.getContext().getString(R.string.settings_account_gm_off));
-					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-					SharedPreferences.Editor editor = preferences.edit();
-					editor.putInt(GM.PREF_GM, 0);
-					editor.commit();
-				}
-				else{
-					cbAccountGm.setChecked(true);
-					tvAccountGm.setText(view.getContext().getString(R.string.settings_account_gm_on));
-					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-					SharedPreferences.Editor editor = preferences.edit();
-					editor.putInt(GM.PREF_GM, 1);
-					editor.commit();
-				}
-			}	
+				String title = v.getResources().getString(R.string.settings_privacy);
+				String text = v.getResources().getString(R.string.settings_privacy_content);
+				showDialog(title, text);
+			}
+		});
+		tvAbout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String title = v.getResources().getString(R.string.settings_about);
+				String text = v.getResources().getString(R.string.settings_about_content);
+				showDialog(title, text);
+			}
+		});
+		tvTransparency.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String title = v.getResources().getString(R.string.settings_transparency);
+				String text = v.getResources().getString(R.string.settings_transparency_content);
+				showDialog(title, text);
+			}
 		});
 
 		return view;
+	}
+
+	private void showDialog(String title, String text){
+		//Create the dialog
+		final Dialog dialog = new Dialog(getActivity());
+
+		//Set up dialog window
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.dialog_settings);
+
+		//Set the custom dialog components - text, image and button
+		TextView tvTitle = (TextView) dialog.findViewById(R.id.tv_dialog_settings_title);
+		WebView wvText = (WebView) dialog.findViewById(R.id.wv_dialog_settings_text);
+		Button btClose = (Button) dialog.findViewById(R.id.bt_dialog_settings_close);
+
+		//Set text
+		tvTitle.setText(title);
+		wvText.loadDataWithBaseURL(null, text, "text/html", "utf-8", null);
+
+		//Set close button
+		btClose.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		//Set parameters
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+		lp.copyFrom(dialog.getWindow().getAttributes());
+		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		lp.gravity = Gravity.CENTER;
+		lp.dimAmount = 0.4f;
+		dialog.getWindow().setAttributes(lp);
+
+		//Show dialog
+		dialog.show();
+
 	}
 }

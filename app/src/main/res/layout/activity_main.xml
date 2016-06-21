@@ -171,23 +171,6 @@
 				android:layout_height="1dp"
 				android:background="@color/background_separator"/>
 
-			<TextView
-				android:id="@+id/menu_about"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_about"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
-
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:background="@color/background_separator"/>
-
             <TextView
                 android:id="@+id/menu_settings"
                 android:layout_width="fill_parent"
