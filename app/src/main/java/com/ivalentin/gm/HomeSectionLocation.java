@@ -3,24 +3,16 @@ package com.ivalentin.gm;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Async task to download images on the fly.
@@ -99,7 +91,7 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(coord.latitude));
 			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(coord.longitude));
-			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()));
+			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
 			editor.apply();
 
 			//Show menu entry

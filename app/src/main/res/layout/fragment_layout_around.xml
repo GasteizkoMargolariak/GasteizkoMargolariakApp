@@ -1,9 +1,10 @@
-<com.ivalentin.gm.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-								   android:layout_width="fill_parent"
-								   android:layout_height="fill_parent"
-								   android:orientation="vertical"
-								   android:background="@color/background_app"
-								   android:padding="7dp">
+<com.ivalentin.gm.CustomScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="@color/background_app"
+	android:padding="7dp">
 
     <LinearLayout
 		android:layout_width="match_parent"

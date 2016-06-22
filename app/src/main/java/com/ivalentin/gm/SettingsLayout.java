@@ -78,7 +78,7 @@ public class SettingsLayout extends Fragment{
 					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = preferences.edit();
 					editor.putInt(GM.PREF_NOTIFICATION, 0);
-					editor.commit();
+					editor.apply();
 				}
 				else{
 					cbNotification.setChecked(true);
@@ -86,7 +86,7 @@ public class SettingsLayout extends Fragment{
 					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = preferences.edit();
 					editor.putInt(GM.PREF_NOTIFICATION, 1);
-					editor.commit();
+					editor.apply();
 				}
 			}
 			

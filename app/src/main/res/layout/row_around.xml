@@ -1,70 +1,64 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:padding="5dp" >
-	    
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:background="@drawable/schedule_entry"
-	    android:padding="5dp" >
-	
-	    <ImageView
-	        android:id="@+id/imageView1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:adjustViewBounds="true"
-	        android:contentDescription="@string/accesibility_event"
-	        android:maxHeight="50dp"
-	        android:maxWidth="50dp"
-	        android:scaleType="centerInside"
-	        android:src="@drawable/pinpoint" />
-	
-	    <LinearLayout
-	        android:id="@+id/ll_row_around_content"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical" >
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:padding="5dp" >
 
-	        <TextView
-	            android:id="@+id/tv_row_around_id"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:visibility="gone" />
-	
-	        <TextView
-	            android:id="@+id/tv_row_around_title"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textAppearance="?android:attr/textAppearanceLarge" />
-	
-	        <TextView
-	            android:id="@+id/tv_row_around_description"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginTop="5dp"
-	            android:ellipsize="end"
-	            android:maxLines="2" />
-	
-	        <TextView
-	            android:id="@+id/tv_row_around_time"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginTop="5dp" />
-	
-	        <TextView
-	            android:id="@+id/tv_row_around_address"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginTop="5dp" />
-	
-	        <TextView
-	            android:id="@+id/tv_row_around_distance"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginTop="5dp" />
-	
-	    </LinearLayout>
-	
+	<ImageView
+		android:id="@+id/imageView1"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:adjustViewBounds="true"
+		android:contentDescription="@string/accesibility_event"
+		android:maxHeight="50dp"
+		android:maxWidth="50dp"
+		android:scaleType="centerInside"
+		android:src="@drawable/pinpoint" />
+
+	<LinearLayout
+		android:id="@+id/ll_row_around_content"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
+
+		<TextView
+			android:id="@+id/tv_row_around_id"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="gone" />
+
+		<TextView
+			android:id="@+id/tv_row_around_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceLarge" />
+
+		<TextView
+			android:id="@+id/tv_row_around_description"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp"
+			android:ellipsize="end"
+			android:maxLines="2" />
+
+		<TextView
+			android:id="@+id/tv_row_around_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp" />
+
+		<TextView
+			android:id="@+id/tv_row_around_address"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp" />
+
+		<TextView
+			android:id="@+id/tv_row_around_distance"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp" />
+
 	</LinearLayout>
+
 </LinearLayout>

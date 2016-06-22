@@ -1,9 +1,7 @@
 package com.ivalentin.gm;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import android.app.AlarmManager;
@@ -30,13 +28,7 @@ import android.util.Log;
  *
  */
 public class AlarmReceiver extends BroadcastReceiver {
-	
-    // The app's AlarmManager, which provides access to the system alarm services.
-    private AlarmManager alarmMgr;
-    
-    // The pending intent that is triggered when the alarm fires.
-    private PendingIntent alarmIntent;
-  
+
     /**
      * Actions to be performed when an alarm is received. 
      * Performs a full sync, and gets the pending notifications.
@@ -47,6 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
      * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
      */
     @Override
+	@SuppressWarnings("deprecation")
     public void onReceive(Context context, Intent intent) {
         
     	Log.d("Alarm", "Received");
@@ -152,7 +145,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			SharedPreferences.Editor editor = settings.edit();
 	    	editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(Double.parseDouble(lat)));
 			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(Double.parseDouble(lon)));
-			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()));
+			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
 	    	editor.apply();
 		}
 
@@ -166,9 +159,9 @@ public class AlarmReceiver extends BroadcastReceiver {
      * @param context The context of the app
      */
     public void setAlarm(Context context) {
-        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         
         //Set the alarm cycle.
         alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, GM.PERIOD_SYNC, GM.PERIOD_SYNC, alarmIntent);
@@ -178,22 +171,4 @@ public class AlarmReceiver extends BroadcastReceiver {
         PackageManager pm = context.getPackageManager();
         pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);           
     }
-
-    /**
-     * Cancels the alarm.
-     * @param context The application context
-     */
-    public void cancelAlarm(Context context) {
-    	
-        // If the alarm has been set, cancel it.
-        if (alarmMgr!= null) 
-            alarmMgr.cancel(alarmIntent);
-        
-        //Disable SampleBootReceiver so that it doesn't automatically restart the alarm when the device is rebooted.
-        ComponentName receiver = new ComponentName(context, BootReceiver.class);
-        PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-    }
-    
 }

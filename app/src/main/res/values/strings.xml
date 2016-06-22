@@ -12,6 +12,7 @@
 	<string name="app_name" translatable="false">Gasteizko Margolariak</string>
 	<string name="app_name_software" translatable="false">Gasteizko Margolariak App</string>
 	<string name="app_email">gasteizkomargolariak@gmail.com</string>
+	<string name="app_cdesc"> </string>
 
 
 	<!-- Common strings -->

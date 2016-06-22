@@ -6,15 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +24,6 @@ import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,17 +42,11 @@ import android.widget.Toast;
  * @see Fragment
  *
  */
-public class HomeLayout extends Fragment implements LocationListener, OnMapReadyCallback{
+public class HomeLayout extends Fragment implements LocationListener{
 
 	//The location manager
 	LocationManager locationManager;
 
-	//Map stuff for the dialog
-	private MapView mapView;
-	private Bundle bund;
-	private GoogleMap map;
-	private LatLng location;
-	private String markerName = "";
 	private View view;
 	
 	/**
@@ -87,7 +71,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		//Set Location manager
 		//TODO: Only do this if location is required
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), 1000, 0, this);
+		locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
 		onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		//locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
 		
@@ -96,8 +80,6 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 		//TODO: These methods are empty yet
 		setUpLablanca(view);
-		setUpGmschedule(view);
-		setUpCityschedule(view);
 		setUpAround(view);
 
 		//Set up the blog section
@@ -112,8 +94,8 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 		setUpGallery(view);
 
 		//Asynchronously set up location section
+		//This will trigger onLocationChanged, that will trigger setUpLocation
 		new HomeSectionLocation(view, this.getActivity()).execute();
-		setUpLocation(view);
 
 		//Set up schedule sections
 		setUpSchedule(1, view);
@@ -131,6 +113,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 *
 	 * @return The number of entries shown.
 	 */
+	@SuppressLint("InflateParams")
 	private int setUpSchedule(int gm, View view){
 		int count = 0;
 
@@ -290,8 +273,6 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 
 	/**
 	 * Populates the Social section of the home screen.
-	 *
-	 * @return The number of entries shown.
 	 */
 	private void setUpSocial(View view) {
 		ImageView phone = (ImageView) view.findViewById(R.id.iv_home_section_social_phone);
@@ -377,8 +358,6 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				startActivity(i);
 			}
 		});
-
-		return;
 	}
 
 	/**
@@ -392,42 +371,12 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	}
 
 	/**
-	 * Populates the GM Schedule section of the home screen.
-	 *
-	 * @return The number of entries shown.
-	 */
-	private int setUpGmschedule(View view) {
-		//TODO: setUpGMschedule(View view)
-		return 0;
-	}
-
-	/**
-	 * Populates the City Schedule section of the home screen.
-	 *
-	 * @return The number of entries shown.
-	 */
-	private int setUpCityschedule(View view) {
-		//TODO: setUpCitySchedule(View view)
-		return 0;
-	}
-
-	/**
 	 * Populates the La Blanca section of the home screen.
 	 *
 	 * @return True if the section has been shown, false otherwise.
 	 */
 	private boolean setUpLablanca(View view) {
 		//TODO: setUpLablanca(View view)
-		return false;
-	}
-
-	/**
-	 * Populates the Location section of the home screen.
-	 *
-	 * @return True if the section has been shown, false otherwise.
-	 */
-	private boolean setUpLocation(View view) {
-		//TODO: setUpLocation(View view)
 		return false;
 	}
 
@@ -448,7 +397,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 				text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
 			}
 			else{
-				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format("%.02f", distance)));
+				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
 			}
 
 		}
@@ -462,6 +411,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 *
 	 * @return The number of entries shown
 	 */
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpGallery(View view) {
 		int counter = 0;
 
@@ -551,6 +501,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 * @return The number of entries shown
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpPastActivities(View view){
 		int counter = 0;
 		String lang = GM.getLang();
@@ -688,6 +639,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 * @return The number of entries shown
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpFutureActivities(View view){
 		int counter = 0;
 		String lang = GM.getLang();
@@ -820,6 +772,7 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 * @return The number of entries shown
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpBlog(View view){
 		int counter = 0;
 		String lang = GM.getLang();
@@ -936,123 +889,6 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	}
 
 	/**
-	 * Calculates the total prize in the prices dialog and shows the total.
-	 * 
-	 * @param v A view to be able to get a context.
-	 * 
-	 * @return The total price
-	 */
-	/*private int calculatePrice(Dialog v){
-		
-		//Locate views
-		CheckBox[] cbDayName = new CheckBox[6];
-		cbDayName[0] = (CheckBox) v.findViewById(R.id.cb_dialog_prices_0);
-		cbDayName[1] = (CheckBox) v.findViewById(R.id.cb_dialog_prices_1);
-		cbDayName[2] = (CheckBox) v.findViewById(R.id.cb_dialog_prices_2);
-		cbDayName[3] = (CheckBox) v.findViewById(R.id.cb_dialog_prices_3);
-		cbDayName[4] = (CheckBox) v.findViewById(R.id.cb_dialog_prices_4);
-		cbDayName[5] = (CheckBox) v.findViewById(R.id.cb_dialog_prices_5);
-		TextView tvTotal = (TextView) v.findViewById(R.id.tv_dialog_prices_total);
-		
-		//Open database
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor = db.rawQuery("SELECT price FROM day ORDER BY id;", null);
-		
-		//Loop simultaneously the db entries and the checkboxes
-		ArrayList<Integer> price = new ArrayList<Integer>();
-		int i = 0;
-		int total = 0;
-		int selected = 0;
-		while (cursor.moveToNext() && i < 6){
-			if (cbDayName[i].isChecked()){
-				price.add(cursor.getInt(0));
-				selected ++;
-				total = total + cursor.getInt(0);
-			}
-			i ++;
-		}
-		cursor.close();
-		
-		//Get offers
-		cursor = db.rawQuery("SELECT price, days FROM offer ORDER BY id;", null);
-		boolean offerApplied = false;
-		while (cursor.moveToNext()){
-			
-			//If selected days equal the days in the ofer, fix the price
-			if (cursor.getInt(1) == selected){
-				total = cursor.getInt(0);
-				offerApplied = true;
-			}
-		}
-		
-		//Offer + single days
-		if (offerApplied == false){
-			Collections.sort(price);
-			Cursor closestOffer = db.rawQuery("SELECT price, days FROM offer WHERE days < " + Integer.toString(selected) + " ORDER BY days DESC LIMIT 1;", null);
-			if (closestOffer.getCount() == 1){
-				closestOffer.moveToNext();
-				total = closestOffer.getInt(0);
-				int difference = selected - closestOffer.getInt(1);
-				i = 0;
-				while (i < difference && price.size() > i){
-					total = total + price.get(i);
-					i ++;
-				}
-			}
-			closestOffer.close();
-		}
-		
-		//Set text
-		tvTotal.setText(v.getContext().getResources().getString(R.string.prices_total) + " " + total + v.getContext().getResources().getString(R.string.eur));
-
-
-		cursor.close();
-		db.close();
-		//Return the total price
-		return total;
-	}*/
-
-	/**
-	 * Starts the map in the dialogs.
-	 */
-	public void startMap(){
-		mapView.getMapAsync(this);
-	}
-	
-	
-	/**
-	 * Called when the map is ready to be displayed. 
-	 * Sets the map options and a marker for the map.
-	 * 
-	 * @param googleMap The map to be shown
-	 * 
-	 * @see com.google.android.gms.maps.OnMapReadyCallback#onMapReady(com.google.android.gms.maps.GoogleMap)
-	 */
-	@Override
-	public void onMapReady(GoogleMap googleMap) {
-		this.map = googleMap;
-		map.setMyLocationEnabled(true);
-		
-		map.getUiSettings().setMyLocationButtonEnabled(false);
-		map.setMyLocationEnabled(true);
-		// Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-		try {
-			MapsInitializer.initialize(this.getActivity());
-			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 14);
-			map.animateCamera(cameraUpdate);
-		}
-		catch (Exception e) {
-			Log.e("Error initializing maps", e.toString());
-		}
-		//Set GM marker
-		MarkerOptions mo = new MarkerOptions();
-		mo.title(markerName);
-		mo.position(location);
-		map.addMarker(mo);
-		
-	}
-	
-	/**
 	 * Called when the user location changes. 
 	 * Recalculates the list of around events and calls updateLocation() to 
 	 * update the distance in the location section.
@@ -1106,23 +942,17 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	@Override
 	public void onProviderDisabled(String provider) {
 		//populateAround();
-		
 	}
 	
 	/**
 	 * Called when the fragment is paused. 
 	 * Stops the location manager
-	 * @see android.support.v4.app.Fragment#onPause()
+	 * @see android.app.Fragment#onPause()
 	 */
 	@Override
 	public void onPause(){
 		//TODO: Only do this if location is required
 		locationManager.removeUpdates(this);
-		if (map != null)
-			map.setMyLocationEnabled(false);
-		if (mapView != null){
-			mapView.onPause();
-		}
 		super.onPause();
 	}
 	
@@ -1130,48 +960,12 @@ public class HomeLayout extends Fragment implements LocationListener, OnMapReady
 	 * Called when the fragment is brought back into the foreground. 
 	 * Resumes the map and the location manager.
 	 * 
-	 * @see android.support.v4.app.Fragment#onResume()
+	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
 	public void onResume(){
-		if (mapView != null)
-			mapView.onResume();
-		if (map != null)
-			map.setMyLocationEnabled(true);
 		//TODO: Only do this if location is required
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		super.onResume();
-	}
-	
-	/**
-	 * Called when the fragment is destroyed. 
-	 * Finishes the map. 
-	 * 
-	 * @see android.support.v4.app.Fragment#onDestroy()
-	 */
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (map != null)
-			map.setMyLocationEnabled(false);
-		if (mapView != null){
-			mapView.onResume();
-			mapView.onDestroy();
-		}
-	}
-
-	/**
-	 * Called in a situation of low memory.
-	 * Lets the map handle this situation.
-	 * 
-	 * @see android.support.v4.app.Fragment#onLowMemory()
-	 */
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		if (mapView != null){
-			mapView.onResume();
-			mapView.onLowMemory();
-		}
 	}
 }

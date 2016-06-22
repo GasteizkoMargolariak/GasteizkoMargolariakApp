@@ -63,6 +63,7 @@ public class GalleryLayout extends Fragment{
      * It uses the default layout as parent.
      */
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void populate(View view){
 
         //Assign elements

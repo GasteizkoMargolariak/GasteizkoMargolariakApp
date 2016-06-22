@@ -65,6 +65,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
      * Downloading file in background thread
      * */
     @Override
+    @SuppressWarnings("deprecation")
     protected Integer doInBackground(String... f_url) {
         URL url;
         String urlParams;

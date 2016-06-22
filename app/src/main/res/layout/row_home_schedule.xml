@@ -1,17 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:paddingLeft="15dp"
-              android:paddingTop="5dp"
-    >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    android:paddingTop="5dp">
 
     <TextView
         android:id="@+id/tv_row_home_schedule_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="ID"/>
+        android:visibility="gone"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,15 +22,13 @@
             android:id="@+id/tv_row_home_schedule_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
             android:textAppearance="@android:style/TextAppearance.Large"/>
 
         <TextView
             android:id="@+id/tv_row_home_schedule_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tme"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:textAppearance="@android:style/TextAppearance.Medium"/>
     </LinearLayout>
 
@@ -49,7 +47,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/arrow_right"
+            android:contentDescription="@string/app_cdesc"
             android:maxHeight="30dp"
             android:maxWidth="30dp"
             android:src="@drawable/pinpoint" />
@@ -59,7 +57,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
-            android:text="Place"
             android:textAppearance="@android:style/TextAppearance.Small"/>
 
     </LinearLayout>

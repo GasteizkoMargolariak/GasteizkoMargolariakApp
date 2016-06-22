@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="fill_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -25,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_album_left"
+            android:contentDescription="@string/app_cdesc"
             android:layout_gravity="center_horizontal"
             android:padding="2dp"
             android:background="@color/album_border" />
@@ -33,22 +37,20 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/tv_row_album_title_left"
-            android:textAlignment="center" />
+            android:gravity="center_horizontal" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right"
+            android:gravity="end"
             android:layout_marginTop="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
                 android:id="@+id/tv_row_album_comments_left"
                 android:layout_gravity="center_vertical" />
 
@@ -56,7 +58,8 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:src="@drawable/comment"
-                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/app_cdesc"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center_vertical" />
         </LinearLayout>
 
@@ -86,6 +89,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_album_right"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/app_cdesc"
             android:padding="2dp"
             android:background="@color/album_border" />
 
@@ -95,13 +99,13 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/tv_row_album_title_right"
-            android:textAlignment="center" />
+            android:gravity="center_horizontal" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right"
+            android:gravity="end"
             android:layout_marginTop="5dp">
 
             <TextView
@@ -116,7 +120,8 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:src="@drawable/comment"
-                android:layout_marginLeft="5dp"
+                android:contentDescription="@string/app_cdesc"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center_vertical" />
         </LinearLayout>
     </LinearLayout>

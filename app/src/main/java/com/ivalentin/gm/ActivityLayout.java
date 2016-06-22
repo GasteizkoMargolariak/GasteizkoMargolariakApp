@@ -30,6 +30,7 @@ import java.util.Locale;
  * @see Fragment
  *
  */
+@SuppressLint("ResultOfMethodCallIgnored")
 public class ActivityLayout extends Fragment{
 
     /**
@@ -62,6 +63,7 @@ public class ActivityLayout extends Fragment{
      * Populates the list of activities.
      * It uses the default layout as parent.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     public void populate(View view){
         LinearLayout llListFuture = (LinearLayout) view.findViewById(R.id.ll_activities_future_list);

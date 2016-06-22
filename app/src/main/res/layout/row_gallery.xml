@@ -14,6 +14,7 @@
         android:layout_margin="15dp">
 
         <ImageView
+            android:contentDescription="@string/app_cdesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_gallery_0"
@@ -22,7 +23,7 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginRight="90dp"
+            android:layout_marginEnd="90dp"
             android:layout_marginBottom="90dp"
             android:padding="3dp"
             android:layout_alignParentEnd="false"
@@ -30,49 +31,52 @@
             android:maxHeight="120dp" />
 
         <ImageView
+            android:contentDescription="@string/app_cdesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_gallery_1"
             android:background="@color/album_border"
             android:layout_alignParentTop="false"
             android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
             android:layout_marginBottom="60dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
             android:padding="3dp"
             android:layout_alignParentStart="false"
             android:maxHeight="120dp" />
 
         <ImageView
+            android:contentDescription="@string/app_cdesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_gallery_2"
             android:background="@color/album_border"
             android:layout_alignParentTop="false"
             android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="60dp"
             android:padding="3dp"
             android:layout_alignParentStart="false"
             android:maxHeight="120dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp" />
 
         <ImageView
+            android:contentDescription="@string/app_cdesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_gallery_3"
             android:background="@color/album_border"
             android:layout_alignParentTop="false"
             android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginLeft="90dp"
+            android:layout_marginStart="90dp"
             android:layout_marginTop="90dp"
             android:padding="3dp"
             android:layout_alignParentStart="false"

@@ -28,7 +28,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ll_blog_list"></LinearLayout>
+            android:id="@+id/ll_blog_list"/>
 
         <LinearLayout
             android:orientation="horizontal"

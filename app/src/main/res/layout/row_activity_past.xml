@@ -23,8 +23,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
             android:id="@+id/tv_row_activity_past_date"
-            android:gravity="right"
-            android:layout_marginLeft="20dp"
+            android:gravity="end"
+            android:layout_marginStart="20dp"
             android:textStyle="italic" />
     </LinearLayout>
 
@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_activity_past"
+            android:contentDescription="@string/app_cdesc"
             android:maxWidth="10dp"
             android:layout_weight=".3"
             android:layout_margin="3dp" />

@@ -31,19 +31,11 @@ public class MainLayout extends LinearLayout {
 	private static int menuRightMargin = 25;
 
 	/**
-	 * Gets the menu's view.
-	 * @return The menu view
-	 */
-	public View getMenuView(){
-		return menu;
-	}
-	
-	/**
 	 * Possible states of the menu
 	 */
 	private enum MenuState {
 		HIDING, HIDDEN, SHOWING, SHOWN,
-	};
+	}
 
 	private int contentXOffset;
 	private MenuState currentMenuState = MenuState.HIDDEN;
@@ -91,7 +83,7 @@ public class MainLayout extends LinearLayout {
 		content.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				return MainLayout.this.onContentTouch(v, event);
+				return MainLayout.this.onContentTouch(event);
 			}
 		});
 		menu.setVisibility(View.GONE);
@@ -185,8 +177,6 @@ public class MainLayout extends LinearLayout {
 				currentMenuState = MenuState.HIDDEN;
 				menu.setVisibility(View.GONE);
 				break;
-			default:
-				return;
 		}
 	}
 	
@@ -203,29 +193,19 @@ public class MainLayout extends LinearLayout {
 		}
 	
 	}
-	
-	/**
-	 * Indicates if the menu is currently shown.
-	 * 
-	 * @return true if the menu is shown, false otherwise.
-	 */
-	public boolean isMenuShown() {
-		return currentMenuState == MenuState.SHOWN;
-	}
-	
+
 	/**
 	 * Register touch events. 
 	 * Used to show and hide the menu.
 	 * 
-	 * @param v The touched view.
 	 * @param event The MotionEvent triggering it.
-	 * @return
+	 * @return True if the menu is fully opened or closed and a touch event is happening
 	 */
-	public boolean onContentTouch(View v, MotionEvent event) {
+	public boolean onContentTouch(MotionEvent event) {
 		if (currentMenuState == MenuState.HIDING || currentMenuState == MenuState.SHOWING)
 			return false;
 		int curX = (int) event.getRawX();
-		int diffX = 0;
+		int diffX;
 		
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:

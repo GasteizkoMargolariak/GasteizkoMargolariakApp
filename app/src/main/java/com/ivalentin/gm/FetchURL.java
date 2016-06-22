@@ -22,7 +22,7 @@ public class FetchURL {
 	 * Constructor.
 	 */
 	public FetchURL(){
-		output = new ArrayList<String>();
+		output = new ArrayList<>();
 	}
   
 	/**
@@ -49,7 +49,7 @@ public class FetchURL {
 					textUrl = new URL(url);
 					BufferedReader bufferReader = new BufferedReader(new InputStreamReader(textUrl.openStream()));
 					String StringBuffer;
-					List<String> lines = new ArrayList<String>();
+					List<String> lines = new ArrayList<>();
 					while ((StringBuffer = bufferReader.readLine()) != null) {
 						lines.add(StringBuffer);
 					}

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/entry"
     android:padding="4dp">
@@ -29,6 +31,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_blog_image"
             android:maxWidth="10dp"
+            android:contentDescription="@string/app_cdesc"
             android:layout_weight=".3"
             android:layout_margin="3dp" />
 
@@ -47,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/background_separator"
-        android:layout_margin="10dp"></LinearLayout>
+        android:layout_margin="10dp"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -72,13 +75,14 @@
             android:text="Small Text"
             android:id="@+id/tv_row_blog_details"
             android:layout_weight=".5"
-            android:textAlignment="textEnd" />
+            android:gravity="end" />
 
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:id="@+id/imageView"
             android:src="@drawable/comment"
-            android:layout_marginLeft="5dp" />
+            android:contentDescription="@string/app_cdesc"
+            android:layout_marginStart="5dp" />
     </LinearLayout>
 </LinearLayout>

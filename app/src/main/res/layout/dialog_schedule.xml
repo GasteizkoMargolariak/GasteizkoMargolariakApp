@@ -1,9 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/section"
-                android:orientation="vertical"
-                android:padding="7dp">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/section"
+    android:orientation="vertical"
+    android:padding="7dp">
 
     <LinearLayout
         android:id="@+id/ll_dialog_schedule_buttons"
@@ -132,7 +133,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="20dp"
-                android:background="@drawable/dialog_schedule_map"
                 android:padding="3dp" >
 
                 <com.google.android.gms.maps.MapView

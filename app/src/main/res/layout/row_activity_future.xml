@@ -25,13 +25,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
+        android:gravity="end"
         android:layout_gravity="center_vertical">
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_activity_future"
+            android:contentDescription="@string/app_cdesc"
             android:minHeight="30dp"
             android:minWidth="30dp"
             android:layout_gravity="center_vertical"
@@ -40,10 +41,10 @@
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="end"
             android:stretchColumns="1"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="15dp"
             android:layout_weight=".3">
 
             <TableRow
@@ -55,14 +56,13 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/activity_city"
-                    android:textAlignment="textEnd"
+                    android:gravity="end"
                     android:padding="4dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
                     android:id="@+id/tv_row_activity_future_city"
                     android:padding="4dp" />
             </TableRow>
@@ -76,14 +76,13 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/activity_price"
-                    android:textAlignment="textEnd"
+                    android:gravity="end"
                     android:padding="4dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
                     android:id="@+id/tv_row_activity_future_price"
                     android:padding="4dp" />
             </TableRow>

@@ -12,7 +12,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +24,12 @@ import java.io.File;
 import java.util.Locale;
 
 /**
- * Created by seavenois on 09/06/16.
+ * Fragment to display the blog entries, paginated.
+ *
+ * @author Iñigo Valentin
+ *
+ * @see Fragment
+ *
  */
 public class BlogLayout extends Fragment{
 
@@ -47,7 +51,7 @@ public class BlogLayout extends Fragment{
      *
      * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
      */
-    @SuppressLint("InflateParams") //Throws unknown error when done properly.
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -99,14 +103,14 @@ public class BlogLayout extends Fragment{
 
     /**
      * Called when the fragment is brought back into the foreground.
-     * Resumes the map and the location manager.
+     * Shows or hides the pager buttons.
      *
-     * @see android.support.v4.app.Fragment#onResume()
+     * @see android.app.Fragment#onResume()
      */
     @Override
+    @SuppressLint("InflateParams")
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onResume(){
-        Log.e("offset", "" + offset);
-        Log.e("total", "" + totalPost);
         //Assign pager buttons
         Button btnPrevious = (Button) view.findViewById(R.id.bt_blog_previous);
         Button btnNext = (Button) view.findViewById(R.id.bt_blog_next);
@@ -125,15 +129,13 @@ public class BlogLayout extends Fragment{
         super.onResume();
     }
 
-    public void populate(){
-        populate(0);
-    }
-
     /**
      * Populates the list of activities around.
      * It uses the default layout as parent.
      */
-    public void populate(int offset){
+    @SuppressLint("InflateParams")
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void populate(int offset){
 
         //Assign elements
         LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_blog_list);
@@ -209,11 +211,13 @@ public class BlogLayout extends Fragment{
                     new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
                 }
             }
+            cursorImage.close();
 
             //Count comments
             Cursor cursorComment = db.rawQuery("SELECT * FROM post_comment WHERE post = " + cursor.getString(0) +";", null);
             TextView tvDetails = (TextView) entry.findViewById(R.id.tv_row_blog_details);
-            tvDetails.setText(" " + cursorComment.getCount());
+            tvDetails.setText(String.valueOf(cursorComment.getCount()));
+            cursorComment.close();
 
             //Set onCLickListener
             entry.setOnClickListener(new View.OnClickListener(){
@@ -239,6 +243,10 @@ public class BlogLayout extends Fragment{
             //Add to the list
             llList.addView(entry);
         }
+
+        //Close the database
+        cursor.close();
+        db.close();
 
     }
 }

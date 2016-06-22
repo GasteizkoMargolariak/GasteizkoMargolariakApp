@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -21,16 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:text="Medium Text"
                 android:id="@+id/tv_row_festival_price_pack_name"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.Small"
-                android:text="Small Text"
                 android:id="@+id/tv_row_festival_price_pack_text"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginStart="10dp"/>
 
         </LinearLayout>
 
@@ -38,11 +37,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="Medium Text"
             android:id="@+id/tv_row_festival_price_pack_price"
-            android:textAlignment="textEnd"
+            android:gravity="end"
             android:layout_gravity="bottom"
-            android:gravity="right"
             android:minWidth="70dp"
             android:layout_weight=".7"/>
     </LinearLayout>

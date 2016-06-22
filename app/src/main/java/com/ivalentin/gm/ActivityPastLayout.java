@@ -28,16 +28,11 @@ import java.util.Locale;
  * @see Fragment
  *
  */
+
 public class ActivityPastLayout extends Fragment {
 
-    //Main View
-    //private View view;
-
-    //String currLang;
-
-    //Context context;
-
-    @SuppressLint("InflateParams") //Throws unknown error when done properly.
+	@SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -89,7 +84,6 @@ public class ActivityPastLayout extends Fragment {
 
         //Get images
         Cursor imageCursor = db.rawQuery("SELECT image, idx FROM activity_image WHERE activity = " + id + " ORDER BY idx LIMIT 5;", null);
-        //imageCursor.moveToFirst();
         int i = 0;
         while (imageCursor.moveToNext()) {
             String image = imageCursor.getString(0);

@@ -4,7 +4,6 @@ import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -41,15 +40,6 @@ public class MainActivity extends Activity{//} implements LocationListener{
 	//Alarm to get location and notifications.
 	AlarmReceiver alarm;
 
-	/**
-	 * Getter for the activity top view.
-	 *
-	 * @return The activity top view.
-	 */
-	public View getMainView(){
-		return getWindow().getDecorView().getRootView();
-	}
-		
 	/**
 	 * Loads a section in the main screen.
 	 * 
@@ -151,9 +141,9 @@ public class MainActivity extends Activity{//} implements LocationListener{
 	 * 
 	 * @param savedInstanceState Saved state of the activity.
 	 * 
-	 * @see android.support.v7.app.AppCompatActivity#onCreate(android.os.Bundle)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
-	@SuppressLint("TrulyRandom") //I don't care about getting "potentially unsecured numbers" here
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -182,6 +172,7 @@ public class MainActivity extends Activity{//} implements LocationListener{
 						}
 					});
 				} catch (InterruptedException e) {
+					Log.e("Sleep interrupted", e.toString());
 				}
 			}
 		};
@@ -218,8 +209,6 @@ public class MainActivity extends Activity{//} implements LocationListener{
 		menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
 		menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
 		menuLablancaItem[2] = (TextView) findViewById(R.id.menu_lablanca_around);
-
-		//Todo: Read settings and display needed menu entries
 
 		//Set click listers for menu items
 		menuItem[0].setOnClickListener(new OnClickListener() {
@@ -342,7 +331,9 @@ public class MainActivity extends Activity{//} implements LocationListener{
 
 					//Set the icon
 					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
-					dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
+					if (dialogIcon != null) {
+						dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
+					}
 					tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
 					tvDialogTitle.setCompoundDrawablePadding(20);
 

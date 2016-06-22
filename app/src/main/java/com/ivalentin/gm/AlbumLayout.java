@@ -35,12 +35,7 @@ import java.util.Locale;
  */
 public class AlbumLayout extends Fragment {
 
-    //Main View
-    //private View view;
-
-    //private String currLang;
-	//private String albumName;
-
+	@SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,7 +127,7 @@ public class AlbumLayout extends Fragment {
 			//Count comments
 			Cursor cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
 			TextView tvCommentsLeft = (TextView) entry.findViewById(R.id.tv_row_album_comments_left);
-			tvCommentsLeft.setText(Integer.toString(cursorComments.getCount()));
+			tvCommentsLeft.setText(String.valueOf(cursorComments.getCount()));
 			cursorComments.close();
 
 			//Set onClickListener
@@ -197,7 +192,7 @@ public class AlbumLayout extends Fragment {
 				//Count comments
 				cursorComments = db.rawQuery("SELECT id FROM photo_comment WHERE photo = " + imageCursor.getString(0) + ";", null);
 				TextView tvCommentsRight = (TextView) entry.findViewById(R.id.tv_row_album_comments_right);
-				tvCommentsRight.setText(Integer.toString(cursorComments.getCount()));
+				tvCommentsRight.setText(String.valueOf(cursorComments.getCount()));
 				cursorComments.close();
 
 				//Set onClickListener

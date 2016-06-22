@@ -70,9 +70,7 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
             OutputStream output = new FileOutputStream(path);
             byte data[] = new byte[1024];
 
-            long total = 0;
             while ((count = input.read(data)) != -1) {
-                total += count;
 
                 // writing data to file
                 output.write(data, 0, count);

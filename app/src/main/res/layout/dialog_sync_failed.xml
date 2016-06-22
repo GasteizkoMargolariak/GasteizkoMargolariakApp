@@ -1,15 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android1="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/section"
     android:orientation="vertical"
-    android1:paddingBottom="10dp" >
+    android:paddingBottom="10dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android1:layout_alignParentTop="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:padding="7dp">
 

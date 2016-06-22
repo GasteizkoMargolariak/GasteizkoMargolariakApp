@@ -32,7 +32,8 @@ import java.util.Locale;
  */
 public class ActivityFutureLayout extends Fragment {
 
-    @SuppressLint("InflateParams") //Throws unknown error when done properly.
+	@SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -98,6 +99,7 @@ public class ActivityFutureLayout extends Fragment {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
+                //noinspection ResultOfMethodCallIgnored
                 fpath.mkdirs();
                 new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
             }

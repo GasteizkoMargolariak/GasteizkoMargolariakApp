@@ -14,7 +14,7 @@
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/tv_row_home_blog_date"
@@ -33,6 +33,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:contentDescription="@string/app_cdesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_home_blog_image"

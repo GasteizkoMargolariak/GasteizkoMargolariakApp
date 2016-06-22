@@ -64,12 +64,7 @@ public class CustomScrollView extends ScrollView{
     public boolean onTouchEvent(MotionEvent ev) {
 		int width = this.getWidth();
 		super.onTouchEvent(ev);
-		if (ev.getX() <  (float) width / 10){
-						return false;
-		}
-		else{
-			return true;
-		}				
+		return ev.getX() >= (float) width / 10;
 	}
 
 }

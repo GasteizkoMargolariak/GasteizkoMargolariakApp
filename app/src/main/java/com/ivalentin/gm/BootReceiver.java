@@ -13,10 +13,7 @@ import android.content.Intent;
  *
  */
 public class BootReceiver extends BroadcastReceiver {
-	
-	//The AlarmReceiver
-	private AlarmReceiver alarm = new AlarmReceiver();
-	
+
 	/**
 	 * Called when the BroadCasteReceiver is receiving an Intent broadcast. 
 	 * Starts an alarm. 
@@ -29,8 +26,10 @@ public class BootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		//If the event is BOOT_COMPLETED...
-		if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+		if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
 			//... set the alarm.
+			AlarmReceiver alarm = new AlarmReceiver();
 			alarm.setAlarm(context);
+		}
 	}
 }

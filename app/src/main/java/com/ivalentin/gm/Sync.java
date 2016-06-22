@@ -35,7 +35,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 	private String strings[];
 	private boolean doProgress = false;
 	private long millis = 0;
-	TextView tv;
+	private TextView tv;
 	
 	
 	/**
@@ -55,7 +55,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 			strings[3] = myContextRef.getString(R.string.dialog_sync_text_3);
 			strings[4] = myContextRef.getString(R.string.dialog_sync_text_4);
 			tv = (TextView) dialog.findViewById(R.id.tv_dialog_sync_text);
-			int idx = 0 + (int) (Math.random() * ((4) + 1));
+			int idx = (int) (Math.random() * ((4) + 1));
 			tv.setText(strings[idx]);
 			doProgress = true;
 		}
@@ -103,6 +103,11 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 		Log.d("Sync", "Full sync finished");
 	}
 
+	/**
+	 * Called when the AsyncTask is created.
+	 *
+	 * @param myContextRef The Context of the calling activity.
+	 */
 	public Sync(Activity myContextRef){
 		this.myContextRef = myContextRef;
 	}
@@ -150,13 +155,16 @@ public class Sync extends AsyncTask<Void, Void, Void> {
     }
 
 	@Override
+	/**
+	 * Called when the AsyncTask is updated.
+	 * Used to change text in the sync window.
+	 *
+	 */
 	protected void onProgressUpdate(Void...progress) {
-		//Log.e("UPDATE", "UP");
 		if (doProgress){
 			if (millis + 500 < System.currentTimeMillis()) {
 				millis = System.currentTimeMillis();
-				int idx = 0 + (int) (Math.random() * ((4) + 1));
-				//Log.e("String", strings[idx]);
+				int idx = (int) (Math.random() * ((4) + 1));
 				tv.setText(strings[idx]);
 			}
 		}
@@ -233,11 +241,12 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 				int prefFestivals = Integer.parseInt(o.substring(o.indexOf("<festivals>") + 11, o.indexOf("</festivals>")));
 				prefEditor.putInt(GM.PREF_DB_PHOTOS, prefPhotos);
 				prefEditor.putInt(GM.PREF_DB_FESTIVALS, prefFestivals);
-				//prefEditor.commit();
 				prefEditor.apply();
 
 
 				while (o.contains("<table>")){
+
+					publishProgress();
 
 					try {
 						table = o.substring(o.indexOf("<table>"), o.indexOf("</table>") + 8);
@@ -254,8 +263,6 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 								queryFields = "(";
 								queryValues = "(";
 								while (row.contains(">,")) {
-
-										publishProgress();
 
 										try {
 											if (row.length() < 5) {
@@ -327,14 +334,12 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 			//Set current database version in preferences.
 			if (errorCount == 0){
 				prefEditor.putInt(GM.PREF_DB_VERSION, newVersion);
-				//prefEditor.commit();
 				prefEditor.apply();
 			}
 			else{
 				Log.e("DB UPDATE", "Not updating db version because there were errors");
 				if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION) {
 					prefEditor.putInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION + 1);
-					//prefEditor.commit();
 					prefEditor.apply();
 				}
 			}

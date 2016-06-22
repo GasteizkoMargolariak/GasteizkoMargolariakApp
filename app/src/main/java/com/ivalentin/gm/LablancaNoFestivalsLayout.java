@@ -1,5 +1,6 @@
 package com.ivalentin.gm;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class LablancaNoFestivalsLayout extends Fragment {
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
+	@SuppressLint("InflateParams")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout

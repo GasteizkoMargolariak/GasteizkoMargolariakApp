@@ -1,8 +1,7 @@
 package com.ivalentin.gm;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -46,6 +45,8 @@ public class LablancaLayout extends Fragment {
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
+	@SuppressLint("InflateParams")
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout

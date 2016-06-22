@@ -33,8 +33,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
                 android:id="@+id/tv_activity_future_date"
-                android:layout_gravity="right"
-                android:gravity="right" />
+                android:layout_gravity="end"
+                android:gravity="end" />
         </LinearLayout>
 
         <LinearLayout
@@ -49,8 +49,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/iv_activity_future_0"
                 android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/app_cdesc"
                 android:visibility="gone"
-                android:maxHeight="70dp" />
+                android:maxHeight="70dp"
+                />
 
             <WebView
                 android:layout_width="wrap_content"
@@ -68,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_future_1"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:layout_gravity="center_horizontal"
                     android:maxHeight="50dp" />
@@ -76,6 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_future_2"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:maxHeight="50dp" />
 
@@ -83,6 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_future_3"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:maxHeight="50dp" />
 
@@ -90,6 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_future_4"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:maxHeight="50dp" />
             </LinearLayout>
@@ -110,13 +116,12 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/activity_city"
                         android:layout_margin="5dp"
-                        android:textAlignment="textEnd" />
+                        android:gravity="end"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
                         android:id="@+id/tv_activity_future_city"
                         android:layout_margin="5dp" />
                 </TableRow>
@@ -131,13 +136,12 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/activity_price"
                         android:layout_margin="5dp"
-                        android:textAlignment="textEnd" />
+                        android:gravity="end" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
                         android:id="@+id/tv_activity_future_price"
                         android:layout_margin="5dp" />
                 </TableRow>
@@ -160,7 +164,7 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/ll_activity_future_schedule_list"></LinearLayout>
+                    android:id="@+id/ll_activity_future_schedule_list"/>
             </LinearLayout>
 
         </LinearLayout>

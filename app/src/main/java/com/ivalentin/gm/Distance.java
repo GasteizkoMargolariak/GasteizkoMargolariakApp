@@ -23,7 +23,7 @@ public final class Distance {
 	 * 
 	 * @return The distance between the points
 	 */
-	public static final double calculateDistance(double lat1, double lon1, double lat2, double lon2, char unit) {
+	public static double calculateDistance(double lat1, double lon1, double lat2, double lon2, char unit) {
 		double theta = lon1 - lon2;
 		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
 		dist = Math.acos(dist);
@@ -45,7 +45,7 @@ public final class Distance {
 	 * 
 	 * @return Radians.
 	 */
-	private static final double deg2rad(double deg) {
+	private static double deg2rad(double deg) {
 		return (deg * Math.PI / 180.0);
 	}
 	
@@ -56,7 +56,7 @@ public final class Distance {
 	 * 
 	 * @return Decimal degrees.
 	 */
-	private static final double rad2deg(double rad) {
+	private static double rad2deg(double rad) {
 		return (rad * 180 / Math.PI);
 	}
 	

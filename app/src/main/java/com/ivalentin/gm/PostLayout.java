@@ -42,6 +42,7 @@ public class PostLayout extends Fragment {
     Context context;
 
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

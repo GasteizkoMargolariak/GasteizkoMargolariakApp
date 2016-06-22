@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/ll_gallery_album_list"></LinearLayout>
+                android:id="@+id/ll_gallery_album_list"/>
         </LinearLayout>
     </LinearLayout>
 </com.ivalentin.gm.CustomScrollView>

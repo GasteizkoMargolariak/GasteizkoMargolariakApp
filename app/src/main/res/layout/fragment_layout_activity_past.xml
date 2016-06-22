@@ -39,7 +39,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
                     android:id="@+id/tv_activity_past_city"
                     android:layout_margin="5dp" />
 
@@ -47,10 +46,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
                     android:id="@+id/tv_activity_past_date"
                     android:layout_margin="5dp"
-                    android:textAlignment="textEnd" />
+                    android:gravity="end" />
 
             </LinearLayout>
 
@@ -58,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/iv_activity_past_0"
+                android:contentDescription="@string/app_cdesc"
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone"
                 android:maxHeight="70dp" />
@@ -81,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_past_1"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:layout_gravity="center_horizontal"
                     android:maxHeight="50dp" />
@@ -89,6 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_past_2"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:maxHeight="50dp" />
 
@@ -96,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_past_3"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:maxHeight="50dp" />
 
@@ -103,6 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_past_4"
+                    android:contentDescription="@string/app_cdesc"
                     android:visibility="gone"
                     android:maxHeight="50dp" />
             </LinearLayout>

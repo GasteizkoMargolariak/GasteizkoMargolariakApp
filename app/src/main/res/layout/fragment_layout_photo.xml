@@ -33,6 +33,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/iv_photo"
+                android:contentDescription="@string/app_cdesc"
                 android:padding="2dp"
                 android:background="@color/album_border"/>
 
@@ -49,7 +50,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
                 android:id="@+id/tv_photo_date"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"/>
 
             <LinearLayout
@@ -137,12 +138,12 @@
                     android:id="@+id/et_comment_text"
                     android:minLines="2"
                     android:hint="@string/comment_text"
-                    android:capitalize="sentences"
                     android:background="@drawable/input"
                     android:textColor="@color/input_text_color"
                     android:textColorHint="@color/input_hint_color"
                     android:gravity="top"
-                    android:layout_margin="4dp" />
+                    android:layout_margin="4dp"
+                    android:inputType="textCapSentences|textMultiLine"/>
 
                 <EditText
                     android:layout_width="fill_parent"
@@ -151,12 +152,12 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="@string/comment_name"
-                    android:capitalize="words"
                     android:background="@drawable/input"
                     android:textColor="@color/input_text_color"
                     android:textColorHint="@color/input_hint_color"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    android:inputType="textCapWords"/>
 
                 <LinearLayout
                     android:orientation="horizontal"

@@ -1,5 +1,3 @@
-//TODO: Rework this file
-
 package com.ivalentin.gm;
 
 import java.text.DateFormat;
@@ -26,10 +24,8 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnShowListener;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
-//import android.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -55,9 +51,6 @@ import android.widget.TextView;
  */
 public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
-	
-	//Array with data about the days of the festival
-	//private String[][] days = new String[GM.TOTAL_DAYS][4];
 	Bundle bund;
 
 	private String dates[] = new String[20];
@@ -124,6 +117,8 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			dateCount ++;
 			//TODO: Check if some date is of today, and set selected
 		}
+		cursor.close();
+		db.close();
 
 		//Assign buttons
 		Button btL = (Button) view.findViewById(R.id.bt_schedule_l);
@@ -220,17 +215,13 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		//Views in each row
 		TextView tvRowTitle, tvRowTime, tvRowDesc, tvRowPlace, tvRowId, tvRowAddress;
 
-		//Icon next to the location text
-		Drawable icon = getResources().getDrawable(R.drawable.pinpoint);
-		//icon.setBounds(0, 0, 80, 80);
-
 		//Set date selector texts
 		TextView tvDayNumber = (TextView) view.findViewById(R.id.tv_schedule_day_number);
 		TextView tvDayMonth = (TextView) view.findViewById(R.id.tv_schedule_day_month);
 		TextView tvDayTitle = (TextView) view.findViewById(R.id.tv_schedule_day_title);
 
 
-		tvDayNumber.setText(Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+		tvDayNumber.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
 		switch (calendar.get(Calendar.MONTH)) {
 			case 6:
 				tvDayMonth.setText(getString(R.string.schedule_month_july));
@@ -252,7 +243,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 
 		//Get day end date
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 		Calendar c = Calendar.getInstance();
 		try {
 			c.setTime(sdf.parse(dates[selected]));
@@ -267,10 +258,8 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 			query = query + "gm = 1 ";
-			//cursor= db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE gm = 1 AND place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' ORDER BY start;", null);
 		} else {
 			query = query + "gm = 0 ";
-			//cursor= db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE gm = 0 AND place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' ORDER BY start;", null);
 		}
 		if (filter.length() > 0) {
 			query = query + "AND (title_" + lang + " like '%" + filter + "%' OR description_" + lang + " like '%" + filter + "%' OR name_" + lang + " like '%" + filter + "%' OR address_" + lang + " like '%" + filter + "%') ";
@@ -436,10 +425,13 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			
 			//Set time
 			try{
-				if (cursor.getString(5).length() == 0)
+				if (cursor.getString(5).length() == 0) {
 					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))));
-				else
-					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(5))));
+				}
+				else {
+					String time = timeFormat.format(dateFormat.parse(cursor.getString(4))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(5)));
+					tvTime.setText(time);
+				}
 			}
 			catch (ParseException ex){
 				Log.e("Error parsing time", ex.toString());
@@ -555,11 +547,12 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	@Override
 	public void onPause() {
 		super.onDestroy();
-		if (map != null)
+		if (map != null) {
 			map.setMyLocationEnabled(false);
-		if (mapView != null){
-			//mapView.onPause();
 		}
+		//if (mapView != null){
+			//mapView.onPause();
+		//}
 	}
 
 	/**

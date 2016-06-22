@@ -67,11 +67,6 @@ public final class GM {
 	static final String EXTRA_ACTION = "action";
 
 	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens a notification as text.
-	 */
-	static final String EXTRA_ACTION_TEXT = "text";
-
-	/**
 	 * Value for {@see GM.EXTRA_ACTION} that opens the lablanca section.
 	 */
 	static final String EXTRA_ACTION_LABLANCA = "lablanca";
@@ -157,14 +152,9 @@ public final class GM {
 	static final byte SECTION_GALLERY = 5;
 
 	/**
-	 * Constant for section "About".
-	 */
-	static final byte SECTION_ABOUT = 6;
-
-	/**
 	 * Constant for section "Settings".
 	 */
-	static final byte SECTION_SETTINGS = 7;
+	static final byte SECTION_SETTINGS = 6;
 
 	/**
 	 * Name of the preference group for the app.
@@ -197,31 +187,6 @@ public final class GM {
 	static final int DEFAULT_PREF_NOTIFICATION = 1;
 	
 	/**
-	 * Name of the preference indicating if the user wants to to receive notifications intended for margolari people.
-	 */
-	static final String PREF_NOTIFICATION_GM = "prefNotificationGm";
-	
-	/**
-	 * Default value of the preference indicating if the user wants to to receive notifications intended for margolari people.
-	 */
-	static final int DEFAULT_PREF_NOTIFICATION_GM = 1;
-	
-	/**
-	 * Name of the preference indicating if the user is Margolari.
-	 */
-	static final String PREF_GM = "prefGM";
-	
-	/**
-	 * Default value of the preference indicating if the user is Margolari.
-	 */
-	static final int DEFAULT_PREF_GM = 0;
-
-	/**
-	 * Default value of the preference indicating the user name.
-	 */
-	static final String DEFAULT_PREF_USERNAME = "";
-	
-	/**
 	 * Header of a preference to indicate received notifications.
 	 */
 	static final String NOTIFICATION_SEEN_ ="notificationSeen";
@@ -245,47 +210,7 @@ public final class GM {
 	 * Name of the preference to store GM last location timestamp.
 	 */
 	static final String PREF_GM_LOCATION = "gmlocationtime";
-	
-	/**
-	 * Day constant. Refers to July the 25.
-	 */
-	static final int DAY_25 = 0;
-	
-	/**
-	 * Day constant. Refers to August the 4.
-	 */
-	static final int DAY_4 = 1;
-	
-	/**
-	 * Day constant. Refers to August the 5.
-	 */
-	static final int DAY_5 = 2;
-	
-	/**
-	 * Day constant. Refers to August the 6.
-	 */
-	static final int DAY_6 = 3;
-	
-	/**
-	 * Day constant. Refers to August the 7.
-	 */
-	static final int DAY_7 = 4;
-	
-	/**
-	 * Day constant. Refers to August the 8.
-	 */
-	static final int DAY_8 = 5;
-	
-	/**
-	 * Day constant. Refers to August the 9.
-	 */
-	static final int DAY_9 = 6;
-	
-	/**
-	 * Total number of days of the festivals.
-	 */
-	static final int TOTAL_DAYS = 7;
-	
+
 	/**
 	 * Name of the database
 	 */
@@ -294,9 +219,21 @@ public final class GM {
 	/**
 	 * The desired accuracy of the GPS coordinates, used to provide location updates, in meters.
 	 */
-	static final int LOCATION_ACCURACY = 20;
+	static final int LOCATION_ACCURACY_SPACE = 10;
 
-	public static final String getLang(){
+	/**
+	 * The desired accuracy of the GPS coordinates, used to provide location updates, in milliseconds.
+	 */
+	static final int LOCATION_ACCURACY_TIME = 10000;
+
+	/**
+	 * Gets the language code for sql queries.
+	 * Only three values can be returned: es, eu, en.
+	 * Defaults to es.
+	 *
+	 * @return Language two-letter code
+	 */
+	public static String getLang(){
 		String currLang = Locale.getDefault().getISO3Language();//getDisplayLanguage();
 		switch (currLang){
 			case "spa":

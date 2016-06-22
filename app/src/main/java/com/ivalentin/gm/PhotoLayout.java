@@ -151,6 +151,7 @@ public class PhotoLayout extends Fragment {
 	}
 
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private void populate(int id, View v){
 
 		final int photoId = id;
