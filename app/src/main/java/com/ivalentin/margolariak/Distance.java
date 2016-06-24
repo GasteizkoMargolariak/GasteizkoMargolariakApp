@@ -1,4 +1,4 @@
-package com.ivalentin.gm;
+package com.ivalentin.margolariak;
 
 /**
  * Static class that allows to calculate the distance between tho 

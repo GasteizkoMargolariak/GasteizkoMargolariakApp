@@ -1,4 +1,4 @@
-package com.ivalentin.gm;
+package com.ivalentin.margolariak;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

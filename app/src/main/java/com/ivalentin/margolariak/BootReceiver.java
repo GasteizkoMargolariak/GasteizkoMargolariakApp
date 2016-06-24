@@ -1,4 +1,4 @@
-package com.ivalentin.gm;
+package com.ivalentin.margolariak;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

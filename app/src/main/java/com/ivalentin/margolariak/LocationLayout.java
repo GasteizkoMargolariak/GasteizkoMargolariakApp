@@ -1,13 +1,12 @@
 //TODO: Rework this file
 
-package com.ivalentin.gm;
+package com.ivalentin.margolariak;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -19,8 +18,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -31,9 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 //TODO: Try to fetch a new location report when created

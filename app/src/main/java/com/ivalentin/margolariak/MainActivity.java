@@ -1,6 +1,6 @@
 //TODO: implement onResume, to try and fetch location
 
-package com.ivalentin.gm;
+package com.ivalentin.margolariak;
 
 import java.io.File;
 import java.math.BigInteger;

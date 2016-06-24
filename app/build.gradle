@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.ivalentin.gm"
+        applicationId "com.ivalentin.margolariak"
         minSdkVersion 12
         targetSdkVersion 22
     }

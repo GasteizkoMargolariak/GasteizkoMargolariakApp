@@ -1,4 +1,4 @@
-package com.ivalentin.gm;
+package com.ivalentin.margolariak;
 
 import android.app.Activity;
 import android.content.Context;

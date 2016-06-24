@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.ivalentin.gm.CustomScrollView
+<com.ivalentin.margolariak.CustomScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -67,4 +67,4 @@
                 android:id="@+id/ll_activities_past_list"/>
         </LinearLayout>
     </LinearLayout>
-</com.ivalentin.gm.CustomScrollView>
+</com.ivalentin.margolariak.CustomScrollView>

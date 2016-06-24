@@ -1,4 +1,4 @@
-package com.ivalentin.gm;
+package com.ivalentin.margolariak;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

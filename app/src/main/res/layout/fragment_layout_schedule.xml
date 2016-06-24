@@ -92,7 +92,7 @@
             <requestFocus />
         </EditText>
 
-        <com.ivalentin.gm.CustomScrollView
+        <com.ivalentin.margolariak.CustomScrollView
             android:id="@+id/sv_schedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-        </com.ivalentin.gm.CustomScrollView>
+        </com.ivalentin.margolariak.CustomScrollView>
 
     </LinearLayout>
 
