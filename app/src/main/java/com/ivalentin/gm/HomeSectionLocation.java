@@ -101,6 +101,12 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 			//Set up home view section
 			LinearLayout section = (LinearLayout) view.findViewById(R.id.ll_home_section_location);
 			section.setVisibility(View.VISIBLE);
+			section.setOnClickListener(new View.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					((MainActivity) v.getContext()).loadSection(GM.SECTION_LOCATION, false);
+				}
+			});
 
 		}
 	}

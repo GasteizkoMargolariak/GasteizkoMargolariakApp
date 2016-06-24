@@ -529,7 +529,7 @@
 						android:layout_height="wrap_content"
 						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
-						android:contentDescription="@string/social_mail"
+						android:contentDescription="@string/social_phone"
 						android:maxWidth="50dp"
 						android:src="@drawable/social_phone"/>
 
@@ -539,7 +539,7 @@
 						android:layout_height="wrap_content"
 						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
-						android:contentDescription="@string/social_web"
+						android:contentDescription="@string/social_mail"
 						android:maxWidth="50dp"
 						android:src="@drawable/social_mail" />
 
@@ -549,7 +549,7 @@
 						android:layout_height="wrap_content"
 						android:layout_margin="10dp"
 						android:adjustViewBounds="true"
-						android:contentDescription="@string/social_web"
+						android:contentDescription="@string/social_whatsapp"
 						android:maxWidth="50dp"
 						android:src="@drawable/social_whatsapp" />
 

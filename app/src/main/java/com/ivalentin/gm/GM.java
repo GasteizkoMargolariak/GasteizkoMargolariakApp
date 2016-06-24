@@ -87,11 +87,6 @@ public final class GM {
 	static final String EXTRA_ACTION_LOCATION = "location";
 
 	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the around section.
-	 */
-	static final String EXTRA_ACTION_AROUND = "around";
-
-	/**
 	 * Value for {@see GM.EXTRA_ACTION} that opens the blog.
 	 */
 	static final String EXTRA_ACTION_BLOG = "blog";
@@ -130,11 +125,6 @@ public final class GM {
 	 * Constant for La Blanca section "Gasteizko Margolariak Schedule".
 	 */
 	static final byte SECTION_LABLANCA_GM_SCHEDULE = 21;
-
-	/**
-	 * Constant for La Blanca section "Around me".
-	 */
-	static final byte SECTION_LABLANCA_AROUND = 22;
 
 	/**
 	 * Constant for section "Activities".

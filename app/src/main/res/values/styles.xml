@@ -1,9 +1,5 @@
 <resources>
 
-    <drawable name="statusbar_background">#00000000</drawable>
-    <drawable name="window_background">#00000000</drawable>
-    <drawable name="separator">#00000000</drawable>
-
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.

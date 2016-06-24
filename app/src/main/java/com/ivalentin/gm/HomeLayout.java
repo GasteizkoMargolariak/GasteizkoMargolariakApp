@@ -281,6 +281,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 		ImageView facebook = (ImageView) view.findViewById(R.id.iv_home_section_social_facebook);
 		ImageView twitter = (ImageView) view.findViewById(R.id.iv_home_section_social_twitter);
 		ImageView googleplus = (ImageView) view.findViewById(R.id.iv_home_section_social_googleplus);
+		ImageView youtube = (ImageView) view.findViewById(R.id.iv_home_section_social_youtube);
 		ImageView instagram = (ImageView) view.findViewById(R.id.iv_home_section_social_instagram);
 
 		phone.setOnClickListener(new View.OnClickListener() {
@@ -343,6 +344,16 @@ public class HomeLayout extends Fragment implements LocationListener{
 			@Override
 			public void onClick(View v) {
 				String url = v.getContext().getString(R.string.social_googleplus_link);
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
+
+		googleplus.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = v.getContext().getString(R.string.social_youtube_link);
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(url));
 				startActivity(i);

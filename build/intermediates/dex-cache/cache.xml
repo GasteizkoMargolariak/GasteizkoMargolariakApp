@@ -1,2 +1,362 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="b3d0809a742c5f768c6aa9efc6decd5c1d6cd227">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-iid-9.0.2_106c24fd1ff8153b9bad803b8eaada340a219476.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="b6af089f583d547bcffc0689b2e80bc7aaa54b15">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-safetynet-9.0.2_b9acf7f49b15f1a8a6bc28e4084b13fc4503c88e.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="a45bc1ed812137b21dddd1cedaa3712b308f0b3f">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-cast-9.0.2_4cb8b8f78566867e581a10995fff029c95fa5423.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="fe5b47e764869f1076cb9cfe12801ed2ef4e9117">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-9.0.2_4034d02ef3ffa070bd5a34580954ae3df4f317a3.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="53f10fcd322a3931495d6ca2078a81f4957cdbce">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-fitness-9.0.2_1e7bee871dbaeeb3e93fdc1547f8f1b91b3a3b2e.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="764d32faf85bc6f7bd2cdcb3a70a482c1884fdd2">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wearable-9.0.2_be36705190f88cf37f3fd54321030b43f73670ea.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="bc156efaaee99f1ef6bf471347373a4cbb28e2a1">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wallet-9.0.2_76d973b57c3f03c9c9cc7f437b12afffbeb65440.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="0c835e9f3875cf245877c9b17d1c69bc98f16057">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-identity-9.0.2_cc68e6dd08bd4c84fac9d24191a234c0b7c06d8b.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads-lite/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="b8e0372ca6dc89ac4fe22b76eeea4f68ece435b8">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-ads-lite-9.0.2_f82973d9efa7dc854b477e7cfc2dacba9534f669.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="a511c684ea4c2cf31a3377d51e7677cb76696e07">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-impl-9.0.2_8bb95bbc4ae86323f36fc0fae3696b176ee69b89.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage-common/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="6ff48ef26bc539c78af4aa061cb9bad6abcbf5e8">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-storage-common-9.0.2_1d91e39e215c38aaadd1586af2e9ff3a7cde0466.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="cf16220db9128d91a215aedc739584181d5ca6a4">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-iid-9.0.2_39ddfd3424007e1017754477762069b027c6ac2d.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics-impl/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="6c58c14d15602fea2c50138c73bb107e8b832b62">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-impl-9.0.2_c11f8e414a21f059440fbcbdd5977b8da700a090.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="51a11c41a08f099a204e1b8dcc04f27217de50ec">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-9.0.2_8b3145b9ffc02b06a111c446d3513a9f71c3cc3f.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-crash/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="922c24fbfc4247947fcfaf2b95f295a16a8c3d17">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-crash-9.0.2_3d0260475845fbf63af381965af77c8242e982af.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.4.0_8ec857849a4ce1c67a306199512b6bc8095917ee.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-23.4.0_7860046841249ce9e269c4f5e623ccd89940b178.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-module/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="79e298d7fed2fcada58da7032d07d34ee198a545">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-module-9.0.2_559ee4641ec4ae3a3b436737f5a6247e8bde6a90.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager-api/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="f399a2fde7888450cadcaec4974bfd169d8cce43">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tagmanager-api-9.0.2_2a1c9e344b3af929cd38852c84d7425dddface85.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="03d38bb042efe3e5ce27ba66b729a9523c36d8fe">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0_c997727e2dfcea544ba04edcde4b26d0a0d12628.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Programs/Android/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/support-annotations-23.4.0_0d42e3b30c9c9e3c7fb8cb77d75364c1b866fe39.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="8c0fc9b1ea0bac0cb31d60c8b1bf2feb0518e3a9">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-panorama-9.0.2_bf224af753723ce8883acf1453eab7e2efc7b5c2.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="94d9cedd04b124aed044ac71c451a292856d854c">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-base-9.0.2_8ac29cd0bfca4152b55aac0476e7b013528502a1.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="f2774b1e02e5fbc524590311a744263c3b152d63">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-messaging-9.0.2_380184394b2977546e49a09bae3af1887d2286b0.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="d9ea4cdaafa29ec4651d6e4715788d3fcaa7b913">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tagmanager-9.0.2_79ee80d8b4cf9645445e294e378287c2d0e7bfc6.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth-base/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="829c6e46cb221c2102801221c648b77113743e81">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-auth-base-9.0.2_f547726f0b8fd23a2b1fea2aaf915b849c07bcca.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="d358b3dd49a7c67844622dcbc9cf4339e13952ce">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-mediarouter-v7-23.0.0_483216103c88f21ab3fcd4448f65df5743ae5479.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="c96952c162c9f6076f44c5939982cb35491442ea">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-plus-9.0.2_cea153354f55cf33e6a8cbb1ea56ed4e5dcd4eab.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database-connection/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="9819419ce8d79f3f81a0fc70f9345ac8c843af9c">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-database-connection-9.0.2_d50bd011ff0e22c18c50687c44e54003740584d9.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/internal_impl-23.4.0_1347c07f78749309dea6300067a0e579f22b9cab.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="d900f2a1ff098cac8befe6c023d723e9afb154be">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-appindexing-9.0.2_5628b1f4846d77e1e8f5f4204e8c0ead45647e76.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="4022261eeea0d92eb2997a68d2c1f084a16abad9">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-9.0.2_802ad66107f157ad2aef5a03f6a5a8c02434fb91.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="7e52b440a26498c56b4f263e215223b5451c955e">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-nearby-9.0.2_5b34fd468c930314158e1c1f6b1947017d6d4e79.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.4.0_4730ac223405697ea3542ce7a877434d6f12b651.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-config/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="604ecf403feb0084dc6d0c12f1677a490cf45e4c">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-config-9.0.2_29c0c56b8e0421484df0c5cd4d760785d3f25d5e.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="aec1bc54964a85d851c2c1b1cb7f90f7dbd755ab">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-9.0.2_3c48c62c0884f3e01d6d85ddd260b92fa9cb3d0c.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="92a1d5f71b0fc8938f1d3f2e6ef984b52b894b4d">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-location-9.0.2_9ea62a0e92072db1753ce49d2bd814087b6b17c0.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-23.4.0_20d38fdcf69f7ec2bc32351418b60e0dc30cc7a8.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="060a7157438a0b1b0706b99c430fb3ecbc5a79a4">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-auth-9.0.2_d196b29b3631da55a626a36bb9459c6a0f0ecb82.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="2ab5be19bbd34bae74662ea6b2d4451314d92d97">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-vision-9.0.2_5b14d53c5b590df1d2dcfa3bb0029de02b170354.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="f4fb6981392ca7680d02fd57d26d6124c141d9d9">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-ads-9.0.2_ae78de2379040c290bcf4ac04254bac1cff6d1d2.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="e11da70cff6a544a45cdc21f419802d9bb9043ac">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-appinvite-9.0.2_4454ad53e7685e80acc8732357ce1a66c0e94653.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="a498fab72f8663c26fbf3d4496eb6b673b17bcae">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-games-9.0.2_a2b75ec259e82d62d2527e9c7e64c1c42113d4c2.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="cd4c7c54e15d9ccbc448384fa2c4684d69ca73f0">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-storage-9.0.2_f476bd6cc7abcf29f14e01fb2c5992dc041a419f.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-common/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="568d5bda0b4d51f90d978ace369bb9ad024d2057">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-common-9.0.2_44fa85bcee238dc204a0f9db1cdc2d8a32f7ae12.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="9919563cffd8e3732e944d3c437d4b9575a08448">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-common-9.0.2_90d472ffeb1c63cd2dee04c0205320ef653d3ce7.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="4ec890171a97b5ab98292f131aa784e0f3792c73">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-database-9.0.2_1e520f11a2397d38c9f46f69b0d4fa6af8867e5a.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="143813b18381b28de1e04aae1d92fcb374a0add9">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-drive-9.0.2_7951a33b58460120904e678bfd2221b3017e6042.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="fa472b7cbd3897bf6bed6068ac0b00e494987688">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-9.0.2_9a3ea2a4bf0b6e44451634f6431aa75fb62c8f6b.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="20e1a0f0de6276a5f36062b655f8b20f8cc00cc4">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-maps-9.0.2_f58d916f8cc24c7764ed75cb353fa4de09435bbb.jar" />
+    </item>
+    <item
+        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/9.0.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="e6970f0554f9508c041f1f6960af15cc888c9f35">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gcm-9.0.2_ef3dfc28ebcb7429bea4710d7e3010ff027b08c6.jar" />
+    </item>
+
+</items>

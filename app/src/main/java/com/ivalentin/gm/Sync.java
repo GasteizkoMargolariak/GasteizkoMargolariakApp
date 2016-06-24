@@ -162,7 +162,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	protected void onProgressUpdate(Void...progress) {
 		if (doProgress){
-			if (millis + 500 < System.currentTimeMillis()) {
+			if (millis + 300 < System.currentTimeMillis()) {
 				millis = System.currentTimeMillis();
 				int idx = (int) (Math.random() * ((4) + 1));
 				tv.setText(strings[idx]);
@@ -264,31 +264,33 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 								queryValues = "(";
 								while (row.contains(">,")) {
 
-										try {
-											if (row.length() < 5) {
-												break;
-											}
-											line = row.substring(0, row.indexOf(">,"));
-											line = line.substring(line.indexOf("<"));
-											fieldName = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
-											queryFields = queryFields + fieldName + ", ";
-											fieldValue = line.substring(line.indexOf("<" + fieldName + ">") + 2 + fieldName.length());
-											fieldValue = fieldValue.substring(0, fieldValue.length() - fieldName.length() - 2);
-											if (fieldValue.length() == 0)
-												fieldValue = "null";
-											if (fieldValue.charAt(0) == '\'' && fieldValue.charAt(fieldValue.length() - 1) == '\'') {
-												fieldValue = fieldValue.substring(1, fieldValue.length() - 1);
-												fieldValue = fieldValue.replace("'", "''");
-												fieldValue = "\'" + fieldValue + "\'";
-											}
-											queryValues = queryValues + fieldValue + ", ";
-											row = row.substring(row.indexOf(">,") + 2);
-										}
-										catch(Exception ex){
-											Log.e("Parsing error", "Error getting values from row: " + ex.toString());
-											errorCount ++;
+									publishProgress();
+
+									try {
+										if (row.length() < 5) {
 											break;
 										}
+										line = row.substring(0, row.indexOf(">,"));
+										line = line.substring(line.indexOf("<"));
+										fieldName = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
+										queryFields = queryFields + fieldName + ", ";
+										fieldValue = line.substring(line.indexOf("<" + fieldName + ">") + 2 + fieldName.length());
+										fieldValue = fieldValue.substring(0, fieldValue.length() - fieldName.length() - 2);
+										if (fieldValue.length() == 0)
+											fieldValue = "null";
+										if (fieldValue.charAt(0) == '\'' && fieldValue.charAt(fieldValue.length() - 1) == '\'') {
+											fieldValue = fieldValue.substring(1, fieldValue.length() - 1);
+											fieldValue = fieldValue.replace("'", "''");
+											fieldValue = "\'" + fieldValue + "\'";
+										}
+										queryValues = queryValues + fieldValue + ", ";
+										row = row.substring(row.indexOf(">,") + 2);
+									}
+									catch(Exception ex){
+										Log.e("Parsing error", "Error getting values from row: " + ex.toString());
+										errorCount ++;
+										break;
+									}
 								}
 
 								queryFields = queryFields.substring(0, queryFields.length() - 2) + ")";

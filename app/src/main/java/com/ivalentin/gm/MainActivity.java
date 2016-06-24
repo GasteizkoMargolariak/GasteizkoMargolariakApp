@@ -1,3 +1,5 @@
+//TODO: implement onResume, to try and fetch location
+
 package com.ivalentin.gm;
 
 import java.io.File;
@@ -87,11 +89,6 @@ public class MainActivity extends Activity{//} implements LocationListener{
 				bundle.putInt(GM.SCHEDULE, GM.SECTION_LABLANCA_GM_SCHEDULE);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_gm_schedule);
-				break;
-
-			case GM.SECTION_LABLANCA_AROUND:
-				fragment = new AroundLayout();
-				title = getString(R.string.menu_lablanca_around);
 				break;
 
 			case GM.SECTION_ACTIVITIES:
@@ -205,10 +202,9 @@ public class MainActivity extends Activity{//} implements LocationListener{
 		menuItem[6] = (TextView) findViewById(R.id.menu_settings);
 
 		//Assign buttons for la blanca submenu
-		TextView menuLablancaItem[] = new TextView[3];
+		TextView menuLablancaItem[] = new TextView[2];
 		menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
 		menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
-		menuLablancaItem[2] = (TextView) findViewById(R.id.menu_lablanca_around);
 
 		//Set click listers for menu items
 		menuItem[0].setOnClickListener(new OnClickListener() {
@@ -258,15 +254,8 @@ public class MainActivity extends Activity{//} implements LocationListener{
 				}
 			});
 
-			menuLablancaItem[2].setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					loadSection(GM.SECTION_LABLANCA_AROUND, true);
-				}
-			});
-
 			//Show the entries
-			for (int i = 0; i < 3; i ++){
+			for (int i = 0; i < 2; i ++){
 				menuLablancaItem[i].setVisibility(View.VISIBLE);
 			}
 		}
@@ -443,21 +432,6 @@ public class MainActivity extends Activity{//} implements LocationListener{
 										public void onClick(View v) {
 											dialog.dismiss();
 											loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
-										}
-									});
-								}
-								break;
-
-							case GM.EXTRA_ACTION_AROUND:
-								if (festivals == 1) {
-									//Set up the action button
-									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_around));
-									btDialogAction.setOnClickListener(new OnClickListener() {
-										@Override
-										public void onClick(View v) {
-											dialog.dismiss();
-											loadSection(GM.SECTION_LABLANCA_AROUND, false);
 										}
 									});
 								}

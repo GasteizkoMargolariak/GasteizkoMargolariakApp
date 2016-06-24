@@ -4,15 +4,11 @@
 	<!-- Tag keys -->
 	<string name="key_0" translatable="false">0</string>
 	<string name="key_1" translatable="false">1</string>
-	<string name="key_2" translatable="false">2</string>
-	<string name="key_3" translatable="false">3</string>
 
 	<!-- App related strings -->
 
 	<string name="app_name" translatable="false">Gasteizko Margolariak</string>
-	<string name="app_name_software" translatable="false">Gasteizko Margolariak App</string>
-	<string name="app_email">gasteizkomargolariak@gmail.com</string>
-	<string name="app_cdesc"> </string>
+	<string name="app_cdesc" translatable="false"> </string>
 
 
 	<!-- Common strings -->
@@ -32,46 +28,22 @@
 	<string name="menu_lablanca">La Blanca</string>
 	<string name="menu_lablanca_schedule">Festival schedule</string>
 	<string name="menu_lablanca_gm_schedule">Margolariak schedule</string>
-	<string name="menu_lablanca_around">Around me</string>
 	<string name="menu_location">Find us</string>
 	<string name="menu_activities">Activities</string>
 	<string name="menu_blog">Blog</string>
 	<string name="menu_gallery">Gallery</string>
-	<string name="menu_about">About Us</string>
 	<string name="menu_settings">Settings</string>
 
 	<!-- Schedule strings -->
-
 	<string name="schedule_filter">Search&#8230;</string>
 	<string name="schedule_close">Close</string>
 	<string name="schedule_host">Host: %1$s</string>
 
 
-	<!-- Month names -->
-
-	<string name="month_07">July</string>
-	<string name="month_08">August</string>
-
 
 	<!-- Day strings -->
 	<string name="today">Today</string>
 	<string name="tomorrow">Tomorrow</string>
-
-	<string name="distance_m">meters</string>
-	<string name="distance_k">kilometers</string>
-
-
-	<!-- Around section string -->
-
-	<string name="around_header">Nearby events</string>
-	<string name="around_no_events_0">There are no upcoming events.</string>
-	<string name="around_no_events_1">Wait for the festivals te be closer, and you will see activities around you!</string>
-	<string name="around_no_events_button">Check out festivals schedule</string>
-	<string name="around_no_gps">GPS turned off</string>
-	<string name="around_no_gps_text">Turn on GPS to be able to see events around you.</string>
-	<string name="around_no_gps_button">Open settings</string>
-	<string name="around_distance_short">%1$s meters away from you (About %2$s minutes walking)</string>
-	<string name="around_distance_long">%1$s kilometers away from you </string>
 
 
 	<!-- Home section strings -->
@@ -91,16 +63,6 @@
 	<string name="home_section_location_text_short">They are just %1$d meters away from you!\n(About %2$d minutes walking)</string>
 	<string name="home_section_location_text_long">They are just %1$s kilometers away from you!</string>
 
-	<string name="home_section_join">Join Gasteizko Margolariak</string>
-	<string name="home_section_schedule_see">See all</string>
-	<string name="home_section_gm_see">See all</string>
-	<string name="home_section_around_see">See more</string>
-	<string name="home_section_location_see">Map</string>
-	<string name="home_section_social_see">Follow us</string>
-	<string name="home_section_join_see">See prices</string>
-	<string name="home_section_join_header">Join Gasteizko Margolariak for the best of prices!</string>
-	<string name="home_section_join_text">Pay day by day or choose between our offer packs!</string>
-	<string name="home_section_join_footer">Check out our prices and choose your option.</string>
 
 
 	<!-- Settings section strings -->
@@ -117,19 +79,8 @@
 	<string name="settings_about_content">La Asociación Cultural Gasteizko Margolariak nace en el año 2013 con la idea de estimular la participación ciudadana y fortalecer la cultura y las tradiciones de Vitoria-Gasteiz.&lt;br/>&lt;br/>En nuestro nombre se refleja un barrio en el que las calles nos recuerdan a grandes pintores: el barrio de San Martín. Estamos representados en los barrios, y creemos que son la esencia de esta ciudad.&lt;br/>&lt;br/>Nos convertimos en Cuadrilla de Blusas y Neskas en 2013, y en ese mismo año, miembros de la Comisión de Blusas y Neskas.&lt;br/>&lt;br/>Desde entonces no hemos hecho más que crecer junto con todos los que han decidido, año tras año, apostar por nosotros.</string>
 	<string name="settings_transparency_content">¿Te preocupa saber dónde va tu dinero? En Gasteizko Margolariak queremos que estés tranquilo.&lt;br/>&lt;br/>Muchas de nuestras actividades son gratuitas. Otras, como las fiestas de La Blanca, tienen una cuota de inscripción. Gasteizko Margolariak no es una empresa, es una Asociación Cultural, y como tal, no tenemos beneficios.&lt;br/>&lt;br/>Queremos ser transparentes, y por eso, empezando en 2016, pondremos a tu disposición nuestras cuentas de manera online, para que sepas que cada euro se reinvierte en tí.</string>
 
-
-	<!-- Location section strings -->
-
-	<string name="location_not_reporting">Gasteizko Margolariak isn\'t currently reporting thir location.</string>
-	<string name="location_now">But, according to their schedule, you can find them now at %1$s.</string>
-	<string name="location_today">But, according to their schedule, you can find them at %1$s at %2$s.</string>
-	<string name="location_tomorrow">But, according to their schedule, you can find them tomorrow at %1$s at %2$s.</string>
-	<string name="location_button">Check out the Margolari schedule</string>
-
 	<!-- Blog section strings -->
-	<string name="blog_pager_first" translatable="false">&lt;&lt;</string>
 	<string name="blog_pager_previous" translatable="false">&lt;</string>
-	<string name="blog_pager_last" translatable="false">&gt;&gt;</string>
 	<string name="blog_pager_next" translatable="false">&gt;</string>
 
 	<!-- Activity section strings -->
@@ -180,13 +131,6 @@
 	<string name="comment_toast_text">Enter comment text</string>
 
 
-	<!-- Accesibility strings -->
-
-	<string name="accesibility_event">Event</string>
-	<string name="accesibility_event_gm">Event organized by Gasteizko Margolariak</string>
-	<string name="accesibility_event_schedule">Event in the municipal schedule</string>
-
-
 	<!--Schedule section strings -->
 	<string name="schedule_now">Now</string>
 	<string name="schedule_later">Later</string>
@@ -202,7 +146,6 @@
 	<string name="social_youtube" translatable="false">Youtube</string>
 	<string name="social_instagram" translatable="false">Instagram</string>
 	<string name="social_phone_link" translatable="false">tel:+34637140371</string>
-	<string name="social_web_link" translatable="false">http://margolariak.com/</string>
 	<string name="social_mail_link" translatable="false">mailto:gasteizkomargolariak@gmail.com</string>
 	<string name="social_whatsapp_link" translatable="false">smsto:+34637140371</string>
 	<string name="social_whatsapp_package" translatable="false">com.whatsapp</string>
@@ -216,9 +159,7 @@
 
 
 	<!-- Misc strings -->
-	
-	<string name="kilometers">kilometers</string>
-	<string name="meters">meters</string>
+
 	<string name="eur" translatable="false">€</string>
 
 	
@@ -229,7 +170,6 @@
 	<string name="notification_action_gmschedule"> Open Margolari schedule </string>
 	<string name="notification_action_cityschedule"> Open city schedule </string>
 	<string name="notification_action_location"> Show location </string>
-	<string name="notification_action_around"> Show events </string>
 	<string name="notification_action_blog"> Open blog </string>
 	<string name="notification_action_activities"> Open activities </string>
 	<string name="notification_action_gallery"> Open gallery </string>
@@ -243,7 +183,6 @@
 	<string name="dialog_sync_text_2">Serving kalimotxos&#8230;</string>
 	<string name="dialog_sync_text_3">\"&#8230;tu eres el piloto&#8230;\"</string>
 	<string name="dialog_sync_text_4">Afinando la tuba&#8230;</string>
-	<string name="dialog_sync_internet">You must have an active network connection the first time you run this app.</string>
 	<string name="dialog_sync_failed_title">Synchronization failed</string>
 	<string name="dialog_sync_failed_text">Couldn\'t download content.\n\nMake sure you have a network connection and try again.</string>
 	<string name="dialog_sync_failed_close">Close</string>

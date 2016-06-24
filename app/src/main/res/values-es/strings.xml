@@ -4,8 +4,7 @@
 
 	<!-- App related strings -->
 
-	<string name="app_email">gasteizkomargolariak@gmail.com</string>
-	
+\
 
 	<!-- Arrow buttons -->
 
@@ -16,12 +15,10 @@
 	<string name="menu_lablanca">La Blanca</string>
 	<string name="menu_lablanca_schedule">Programa de fiestas</string>
 	<string name="menu_lablanca_gm_schedule">Programa Margolari</string>
-	<string name="menu_lablanca_around">Cerca de mi</string>
 	<string name="menu_activities">Actividades</string>
 	<string name="menu_blog">Blog</string>
 	<string name="menu_gallery">Galería</string>
-	<string name="menu_about">Nosotros</string>
-	<string name="menu_settings">Preferencias</string>
+\	<string name="menu_settings">Preferencias</string>
 
 	<!-- Schedule strings -->
 
@@ -30,53 +27,17 @@
 	<string name="schedule_host">Organiza %1$s</string>
 
 
-	<!-- Month names -->
-
-	<string name="month_07">Julio</string>
-	<string name="month_08">Agosto</string>
-
-
 	<!-- Day strings -->
 	<string name="today">Hoy</string>
 	<string name="tomorrow">Mañana</string>
 
 
-	<!-- "Titles" for days -->
-
-
-	<!-- About section strings -->
-
-	<string name="about_license">Este programa es software libre. Usted puede distribuirlo y modificarlo de acuerdo con los términos de la GNU General Public License versión 3 publicada por la Free Software Foundation.\n\nEste programa se distrubuye con la espereanza de que sea útil, pero SIN NINGUNA GARANTIA. Consulte la GNU General Public License para más informacion en http://www.gnu.org/licenses/.\n\nEl nombre "Gasteizko Margolariak" y su logotipo son propiedad de Gasteizko Margolariak.</string>
-	<string name="about_code">&lt;div style="background-color:#bbbbbb;padding:6px;border-radius:5px;border-style:solid;border-width:2px;border-color:#333333;text-align:center;">Puedes ver y descargar el codigo fuente de esta aplicacion en &lt;a href="https://github.com/Seavenois/GM">Github&lt;/a>&lt;/div></string>
-
-
-	<!-- Around section string -->
-	
-	<string name="around_no_events_0">No hay eventos proximamente.</string>
-	<string name="around_no_events_1">Según se acerquen las fiestas, ¡aquí irán apareceido actividades cerca de ti!</string>
-	<string name="around_no_events_button">Ver el programa de fiestas</string>
-	<string name="around_no_gps">GPS desconectado</string>
-	<string name="around_no_gps_button">Abrir ajustes</string>
-
-
 	<!-- Home section strings -->
 
-	<string name="home_section_schedule">Actividades en la ciudad</string>
-	<string name="home_section_gm">Actividades de Margolariak</string>
 	<string name="home_section_around">Cerca de mi</string>
 	<string name="home_section_location">Encuéntranos</string>
 	<string name="home_section_location_text_0">¡Gasteizko Margolariak está cerca!</string>
 	<string name="home_section_social">Síguenos</string>
-	<string name="home_section_join">Hazte Margolari</string>
-	<string name="home_section_schedule_see">Ver programa</string>
-	<string name="home_section_gm_see">Ver todas</string>
-	<string name="home_section_around_see">Ver más</string>
-	<string name="home_section_location_see">Mapa</string>
-	<string name="home_section_social_see">Síguenos</string>
-	<string name="home_section_join_see">Precios</string>
-	<string name="home_section_join_header">¡Únete a Gasteizko Margolariak por el mejor precio!</string>
-	<string name="home_section_join_text">¡Escoge días sueltos o elige nuestros packs en oferta!</string>
-	<string name="home_section_join_footer">Mira los precios y elige la opción que mejor se adapte a ti.</string>
 
 	
 	<!-- Prices dialog strings -->
@@ -84,63 +45,23 @@
 
 	<!-- Settings section strings -->
 
-	<string name="settings_section_notification">NOTIFICACIONES</string>
 	<string name="settings_notification">Notificaciones</string>
 	<string name="settings_notification_on">Recibir notificaciones</string>
 	<string name="settings_notification_off">No recibir notificaciones</string>
-	<string name="settings_notification_gm">Notificaciones de Margolariak</string>
-	<string name="settings_notification_gm_on">Recibir notificaciones de Margolariak</string>
-	<string name="settings_notification_gm_off">No recibir notificaciones de Margolariak</string>
-	<string name="settings_section_account">USUARIO</string>
-	<string name="settings_account_gm">Margolari</string>
-	<string name="settings_account_gm_on">Soy Margolari</string>
-	<string name="settings_account_gm_off">No soy Margolari</string>
-	<string name="settings_account_name">Nombre</string>
-	<string name="settings_account_message_title">Nombre de usuario</string>
-	<string name="settings_account_message_text">Introduce un nombre de usuario para ayudarnos a ofrecerte actividades más interesantes.</string>
-	<string name="settings_account_message_save">Guardar</string>
-	<string name="settings_account_message_cancel">Cancelar</string>
-	<string name="settings_account_unset"> </string>
-	<string name="settings_account_name_disclaimer">No publicaremos ni compartiremos tu nombre o información asociada a él con nadie.</string>
 
-
-	<!-- Location section strings -->
-
-	<string name="location_not_reporting">Gasteizko Margolariak no está compartiendo su ubicación en estos momentos.</string>
-	<string name="location_now">Pero, según su programa, puedes encontrarles ahora en %1$s.</string>
-	<string name="location_today">Pero, según su programa, puedes encontrarles hoy a las %1$s en %2$s.</string>
-	<string name="location_tomorrow">Pero, según su programa, puedes encontrarles mañana a las %1$s en %2$s.</string>
-	<string name="location_button">Ver el programa Margolari</string>
-	
-
-	<!-- Accesibility strings -->
-	
-	<string name="accesibility_event">Evento</string>
-	<string name="accesibility_event_gm">Evento organizado Gasteizko Margolariak</string>
-	<string name="accesibility_event_schedule">Evento en la ciudad</string>
-	
 	
 	<!-- Social networks strings -->
 
-	<string name="social_web">Web</string>
 	<string name="social_whatsapp_error">Error de conexión con Whatsapp. Está instalado?</string>
-
-
-	<!-- Misc strings -->
-	
-	<string name="kilometers">kilómetros</string>
-	<string name="meters">metros</string>
 
 
 	<!-- Notification dialog strings -->
 	
 	<string name="notification_close">Cerrar</string>
-	<string name="notification_action_schedule">Ver programa de fiestas</string>
 
 	<!-- Sync dialog strings -->
 	
 	<string name="dialog_sync_title">Sincronizando</string>
-	<string name="dialog_sync_internet">La primera vez que usas esta aplicación debes disponer de una conexión a internet.</string>
 	<string name="dialog_sync_failed_title">Error de sincronización</string>
 	<string name="dialog_sync_failed_text">No se pudierdon descargar los contenidos\n\nAsegúrate de que dispones de conexión a internet e inténtalo de nuevo.</string>
 	<string name="dialog_sync_failed_close">Cerrar</string>
@@ -150,10 +71,6 @@
 	<string name="activity_past">Actividades pasadas</string>
 	<string name="activity_price">Precio:</string>
 	<string name="activity_schedule">Itinerario</string>
-	<string name="around_distance_long">A %1$s kilometros de ti</string>
-	<string name="around_distance_short">A %1$s metros de ti (%2$s minutos andando)</string>
-	<string name="around_header">Eventos cercanos</string>
-	<string name="around_no_gps_text">Conecta el GPS para ver eventos a tu alrededor.</string>
 	<string name="comment_name">Nombre…</string>
 	<string name="comment_send">Publicar</string>
 	<string name="comment_text">Comentario…</string>
@@ -165,8 +82,6 @@
 	<string name="dialog_sync_text_2">Preparando kalimotxos&#8230;</string>
 	<string name="dialog_sync_text_3">\"&#8230;tu eres el piloto&#8230;\"</string>
 	<string name="dialog_sync_text_4">Afinando la tuba&#8230;</string>
-	<string name="distance_k">kilometros</string>
-	<string name="distance_m">metros</string>
 	<string name="gallery_albums">Albums</string>
 	<string name="gallery_upload">Subir fotos</string>
 	<string name="gallery_upload_button">Subir</string>
@@ -177,7 +92,6 @@
 	<string name="home_section_location_text_long">¡Están a solo %1$s kilometros de ti!</string>
 	<string name="lablanca_date_august">%1$s de agosto</string>
 	<string name="lablanca_date_july">%1$s de julio</string>
-	<string name="lablanca_nofestivals">Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas.</string>
 	<string name="lablanca_prices">Precios</string>
 	<string name="lablanca_prices_days">Dias sueltos</string>
 	<string name="lablanca_prices_pack">Packs</string>
@@ -192,5 +106,27 @@
 	<string name="schedule_month_july">Julio</string>
 	<string name="schedule_now">Ahora</string>
 	<string name="section_title_blog">Blog</string>
+	<string name="home_section_blog">Ultimos posts</string>
+	<string name="home_section_cityschedule">Programa de fiestas</string>
+	<string name="home_section_gallery">Ultimas fotos</string>
+	<string name="home_section_lablanca">La Blanca</string>
+	<string name="home_section_activities_past">Ultimas actividades</string>
+	<string name="app_cdesc"></string>
+	<string name="notification_action_activities">Ver actividades</string>
+	<string name="notification_action_blog">Abrir blog</string>
+	<string name="notification_action_cityschedule">Programa de fiestas</string>
+	<string name="notification_action_gallery">Abrir galeria</string>
+	<string name="notification_action_lablanca">Abrir La Blanca</string>
+	<string name="notification_action_location">Ver localizacion</string>
+	<string name="price">Precio: %1$d</string>
+	<string name="settings_about">Sobre nosotros</string>
+	<string name="settings_license">Licencia</string>
+	<string name="settings_license_content"><![CDATA[Copyright 2016 Iñigo Valentin<br/><br/>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.<br/><br/>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details at http://www.gnu.org/licenses/.<br/><br/>The name "Gasteizko Margolariak" and its logotype are property of Gasteizko Margolariak.<br/><br/><br/><div style="background-color:#bbbbbb;padding:6px;border-radius:5px;border-style:solid;border-width:2px;border-color:#333333;text-align:center;">You can get the source code for this project at <a href="https://github.com/Seavenois/GM">Github</a></div>]]></string>
+	<string name="settings_privacy">Privacidad</string>
+	<string name="settings_privacy_content"><![CDATA[In Gasteizko Margolariak we respect your privacy. We don\'t collect ANY data from our users, including personal information, location, shopping habits, sexual preferences, favourite colour, first love\'s name... ANY.<br/><br/>In order of making you believe us, we\'ll explain what we DO store:<br/><br/><ul><li>A randomly generated user code, unique to your device. This is neccessary to sync content with aur database, so you can get info about our post, activities... But it\'s done in a way that won\'t allow un to identify you as a person with that number.</li><li>When commenting on a photo ar an entry, we store your current IP address. This is incredibly usefull for us to know how many actual people are posting comments, and it also makes imposible for us to identify you as a person.</li></ul>]]></string>
+	<string name="settings_transparency">Transparencia</string>
+	<string name="settings_transparency_content"><![CDATA[¿Te preocupa saber dónde va tu dinero? En Gasteizko Margolariak queremos que estés tranquilo.<br/><br/>Muchas de nuestras actividades son gratuitas. Otras, como las fiestas de La Blanca, tienen una cuota de inscripción. Gasteizko Margolariak no es una empresa, es una Asociación Cultural, y como tal, no tenemos beneficios.<br/><br/>Queremos ser transparentes, y por eso, empezando en 2016, pondremos a tu disposición nuestras cuentas de manera online, para que sepas que cada euro se reinvierte en tí.]]></string>
+	<string name="lablanca_nofestivals">Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas.</string>
+	<string name="settings_about_content"><![CDATA[La Asociación Cultural Gasteizko Margolariak nace en el año 2013 con la idea de estimular la participación ciudadana y fortalecer la cultura y las tradiciones de Vitoria-Gasteiz.<br/><br/>En nuestro nombre se refleja un barrio en el que las calles nos recuerdan a grandes pintores: el barrio de San Martín. Estamos representados en los barrios, y creemos que son la esencia de esta ciudad.<br/><br/>Nos convertimos en Cuadrilla de Blusas y Neskas en 2013, y en ese mismo año, miembros de la Comisión de Blusas y Neskas.<br/><br/>Desde entonces no hemos hecho más que crecer junto con todos los que han decidido, año tras año, apostar por nosotros.]]></string>
 
 </resources>

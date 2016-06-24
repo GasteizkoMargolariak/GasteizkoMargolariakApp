@@ -20,16 +20,18 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/menu_home"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_home"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+				android:id="@+id/menu_home"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:layout_marginTop="10dp"
+				android:gravity="center_vertical"
+				android:text="@string/menu_home"
+				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
+				android:textColor="@color/menu_entry"
+				android:paddingTop="4dp"
+				android:paddingBottom="4dp"/>
 
 			<LinearLayout
 				android:orientation="vertical"
@@ -44,16 +46,18 @@
                     android:background="@color/background_separator"/>
 
 				<TextView
-                    android:id="@+id/menu_location"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/menu_location"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textStyle="bold"
-                    android:textColor="@color/menu_entry" />
+					android:id="@+id/menu_location"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_location"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:textStyle="bold"
+					android:textColor="@color/menu_entry"
+					android:paddingBottom="4dp"
+					android:paddingTop="4dp"/>
 			</LinearLayout>
 
 			<View
@@ -71,7 +75,9 @@
 				android:text="@string/menu_lablanca"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
+				android:textColor="@color/menu_entry"
+				android:paddingTop="4dp"
+				android:paddingBottom="4dp"/>
 
             <TextView
 				android:id="@+id/menu_lablanca_schedule"
@@ -85,7 +91,9 @@
 				android:text="@string/menu_lablanca_schedule"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:textColor="@color/menu_entry"
-				android:visibility="gone"/>
+				android:visibility="gone"
+				android:paddingTop="2dp"
+				android:paddingBottom="2dp"/>
 
             <TextView
 				android:id="@+id/menu_lablanca_gm_schedule"
@@ -99,21 +107,9 @@
 				android:text="@string/menu_lablanca_gm_schedule"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:textColor="@color/menu_entry"
-				android:visibility="gone"/>
-
-            <TextView
-				android:id="@+id/menu_lablanca_around"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:layout_marginStart="20dp"
-				android:layout_marginLeft="20dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_lablanca_around"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textColor="@color/menu_entry"
-				android:visibility="gone"/>
+				android:visibility="gone"
+				android:paddingBottom="2dp"
+				android:paddingTop="2dp"/>
 
 			<View
 				android:layout_width="fill_parent"
@@ -130,7 +126,9 @@
 				android:text="@string/menu_activities"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
+				android:textColor="@color/menu_entry"
+				android:paddingTop="4dp"
+				android:paddingBottom="4dp"/>
 
 			<View
 				android:layout_width="fill_parent"
@@ -147,7 +145,9 @@
 				android:text="@string/menu_blog"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
+				android:textColor="@color/menu_entry"
+				android:paddingBottom="4dp"
+				android:paddingTop="4dp"/>
 
 			<View
 				android:layout_width="fill_parent"
@@ -164,7 +164,9 @@
 				android:text="@string/menu_gallery"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
+				android:textColor="@color/menu_entry"
+				android:paddingTop="4dp"
+				android:paddingBottom="4dp"/>
 
 			<View
 				android:layout_width="fill_parent"
@@ -172,16 +174,18 @@
 				android:background="@color/background_separator"/>
 
             <TextView
-                android:id="@+id/menu_settings"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_settings"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+				android:id="@+id/menu_settings"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:layout_marginTop="10dp"
+				android:gravity="center_vertical"
+				android:text="@string/menu_settings"
+				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
-				android:textColor="@color/menu_entry" />
+				android:textColor="@color/menu_entry"
+				android:paddingBottom="4dp"
+				android:paddingTop="4dp"/>
 
         </LinearLayout>
 
