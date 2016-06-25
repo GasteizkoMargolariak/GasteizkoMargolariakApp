@@ -31,7 +31,9 @@
             android:contentDescription="@string/app_cdesc"
             android:layout_gravity="center_horizontal"
             android:padding="2dp"
-            android:background="@color/album_border" />
+            android:background="@color/album_border"
+            android:adjustViewBounds="true"
+            android:src="@drawable/photo_placeholder_miniature"/>
 
         <TextView
             android:layout_width="fill_parent"
@@ -91,7 +93,9 @@
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/app_cdesc"
             android:padding="2dp"
-            android:background="@color/album_border" />
+            android:background="@color/album_border"
+            android:adjustViewBounds="true"
+            android:src="@drawable/photo_placeholder_miniature"/>
 
         <TextView
             android:layout_width="fill_parent"

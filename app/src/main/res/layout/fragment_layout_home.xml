@@ -365,13 +365,15 @@
 						android:gravity="center_vertical|center_horizontal">
 
 						<ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/iv_home_section_gallery_0"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:id="@+id/iv_home_section_gallery_0"
 							android:contentDescription="@string/app_cdesc"
 							android:layout_margin="7dp"
-                            android:padding="1dp"
-                            android:background="@color/album_border" />
+							android:padding="1dp"
+							android:background="@color/album_border"
+							android:adjustViewBounds="true"
+							/>
 					</LinearLayout>
 
 					<LinearLayout
@@ -382,13 +384,15 @@
 						android:gravity="center_vertical|center_horizontal">
 
 						<ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/iv_home_section_gallery_1"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:id="@+id/iv_home_section_gallery_1"
 							android:contentDescription="@string/app_cdesc"
 							android:layout_margin="7dp"
-                            android:background="@color/album_border"
-                            android:padding="1dp" />
+							android:background="@color/album_border"
+							android:padding="1dp"
+							android:adjustViewBounds="true"
+							/>
 					</LinearLayout>
 
 				</LinearLayout>
@@ -413,7 +417,9 @@
 							android:contentDescription="@string/app_cdesc"
 							android:layout_margin="7dp"
 							android:padding="1dp"
-							android:background="@color/album_border" />
+							android:background="@color/album_border"
+							android:adjustViewBounds="true"
+							/>
 					</LinearLayout>
 
 					<LinearLayout
@@ -430,7 +436,9 @@
 							android:contentDescription="@string/app_cdesc"
 							android:layout_margin="7dp"
 							android:background="@color/album_border"
-							android:padding="1dp" />
+							android:padding="1dp"
+							android:adjustViewBounds="true"
+							/>
 					</LinearLayout>
 
 				</LinearLayout>

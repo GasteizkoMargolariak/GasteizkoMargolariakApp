@@ -71,9 +71,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_future_1"
                     android:contentDescription="@string/app_cdesc"
-                    android:visibility="gone"
                     android:layout_gravity="center_horizontal"
-                    android:maxHeight="50dp" />
+                    android:maxHeight="50dp"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
@@ -101,6 +102,7 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
         Log.d("File downloaded", path);
         Bitmap myBitmap = BitmapFactory.decodeFile(path);
         iv.setImageBitmap(myBitmap);
+        iv.setVisibility(View.VISIBLE);
     }
 
 }

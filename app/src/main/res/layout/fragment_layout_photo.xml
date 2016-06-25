@@ -35,7 +35,9 @@
                 android:id="@+id/iv_photo"
                 android:contentDescription="@string/app_cdesc"
                 android:padding="2dp"
-                android:background="@color/album_border"/>
+                android:background="@color/album_border"
+                android:adjustViewBounds="true"
+                android:src="@drawable/photo_placeholder_preview"/>
 
             <TextView
                 android:layout_width="wrap_content"

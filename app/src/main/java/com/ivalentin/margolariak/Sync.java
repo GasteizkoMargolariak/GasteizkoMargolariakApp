@@ -181,6 +181,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 		//Open the database. f its locked, exit.
 		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
 		if (db.isReadOnly()){
+			Log.e("DB LOCK", "L");
 			return null;
 		}
 
@@ -329,6 +330,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 		try{
 
 			for(int i = 0; i < queryList.size(); i++){
+				publishProgress();
 				try {
 					db.execSQL(queryList.get(i));
 				}
