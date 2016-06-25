@@ -202,14 +202,19 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	}
 
 	private void calCulateDistance(Location userLocation){
-		Double distance = Distance.calculateDistance(userLocation.getLatitude(), userLocation.getLongitude(), gmLocation.latitude, gmLocation.longitude, 'K');
 		TextView text = (TextView) v.findViewById(R.id.tv_location_distance);
-		if (distance <= 2) {
-			distance = 1000 * distance;
-			text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
+		try {
+			Double distance = Distance.calculateDistance(userLocation.getLatitude(), userLocation.getLongitude(), gmLocation.latitude, gmLocation.longitude, 'K');
+			if (distance <= 2) {
+				distance = 1000 * distance;
+				text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
+			} else {
+				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
+			}
 		}
-		else{
-			text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
+		catch(Exception ex){
+			Log.e("Distance error", ex.toString());
+			text.setText("");
 		}
 	}
 

@@ -533,7 +533,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		if (map != null)
 			map.setMyLocationEnabled(false);
 		if (mapView != null){
-			//mapView.onResume();
+			mapView.onResume();
 			mapView.onDestroy();
 		}
 	}
@@ -550,9 +550,9 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		if (map != null) {
 			map.setMyLocationEnabled(false);
 		}
-		//if (mapView != null){
-			//mapView.onPause();
-		//}
+		if (mapView != null){
+			mapView.onPause();
+		}
 	}
 
 	/**

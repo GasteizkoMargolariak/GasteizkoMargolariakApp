@@ -34,13 +34,13 @@ import android.widget.TextView;
  * @author Iñigo Valentin
  *
  */
-public class MainActivity extends Activity{//} implements LocationListener{
+public class MainActivity extends Activity{
 
 	//The main layout of the app
 	private MainLayout mLayout;
 
 	//Alarm to get location and notifications.
-	AlarmReceiver alarm;
+	private AlarmReceiver alarm;
 
 	/**
 	 * Loads a section in the main screen.

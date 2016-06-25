@@ -178,6 +178,12 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 
+		//Open the database. f its locked, exit.
+		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
+		if (db.isReadOnly()){
+			return null;
+		}
+
 		publishProgress();
 
 		//Gets the remote page.
@@ -321,7 +327,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 			}
 		}
 		try{
-			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
+
 			for(int i = 0; i < queryList.size(); i++){
 				try {
 					db.execSQL(queryList.get(i));

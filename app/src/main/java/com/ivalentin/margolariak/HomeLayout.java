@@ -966,6 +966,18 @@ public class HomeLayout extends Fragment implements LocationListener{
 		locationManager.removeUpdates(this);
 		super.onPause();
 	}
+
+	/**
+	 * Called when the fragment is destroyed.
+	 * Stops the location manager
+	 * @see android.app.Fragment#onDestroy()
+	 */
+	@Override
+	public void onDestroy(){
+		//TODO: Only do this if location is required
+		locationManager.removeUpdates(this);
+		super.onDestroy();
+	}
 	
 	/**
 	 * Called when the fragment is brought back into the foreground. 

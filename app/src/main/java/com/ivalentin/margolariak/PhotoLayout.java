@@ -200,18 +200,18 @@ public class PhotoLayout extends Fragment {
 
 		//Check if image exists
 		File f;
-		f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+		f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image);
 		if (f.exists()){
 			//If the image exists, set it.
-			Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+			Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image);
 			imageView.setImageBitmap(myBitmap);
 		}
 		else {
 			//If not, create directories and download asynchronously
 			File fpath;
-			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
+			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/");
 			fpath.mkdirs();
-			new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, imageView).execute();
+			new DownloadImage(GM.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView).execute();
 		}
 
 		//Hide or show comments, as needed
