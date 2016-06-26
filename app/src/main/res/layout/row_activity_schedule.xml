@@ -16,6 +16,14 @@
         android:textStyle="bold"
         android:gravity="end" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/tv_row_activity_itinerary_id"
+        android:visibility="gone"/>
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="20dp"

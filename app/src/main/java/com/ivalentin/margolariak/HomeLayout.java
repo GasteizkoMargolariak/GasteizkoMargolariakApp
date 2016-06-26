@@ -59,7 +59,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 * 
 	 * @return The fragment view
 	 * 
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
@@ -73,14 +73,12 @@ public class HomeLayout extends Fragment implements LocationListener{
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
 		onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
-		//locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
-		
+
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_home));
 
-		//TODO: These methods are empty yet
+		//TODO: This methods is empty
 		setUpLablanca(view);
-		setUpAround(view);
 
 		//Set up the blog section
 		setUpBlog(view);
@@ -350,7 +348,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 			}
 		});
 
-		googleplus.setOnClickListener(new View.OnClickListener() {
+		youtube.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String url = v.getContext().getString(R.string.social_youtube_link);
@@ -369,16 +367,6 @@ public class HomeLayout extends Fragment implements LocationListener{
 				startActivity(i);
 			}
 		});
-	}
-
-	/**
-	 * Populates the Around section of the home screen.
-	 *
-	 * @return The number of entries shown.
-	 */
-	private int setUpAround(View view) {
-		//TODO: setUpAround(View view)
-		return 0;
 	}
 
 	/**
