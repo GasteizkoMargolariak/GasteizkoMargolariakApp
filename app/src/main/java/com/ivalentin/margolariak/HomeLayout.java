@@ -750,7 +750,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 						Fragment fragment = new ActivityFutureLayout();
 						Bundle bundle = new Bundle();
 						//Pass post id
-						int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_activity_future_hidden)).getText().toString());
+						int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_home_activity_hidden)).getText().toString());
 						bundle.putInt("activity", id);
 						fragment.setArguments(bundle);
 

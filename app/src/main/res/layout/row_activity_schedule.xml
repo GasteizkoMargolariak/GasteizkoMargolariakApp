@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="@android:style/TextAppearance.Medium"
         android:text="Medium Text"
         android:id="@+id/tv_row_activity_itinerary_time"
         android:layout_weight=".8"
@@ -50,14 +50,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@android:style/TextAppearance.Large"
             android:text="Large Text"
             android:id="@+id/tv_row_activity_itinerary_title" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="@android:style/TextAppearance.Medium"
             android:text="Medium Text"
             android:id="@+id/tv_row_activity_itinerary_description"
             android:textStyle="italic" />
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:text="Small Text"
                     android:id="@+id/tv_row_activity_itinerary_place"
                     android:layout_gravity="center_vertical" />
@@ -95,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:text="Small Text"
                     android:id="@+id/tv_row_activity_itinerary_address"
                     android:layout_gravity="center_vertical"

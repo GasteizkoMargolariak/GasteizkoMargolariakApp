@@ -266,11 +266,9 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		}
 		Cursor cursor = db.rawQuery(query, null);
 
-		//If there are entries, clear the list
+		//Clear the list
 		list = (LinearLayout) view.findViewById(R.id.ll_schedule_list);
-		if (cursor.getCount() > 0) {
-			list.removeAllViews();
-		}
+		list.removeAllViews();
 
 		while (cursor.moveToNext()) {
 			eventCount++;
@@ -308,7 +306,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			//Set icon
 			if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_schedule_pinpoint);
-				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
+				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/pinpoint_gm", null, null));
 			}
 
 

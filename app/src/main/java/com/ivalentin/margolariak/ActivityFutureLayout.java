@@ -110,7 +110,7 @@ public class ActivityFutureLayout extends Fragment {
         cursor.close();
 
         //Get itinerary
-        Cursor cursorItinerary = db.rawQuery("SELECT id, activity_schedule.name_" + currLang + " AS name, description_" + currLang + " AS description, start, place.name_" + currLang + " AS placename, address_" + currLang + " AS address, lat, lon FROM activity_schedule, place WHERE activity_schedule.place = place.id AND activity = " + id + ";", null);
+        Cursor cursorItinerary = db.rawQuery("SELECT activity_itinerary.id, activity_itinerary.name_" + currLang + " AS name, description_" + currLang + " AS description, start, place.name_" + currLang + " AS placename, address_" + currLang + " AS address, lat, lon FROM activity_itinerary, place WHERE activity_itinerary.place = place.id AND activity = " + id + ";", null);
         if (cursorItinerary.getCount() <= 0){
             LinearLayout sch = (LinearLayout) view.findViewById(R.id.ll_activity_future_schedule);
             sch.setVisibility(View.GONE);
@@ -125,32 +125,32 @@ public class ActivityFutureLayout extends Fragment {
 
                 //Set time
                 TextView tvSchTime = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_time);
-                tvSchTime.setText(cursor.getString(3).substring(11, 16));
+                tvSchTime.setText(cursorItinerary.getString(3).substring(11, 16));
 
                 //Set title
                 TextView tvSchTitle = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_title);
-                tvSchTitle.setText(cursor.getString(1));
+                tvSchTitle.setText(cursorItinerary.getString(1));
 
                 //Set description
                 TextView tvSchDescription = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_description);
-                if (!cursor.getString(1).equals(cursor.getString(2))){
+                if (!cursorItinerary.getString(1).equals(cursorItinerary.getString(2))){
                     tvSchDescription.setVisibility(View.GONE);
                 }
                 else {
-                    tvSchTitle.setText(cursor.getString(2));
+                    tvSchTitle.setText(cursorItinerary.getString(2));
                 }
 
                 //Set place
                 TextView tvSchPlace = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_place);
-                tvSchPlace.setText(cursor.getString(4));
+                tvSchPlace.setText(cursorItinerary.getString(4));
 
                 //Set address
                 TextView tvSchAddress = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_address);
-                if (!cursor.getString(4).equals(cursor.getString(5))){
+                if (!cursorItinerary.getString(4).equals(cursorItinerary.getString(5))){
                     tvSchAddress.setVisibility(View.GONE);
                 }
                 else {
-                    tvSchAddress.setText(cursor.getString(5));
+                    tvSchAddress.setText(cursorItinerary.getString(5));
                 }
 
                 //TODO: Add an onclick listener on image that shows a map

@@ -15,17 +15,19 @@
         android:layout_margin="7dp"
         android:padding="7dp" >
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/tv_activity_future_title" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/tv_activity_future_title" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/entry"
+            android:padding="7dp" >
 
             <TextView
                 android:layout_width="fill_parent"
@@ -34,15 +36,7 @@
                 android:text="Large Text"
                 android:id="@+id/tv_activity_future_date"
                 android:layout_gravity="end"
-                android:gravity="end" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/entry"
-            android:padding="7dp" >
+                android:gravity="center_horizontal" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -104,7 +98,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="15dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:background="@color/album_border"
+                >
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -113,17 +109,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
                         android:text="@string/activity_city"
-                        android:layout_margin="5dp"
-                        android:gravity="end"/>
+                        android:gravity="end"
+                        android:background="#ffffff"
+                        android:layout_margin="1dp"
+                        android:padding="4dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
                         android:id="@+id/tv_activity_future_city"
-                        android:layout_margin="5dp" />
+                        android:layout_margin="1dp"
+                        android:background="#ffffff"
+                        android:padding="4dp"/>
                 </TableRow>
 
                 <TableRow
@@ -133,40 +133,46 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
                         android:text="@string/activity_price"
-                        android:layout_margin="5dp"
-                        android:gravity="end" />
+                        android:layout_margin="1dp"
+                        android:gravity="end"
+                        android:background="#ffffff"
+                        android:padding="4dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
                         android:id="@+id/tv_activity_future_price"
-                        android:layout_margin="5dp" />
+                        android:layout_margin="1dp"
+                        android:background="#ffffff"
+                        android:padding="4dp"/>
                 </TableRow>
             </TableLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:id="@+id/ll_activity_future_schedule">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/activity_schedule" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:id="@+id/ll_activity_future_schedule">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/activity_schedule" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/ll_activity_future_schedule_list"/>
-            </LinearLayout>
-
+                android:id="@+id/ll_activity_future_schedule_list"
+                android:background="@drawable/entry"
+                android:padding="7dp"/>
         </LinearLayout>
 
     </LinearLayout>
