@@ -263,7 +263,7 @@ public class MainActivity extends Activity{
 		//If the user code is not set, generate one
 		if (preferences.getString(GM.USER_CODE, "").length() == 0){
 			SecureRandom random = new SecureRandom();
-			String newCode = new BigInteger(130, random).toString(32).substring(0, 8);
+			String newCode = new BigInteger(130, random).toString(32).substring(0, 16);
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putString(GM.USER_CODE, newCode);
 			editor.apply();

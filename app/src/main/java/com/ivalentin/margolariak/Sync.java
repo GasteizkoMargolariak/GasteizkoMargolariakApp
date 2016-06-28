@@ -30,7 +30,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 	private ProgressBar pbSync;
 	private Dialog dialog;
 	private MainActivity activity;
-	private boolean fg;
+	private int fg;
 	private int newVersion;
 	private String strings[];
 	private boolean doProgress = false;
@@ -122,7 +122,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
         this.myContextRef = myContextRef;
         dialog = null;
         pbSync = pb;
-        fg = true;
+        fg = 1;
     }
     
     /**
@@ -140,7 +140,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
     	this.activity = activity;
         this.myContextRef = myContextRef;
         pbSync = pb;
-        fg = true;
+        fg = 1;
     }
     
     /**
@@ -151,7 +151,7 @@ public class Sync extends AsyncTask<Void, Void, Void> {
     public Sync(Context context) {
         this.myContextRef = context;
         pbSync = null;
-        fg = false;
+        fg = 0;
     }
 
 	@Override
@@ -208,11 +208,10 @@ public class Sync extends AsyncTask<Void, Void, Void> {
 		try{
 			publishProgress();
 
-			String user = preferences.getString(GM.USER_NAME, "");
 			String code = preferences.getString(GM.USER_CODE, "");
 			int dbVersion = preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION);
 			fu = new FetchURL();
-			fu.Run(GM.SERVER + "/app/sync.php?user=" + user + "&code=" + code + "&fg=" + fg + "&v=" + dbVersion);
+			fu.Run(GM.SERVER + "/app/sync.php?os=android&code=" + code + "&fg=" + fg + "&v=" + dbVersion);
 			//All the info
 			o = fu.getOutput().toString();
 			publishProgress();

@@ -52,7 +52,7 @@ public class PostLayout extends Fragment {
 
         //Get bundled id
         Bundle bundle = this.getArguments();
-        int id = bundle.getInt("post", -1);
+        final int id = bundle.getInt("post", -1);
         if (id == -1){
             Log.e("Post error", "No such post: " + id);
             this.getActivity().onBackPressed();
@@ -164,7 +164,7 @@ public class PostLayout extends Fragment {
                 //Start async task
                 LinearLayout form = (LinearLayout) view.findViewById(R.id.ll_new_comment);
                 LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_comment_list);
-                new PostComment("blog", user, text, currLang, cursor.getInt(0), form, list, commentCount, tvComments, context).execute();
+                new PostComment("blog", user, text, currLang, id, form, list, commentCount, tvComments, context).execute();
 
             }
         });

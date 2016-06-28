@@ -2,6 +2,7 @@ package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
@@ -23,17 +24,17 @@ import java.util.Date;
 class PostComment extends AsyncTask<String, String, Integer> {
 
     //Elements passed from fragments
-    String type, user, text, language;
-    LinearLayout list, form;
-    TextView counter;
-    int id, currentCounter;
-    Context context;
+    private String type, user, text, language, userCode;
+    private LinearLayout list, form;
+    private TextView counter;
+    private int id, currentCounter;
+    private Context context;
 
     //Elements calculated here
-    Button btSend;
-    ProgressBar pb;
+    private Button btSend;
+    private ProgressBar pb;
 
-    int code = 404;
+    private int code = 404;
 
     public PostComment(String type, String user, String text, String language, int id, LinearLayout form, LinearLayout list, int currentCounter, TextView counter, Context context) {
         super();
@@ -47,6 +48,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
         this.id = id;
         this.currentCounter = currentCounter;
         this.context = context;
+
     }
 
     /**
@@ -59,6 +61,10 @@ class PostComment extends AsyncTask<String, String, Integer> {
         pb = (ProgressBar) form.findViewById(R.id.pb_comment);
         btSend.setVisibility(View.GONE);
         pb.setVisibility(View.VISIBLE);
+
+        //Get user code
+        SharedPreferences preferences = context.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+        userCode = preferences.getString(GM.USER_CODE, "");
     }
 
     /**
@@ -94,10 +100,10 @@ class PostComment extends AsyncTask<String, String, Integer> {
                     urlParams = urlParams + "&lang=eu";
                     break;
                 default:
-                    this.language = "en";
                     urlParams = urlParams + "&lang=en";
             }
-
+            urlParams = urlParams + "&from=app&code=" + userCode;
+            Log.e("PARAMS", urlParams);
             byte[] postData       = urlParams.getBytes("UTF-8");
             int    postDataLength = postData.length;
             String request        = GM.SERVER + "/" + type + "/comment.php";
