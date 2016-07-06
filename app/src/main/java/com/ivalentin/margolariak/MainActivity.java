@@ -19,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -200,6 +201,7 @@ public class MainActivity extends Activity{
 		menuItem[4] = (TextView) findViewById(R.id.menu_blog);
 		menuItem[5] = (TextView) findViewById(R.id.menu_gallery);
 		menuItem[6] = (TextView) findViewById(R.id.menu_settings);
+		TextView menuSpacer = (TextView) findViewById(R.id.menu_space);
 
 		//Assign buttons for la blanca submenu
 		TextView menuLablancaItem[] = new TextView[2];
@@ -259,6 +261,13 @@ public class MainActivity extends Activity{
 				menuLablancaItem[i].setVisibility(View.VISIBLE);
 			}
 		}
+
+		menuSpacer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mLayout.toggleMenu();
+			}
+		});
 
 		//If the user code is not set, generate one
 		if (preferences.getString(GM.USER_CODE, "").length() == 0){
@@ -564,6 +573,21 @@ public class MainActivity extends Activity{
 			super.onBackPressed();
 		}
 		
+	}
+
+	/**
+	 * Overrides onKeyUp().
+	 * Used to toggle the menu whent the key is pressed.
+	 *
+	 * @see android.app.Activity#onKeyUp(int, KeyEvent)
+	 */
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_MENU) {
+			mLayout.toggleMenu();
+			return true;
+		}
+		return super.onKeyUp(keyCode, event);
 	}
 	
 }

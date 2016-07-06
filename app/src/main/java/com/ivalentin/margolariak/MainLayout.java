@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Scroller;
 
 /**
@@ -206,7 +208,7 @@ public class MainLayout extends LinearLayout {
 			return false;
 		int curX = (int) event.getRawX();
 		int diffX;
-		
+
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				prevX = curX;
@@ -238,12 +240,12 @@ public class MainLayout extends LinearLayout {
 				return true;
 			
 			case MotionEvent.ACTION_UP:
-				
-				if (lastDiffX > 0) {
+				if (currentMenuState == MenuState.HIDDEN) {
 					currentMenuState = MenuState.SHOWING;
 					menuScroller.startScroll(contentXOffset, 0,	menu.getLayoutParams().width - contentXOffset, 0, GM.MENU_SLIDING_DURATION);
 				}
-				else if (lastDiffX < 0) {
+				else if (currentMenuState == MenuState.SHOWN) {
+
 					currentMenuState = MenuState.HIDING;
 					menuScroller.startScroll(contentXOffset, 0, -contentXOffset, 0, GM.MENU_SLIDING_DURATION);
 				}
@@ -257,6 +259,8 @@ public class MainLayout extends LinearLayout {
 			default:
 				break;
 		}
+
+
 		
 		return false;
 	}

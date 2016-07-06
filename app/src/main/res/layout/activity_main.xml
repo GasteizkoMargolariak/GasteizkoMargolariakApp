@@ -1,23 +1,26 @@
-<com.ivalentin.margolariak.MainLayout xmlns:android="http://schemas.android.com/apk/res/android"
-									  android:id="@+id/main_layout"
-									  android:layout_width="match_parent"
-									  android:layout_height="match_parent"
-									  android:background="@color/background_menu"
-									  android:fitsSystemWindows="true" >
+<com.ivalentin.margolariak.MainLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/main_layout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	android:background="@color/background_menu">
     
 	
     <!-- Slider menu -->
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent" >
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:nestedScrollingEnabled="false">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/divider"
-            android:orientation="vertical"
-            android:padding="10dp">
+			android:layout_width="match_parent"
+			android:layout_height="fill_parent"
+			android:divider="@drawable/divider"
+			android:orientation="vertical"
+			android:padding="10dp"
+			android:baselineAligned="false"	>
 
             <TextView
 				android:id="@+id/menu_home"
@@ -187,18 +190,26 @@
 				android:paddingBottom="4dp"
 				android:paddingTop="4dp"/>
 
-        </LinearLayout>
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/menu_space"
+				android:padding="5dp"/>
+
+		</LinearLayout>
 
     </ScrollView>
 
 	<!-- The visible screen -->
 
 	<LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:background="@color/background_app"
-	    android:orientation="vertical" >
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/background_app"
+		android:orientation="vertical"
+		>
 
 		<!-- The action bar -->
 
@@ -269,9 +280,11 @@
 		<!-- The part where the fragments will be loaded -->
 
 		<FrameLayout
-		    android:id="@+id/activity_main_content_fragment"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent" >
+			android:id="@+id/activity_main_content_fragment"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="9dp"
+			android:layout_marginRight="9dp">
 		
 		</FrameLayout>
 		
