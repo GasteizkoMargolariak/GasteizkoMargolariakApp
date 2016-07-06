@@ -18,7 +18,8 @@
 			android:layout_height="wrap_content"
 			android:textAppearance="@android:style/TextAppearance.Large"
 			android:text="@string/menu_location"
-			android:id="@+id/textView2"/>
+			android:id="@+id/textView2"
+			android:textStyle="bold"/>
 
 		<LinearLayout
 			android:orientation="vertical"

@@ -14,14 +14,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
             android:id="@+id/tv_row_activity_past_title" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
             android:id="@+id/tv_row_activity_past_date"
             android:gravity="end"
             android:layout_marginStart="20dp"
@@ -31,7 +29,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/tv_row_activity_past_hidden"
         android:visibility="gone" />
 
@@ -52,7 +49,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/tv_row_activity_past_text"
             android:layout_weight=".7"
             android:textAppearance="@android:style/TextAppearance.Medium"

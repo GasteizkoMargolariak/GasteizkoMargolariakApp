@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textAppearance="@android:style/TextAppearance.Large"/>
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textStyle="bold"/>
 
     <ScrollView
         android:layout_width="fill_parent"

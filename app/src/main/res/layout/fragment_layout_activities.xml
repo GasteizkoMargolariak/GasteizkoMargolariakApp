@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/activity_future"
-                android:id="@+id/textView5" />
+                android:id="@+id/textView5"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -57,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/activity_past"
-                android:id="@+id/textView7" />
+                android:id="@+id/textView7"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:orientation="vertical"

@@ -67,7 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/gallery_albums" />
+                android:text="@string/gallery_albums"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:orientation="vertical"

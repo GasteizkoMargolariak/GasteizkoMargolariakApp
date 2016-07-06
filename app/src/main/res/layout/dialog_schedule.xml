@@ -44,7 +44,8 @@
             android:id="@+id/tv_dialog_schedule_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Large"/>
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:orientation="vertical"

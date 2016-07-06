@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/tv_post_title" />
+            android:id="@+id/tv_post_title"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:orientation="vertical"

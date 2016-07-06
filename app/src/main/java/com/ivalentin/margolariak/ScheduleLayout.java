@@ -367,7 +367,6 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		//Get info about the event
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
 		String lang = GM.getLang();
-		//Cursor cursor = db.rawQuery("SELECT event.id, event.name, description, start, end, place.name, address, lat, lon, host FROM event, place WHERE place.id = event.place AND event.id = " + id + ";", null);
 		Cursor cursor = db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host FROM festival_event, place WHERE place = place.id AND festival_event.id = " + id + ";", null);
 		if (cursor.getCount() > 0){
 			cursor.moveToNext();

@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/tv_activity_future_title" />
+            android:id="@+id/tv_activity_future_title"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -164,7 +165,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/activity_schedule" />
+                android:text="@string/activity_schedule"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:orientation="vertical"

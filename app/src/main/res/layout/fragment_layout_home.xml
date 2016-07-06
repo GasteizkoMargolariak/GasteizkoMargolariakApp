@@ -23,7 +23,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_location"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
                 android:id="@+id/ll_home_section_location_content"
@@ -84,7 +85,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_lablanca"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_lablanca_content"
@@ -114,7 +116,8 @@
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_gmschedule"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:layout_marginBottom="10dp"/>
+				android:layout_marginBottom="10dp"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:orientation="vertical"
@@ -187,7 +190,8 @@
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_cityschedule"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:layout_marginBottom="10dp"/>
+				android:layout_marginBottom="10dp"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:orientation="vertical"
@@ -259,7 +263,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_around"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_around_content"
@@ -288,7 +293,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_activities_future"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_activities_future_content"
@@ -314,7 +320,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_blog"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_blog_content"
@@ -340,7 +347,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_gallery"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_gallery_content"
@@ -489,7 +497,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_activities_past"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_activities_past_content"
@@ -515,7 +524,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_social"
-				android:textAppearance="?android:attr/textAppearanceLarge"/>
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textStyle="bold"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_social_content"
