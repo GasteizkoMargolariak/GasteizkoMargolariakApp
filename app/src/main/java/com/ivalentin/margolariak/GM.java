@@ -226,14 +226,14 @@ public final class GM {
 	public static String getLang(){
 		String currLang = Locale.getDefault().getISO3Language();//getDisplayLanguage();
 		switch (currLang){
-			case "spa":
-				currLang = "es";
+			case "eng":
+				currLang = "en";
 				break;
 			case "eus":
 				currLang = "eu";
 				break;
 			default:
-				currLang = "en";
+				currLang = "es";
 		}
 		return currLang;
 	}

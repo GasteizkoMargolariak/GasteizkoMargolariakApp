@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.Locale;
 
 /**
  * Fragment of the gallery section.
@@ -75,13 +75,10 @@ public class GalleryLayout extends Fragment{
 
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        String currLang = Locale.getDefault().getDisplayLanguage();
-        if (!currLang.equals("es") && !currLang.equals("eu")){
-            currLang = "en";
-        }
+		String lang = GM.getLang();
 
         //Get data from the database
-        cursor = db.rawQuery("SELECT DISTINCT album.id AS id, album.name_" + currLang + " AS name FROM photo, album, photo_album WHERE photo.id = photo AND album.id = album ORDER BY uploaded DESC;", null);
+        cursor = db.rawQuery("SELECT DISTINCT album.id AS id, album.name_" + lang + " AS name FROM photo, album, photo_album WHERE photo.id = photo AND album.id = album ORDER BY uploaded DESC;", null);
 
         //Loop
         while (cursor.moveToNext()){
@@ -110,7 +107,7 @@ public class GalleryLayout extends Fragment{
             preview[3] = (ImageView) entry.findViewById(R.id.iv_row_gallery_3);
 
             //Get db rows
-            Cursor cursorImage = db.rawQuery("SELECT id, file, width, height, count(id) FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + " ORDER BY random() LIMIT 4;", null);
+            Cursor cursorImage = db.rawQuery("SELECT id, file, width, height, FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + " ORDER BY random() LIMIT 4;", null);
 
             //Loop
             int i = 0;
@@ -133,14 +130,17 @@ public class GalleryLayout extends Fragment{
                     new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
                 }
                 i ++;
+				Log.e("Image idx", "" + i);
 
             }
 
             //Set photo counter
-			cursorImage.moveToFirst();
+			Cursor cursorCounter = db.rawQuery("SELECT id FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + ";", null);
             TextView tvPhotoCounter = (TextView) entry.findViewById(R.id.tv_row_gallery_counter);
-            tvPhotoCounter.setText(String.format(getResources().getQuantityString(R.plurals.gallery_photo_count, cursorImage.getInt(4), cursorImage.getInt(4))));
+            tvPhotoCounter.setText(getResources().getQuantityString(R.plurals.gallery_photo_count, cursorCounter.getColumnCount(), cursorCounter.getColumnCount()));
 
+			//Close cursors
+			cursorCounter.close();
             cursorImage.close();
 
             //Set onCLickListener

@@ -37,9 +37,7 @@ public class PostLayout extends Fragment {
     //Main View
     private View view;
 
-    String currLang;
-
-    Context context;
+    private Context context;
 
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -61,11 +59,8 @@ public class PostLayout extends Fragment {
         //Get data from database
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        currLang = Locale.getDefault().getDisplayLanguage();
-        if (!currLang.equals("es") && !currLang.equals("eu")){
-            currLang = "en";
-        }
-        cursor = db.rawQuery("SELECT id, title_" + currLang+ " AS title, text_" + currLang + " AS text, dtime FROM post WHERE id = " + id + ";", null);
+        String lang = GM.getLang();
+        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, dtime FROM post WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Get display elements
@@ -86,10 +81,7 @@ public class PostLayout extends Fragment {
         tvTitle.setText(cursor.getString(1));
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
         wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
-        tvDate.setText(GM.formatDate(cursor.getString(3), currLang, true));
-
-        //Close the cursor
-        //cursor.close();
+        tvDate.setText(GM.formatDate(cursor.getString(3), lang, true));
 
         //Get images
         Cursor imageCursor = db.rawQuery("SELECT image, idx FROM post_image WHERE post = " + id + " ORDER BY idx LIMIT 5;", null);
@@ -131,7 +123,7 @@ public class PostLayout extends Fragment {
             TextView tvUser = (TextView) entry.findViewById(R.id.tv_row_comment_user);
             tvUser.setText(commentCursor.getString(2));
             TextView tvCDate = (TextView) entry.findViewById(R.id.tv_row_comment_date);
-            tvCDate.setText(GM.formatDate(commentCursor.getString(1), currLang, true));
+            tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true));
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_comment_text);
             tvText.setText(commentCursor.getString(0));
 
@@ -164,7 +156,8 @@ public class PostLayout extends Fragment {
                 //Start async task
                 LinearLayout form = (LinearLayout) view.findViewById(R.id.ll_new_comment);
                 LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_comment_list);
-                new PostComment("blog", user, text, currLang, id, form, list, commentCount, tvComments, context).execute();
+                String lang = GM.getLang();
+                new PostComment("blog", user, text, lang, id, form, list, commentCount, tvComments, context).execute();
 
             }
         });

@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.Locale;
 
 /**
  * Section that shows a photo of the gallery, with details and comments.
@@ -37,7 +36,6 @@ public class PhotoLayout extends Fragment {
 	//Main View
 	private View view;
 
-	private String currLang;
 	private String albumName;
 
 	Integer photos[];
@@ -160,11 +158,8 @@ public class PhotoLayout extends Fragment {
 		//Get data from database
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
 		final Cursor cursor;
-		currLang = Locale.getDefault().getDisplayLanguage();
-		if (!currLang.equals("es") && !currLang.equals("eu")){
-			currLang = "en";
-		}
-		cursor = db.rawQuery("SELECT id, file, title_" + currLang+ " AS title, description_" + currLang + " AS description, uploaded, width, height, size FROM photo WHERE id = " + id + ";", null);
+		final String lang = GM.getLang();
+		cursor = db.rawQuery("SELECT id, file, title_" + lang+ " AS title, description_" + lang + " AS description, uploaded, width, height, size FROM photo WHERE id = " + id + ";", null);
 		cursor.moveToFirst();
 
 		//Get display elements
@@ -194,7 +189,7 @@ public class PhotoLayout extends Fragment {
 		else{
 			tvDescription.setVisibility(View.GONE);
 		}
-		tvDate.setText(GM.formatDate(cursor.getString(4), currLang, true));
+		tvDate.setText(GM.formatDate(cursor.getString(4), lang, true));
 
 		//Get image
 		String image = cursor.getString(1);
@@ -249,7 +244,7 @@ public class PhotoLayout extends Fragment {
 			TextView tvUser = (TextView) entry.findViewById(R.id.tv_row_comment_user);
 			tvUser.setText(commentCursor.getString(2));
 			TextView tvCDate = (TextView) entry.findViewById(R.id.tv_row_comment_date);
-			tvCDate.setText(GM.formatDate(commentCursor.getString(1), currLang, true));
+			tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true));
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_comment_text);
 			tvText.setText(commentCursor.getString(0));
 
@@ -282,7 +277,7 @@ public class PhotoLayout extends Fragment {
 			//Start async task
 			LinearLayout form = (LinearLayout) view.findViewById(R.id.ll_new_comment);
 			LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_comment_list);
-			new PostComment("galeria", user, text, currLang, photoId, form, list, commentCount, tvComments, context).execute();
+			new PostComment("galeria", user, text, lang, photoId, form, list, commentCount, tvComments, context).execute();
 
 			}
 		});

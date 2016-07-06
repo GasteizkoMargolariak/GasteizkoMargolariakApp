@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.Locale;
 
 /**
  * Fragment to display photos of a selected album.
@@ -54,11 +53,8 @@ public class AlbumLayout extends Fragment {
         //Get data from database
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        String currLang = Locale.getDefault().getDisplayLanguage();
-        if (!currLang.equals("es") && !currLang.equals("eu")){
-            currLang = "en";
-        }
-        cursor = db.rawQuery("SELECT id, name_" + currLang + " AS name, description_" + currLang + " AS description FROM album WHERE id = " + id + ";", null);
+		String lang = GM.getLang();
+        cursor = db.rawQuery("SELECT id, name_" + lang + " AS name, description_" + lang + " AS description FROM album WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Set album elements
@@ -83,7 +79,7 @@ public class AlbumLayout extends Fragment {
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
         String image;
-        Cursor imageCursor = db.rawQuery("SELECT id, title_" + currLang + " AS title, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + id + " ORDER BY uploaded DESC;", null);
+        Cursor imageCursor = db.rawQuery("SELECT id, title_" + lang + " AS title, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + id + " ORDER BY uploaded DESC;", null);
         while (imageCursor.moveToNext()){
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_album, null);

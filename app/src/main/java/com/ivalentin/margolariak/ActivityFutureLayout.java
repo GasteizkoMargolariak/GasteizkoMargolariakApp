@@ -55,9 +55,8 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	private MapView mapView;
 	private GoogleMap map;
 	private LatLng location;
-	private View view;
 	private String markerName = "";
-	private Bundle bund;
+	private Bundle bund = null;
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint("InflateParams")
@@ -78,12 +77,9 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         //Get data from database
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        String currLang = Locale.getDefault().getDisplayLanguage();
-        if (!currLang.equals("es") && !currLang.equals("eu")){
-            currLang = "en";
-        }
+		String lang = GM.getLang();
 
-        cursor = db.rawQuery("SELECT id, title_" + currLang+ " AS title, text_" + currLang + " AS text, date, city, price FROM activity WHERE id = " + id + ";", null);
+        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, date, city, price FROM activity WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Get display elements
@@ -104,7 +100,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         tvTitle.setText(cursor.getString(1));
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
         wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
-        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", currLang, false));
+        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
         tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
         tvCity.setText(cursor.getString(4));
 
@@ -137,7 +133,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         cursor.close();
 
         //Get itinerary
-        Cursor cursorItinerary = db.rawQuery("SELECT activity_itinerary.id, activity_itinerary.name_" + currLang + " AS name, description_" + currLang + " AS description, start, place.name_" + currLang + " AS placename, address_" + currLang + " AS address, lat, lon FROM activity_itinerary, place WHERE activity_itinerary.place = place.id AND activity = " + id + ";", null);
+        Cursor cursorItinerary = db.rawQuery("SELECT activity_itinerary.id, activity_itinerary.name_" + lang + " AS name, description_" + lang + " AS description, start, place.name_" + lang + " AS placename, address_" + lang + " AS address, lat, lon FROM activity_itinerary, place WHERE activity_itinerary.place = place.id AND activity = " + id + ";", null);
         if (cursorItinerary.getCount() <= 0){
             LinearLayout sch = (LinearLayout) view.findViewById(R.id.ll_activity_future_schedule);
             sch.setVisibility(View.GONE);

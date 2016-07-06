@@ -50,11 +50,8 @@ public class ActivityPastLayout extends Fragment {
         //Get data from database
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        String currLang = Locale.getDefault().getDisplayLanguage();
-        if (!currLang.equals("es") && !currLang.equals("eu")){
-            currLang = "en";
-        }
-        cursor = db.rawQuery("SELECT id, title_" + currLang+ " AS title, text_" + currLang + " AS text, date, city, after_" + currLang + " AS after FROM activity WHERE id = " + id + ";", null);
+        String lang = GM.getLang();
+        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, date, city, after_" + lang + " AS after FROM activity WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Get display elements
@@ -79,7 +76,7 @@ public class ActivityPastLayout extends Fragment {
         else{
             wvText.loadDataWithBaseURL(null, cursor.getString(5), "text/html", "utf-8", null);
         }
-        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", currLang, false));
+        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
         tvCity.setText(cursor.getString(4));
 
         //Get images

@@ -146,13 +146,10 @@ public class BlogLayout extends Fragment{
 
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        String currLang = Locale.getDefault().getDisplayLanguage();
-        if (!currLang.equals("es") && !currLang.equals("eu")){
-            currLang = "en";
-        }
+        String lang = GM.getLang();
 
         //Get data from the database
-        cursor = db.rawQuery("SELECT id, title_" + currLang+ " AS title, text_" + currLang + " AS text, dtime FROM post ORDER BY dtime DESC LIMIT 5 OFFSET " + offset + ";", null);
+        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, dtime FROM post ORDER BY dtime DESC LIMIT 5 OFFSET " + offset + ";", null);
 
         //Clear the list
         llList.removeAllViews();
@@ -182,7 +179,7 @@ public class BlogLayout extends Fragment{
 
             //Set date
             TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_blog_date);
-            tvDate.setText(GM.formatDate(cursor.getString(3), currLang, false));
+            tvDate.setText(GM.formatDate(cursor.getString(3), lang, false));
 
             //Set hidden id
             TextView tvId = (TextView) entry.findViewById(R.id.tv_row_blog_hidden);

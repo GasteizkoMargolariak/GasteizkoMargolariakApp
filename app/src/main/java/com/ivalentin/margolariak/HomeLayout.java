@@ -68,6 +68,9 @@ public class HomeLayout extends Fragment implements LocationListener{
 		//Load the layout.
 		view = inflater.inflate(R.layout.fragment_layout_home, null);
 
+		//Variable to know if I need a location manager
+		boolean requestLocation = false;
+
 		//Set Location manager
 		//TODO: Only do this if location is required
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);

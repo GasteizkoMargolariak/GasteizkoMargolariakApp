@@ -75,13 +75,10 @@ public class ActivityLayout extends Fragment{
 
         SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
         final Cursor cursor;
-        String currLang = Locale.getDefault().getDisplayLanguage();
-        if (!currLang.equals("es") && !currLang.equals("eu")){
-            currLang = "en";
-        }
+        String lang = GM.getLang();
 
         //Get data from the database of the future activities
-        cursor = db.rawQuery("SELECT id, date, city, title_" + currLang+ " AS title, text_" + currLang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date DESC;", null);
+        cursor = db.rawQuery("SELECT id, date, city, title_" + lang+ " AS title, text_" + lang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date DESC;", null);
         if (cursor.getCount() > 0) {
             TextView tvNoFuture = (TextView) view.findViewById(R.id.tv_activities_no_future);
             tvNoFuture.setVisibility(View.GONE);
@@ -118,7 +115,7 @@ public class ActivityLayout extends Fragment{
 
                 //Set date
                 TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_activity_future_date);
-                tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", currLang, false));
+                tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
 
                 //Set hidden id
                 TextView tvId = (TextView) entry.findViewById(R.id.tv_row_activity_future_hidden);
@@ -177,7 +174,7 @@ public class ActivityLayout extends Fragment{
         }
 
         //Get data from the database of the past activities
-        Cursor cursorPast = db.rawQuery("SELECT id, date, city, title_" + currLang + " AS title, text_" + currLang + " AS text, after_" + currLang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC;", null);
+        Cursor cursorPast = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, after_" + lang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC;", null);
 
 
         //Print rows
@@ -210,7 +207,7 @@ public class ActivityLayout extends Fragment{
 
             //Set date
             TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_activity_past_date);
-            tvDate.setText(GM.formatDate(cursorPast.getString(1) + " 00:00:00", currLang, false));
+            tvDate.setText(GM.formatDate(cursorPast.getString(1) + " 00:00:00", lang, false));
 
             //Set hidden id
             TextView tvId = (TextView) entry.findViewById(R.id.tv_row_activity_past_hidden);
