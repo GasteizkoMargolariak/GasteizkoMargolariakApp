@@ -109,6 +109,10 @@
 	<string name="comment_toast_text">Introduce un comentario</string>
 	<string name="comment_toast_user">Introduce un nombre</string>
 	<string name="comment_your_comment">Tu comentario</string>
+	<plurals name="comment_comments">
+		<item quantity="one">%1$d comentario</item>
+		<item quantity="other">%1$d comentarios</item>
+	</plurals>
 	<string name="dialog_sync_text_0">Contactando con Don Margolo&#8230;</string>
 	<string name="dialog_sync_text_1">Arrancando la furgo&#8230;</string>
 	<string name="dialog_sync_text_2">Preparando kalimotxos&#8230;</string>
