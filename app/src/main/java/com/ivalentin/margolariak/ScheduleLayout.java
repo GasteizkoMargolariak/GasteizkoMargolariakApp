@@ -22,10 +22,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnShowListener;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -51,9 +53,9 @@ import android.widget.TextView;
  */
 public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
-	Bundle bund;
+	private Bundle bund;
 
-	private String dates[] = new String[20];
+	private final String dates[] = new String[20];
 	private int dateCount = 0;
 	private int selected = 0;
 
@@ -411,8 +413,24 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 					
 				    //Else, show the date
 				    else{
-				    	SimpleDateFormat printFormat = new SimpleDateFormat("dd MMMM", Locale.US);
-				    	tvDate.setText(printFormat.format(day));
+						SimpleDateFormat printFormat;
+						switch (lang){
+							case "en":
+								printFormat = new SimpleDateFormat("MMMM dd", Locale.US);
+								tvDate.setText(printFormat.format(day));
+								break;
+							case "eu":
+								printFormat = new SimpleDateFormat("MMMM dd", new Locale("eu", "ES"));
+								tvDate.setText(printFormat.format(day));
+								break;
+							default:
+								printFormat = new SimpleDateFormat("dd", new Locale("es", "ES"));
+								String str = printFormat.format(day) + " de ";
+								printFormat = new SimpleDateFormat("MMMM", new Locale("es", "ES"));
+								str = str + printFormat.format(day);
+								tvDate.setText(str);
+						}
+
 				    }
 				}
 			}
@@ -459,8 +477,11 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			dialog.setOnCancelListener(new OnCancelListener(){
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					if (map != null)
-						map.setMyLocationEnabled(false);
+					if (map != null) {
+						if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+							map.setMyLocationEnabled(false);
+						}
+					}
 					if (mapView != null){
     					mapView.onResume();
     					mapView.onDestroy();
@@ -513,8 +534,11 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	public void onResume() {
 		if (mapView != null)
 			mapView.onResume();
-		if (map != null)
-			map.setMyLocationEnabled(true);
+		if (map != null) {
+			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				map.setMyLocationEnabled(true);
+			}
+		}
 		super.onResume();
 	}
 
@@ -527,8 +551,11 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (map != null)
-			map.setMyLocationEnabled(false);
+		if (map != null) {
+			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				map.setMyLocationEnabled(false);
+			}
+		}
 		if (mapView != null){
 			mapView.onResume();
 			mapView.onDestroy();
@@ -545,7 +572,9 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	public void onPause() {
 		super.onDestroy();
 		if (map != null) {
-			map.setMyLocationEnabled(false);
+			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				map.setMyLocationEnabled(false);
+			}
 		}
 		if (mapView != null){
 			mapView.onPause();
@@ -578,10 +607,11 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		this.map = googleMap;
-		map.setMyLocationEnabled(true);
 		
 		map.getUiSettings().setMyLocationButtonEnabled(false);
-		map.setMyLocationEnabled(true);
+		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+			map.setMyLocationEnabled(true);
+		}
 		// Needs to call MapsInitializer before doing any CameraUpdateFactory calls
 		try {
 			MapsInitializer.initialize(this.getActivity());

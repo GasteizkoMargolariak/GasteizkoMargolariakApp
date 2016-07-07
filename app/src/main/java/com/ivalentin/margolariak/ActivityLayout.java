@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.Locale;
 
 /**
  * Fragment to display activities.
@@ -65,7 +64,7 @@ public class ActivityLayout extends Fragment{
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
-    public void populate(View view){
+    private void populate(View view){
         LinearLayout llListFuture = (LinearLayout) view.findViewById(R.id.ll_activities_future_list);
         LinearLayout llListPast = (LinearLayout) view.findViewById(R.id.ll_activities_past_list);
         LinearLayout entry;

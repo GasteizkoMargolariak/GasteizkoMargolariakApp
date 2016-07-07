@@ -103,77 +103,70 @@
 
         </LinearLayout>
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="20dp"
-            android:layout_marginTop="15dp">
+            android:background="@drawable/section"
+            android:layout_marginTop="12dp"
+            android:padding="7dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/lablanca_prices"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/section"
+                android:background="@drawable/entry"
                 android:padding="7dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/lablanca_prices"
-                    android:id="@+id/textView12"
-                    android:textStyle="bold"/>
+                    android:text="@string/lablanca_prices_days"
+                    android:layout_marginBottom="15dp"/>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/entry"
-                    android:padding="7dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/lablanca_prices_days"
-                        android:layout_marginBottom="15dp"/>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/ll_lablanca_prices_days_list">
-                    </LinearLayout>
+                    android:id="@+id/ll_lablanca_prices_days_list">
                 </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/entry"
-                    android:padding="7dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/lablanca_prices_pack"
-                        android:layout_marginBottom="15dp"/>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/ll_lablanca_prices_packs_list"
-                        />
-                </LinearLayout>
-
             </LinearLayout>
-        </LinearLayout>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/entry"
+                android:padding="7dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/lablanca_prices_pack"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ll_lablanca_prices_packs_list"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
+
 
 </com.ivalentin.margolariak.CustomScrollView>

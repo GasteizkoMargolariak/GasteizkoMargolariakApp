@@ -1,0 +1,7 @@
+<full-backup-content>
+    <include domain="database" path="gm.db"/>
+    <include domain="sharedpref" path="gmpreferences.xml"/>
+    <exclude domain="file" />
+    <exclude domain="external" />
+    <exclude domain="root" />
+</full-backup-content>

@@ -14,7 +14,7 @@ import java.util.Locale;
  * @author Iñigo Valentin
  *
  */
-public final class GM {
+final class GM {
 	
 	/**
 	 * Address where the web server is
@@ -40,12 +40,7 @@ public final class GM {
 	 * Name of the preference to store the user code with.
 	 */
 	static final String USER_CODE = "prefcode";
-	
-	/**
-	 * Name of the preference to store the user name with.
-	 */
-	static final String USER_NAME = "prefname";
-	
+
 	/**
 	 * Constant to diferentiate schedules".
 	 */

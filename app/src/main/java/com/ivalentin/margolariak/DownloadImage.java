@@ -23,9 +23,9 @@ import java.net.URLConnection;
  */
 class DownloadImage extends AsyncTask<Void, Void, Void> {
 
-    private String file;
-    private String path;
-    private ImageView iv;
+    private final String file;
+    private final String path;
+    private final ImageView iv;
 
 	/**
 	 * Constructor.
@@ -41,14 +41,6 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
         this.file = file;
         this.path = path;
         this.iv = iv;
-    }
-
-    /**
-     * Before starting background thread do nothing.
-     */
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
     }
 
     /**

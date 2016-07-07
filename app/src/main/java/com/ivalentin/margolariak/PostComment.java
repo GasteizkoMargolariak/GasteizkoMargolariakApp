@@ -24,11 +24,11 @@ import java.util.Date;
 class PostComment extends AsyncTask<String, String, Integer> {
 
     //Elements passed from fragments
-    private String type, user, text, language, userCode;
-    private LinearLayout list, form;
-    private TextView counter;
-    private int id, currentCounter;
-    private Context context;
+    private final String type, user, text, language;
+    private String userCode;
+    private final LinearLayout list, form;
+    private final int id;
+    private final Context context;
 
     //Elements calculated here
     private Button btSend;
@@ -36,7 +36,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
     private int code = 404;
 
-    public PostComment(String type, String user, String text, String language, int id, LinearLayout form, LinearLayout list, int currentCounter, TextView counter, Context context) {
+    public PostComment(String type, String user, String text, String language, int id, LinearLayout form, LinearLayout list, Context context) {
         super();
         this.type = type;
         this.user = user;
@@ -44,9 +44,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
         this.form = form;
         this.list = list;
         this.language = language;
-        this.counter = counter;
         this.id = id;
-        this.currentCounter = currentCounter;
         this.context = context;
 
     }

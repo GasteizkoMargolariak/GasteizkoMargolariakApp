@@ -86,12 +86,13 @@
                 android:layout_height="30dp"
                 android:id="@+id/iv_row_schedule_pinpoint"
                 android:src="@drawable/pinpoint"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp"
+                android:foregroundGravity="center_vertical"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical">
 
                 <TextView

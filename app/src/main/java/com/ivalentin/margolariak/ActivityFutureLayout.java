@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -56,7 +58,8 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	private GoogleMap map;
 	private LatLng location;
 	private String markerName = "";
-	private Bundle bund = null;
+	private final Bundle bund = null;
+	private View v;
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint("InflateParams")
@@ -197,6 +200,8 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 
         cursorItinerary.close();
         db.close();
+
+		v = view;
         return view;
     }
 
@@ -314,8 +319,11 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener(){
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    if (map != null)
-                        map.setMyLocationEnabled(false);
+                    if (map != null) {
+						if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+							map.setMyLocationEnabled(false);
+						}
+					}
                     if (mapView != null){
                         mapView.onResume();
                         mapView.onDestroy();
@@ -368,8 +376,11 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	public void onResume() {
 		if (mapView != null)
 			mapView.onResume();
-		if (map != null)
-			map.setMyLocationEnabled(true);
+		if (map != null) {
+			if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				map.setMyLocationEnabled(true);
+			}
+		}
 		super.onResume();
 	}
 
@@ -382,8 +393,11 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (map != null)
-			map.setMyLocationEnabled(false);
+		if (map != null) {
+			if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				map.setMyLocationEnabled(false);
+			}
+		}
 		if (mapView != null){
 			mapView.onResume();
 			mapView.onDestroy();
@@ -400,7 +414,9 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	public void onPause() {
 		super.onDestroy();
 		if (map != null) {
-			map.setMyLocationEnabled(false);
+			if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				map.setMyLocationEnabled(false);
+			}
 		}
 		if (mapView != null){
 			mapView.onPause();
@@ -417,7 +433,9 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	public void onLowMemory() {
 		super.onLowMemory();
 		if (mapView != null){
-			mapView.onResume();
+			if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				mapView.onResume();
+			}
 			mapView.onLowMemory();
 		}
 	}
@@ -433,10 +451,11 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		this.map = googleMap;
-		map.setMyLocationEnabled(true);
 
 		map.getUiSettings().setMyLocationButtonEnabled(false);
-		map.setMyLocationEnabled(true);
+		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+			map.setMyLocationEnabled(true);
+		}
 		// Needs to call MapsInitializer before doing any CameraUpdateFactory calls
 		try {
 			MapsInitializer.initialize(this.getActivity());

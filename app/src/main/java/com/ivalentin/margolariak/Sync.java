@@ -24,9 +24,9 @@ import android.widget.TextView;
  * @author Inigo Valentin
  *
  */
-public class Sync extends AsyncTask<Void, Void, Void> {
+class Sync extends AsyncTask<Void, Void, Void> {
 	
-	private Context myContextRef;
+	private final Context myContextRef;
 	private ProgressBar pbSync;
 	private Dialog dialog;
 	private MainActivity activity;

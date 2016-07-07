@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.Locale;
 
 /**
  * Section that shows a post of the blog, with details and comments.
@@ -157,7 +156,7 @@ public class PostLayout extends Fragment {
                 LinearLayout form = (LinearLayout) view.findViewById(R.id.ll_new_comment);
                 LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_comment_list);
                 String lang = GM.getLang();
-                new PostComment("blog", user, text, lang, id, form, list, commentCount, tvComments, context).execute();
+                new PostComment("blog", user, text, lang, id, form, list, context).execute();
 
             }
         });

@@ -12,7 +12,7 @@ import java.util.List;
  * @author Inigo Valentin
  *
  */
-public class FetchURL {
+class FetchURL {
  
 	//List of strings that will contain the output, line by line
 	private List<String> output;

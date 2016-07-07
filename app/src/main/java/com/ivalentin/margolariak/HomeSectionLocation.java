@@ -25,8 +25,8 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 
 	private boolean isLocationReported;
 	private LatLng coord;
-	private View view;
-	private Activity activity;
+	private final View view;
+	private final Activity activity;
 
 	/**
 	 * Constructor.
@@ -39,14 +39,6 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 		super();
 		this.activity = a;
 		this.view = v;
-	}
-
-	/**
-	 * Before starting background thread do nothing.
-	 */
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
 	}
 
 	/**

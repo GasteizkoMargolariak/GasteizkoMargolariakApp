@@ -107,7 +107,7 @@ public class GalleryLayout extends Fragment{
             preview[3] = (ImageView) entry.findViewById(R.id.iv_row_gallery_3);
 
             //Get db rows
-            Cursor cursorImage = db.rawQuery("SELECT id, file, width, height, FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + " ORDER BY random() LIMIT 4;", null);
+            Cursor cursorImage = db.rawQuery("SELECT id, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + " ORDER BY random() LIMIT 4;", null);
 
             //Loop
             int i = 0;
@@ -137,7 +137,7 @@ public class GalleryLayout extends Fragment{
             //Set photo counter
 			Cursor cursorCounter = db.rawQuery("SELECT id FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + ";", null);
             TextView tvPhotoCounter = (TextView) entry.findViewById(R.id.tv_row_gallery_counter);
-            tvPhotoCounter.setText(getResources().getQuantityString(R.plurals.gallery_photo_count, cursorCounter.getColumnCount(), cursorCounter.getColumnCount()));
+            tvPhotoCounter.setText(getResources().getQuantityString(R.plurals.gallery_photo_count, cursorCounter.getCount(), cursorCounter.getCount()));
 
 			//Close cursors
 			cursorCounter.close();

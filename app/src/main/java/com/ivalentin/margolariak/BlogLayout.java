@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.Locale;
 
 /**
  * Fragment to display the blog entries, paginated.

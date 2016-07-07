@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,29 +38,29 @@ import android.widget.Toast;
 /**
  * Section that will be seen when the app is started. 
  * Contains info from almost every other section.
- * 
+ *
  * @author Iñigo Valentin
- * 
+ *
  * @see Fragment
  *
  */
-public class HomeLayout extends Fragment implements LocationListener{
+public class HomeLayout extends Fragment implements LocationListener {
 
 	//The location manager
-	LocationManager locationManager;
+	private LocationManager locationManager;
 
 	private View view;
-	
+
 	/**
 	 * Run when the fragment is inflated.
 	 * Assigns views, gets the date and does the first call to the {//@link populate function}.
-	 * 
+	 *
 	 * @param inflater A LayoutInflater to handle the views
 	 * @param container The parent View
 	 * @param savedInstanceState Bundle with the saved state
-	 * 
+	 *
 	 * @return The fragment view
-	 * 
+	 *
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
@@ -74,8 +76,10 @@ public class HomeLayout extends Fragment implements LocationListener{
 		//Set Location manager
 		//TODO: Only do this if location is required
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
-		onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+		if ((ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) == false) {
+			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+		}
 
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_home));
@@ -87,7 +91,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 		setUpBlog(view);
 
 		//Set up activities sections
-		if (setUpFutureActivities(view) == 0){
+		if (setUpFutureActivities(view) == 0) {
 			setUpPastActivities(view);
 		}
 
@@ -105,7 +109,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 		//Setup the social section
 		setUpSocial(view);
 
-	    //Return the view itself.
+		//Return the view itself.
 		return view;
 	}
 
@@ -115,7 +119,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 * @return The number of entries shown.
 	 */
 	@SuppressLint("InflateParams")
-	private int setUpSchedule(int gm, View view){
+	private int setUpSchedule(int gm, View view) {
 		int count = 0;
 
 		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
@@ -146,8 +150,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 			now = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_now_content);
 			next = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_later_content);
 
-		}
-		else{
+		} else {
 			section = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule);
 			listNow = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule_now_list);
 			listNext = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule_later_list);
@@ -164,11 +167,11 @@ public class HomeLayout extends Fragment implements LocationListener{
 
 		//Execute query and loop
 		Cursor cursorNow = db.rawQuery(query, null);
-		if (cursorNow.getCount() == 0){
+		if (cursorNow.getCount() == 0) {
 			now.setVisibility(View.GONE);
 		}
-		while (cursorNow.moveToNext()){
-			count ++;
+		while (cursorNow.moveToNext()) {
+			count++;
 
 			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
 
@@ -185,7 +188,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 			tvRowPlace.setText(cursorNow.getString(6));
 
 			//Set icon
-			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE){
+			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_home_schedule_pinpoint);
 				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
 			}
@@ -208,11 +211,11 @@ public class HomeLayout extends Fragment implements LocationListener{
 
 		//Execute query and loop
 		Cursor cursorNext = db.rawQuery(query, null);
-		if (cursorNext.getCount() == 0){
+		if (cursorNext.getCount() == 0) {
 			next.setVisibility(View.GONE);
 		}
-		while (cursorNext.moveToNext()){
-			count ++;
+		while (cursorNext.moveToNext()) {
+			count++;
 
 			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
 
@@ -229,7 +232,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 			tvRowPlace.setText(cursorNext.getString(6));
 
 			//Set icon
-			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE){
+			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_home_schedule_pinpoint);
 				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
 			}
@@ -246,20 +249,18 @@ public class HomeLayout extends Fragment implements LocationListener{
 		cursorNext.close();
 
 
-
-		if (count > 0){
+		if (count > 0) {
 			section.setVisibility(View.VISIBLE);
 			if (gm == 1) {
-				section.setOnClickListener(new OnClickListener(){
+				section.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
 					}
 				});
 
-			}
-			else{
-				section.setOnClickListener(new OnClickListener(){
+			} else {
+				section.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
@@ -389,16 +390,15 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 */
 	private boolean setUpLocation(Location location, View view) {
 		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (preferences.getString(GM.PREF_GM_LOCATION, "").length() > 0){
+		if (preferences.getString(GM.PREF_GM_LOCATION, "").length() > 0) {
 			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
 			Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
-			Double distance = Distance.calculateDistance(lat, lon, location.getLatitude(), location.getLongitude(), 'K');
+			Double distance = Distance.calculateDistance(lat, lon, location.getLatitude(), location.getLongitude());
 			TextView text = (TextView) view.findViewById(R.id.tv_home_section_location_distance);
 			if (distance <= 2) {
 				distance = 1000 * distance;
 				text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
-			}
-			else{
+			} else {
 				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
 			}
 
@@ -420,7 +420,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 		//Set onClick listener of section
 		LinearLayout llGallery = (LinearLayout) view.findViewById(R.id.ll_home_section_gallery);
 		//Set click listener
-		llGallery.setOnClickListener(new OnClickListener(){
+		llGallery.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				((MainActivity) getActivity()).loadSection(GM.SECTION_GALLERY, false);
@@ -438,7 +438,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
 		Cursor cursor = db.rawQuery("SELECT id, album, file, uploaded FROM photo, photo_album WHERE id = photo ORDER BY uploaded DESC LIMIT 4;", null);
 
-		while (cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 
 			//Set id
 			ivPhoto[counter].setTag(R.string.key_0, cursor.getString(0));
@@ -485,7 +485,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 				}
 			});
 
-			counter ++;
+			counter++;
 		}
 
 		//Close db
@@ -504,7 +504,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@SuppressWarnings("ResultOfMethodCallIgnored")
-	private int setUpPastActivities(View view){
+	private int setUpPastActivities(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
 
@@ -517,10 +517,10 @@ public class HomeLayout extends Fragment implements LocationListener{
 		llActivitiesPast.setVisibility(View.VISIBLE);
 
 		//Set click listener
-		llActivitiesPast.setOnClickListener(new OnClickListener(){
+		llActivitiesPast.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-			((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES, false);
 			}
 		});
 
@@ -557,8 +557,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 			String text;
 			if (cursor.getString(6).length() < 1) {
 				text = Html.fromHtml(cursor.getString(4)).toString();
-			}
-			else{
+			} else {
 				text = Html.fromHtml(cursor.getString(6)).toString();
 			}
 			if (text.length() > 100) {
@@ -603,20 +602,20 @@ public class HomeLayout extends Fragment implements LocationListener{
 			entry.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-				//Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
-				Fragment fragment = new ActivityPastLayout();
-				Bundle bundle = new Bundle();
-				//Pass post id
-				int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_home_activity_hidden)).getText().toString());
-				bundle.putInt("activity", id);
-				fragment.setArguments(bundle);
+					//Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
+					Fragment fragment = new ActivityPastLayout();
+					Bundle bundle = new Bundle();
+					//Pass post id
+					int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_home_activity_hidden)).getText().toString());
+					bundle.putInt("activity", id);
+					fragment.setArguments(bundle);
 
-				FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
-				FragmentTransaction ft = fm.beginTransaction();
+					FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
+					FragmentTransaction ft = fm.beginTransaction();
 
-				ft.replace(R.id.activity_main_content_fragment, fragment);
-				ft.addToBackStack("activity_" + id);
-				ft.commit();
+					ft.replace(R.id.activity_main_content_fragment, fragment);
+					ft.addToBackStack("activity_" + id);
+					ft.commit();
 				}
 			});
 
@@ -642,7 +641,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@SuppressWarnings("ResultOfMethodCallIgnored")
-	private int setUpFutureActivities(View view){
+	private int setUpFutureActivities(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
 
@@ -654,7 +653,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 
 		//Get data from the database of the future activities
 		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
-		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang+ " AS title, text_" + lang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date LIMIT 2;", null);
+		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date LIMIT 2;", null);
 
 		//If there are future activities...
 		if (cursor.getCount() > 0) {
@@ -664,7 +663,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 			llActivitiesFuture.setVisibility(View.VISIBLE);
 
 			//Set click listener
-			llActivitiesFuture.setOnClickListener(new OnClickListener(){
+			llActivitiesFuture.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES, false);
@@ -775,12 +774,12 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@SuppressWarnings("ResultOfMethodCallIgnored")
-	private int setUpBlog(View view){
+	private int setUpBlog(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
 
 		LinearLayout llBlog = (LinearLayout) view.findViewById(R.id.ll_home_section_blog);
-		llBlog.setOnClickListener(new OnClickListener(){
+		llBlog.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				((MainActivity) getActivity()).loadSection(GM.SECTION_BLOG, false);
@@ -801,7 +800,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 		cursor = db.rawQuery("SELECT id, title_" + lang + " AS title, text_" + lang + " AS text, dtime FROM post ORDER BY dtime DESC LIMIT 2;", null);
 
 		//Loop
-		while (cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 
 			//Create a new row
 			entry = (LinearLayout) factory.inflate(R.layout.row_home_blog, null);
@@ -817,7 +816,7 @@ public class HomeLayout extends Fragment implements LocationListener{
 
 			//Set text
 			String text = Html.fromHtml(cursor.getString(2)).toString();
-			if (text.length() > 100){
+			if (text.length() > 100) {
 				text = text.substring(0, 100) + "...";
 			}
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_blog_text);
@@ -833,20 +832,19 @@ public class HomeLayout extends Fragment implements LocationListener{
 
 			//Get image
 			ImageView iv = (ImageView) entry.findViewById(R.id.iv_row_home_blog_image);
-			Cursor cursorImage = db.rawQuery("SELECT image FROM post_image WHERE post = " + cursor.getString(0) +" ORDER BY idx LIMIT 1;", null);
-			if (cursorImage.getCount() > 0){
+			Cursor cursorImage = db.rawQuery("SELECT image FROM post_image WHERE post = " + cursor.getString(0) + " ORDER BY idx LIMIT 1;", null);
+			if (cursorImage.getCount() > 0) {
 				cursorImage.moveToFirst();
 				String image = cursorImage.getString(0);
 
 				//Check if image exists
 				File f;
 				f = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
-				if (f.exists()){
+				if (f.exists()) {
 					//If the image exists, set it.
 					Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
 					iv.setImageBitmap(myBitmap);
-				}
-				else {
+				} else {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
@@ -858,29 +856,29 @@ public class HomeLayout extends Fragment implements LocationListener{
 			cursorImage.close();
 
 			//Set onCLickListener
-			entry.setOnClickListener(new View.OnClickListener(){
+			entry.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-				Fragment fragment = new PostLayout();
-				Bundle bundle = new Bundle();
-				//Pass post id
-				int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_home_blog_hidden)).getText().toString());
-				bundle.putInt("post", id);
-				fragment.setArguments(bundle);
+					Fragment fragment = new PostLayout();
+					Bundle bundle = new Bundle();
+					//Pass post id
+					int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_home_blog_hidden)).getText().toString());
+					bundle.putInt("post", id);
+					fragment.setArguments(bundle);
 
-				FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
-				FragmentTransaction ft = fm.beginTransaction();
+					FragmentManager fm = HomeLayout.this.getActivity().getFragmentManager();
+					FragmentTransaction ft = fm.beginTransaction();
 
-				ft.replace(R.id.activity_main_content_fragment, fragment);
-				ft.addToBackStack("post_" + id);
-				ft.commit();
+					ft.replace(R.id.activity_main_content_fragment, fragment);
+					ft.addToBackStack("post_" + id);
+					ft.commit();
 				}
 			});
 
 			//Add to the list
 			llList.addView(entry);
 
-			counter ++;
+			counter++;
 		}
 
 		//Close database
@@ -894,9 +892,9 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 * Called when the user location changes. 
 	 * Recalculates the list of around events and calls updateLocation() to 
 	 * update the distance in the location section.
-	 * 
+	 *
 	 * @param location The new location
-	 * 
+	 *
 	 * @see android.location.LocationListener#onLocationChanged(android.location.Location)
 	 */
 	@Override
@@ -905,55 +903,58 @@ public class HomeLayout extends Fragment implements LocationListener{
 	}
 
 	/**
-     * Called when the location provider changes it's state. 
-     * Recalculates the list of events in the around section.
-     * 
-     * @param provider The name of the provider
-     * @param status Status code of the provider
-     * @param extras Extras passed 
-     * 
-     * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
-     */
+	 * Called when the location provider changes it's state.
+	 * Recalculates the list of events in the around section.
+	 *
+	 * @param provider The name of the provider
+	 * @param status Status code of the provider
+	 * @param extras Extras passed
+	 *
+	 * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+	 */
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		//populateAround();
 	}
 
-	
+
 	/**
-     * Called when a location provider is enabled.
-     * Recalculates the list of events.
-     * 
-     * @param provider The name of the provider
-     * 
-     * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
-     */
+	 * Called when a location provider is enabled.
+	 * Recalculates the list of events.
+	 *
+	 * @param provider The name of the provider
+	 *
+	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+	 */
 	@Override
 	public void onProviderEnabled(String provider) {
 		//populateAround();
 	}
 
 	/**
-     * Called when a location provider is disabled. 
-     * Recalculates the list of events.
-     * 
-     * @param provider The name of the provider
-     * 
-     * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
-     */
+	 * Called when a location provider is disabled.
+	 * Recalculates the list of events.
+	 *
+	 * @param provider The name of the provider
+	 *
+	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+	 */
 	@Override
 	public void onProviderDisabled(String provider) {
 		//populateAround();
 	}
-	
+
 	/**
 	 * Called when the fragment is paused. 
 	 * Stops the location manager
 	 * @see android.app.Fragment#onPause()
 	 */
 	@Override
-	public void onPause(){
+	public void onPause() {
 		//TODO: Only do this if location is required
+		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			return;
+		}
 		locationManager.removeUpdates(this);
 		super.onPause();
 	}
@@ -964,8 +965,11 @@ public class HomeLayout extends Fragment implements LocationListener{
 	 * @see android.app.Fragment#onDestroy()
 	 */
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		//TODO: Only do this if location is required
+		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			return;
+		}
 		locationManager.removeUpdates(this);
 		super.onDestroy();
 	}
@@ -979,6 +983,9 @@ public class HomeLayout extends Fragment implements LocationListener{
 	@Override
 	public void onResume(){
 		//TODO: Only do this if location is required
+		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			return;
+		}
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		super.onResume();
 	}

@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/tv_row_home_activity_price"
-            android:gravity="right" />
+            android:gravity="end" />
     </LinearLayout>
 
 </LinearLayout>

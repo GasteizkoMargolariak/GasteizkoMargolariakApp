@@ -38,10 +38,10 @@ public class PhotoLayout extends Fragment {
 
 	private String albumName;
 
-	Integer photos[];
-	int position;
+	private Integer photos[];
+	private int position;
 
-	Context context;
+	private Context context;
 
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
@@ -98,7 +98,7 @@ public class PhotoLayout extends Fragment {
 	 *
 	 * @return The position of the photo in the array.
 	 */
-	public int getPosition(Integer[] list, int id){
+	private int getPosition(Integer[] list, int id){
 		int i;
 		try{
 			i = 0;
@@ -277,7 +277,7 @@ public class PhotoLayout extends Fragment {
 			//Start async task
 			LinearLayout form = (LinearLayout) view.findViewById(R.id.ll_new_comment);
 			LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_comment_list);
-			new PostComment("galeria", user, text, lang, photoId, form, list, commentCount, tvComments, context).execute();
+			new PostComment("galeria", user, text, lang, photoId, form, list, context).execute();
 
 			}
 		});

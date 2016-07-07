@@ -53,7 +53,7 @@
 	<string name="home_section_social">Jarraitu</string>
 
 	<string name="home_section_location_text_0">Gasteizko Margolariak ondoan dago!</string>
-	<string name="home_section_location_text_short">Zure inguruan %1$s metokoan daude (%2$s minutu oinez)</string>
+	<string name="home_section_location_text_short">Zure inguruan %1$d metokoan daude (%2$d minutu oinez)</string>
 	<string name="home_section_location_text_long">Zure inguruan %1$s kilometrokoan daude!</string>
 
 

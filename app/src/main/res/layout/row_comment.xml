@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_row_comment_date"
             android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_gravity="bottom"
             android:textAppearance="@android:style/TextAppearance.Small" />
 

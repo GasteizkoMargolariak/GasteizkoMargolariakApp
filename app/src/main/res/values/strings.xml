@@ -118,6 +118,10 @@
 	<string name="gallery_upload">Subir fotos</string>
 	<string name="gallery_upload_button">Subir</string>
 	<string name="gallery_upload_text">¿Tienes fotografías? ¡Ayudanos a construir esta galería!</string>
+	<plurals name="gallery_photo_count">
+		<item quantity="one">%1$d foto</item>
+		<item quantity="other">%1$d fotos</item>
+	</plurals>
 	<string name="home_section_activities_future">Proximas actividades</string>
 	<string name="home_section_gmschedule">Programa Margolari</string>
 	<string name="home_section_location_text_short">¡Están a solo %1$d metros de ti! (Unos %2$d minutos andando)</string>

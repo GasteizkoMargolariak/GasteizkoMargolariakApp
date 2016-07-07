@@ -69,7 +69,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:id="@+id/ll_row_activity_itinerary_location"
             android:layout_marginTop="10dp"
