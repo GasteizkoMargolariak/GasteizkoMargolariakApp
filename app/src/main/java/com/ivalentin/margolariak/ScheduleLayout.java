@@ -266,6 +266,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		if (filter.length() > 0) {
 			query = query + "AND (title_" + lang + " like '%" + filter + "%' OR description_" + lang + " like '%" + filter + "%' OR name_" + lang + " like '%" + filter + "%' OR address_" + lang + " like '%" + filter + "%') ";
 		}
+		query = query + " ORDER BY start;";
 		Cursor cursor = db.rawQuery(query, null);
 
 		//Clear the list
@@ -378,7 +379,12 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			markerName = cursor.getString(1);
 			
 			//Set description
-			tvDescription.setText(cursor.getString(2));
+			if (cursor.getString(2).length() > 0) {
+				tvDescription.setText(cursor.getString(2));
+			}
+			else{
+				tvDescription.setVisibility(View.GONE);
+			}
 			
 			//Set host
 			if (cursor.getString(10) != null){
