@@ -170,6 +170,11 @@ final class GM {
 	 * Name of the preference indicating if the user wants to to receive notifications intended for the general public.
 	 */
 	static final String PREF_NOTIFICATION = "prefNotification";
+
+	/**
+	 * Name of the preference indicating if the tutorial has been seen.
+	 */
+	static final String PREF_TUTORIAL = "prefTutorial";
 	
 	/**
 	 * Default value of the preference indicating if the user wants to to receive notifications intended for the general public.

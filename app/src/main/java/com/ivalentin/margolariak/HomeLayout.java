@@ -29,9 +29,11 @@ import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -74,6 +76,29 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 		//Variable to know if I need a location manager
 		boolean requestLocation = false;
+
+		//Show tutorial if its the first time
+		final SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		if (preferences.getBoolean(GM.PREF_TUTORIAL, false) == false) {
+			final LinearLayout llTutorial = (LinearLayout) getActivity().findViewById(R.id.ll_tutorial);
+			llTutorial.setVisibility(View.VISIBLE);
+			llTutorial.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					return true;
+				}
+			});
+			Button btTutorial = (Button) getActivity().findViewById(R.id.bt_tutorial);
+			btTutorial.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					llTutorial.setVisibility(View.GONE);
+					SharedPreferences.Editor editor = preferences.edit();
+					editor.putBoolean(GM.PREF_TUTORIAL, true);
+					editor.apply();
+				}
+			});
+		}
 
 		//Request location permissions if not set
 		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

@@ -30,6 +30,8 @@
 	<string name="menu_gallery">Galería</string>
 	<string name="menu_settings">Preferencias</string>
 
+	<string name="tutorial_button">Entendido</string>
+
 	<!-- Schedule strings -->
 
 	<string name="schedule_filter">Buscar&#8230;</string>

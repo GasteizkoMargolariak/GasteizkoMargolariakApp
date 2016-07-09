@@ -1,293 +1,325 @@
-<com.ivalentin.margolariak.MainLayout
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/main_layout"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:fitsSystemWindows="true"
-	android:background="@color/background_menu">
-    
-	
-    <!-- Slider menu -->
+	android:layout_height="match_parent">
 
-    <ScrollView
-		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
-		android:nestedScrollingEnabled="false">
+	<com.ivalentin.margolariak.MainLayout
+		android:id="@+id/main_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fitsSystemWindows="true"
+		android:background="@color/background_menu">
 
-        <LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:divider="@drawable/divider"
-			android:orientation="vertical"
-			android:padding="10dp"
-			android:baselineAligned="false"	>
 
-            <TextView
-				android:id="@+id/menu_home"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_home"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"
-				android:paddingTop="4dp"
-				android:paddingBottom="4dp"/>
+		<!-- Slider menu -->
+
+		<ScrollView
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:nestedScrollingEnabled="false">
 
 			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:id="@+id/ll_menu_location"
-				android:visibility="gone">
-
-				<View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/background_separator"/>
+				android:divider="@drawable/divider"
+				android:orientation="vertical"
+				android:padding="10dp"
+				android:baselineAligned="false"	>
 
 				<TextView
-					android:id="@+id/menu_location"
+					android:id="@+id/menu_home"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="10dp"
 					android:layout_marginTop="10dp"
 					android:gravity="center_vertical"
-					android:text="@string/menu_location"
+					android:text="@string/menu_home"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:textStyle="bold"
+					android:textColor="@color/menu_entry"
+					android:paddingTop="4dp"
+					android:paddingBottom="4dp"/>
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/ll_menu_location"
+					android:visibility="gone">
+
+					<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dp"
+						android:background="@color/background_separator"/>
+
+					<TextView
+						android:id="@+id/menu_location"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="10dp"
+						android:layout_marginTop="10dp"
+						android:gravity="center_vertical"
+						android:text="@string/menu_location"
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:textStyle="bold"
+						android:textColor="@color/menu_entry"
+						android:paddingBottom="4dp"
+						android:paddingTop="4dp"/>
+				</LinearLayout>
+
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="1dp"
+					android:background="@color/background_separator"/>
+
+				<TextView
+					android:id="@+id/menu_lablanca"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_lablanca"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:textStyle="bold"
+					android:textColor="@color/menu_entry"
+					android:paddingTop="4dp"
+					android:paddingBottom="4dp"/>
+
+				<TextView
+					android:id="@+id/menu_lablanca_schedule"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:layout_marginStart="20dp"
+					android:layout_marginLeft="20dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_lablanca_schedule"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:visibility="gone"
+					android:paddingTop="2dp"
+					android:paddingBottom="2dp"/>
+
+				<TextView
+					android:id="@+id/menu_lablanca_gm_schedule"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:layout_marginStart="20dp"
+					android:layout_marginLeft="20dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_lablanca_gm_schedule"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:visibility="gone"
+					android:paddingBottom="2dp"
+					android:paddingTop="2dp"/>
+
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="1dp"
+					android:background="@color/background_separator"/>
+
+				<TextView
+					android:id="@+id/menu_activities"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_activities"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:textStyle="bold"
+					android:textColor="@color/menu_entry"
+					android:paddingTop="4dp"
+					android:paddingBottom="4dp"/>
+
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="1dp"
+					android:background="@color/background_separator"/>
+
+				<TextView
+					android:id="@+id/menu_blog"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_blog"
 					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:textStyle="bold"
 					android:textColor="@color/menu_entry"
 					android:paddingBottom="4dp"
 					android:paddingTop="4dp"/>
+
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="1dp"
+					android:background="@color/background_separator"/>
+
+				<TextView
+					android:id="@+id/menu_gallery"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_gallery"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:textStyle="bold"
+					android:textColor="@color/menu_entry"
+					android:paddingTop="4dp"
+					android:paddingBottom="4dp"/>
+
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="1dp"
+					android:background="@color/background_separator"/>
+
+				<TextView
+					android:id="@+id/menu_settings"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="10dp"
+					android:gravity="center_vertical"
+					android:text="@string/menu_settings"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:textStyle="bold"
+					android:textColor="@color/menu_entry"
+					android:paddingBottom="4dp"
+					android:paddingTop="4dp"/>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/menu_space"
+					android:padding="5dp"/>
+
 			</LinearLayout>
 
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:background="@color/background_separator"/>
+		</ScrollView>
 
-			<TextView
-				android:id="@+id/menu_lablanca"
+		<!-- The visible screen -->
+
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@color/background_app"
+			android:orientation="vertical"
+			>
+
+			<!-- The action bar -->
+
+			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
+				android:background="@drawable/titlebar"
 				android:gravity="center_vertical"
-				android:text="@string/menu_lablanca"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"
-				android:paddingTop="4dp"
-				android:paddingBottom="4dp"/>
+				android:orientation="horizontal" >
 
-            <TextView
-				android:id="@+id/menu_lablanca_schedule"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:layout_marginStart="20dp"
-				android:layout_marginLeft="20dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_lablanca_schedule"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textColor="@color/menu_entry"
-				android:visibility="gone"
-				android:paddingTop="2dp"
-				android:paddingBottom="2dp"/>
+				<!-- Button to open slider menu -->
 
-            <TextView
-				android:id="@+id/menu_lablanca_gm_schedule"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:layout_marginStart="20dp"
-				android:layout_marginLeft="20dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_lablanca_gm_schedule"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textColor="@color/menu_entry"
-				android:visibility="gone"
-				android:paddingBottom="2dp"
-				android:paddingTop="2dp"/>
+				<ImageButton
+					android:id="@+id/bt_menu"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight=".2"
+					android:adjustViewBounds="true"
+					android:background="#00000000"
+					android:contentDescription="@string/app_name"
+					android:maxHeight="60dp"
+					android:maxWidth="60dp"
+					android:padding="2dp"
+					android:scaleType="fitCenter"
+					android:src="@drawable/ic_launcher" />
 
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:background="@color/background_separator"/>
+				<!-- Layout with the app title and current section -->
 
-			<TextView
-				android:id="@+id/menu_activities"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_activities"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"
-				android:paddingTop="4dp"
-				android:paddingBottom="4dp"/>
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_gravity="center"
+					android:layout_weight=".8"
+					android:gravity="center"
+					android:orientation="vertical" >
 
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:background="@color/background_separator"/>
+					<!-- App name. Remains unchanged -->
 
-			<TextView
-				android:id="@+id/menu_blog"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_blog"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"
-				android:paddingBottom="4dp"
-				android:paddingTop="4dp"/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="@string/app_name"
+						android:textSize="18sp"
+						android:textStyle="bold" />
 
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:background="@color/background_separator"/>
+					<!-- Section title -->
 
-			<TextView
-				android:id="@+id/menu_gallery"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_gallery"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"
-				android:paddingTop="4dp"
-				android:paddingBottom="4dp"/>
+					<TextView
+						android:id="@+id/activity_main_content_title"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="@string/menu_home"
+						android:textSize="20sp" />
 
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:background="@color/background_separator"/>
+				</LinearLayout>
 
-            <TextView
-				android:id="@+id/menu_settings"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="10dp"
-				android:layout_marginTop="10dp"
-				android:gravity="center_vertical"
-				android:text="@string/menu_settings"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"
-				android:paddingBottom="4dp"
-				android:paddingTop="4dp"/>
+				<ProgressBar
+					android:id="@+id/pb_sync"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight=".2"
+					android:visibility="invisible" />
 
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:id="@+id/menu_space"
-				android:padding="5dp"/>
+			</LinearLayout>
+
+			<!-- The part where the fragments will be loaded -->
+
+			<FrameLayout
+				android:id="@+id/activity_main_content_fragment"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="9dp"
+				android:layout_marginRight="9dp">
+
+			</FrameLayout>
 
 		</LinearLayout>
 
-    </ScrollView>
-
-	<!-- The visible screen -->
+	</com.ivalentin.margolariak.MainLayout>
 
 	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="@color/background_app"
-		android:orientation="vertical"
-		>
+		android:background="#003377"
+		android:alpha=".85"
+		android:id="@+id/ll_tutorial"
+		android:visibility="gone">
 
-		<!-- The action bar -->
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/imageView4"
+			android:src="@drawable/tutorial"/>
 
-		<LinearLayout
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:background="@drawable/titlebar"
-		    android:gravity="center_vertical"
-		    android:orientation="horizontal" >
-			
-		    <!-- Button to open slider menu -->
-
-			<ImageButton
-			    android:id="@+id/bt_menu"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_weight=".2"
-			    android:adjustViewBounds="true"
-			    android:background="#00000000"
-			    android:contentDescription="@string/app_name"
-			    android:maxHeight="60dp"
-			    android:maxWidth="60dp"
-			    android:padding="2dp"
-			    android:scaleType="fitCenter"
-			    android:src="@drawable/ic_launcher" />
-
-			<!-- Layout with the app title and current section -->
-
-			<LinearLayout
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_gravity="center"
-			    android:layout_weight=".8"
-			    android:gravity="center"
-			    android:orientation="vertical" >
-
-			    <!-- App name. Remains unchanged -->
-
-			    <TextView
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:gravity="center"
-			        android:text="@string/app_name"
-			        android:textSize="18sp"
-			        android:textStyle="bold" />
-			    
-			    <!-- Section title -->
-
-				<TextView
-				    android:id="@+id/activity_main_content_title"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:gravity="center"
-				    android:text="@string/menu_home"
-				    android:textSize="20sp" />
-
-			</LinearLayout>
-
-			<ProgressBar
-			    android:id="@+id/pb_sync"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_weight=".2"
-			    android:visibility="invisible" />
-			
-		</LinearLayout>	
-		
-		<!-- The part where the fragments will be loaded -->
-
-		<FrameLayout
-			android:id="@+id/activity_main_content_fragment"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginLeft="9dp"
-			android:layout_marginRight="9dp">
-		
-		</FrameLayout>
-		
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/tutorial_button"
+			android:id="@+id/bt_tutorial"
+			android:layout_gravity="center_horizontal"
+			android:textColor="@color/input_button_color"
+			android:textStyle="bold"
+			android:background="@drawable/button_selector"/>
 	</LinearLayout>
 
-</com.ivalentin.margolariak.MainLayout>
+</FrameLayout>
