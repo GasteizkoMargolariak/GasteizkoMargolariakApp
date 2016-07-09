@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -73,6 +74,11 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 		//Variable to know if I need a location manager
 		boolean requestLocation = false;
+
+		//Request location permissions if not set
+		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION_LOCATION);
+		}
 
 		//Set Location manager
 		//TODO: Only do this if location is required
@@ -379,9 +385,66 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return True if the section has been shown, false otherwise.
 	 */
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private boolean setUpLablanca(View view) {
-		//TODO: setUpLablanca(View view)
-		return false;
+		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		Boolean set = false;
+		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
+			LinearLayout llSection = (LinearLayout) view.findViewById(R.id.ll_home_section_lablanca);
+			TextView tvText = (TextView) view.findViewById(R.id.tv_home_section_lablanca_text);
+			ImageView ivImage = (ImageView) view.findViewById(R.id.iv_home_section_lablanca_image);
+
+			//Get data from the database of the future activities
+			SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			String lang = GM.getLang();
+			Cursor cursor = db.rawQuery("SELECT text_" + lang + ", img FROM festival WHERE year = " + year + ";", null);
+			if (cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				llSection.setVisibility(View.VISIBLE);
+
+				//Set text
+				String text = Html.fromHtml(cursor.getString(0)).toString();
+				String shortText = text.substring(0, 80);
+				if (text.equals(shortText)) {
+					tvText.setText(text);
+				}
+				else{
+					shortText = shortText + "...";
+					tvText.setText(shortText);
+				}
+
+				set = true;
+
+				//Set image
+				String image = cursor.getString(1);
+				if (image.length() > 0){
+
+					//Check if image exists
+					File f;
+					f = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image);
+					if (f.exists()) {
+						//If the image exists, set it.
+						Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image);
+						ivImage.setImageBitmap(myBitmap);
+					} else {
+						//If not, create directories and download asynchronously
+						File fpath;
+						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
+						fpath.mkdirs();
+						new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage).execute();
+					}
+				}
+				else {
+					ivImage.setVisibility(View.GONE);
+				}
+			}
+			cursor.close();
+			db.close();
+
+
+		}
+		return set;
 	}
 
 	/**

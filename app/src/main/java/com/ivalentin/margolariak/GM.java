@@ -20,7 +20,12 @@ final class GM {
 	 * Address where the web server is
 	 */
 	static final String SERVER = "http://margolariak.es";
-	
+
+	/**
+	 * Code for the location permission request
+	 */
+	static final int PERMISSION_LOCATION = 1;
+
 	/**
 	 * Duration of the menu sliding animation.
 	 */
