@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -39,7 +40,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/iv_row_home_schedule_pinpoint"

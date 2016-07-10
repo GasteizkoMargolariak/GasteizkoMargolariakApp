@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,8 +129,6 @@ public class GalleryLayout extends Fragment{
                     new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
                 }
                 i ++;
-				Log.e("Image idx", "" + i);
-
             }
 
             //Set photo counter

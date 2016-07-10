@@ -1,9 +1,11 @@
 <com.ivalentin.margolariak.CustomScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/background_app"
-    android:padding="7dp">
+    android:padding="7dp"
+    tools:ignore="Overdraw">
 
     <LinearLayout
         android:orientation="vertical"
@@ -74,7 +76,8 @@
                     android:textColor="@color/input_button_color"
                     android:layout_gravity="center_horizontal"
                     android:visibility="visible"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    tools:ignore="ButtonStyle"/>
 
                 <Button
                     android:layout_width="wrap_content"
@@ -85,7 +88,8 @@
                     android:textStyle="bold"
                     android:textColor="@color/input_button_color"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    tools:ignore="ButtonStyle"/>
             </LinearLayout>
         </LinearLayout>
 

@@ -27,7 +27,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.app.ActivityCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +48,7 @@ import android.widget.Toast;
  * @see Fragment
  *
  */
+@SuppressWarnings("UnusedReturnValue")
 public class HomeLayout extends Fragment implements LocationListener {
 
 	//The location manager
@@ -75,12 +76,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 		view = inflater.inflate(R.layout.fragment_layout_home, null);
 
 		//Variable to know if I need a location manager
-		boolean requestLocation = false;
+		//boolean requestLocation = false;
 
 		//Show tutorial if its the first time
 		final SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (preferences.getBoolean(GM.PREF_TUTORIAL, false) == false) {
-			final LinearLayout llTutorial = (LinearLayout) getActivity().findViewById(R.id.ll_tutorial);
+		if (!preferences.getBoolean(GM.PREF_TUTORIAL, false)) {
+			final RelativeLayout llTutorial = (RelativeLayout) getActivity().findViewById(R.id.rl_tutorial);
 			llTutorial.setVisibility(View.VISIBLE);
 			llTutorial.setOnTouchListener(new View.OnTouchListener() {
 				@Override
@@ -108,7 +109,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Set Location manager
 		//TODO: Only do this if location is required
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
-		if ((ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) == false) {
+		if (!(ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
 			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		}
@@ -116,7 +117,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_home));
 
-		//TODO: This methods is empty
 		setUpLablanca(view);
 
 		//Set up the blog section
@@ -428,6 +428,10 @@ public class HomeLayout extends Fragment implements LocationListener {
 				cursor.moveToFirst();
 				llSection.setVisibility(View.VISIBLE);
 
+				//Enable menu entries
+				this.getActivity().findViewById(R.id.menu_lablanca_gm_schedule).setVisibility(View.VISIBLE);
+				this.getActivity().findViewById(R.id.menu_lablanca_schedule).setVisibility(View.VISIBLE);
+
 				//Set text
 				String text = Html.fromHtml(cursor.getString(0)).toString();
 				String shortText = text.substring(0, 80);
@@ -490,6 +494,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			} else {
 				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
 			}
+			return true;
 
 		}
 		return false;

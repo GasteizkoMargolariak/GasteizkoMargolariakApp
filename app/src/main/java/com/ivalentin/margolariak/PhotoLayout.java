@@ -232,7 +232,7 @@ public class PhotoLayout extends Fragment {
 		//Get comments
 		Cursor commentCursor = db.rawQuery("SELECT text, dtime, username FROM photo_comment WHERE photo = " + id + ";", null);
 		tvComments.setText(String.format(getResources().getQuantityString(R.plurals.comment_comments, commentCursor.getCount()), commentCursor.getCount()));
-		final int commentCount = commentCursor.getCount();
+		//final int commentCount = commentCursor.getCount();
 		cursor.moveToFirst();
 		LinearLayout entry;
 		LayoutInflater factory = LayoutInflater.from(getActivity());

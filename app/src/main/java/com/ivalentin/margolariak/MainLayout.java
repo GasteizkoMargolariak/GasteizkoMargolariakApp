@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Scroller;
 
 /**
@@ -41,12 +39,11 @@ public class MainLayout extends LinearLayout {
 
 	private int contentXOffset;
 	private MenuState currentMenuState = MenuState.HIDDEN;
-	private Scroller menuScroller = new Scroller(this.getContext(), new EaseInInterpolator());
-	private Runnable menuRunnable = new MenuRunnable();
-	private Handler menuHandler = new Handler();
+	private final Scroller menuScroller = new Scroller(this.getContext(), new EaseInInterpolator());
+	private final Runnable menuRunnable = new MenuRunnable();
+	private final Handler menuHandler = new Handler();
 	private int prevX = 0;
 	private boolean isDragging = false;
-	private int lastDiffX = 0;
 	private int initialX = 0;
 
 	/**
@@ -141,7 +138,7 @@ public class MainLayout extends LinearLayout {
 	 * @see Runnable
 	 *
 	 */
-	protected class MenuRunnable implements Runnable {
+	private class MenuRunnable implements Runnable {
 		@Override
 		public void run() {
 			boolean isScrolling = menuScroller.computeScrollOffset();
@@ -189,7 +186,7 @@ public class MainLayout extends LinearLayout {
 	 * @author Iñigo Valentin
 	 *
 	 */
-	protected class EaseInInterpolator implements Interpolator {
+	private class EaseInInterpolator implements Interpolator {
 		@Override
 		public float getInterpolation(float t) {
 			return (float) Math.pow(t - 1, 5) + 1;
@@ -204,7 +201,7 @@ public class MainLayout extends LinearLayout {
 	 * @param event The MotionEvent triggering it.
 	 * @return True if the menu is fully opened or closed and a touch event is happening
 	 */
-	public boolean onContentTouch(MotionEvent event) {
+	private boolean onContentTouch(MotionEvent event) {
 		if (currentMenuState == MenuState.HIDING || currentMenuState == MenuState.SHOWING)
 			return false;
 		int curX = (int) event.getRawX();
@@ -237,7 +234,6 @@ public class MainLayout extends LinearLayout {
 				this.invalidate();
 
 				prevX = curX;
-				lastDiffX = diffX;
 				//}
 				return true;
 
@@ -255,7 +251,6 @@ public class MainLayout extends LinearLayout {
 				this.invalidate();
 				isDragging = false;
 				prevX = 0;
-				lastDiffX = 0;
 				return true;
 
 			default:

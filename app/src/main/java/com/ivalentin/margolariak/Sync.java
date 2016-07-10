@@ -48,14 +48,18 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			pbSync.setVisibility(View.VISIBLE);
 		if (dialog != null) {
 			dialog.show();
-			strings = new String[5];
+			strings = new String[9];
 			strings[0] = myContextRef.getString(R.string.dialog_sync_text_0);
 			strings[1] = myContextRef.getString(R.string.dialog_sync_text_1);
 			strings[2] = myContextRef.getString(R.string.dialog_sync_text_2);
 			strings[3] = myContextRef.getString(R.string.dialog_sync_text_3);
 			strings[4] = myContextRef.getString(R.string.dialog_sync_text_4);
+			strings[5] = myContextRef.getString(R.string.dialog_sync_text_5);
+			strings[6] = myContextRef.getString(R.string.dialog_sync_text_6);
+			strings[7] = myContextRef.getString(R.string.dialog_sync_text_7);
+			strings[8] = myContextRef.getString(R.string.dialog_sync_text_8);
 			tv = (TextView) dialog.findViewById(R.id.tv_dialog_sync_text);
-			int idx = (int) (Math.random() * ((4) + 1));
+			int idx = (int) (Math.random() * 9);
 			tv.setText(strings[idx]);
 			doProgress = true;
 		}
@@ -162,7 +166,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	protected void onProgressUpdate(Void...progress) {
 		if (doProgress){
-			if (millis + 300 < System.currentTimeMillis()) {
+			if (millis + 500 < System.currentTimeMillis()) {
 				millis = System.currentTimeMillis();
 				int idx = (int) (Math.random() * ((4) + 1));
 				tv.setText(strings[idx]);
@@ -181,7 +185,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		//Open the database. f its locked, exit.
 		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
 		if (db.isReadOnly()){
-			Log.e("DB LOCK", "L");
+			Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
 			return null;
 		}
 
@@ -211,7 +215,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			String code = preferences.getString(GM.USER_CODE, "");
 			int dbVersion = preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION);
 			fu = new FetchURL();
-			fu.Run(GM.SERVER + "/app/sync.php?os=android&code=" + code + "&fg=" + fg + "&v=" + dbVersion);
+			fu.Run(GM.SERVER + "/app/sync.php?os=android&code=" + code + "&fg=" + fg + "&v=" + dbVersion + "&lang=" + GM.getLang());
 			//All the info
 			o = fu.getOutput().toString();
 			publishProgress();
@@ -346,7 +350,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				prefEditor.apply();
 			}
 			else{
-				Log.e("DB UPDATE", "Not updating db version because there were errors");
+				Log.e("Db update", "Not updating db version because there were errors");
 				if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION) {
 					prefEditor.putInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION + 1);
 					prefEditor.apply();

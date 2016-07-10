@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/section"
@@ -24,7 +25,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@drawable/entry"
-            android:padding="7dp">
+            android:padding="7dp"
+            tools:ignore="ScrollViewSize">
 
             <WebView
                 android:layout_width="fill_parent"

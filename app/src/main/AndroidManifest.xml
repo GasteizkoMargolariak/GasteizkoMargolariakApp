@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ivalentin.margolariak"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.ivalentin.margolariak"
     android:versionCode="11"
     android:versionName="2.0-alpha04" >
 
@@ -27,7 +28,8 @@
         android:supportsRtl="true"
         android:isGame="false"
         android:fullBackupContent="@xml/backup"
-        android:allowClearUserData="true">
+        android:allowClearUserData="true"
+        tools:ignore="UnusedAttribute">
         
         <meta-data
     		android:name="com.google.android.gms.version"

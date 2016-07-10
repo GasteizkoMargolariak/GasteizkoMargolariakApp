@@ -101,7 +101,6 @@ class PostComment extends AsyncTask<String, String, Integer> {
                     urlParams = urlParams + "&lang=en";
             }
             urlParams = urlParams + "&from=app&code=" + userCode;
-            Log.e("PARAMS", urlParams);
             byte[] postData       = urlParams.getBytes("UTF-8");
             int    postDataLength = postData.length;
             String request        = GM.SERVER + "/" + type + "/comment.php";
@@ -141,14 +140,12 @@ class PostComment extends AsyncTask<String, String, Integer> {
                         break;
                 }
                 db.execSQL("INSERT INTO " + table + " (" + item + ", text, username, lang, dtime) VALUES (" + id + ", '" + text + "', '" + user + "', '" + language + "', datetime('NOW'));");
-                //Log.e("Query", "INSERT INTO " + table + " (" + item + ", text, username, lang, dtime) VALUES (" + id + ", '" + text + "', '" + user + "', '" + language + "', datetime('NOW'));");
                 db.close();
             }
 
         } catch (Exception e) {
             Log.e("Error posting: ", e.getMessage());
         }
-        //Log.e("DIB", "END");
         return code;
     }
 
@@ -160,8 +157,6 @@ class PostComment extends AsyncTask<String, String, Integer> {
     @SuppressLint("InflateParams") //Throws unknown error when done properly.
     @Override
     protected void onPostExecute(Integer a) {
-        //Log.e("POS", "START");
-        //Log.d("Comment posted", type);
 
         if (code == 200) {
             //Clear form

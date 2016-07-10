@@ -241,26 +241,24 @@ public class MainActivity extends Activity{
 
 		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
-
-			menuLablancaItem[0].setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
-				}
-			});
-
-			menuLablancaItem[1].setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
-				}
-			});
-
 			//Show the entries
 			for (int i = 0; i < 2; i ++){
 				menuLablancaItem[i].setVisibility(View.VISIBLE);
 			}
 		}
+		menuLablancaItem[0].setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
+			}
+		});
+
+		menuLablancaItem[1].setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
+			}
+		});
 
 		menuSpacer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -341,7 +339,6 @@ public class MainActivity extends Activity{
 					//Set the action button
 					btDialogAction = (Button) dialog.findViewById(R.id.bt_dialog_notification_action);
 					if (action != null){
-						Log.e("Acton", action);
 						switch (action) {
 
 							case GM.EXTRA_ACTION_LABLANCA:
