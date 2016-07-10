@@ -6,24 +6,26 @@
     android:padding="4dp">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/tv_row_activity_past_title" />
+            android:id="@+id/tv_row_activity_past_title"
+            />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/tv_row_activity_past_date"
             android:gravity="end"
             android:layout_marginStart="20dp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            />
     </LinearLayout>
 
     <TextView

@@ -419,6 +419,14 @@ public class HomeLayout extends Fragment implements LocationListener {
 			TextView tvText = (TextView) view.findViewById(R.id.tv_home_section_lablanca_text);
 			ImageView ivImage = (ImageView) view.findViewById(R.id.iv_home_section_lablanca_image);
 
+			//Set click listener
+			llSection.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA, false);
+				}
+			});
+
 			//Get data from the database of the future activities
 			SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
 			int year = Calendar.getInstance().get(Calendar.YEAR);

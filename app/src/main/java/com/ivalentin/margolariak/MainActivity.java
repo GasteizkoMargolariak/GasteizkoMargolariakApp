@@ -567,6 +567,7 @@ public class MainActivity extends Activity{
 			fm.popBackStack();
 		}
 		else{
+			finish();
 			super.onBackPressed();
 		}
 		
