@@ -1,5 +1,3 @@
-//TODO: Rework this file
-
 package com.ivalentin.margolariak;
 
 import java.util.Locale;
@@ -29,8 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-//TODO: Try to fetch a new location report when created
-
 /**
  * Section that shows a map with the location of Gasteizko Margolariak. 
  * If no recent report location, it will explain that and will show the 
@@ -46,6 +42,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 
 	//The map view
 	private MapView mapView;
+	MarkerOptions moGm;
 
 	private LocationManager locationManager;
 
@@ -72,7 +69,9 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 
 		//Set up
 		locationManager = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
-
+		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+		}
 
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(v.getContext().getString(R.string.menu_location));
@@ -160,6 +159,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	 */
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
+
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			googleMap.setMyLocationEnabled(true);
 		}
@@ -177,7 +177,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 		Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
 		Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
 		gmLocation = new LatLng(lat, lon);
-		MarkerOptions moGm = new MarkerOptions();
+		moGm = new MarkerOptions();
 		moGm.title(v.getContext().getString(R.string.app_name));
 		moGm.position(gmLocation);
 		moGm.icon(BitmapDescriptorFactory.fromResource(R.drawable.pinpoint_gm));
@@ -219,8 +219,25 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		if (gmLocation != null)
-			calCulateDistance(location);
+		//TODO: Read again the GM Location.
+		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		if (preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION) == false) {
+
+			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
+			Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
+			gmLocation = new LatLng(lat, lon);
+			if (gmLocation != null){
+				calCulateDistance(location);
+				if (moGm != null){
+					moGm.visible(true);
+				}
+			}
+			else{
+				if (moGm != null){
+					moGm.visible(false);
+				}
+			}
+		}
 	}
 
 	/**

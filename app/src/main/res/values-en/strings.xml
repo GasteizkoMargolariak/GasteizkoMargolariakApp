@@ -3,7 +3,7 @@
 
 
 	<!-- Common strings -->
-	<string name="price">Price: %1$d</string>
+	<string name="price">Price: %1$d €</string>
 
 
 	<string name="section_title_blog">Blog</string>
@@ -160,5 +160,6 @@
 	<string name="dialog_sync_failed_text">Couldn\'t download content.\n\nMake sure you have a network connection and try again.</string>
 	<string name="dialog_sync_failed_close">Close</string>
 	<string name="lablanca_nofestivals">Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas.</string>
+	<string name="home_section_location_text_calculating">Calculating distance...</string>
 
 </resources>

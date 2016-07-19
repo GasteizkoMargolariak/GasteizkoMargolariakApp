@@ -207,6 +207,11 @@ final class GM {
 	static final String PREF_GM_LOCATION = "gmlocationtime";
 
 	/**
+	 * Name of the preference to store GM last location timestamp.
+	 */
+	static final String DEFAULT_PREF_GM_LOCATION = "19700101000000";
+
+	/**
 	 * Name of the database
 	 */
 	static final String DB_NAME = "gm";
@@ -282,13 +287,14 @@ final class GM {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date);
 			int dayNumber = calendar.get(Calendar.DAY_OF_WEEK);
+			int day = calendar.get(Calendar.DAY_OF_MONTH);
 			int monthNumber = calendar.get(Calendar.MONTH);
 
 			switch (lang){
 				case "es":
 					dayName = dayNameEs[dayNumber];
 					monthName = monthNameEs[monthNumber];
-					output = dayName + ", " + dayNumber + " de " + monthName + " de " + year;
+					output = dayName + ", " + day + " de " + monthName + " de " + year;
 					if (includeTime){
 						output = output + " a las " + time;
 					}
@@ -296,7 +302,7 @@ final class GM {
 				case "eu":
 					dayName = dayNameEu[dayNumber];
 					monthName = monthNameEu[monthNumber];
-					output = year + "ko" + monthName + " " + dayNumber + "an, " + dayName;
+					output = year + "ko" + monthName + " " + day + "an, " + dayName;
 					if (includeTime){
 						output = output + " " + time + "etan";
 					}
@@ -304,7 +310,7 @@ final class GM {
 				default:
 					dayName = dayNameEn[dayNumber];
 					monthName = monthNameEn[monthNumber];
-					output = dayName + ", " + monthName + " " + dayNumber + ", " + year;
+					output = dayName + ", " + monthName + " " + day + ", " + year;
 					if (includeTime){
 						output = output + " " + time;
 					}

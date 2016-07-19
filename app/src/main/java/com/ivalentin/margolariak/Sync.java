@@ -48,7 +48,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			pbSync.setVisibility(View.VISIBLE);
 		if (dialog != null) {
 			dialog.show();
-			strings = new String[9];
+			strings = new String[10];
 			strings[0] = myContextRef.getString(R.string.dialog_sync_text_0);
 			strings[1] = myContextRef.getString(R.string.dialog_sync_text_1);
 			strings[2] = myContextRef.getString(R.string.dialog_sync_text_2);
@@ -58,6 +58,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			strings[6] = myContextRef.getString(R.string.dialog_sync_text_6);
 			strings[7] = myContextRef.getString(R.string.dialog_sync_text_7);
 			strings[8] = myContextRef.getString(R.string.dialog_sync_text_8);
+			strings[9] = myContextRef.getString(R.string.dialog_sync_text_8); //In case I get a 9;
 			tv = (TextView) dialog.findViewById(R.id.tv_dialog_sync_text);
 			int idx = (int) (Math.random() * 9);
 			tv.setText(strings[idx]);

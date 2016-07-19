@@ -141,13 +141,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 			lon = o.substring(o.indexOf("<lon>") + 5, o.indexOf("</lon>"));
 			result = true;
 		}
+
+		SharedPreferences.Editor editor = settings.edit();
 		if (result){
-			SharedPreferences.Editor editor = settings.edit();
 	    	editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(Double.parseDouble(lat)));
 			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(Double.parseDouble(lon)));
 			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
-	    	editor.apply();
 		}
+		else{
+			editor.putString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION);
+		}
+		editor.apply();
 
 		//Perform a background sync
 		new Sync(context).execute();

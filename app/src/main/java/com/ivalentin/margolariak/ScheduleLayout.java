@@ -42,6 +42,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -93,8 +94,16 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		bund = savedInstanceState;
 		
 		//Load the layout
-		view = inflater.inflate(R.layout.fragment_layout_schedule, null);		
-		
+		view = inflater.inflate(R.layout.fragment_layout_schedule, null);
+		view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+				CustomScrollView sv = (CustomScrollView) v.findViewById(R.id.sv_schedule);
+				Log.d("SV", "INVALIDATED");
+				sv.invalidate();
+			}
+		});
+
 		//Get schedule type
 		Bundle bundle = this.getArguments();
 		schedule = bundle.getInt(GM.SCHEDULE, GM.SECTION_LABLANCA_SCHEDULE);
@@ -164,7 +173,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		//Return the fragment view
 		return view;
 	}
-	
+
 	/**
 	 * Populates the list of activities with the ones n the selected day.
 	 * 
@@ -334,6 +343,16 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 		cursor.close();
 		db.close();
+
+		//Scroll to top
+		try {
+			ScrollView sw = (ScrollView) list.getParent().getParent();
+			sw.scrollTo(0, 0);
+		}
+		catch(Exception ex){
+			Log.e("Schedule scroll", "Culdnt get scrollview to scroll: " + ex.toString());
+		}
+
 		return eventCount;
 
 	}

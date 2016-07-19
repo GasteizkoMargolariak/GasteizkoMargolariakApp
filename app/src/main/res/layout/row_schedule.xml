@@ -59,7 +59,7 @@
         android:layout_height="match_parent"
         android:layout_weight=".25"
         android:orientation="vertical"
-        android:paddingBottom="15dp" >
+        android:paddingBottom="25dp" >
 
         <TextView
             android:id="@+id/tv_row_schedule_title"

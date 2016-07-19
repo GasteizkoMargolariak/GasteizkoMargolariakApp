@@ -21,7 +21,7 @@
 
 	<!-- Menu sections -->
 
-	<string name="menu_home">Home</string>
+	<string name="menu_home">Inicio</string>
 	<string name="menu_lablanca">La Blanca</string>
 	<string name="menu_lablanca_schedule">Programa de fiestas</string>
 	<string name="menu_lablanca_gm_schedule">Programa Margolari</string>
@@ -102,7 +102,7 @@
 	<string name="dialog_sync_failed_text">No se pudierdon descargar los contenidos\n\nAsegúrate de que dispones de conexión a internet e inténtalo de nuevo.</string>
 	<string name="dialog_sync_failed_close">Cerrar</string>
 	<string name="activity_city">Cudad:</string>
-	<string name="activity_future">Proximas actividades</string>
+	<string name="activity_future">Próximas actividades</string>
 	<string name="activity_no_future">No hay actividades planeadas proximamanete. Cuando organicemos algo, aparecera aquí.</string>
 	<string name="activity_past">Actividades pasadas</string>
 	<string name="activity_price">Precio:</string>
@@ -138,6 +138,7 @@
 	<string name="home_section_gmschedule">Programa Margolari</string>
 	<string name="home_section_location_text_short" tools:ignore="PluralsCandidate">¡Están a solo %1$d metros de ti! (Unos %2$d minutos andando)</string>
 	<string name="home_section_location_text_long">¡Están a solo %1$s kilometros de ti!</string>
+	<string name="home_section_location_text_calculating">Calculando distancia...</string>
 	<string name="lablanca_date_august">%1$s de agosto</string>
 	<string name="lablanca_date_july">%1$s de julio</string>
 	<string name="lablanca_prices">Precios</string>
@@ -165,7 +166,7 @@
 	<string name="notification_action_gallery">Abrir galería</string>
 	<string name="notification_action_lablanca">Abrir La Blanca</string>
 	<string name="notification_action_location">Ver localización</string>
-	<string name="price">Precio: %1$d</string>
+	<string name="price">Precio: %1$d €</string>
 	<string name="settings_about">Sobre nosotros</string>
 	<string name="settings_license">Licencia</string>
 	<string name="settings_license_content"><![CDATA[Copyright 2016 Iñigo Valentin<br/><br/>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.<br/><br/>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details at http://www.gnu.org/licenses/.<br/><br/>The name "Gasteizko Margolariak" and its logotype are property of Gasteizko Margolariak.<br/><br/><br/><div style="background-color:#bbbbbb;padding:6px;border-radius:5px;border-style:solid;border-width:2px;border-color:#333333;text-align:center;">You can get the source code for this project at <a href="https://github.com/Seavenois/GM">Github</a></div>]]></string>

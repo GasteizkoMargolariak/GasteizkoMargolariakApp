@@ -43,6 +43,7 @@
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:id="@+id/tv_location_distance"
+				android:text="@string/home_section_location_text_calculating"
 				android:layout_margin="10dp"/>
 
 			<com.google.android.gms.maps.MapView

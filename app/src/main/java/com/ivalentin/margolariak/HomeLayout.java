@@ -27,6 +27,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.app.ActivityCompat;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -491,18 +492,23 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	private boolean setUpLocation(Location location, View view) {
 		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (preferences.getString(GM.PREF_GM_LOCATION, "").length() > 0) {
-			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
-			Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
-			Double distance = Distance.calculateDistance(lat, lon, location.getLatitude(), location.getLongitude());
-			TextView text = (TextView) view.findViewById(R.id.tv_home_section_location_distance);
-			if (distance <= 2) {
-				distance = 1000 * distance;
-				text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
-			} else {
-				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
+		if (preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION) == false) {
+			try {
+				Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
+				Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
+				Double distance = Distance.calculateDistance(lat, lon, location.getLatitude(), location.getLongitude());
+				TextView text = (TextView) view.findViewById(R.id.tv_home_section_location_distance);
+				if (distance <= 2) {
+					distance = 1000 * distance;
+					text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
+				} else {
+					text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
+				}
+				return true;
 			}
-			return true;
+			catch (Exception ex){
+				Log.e("Location", "Couldn't set up home location section: " + ex.toString());
+			}
 
 		}
 		return false;
@@ -1068,8 +1074,13 @@ public class HomeLayout extends Fragment implements LocationListener {
 	@Override
 	public void onDestroy() {
 		//TODO: Only do this if location is required
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			locationManager.removeUpdates(this);
+		try {
+			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+				locationManager.removeUpdates(this);
+			}
+		}
+		catch (Exception ex){
+			Log.e("Location manager", "Unable to stop location manager on destroy: " + ex.toString());
 		}
 		super.onDestroy();
 	}

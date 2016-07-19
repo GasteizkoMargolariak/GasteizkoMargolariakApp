@@ -1,5 +1,3 @@
-//TODO: implement onResume, to try and fetch location
-
 package com.ivalentin.margolariak;
 
 import java.io.File;
@@ -357,17 +355,19 @@ public class MainActivity extends Activity{
 
 							case GM.EXTRA_ACTION_LOCATION:
 
-								//TODO: Check for a recent location!
-								//Set up the action button
-								btDialogAction.setVisibility(View.VISIBLE);
-								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
-								btDialogAction.setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										dialog.dismiss();
-										loadSection(GM.SECTION_LOCATION, false);
-									}
-								});
+								if (preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION) == false) {
+									//Set up the action button if location is reported
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION_LOCATION, false);
+										}
+									});
+
+								}
 								break;
 
 							case GM.EXTRA_ACTION_BLOG:
@@ -562,13 +562,19 @@ public class MainActivity extends Activity{
 	 */
 	@Override
 	public void onBackPressed(){
-		FragmentManager fm = getFragmentManager();
-		if (fm.getBackStackEntryCount() > 1){
-			fm.popBackStack();
+		try {
+			FragmentManager fm = getFragmentManager();
+			if (fm.getBackStackEntryCount() > 1) {
+				fm.popBackStack();
+			} else {
+				finish();
+				super.onBackPressed();
+			}
 		}
-		else{
+		catch (Exception ex){
+			Log.e("Error going back", "Finishing activity: " + ex.toString());
 			finish();
-			super.onBackPressed();
+			//super.onBackPressed();
 		}
 		
 	}
