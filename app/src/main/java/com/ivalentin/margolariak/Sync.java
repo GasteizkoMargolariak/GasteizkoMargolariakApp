@@ -270,6 +270,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 									break;
 								}
 								row = table.substring(table.indexOf("<row>") + 5, table.indexOf("</row>"));
+
+								//if (row.indexOf("Gracias a todos vosotros no hemos hecho") != -1)
+								//	Log.e("Row", row);
+
 								query = "INSERT INTO " + tableName + " ";
 								queryFields = "(";
 								queryValues = "(";
@@ -281,12 +285,17 @@ class Sync extends AsyncTask<Void, Void, Void> {
 										if (row.length() < 5) {
 											break;
 										}
-										line = row.substring(0, row.indexOf(">,"));
+										line = row.substring(0, row.indexOf(">, \t") + 1);
 										line = line.substring(line.indexOf("<"));
+
 										fieldName = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
 										queryFields = queryFields + fieldName + ", ";
 										fieldValue = line.substring(line.indexOf("<" + fieldName + ">") + 2 + fieldName.length());
-										fieldValue = fieldValue.substring(0, fieldValue.length() - fieldName.length() - 2);
+										//fieldValue = fieldValue.substring(0, fieldValue.length() - fieldName.length() - 2);
+										fieldValue = fieldValue.substring(0, fieldValue.indexOf("</" + fieldName + ">"));
+										//if (fieldValue.indexOf("Gracias a todos vosotros no hemos hecho") != -1)
+										//Log.e("Fieldvalue", fieldValue);
+
 										if (fieldValue.length() == 0)
 											fieldValue = "null";
 										if (fieldValue.charAt(0) == '\'' && fieldValue.charAt(fieldValue.length() - 1) == '\'') {
@@ -294,8 +303,9 @@ class Sync extends AsyncTask<Void, Void, Void> {
 											fieldValue = fieldValue.replace("'", "''");
 											fieldValue = "\'" + fieldValue + "\'";
 										}
+										//Log.e(fieldName, fieldValue);
 										queryValues = queryValues + fieldValue + ", ";
-										row = row.substring(row.indexOf(">,") + 2);
+										row = row.substring(row.indexOf(">, \t") + 4);
 									}
 									catch(Exception ex){
 										Log.e("Parsing error", "Error getting values from row: " + ex.toString());
@@ -308,6 +318,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 								queryValues = queryValues.substring(0, queryValues.length() - 2) + ")";
 								query = query + queryFields + " VALUES " + queryValues + ";";
 								queryList.add(query);
+								//Log.e("Query", query);
 
 								table = table.substring(table.indexOf("</row>") + 6);
 							}

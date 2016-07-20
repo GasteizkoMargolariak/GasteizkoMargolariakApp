@@ -47,7 +47,7 @@ public class ActivityPastLayout extends Fragment {
         }
 
         //Get data from database
-        SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
         String lang = GM.getLang();
         cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, date, city, after_" + lang + " AS after FROM activity WHERE id = " + id + ";", null);

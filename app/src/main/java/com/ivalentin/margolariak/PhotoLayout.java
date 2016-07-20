@@ -123,7 +123,7 @@ public class PhotoLayout extends Fragment {
 	 */
 	private Integer[] loadPhotos(int id){
 
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 
 		//Get album id for the photo
 		Cursor cAlbum = db.rawQuery("SELECT album FROM photo_album WHERE photo = " + id + ";", null);
@@ -156,7 +156,7 @@ public class PhotoLayout extends Fragment {
 		final int photoId = id;
 
 		//Get data from database
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		final Cursor cursor;
 		final String lang = GM.getLang();
 		cursor = db.rawQuery("SELECT id, file, title_" + lang+ " AS title, description_" + lang + " AS description, uploaded, width, height, size FROM photo WHERE id = " + id + ";", null);

@@ -122,7 +122,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
             if (code == 200){
                 //Insert into local db
-                SQLiteDatabase db = context.openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+                SQLiteDatabase db = SQLiteDatabase.openDatabase(context.getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READWRITE);
                 String table = "";
                 String item = "";
                 switch (type){

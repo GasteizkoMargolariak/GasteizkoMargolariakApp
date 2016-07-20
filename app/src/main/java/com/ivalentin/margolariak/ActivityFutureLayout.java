@@ -78,7 +78,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         }
 
         //Get data from database
-        SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
 		String lang = GM.getLang();
 
@@ -235,7 +235,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
 
         //Get info about the event
-        SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         String lang = GM.getLang();
         Cursor cursor = db.rawQuery("SELECT activity_itinerary.id, activity_itinerary.name_" + lang + ", description_" + lang + ", place, start, end, place.name_" + lang + ", address_" + lang + ", lat, lon FROM activity_itinerary, place WHERE place = place.id AND activity_itinerary.id = " + id + ";", null);
         if (cursor.getCount() > 0){

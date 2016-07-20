@@ -115,7 +115,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_gm_schedule));
 
 		//Populate the dates array
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor;
 		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
 			cursor = db.rawQuery("SELECT DISTINCT date(start) FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 1;", null);
@@ -213,7 +213,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			Log.e("Datetime error", ex.toString());
 		}
 
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 
 		String lang = GM.getLang();
 
@@ -387,7 +387,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
 		
 		//Get info about the event
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		String lang = GM.getLang();
 		Cursor cursor = db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host FROM festival_event, place WHERE place = place.id AND festival_event.id = " + id + ";", null);
 		if (cursor.getCount() > 0){

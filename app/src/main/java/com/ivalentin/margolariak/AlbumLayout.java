@@ -51,7 +51,7 @@ public class AlbumLayout extends Fragment {
         }
 
         //Get data from database
-        SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
 		String lang = GM.getLang();
         cursor = db.rawQuery("SELECT id, name_" + lang + " AS name, description_" + lang + " AS description FROM album WHERE id = " + id + ";", null);

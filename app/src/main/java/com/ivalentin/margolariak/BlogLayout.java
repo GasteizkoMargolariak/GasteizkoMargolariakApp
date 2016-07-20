@@ -61,7 +61,7 @@ public class BlogLayout extends Fragment{
         ((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_blog));
 
         //Get total posts
-        SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         Cursor cursor = db.rawQuery("SELECT id FROM post;", null);
         totalPost = cursor.getCount();
         cursor.close();
@@ -143,7 +143,7 @@ public class BlogLayout extends Fragment{
         //An inflater
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
-        SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
         String lang = GM.getLang();
 

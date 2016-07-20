@@ -58,7 +58,7 @@ public class LablancaLayout extends Fragment {
 		//Get database info from the database
 		String lang = GM.getLang();
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT text_" + lang + ", img FROM festival WHERE year = " + year + ";", null);
 		cursor.moveToFirst();
 

@@ -160,7 +160,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			return count;
 		}
 
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Calendar calendar = Calendar.getInstance();
 		Calendar calendarEnd;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -429,7 +429,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			});
 
 			//Get data from the database of the future activities
-			SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+			SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			String lang = GM.getLang();
 			Cursor cursor = db.rawQuery("SELECT text_" + lang + ", img FROM festival WHERE year = " + year + ";", null);
@@ -543,7 +543,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		ivPhoto[3] = (ImageView) view.findViewById(R.id.iv_home_section_gallery_3);
 
 		//Get data from the database of the future activities
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT id, album, file, uploaded FROM photo, photo_album WHERE id = photo ORDER BY uploaded DESC LIMIT 4;", null);
 
 		while (cursor.moveToNext()) {
@@ -617,7 +617,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		String lang = GM.getLang();
 
 		//Get data from the database of the future activities
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, price, after_" + lang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC LIMIT 2;", null);
 
 		//Show section
@@ -760,7 +760,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		LayoutInflater factory = LayoutInflater.from(getActivity());
 
 		//Get data from the database of the future activities
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date LIMIT 2;", null);
 
 		//If there are future activities...
@@ -901,7 +901,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//An inflater
 		LayoutInflater factory = LayoutInflater.from(getActivity());
 
-		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB_NAME, Context.MODE_PRIVATE, null);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		final Cursor cursor;
 
 		//Get data from the database
