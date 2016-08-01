@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.ActivityCompat;
@@ -102,7 +103,13 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         //Set fields
         tvTitle.setText(cursor.getString(1));
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
-        wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
+		if (Build.VERSION.SDK_INT >= 19) {
+			wvText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		}
+		else {
+			wvText.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
+		wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
         tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
         tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
         tvCity.setText(cursor.getString(4));

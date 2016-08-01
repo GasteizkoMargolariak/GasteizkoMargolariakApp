@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -74,6 +75,14 @@ public class PostLayout extends Fragment {
         TextView tvDate = (TextView) view.findViewById(R.id.tv_post_date);
         final TextView tvComments = (TextView) view.findViewById(R.id.tv_comments);
         WebView wvText = (WebView) view.findViewById(R.id.wv_post_text);
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            wvText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }
+        else {
+            wvText.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+
         LinearLayout llCommentList = (LinearLayout) view.findViewById(R.id.ll_comment_list);
 
         //Set fields

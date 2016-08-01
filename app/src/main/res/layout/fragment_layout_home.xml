@@ -105,8 +105,7 @@
 					android:contentDescription="@string/app_cdesc"
 					android:layout_weight=".4"
 					android:layout_margin="3dp"
-					android:background="@color/album_border"
-					android:padding="1dp"/>
+					android:adjustViewBounds="true"/>
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -153,7 +152,7 @@
 					android:layout_height="wrap_content"
 					android:textAppearance="@android:style/TextAppearance.Medium"
 					android:text="@string/schedule_now"
-					/>
+					android:textStyle="bold"/>
 
 				<LinearLayout
 					android:id="@+id/ll_home_section_gmschedule_now_list"
@@ -180,7 +179,7 @@
 					android:layout_height="wrap_content"
 					android:textAppearance="@android:style/TextAppearance.Medium"
 					android:text="@string/schedule_later"
-					/>
+					android:textStyle="bold"/>
 
 				<LinearLayout
 					android:id="@+id/ll_home_section_gmschedule_later_list"

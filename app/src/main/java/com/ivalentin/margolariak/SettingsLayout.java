@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.Gravity;
@@ -140,6 +141,14 @@ public class SettingsLayout extends Fragment{
 		//Set the custom dialog components - text, image and button
 		TextView tvTitle = (TextView) dialog.findViewById(R.id.tv_dialog_settings_title);
 		WebView wvText = (WebView) dialog.findViewById(R.id.wv_dialog_settings_text);
+
+		if (Build.VERSION.SDK_INT >= 19) {
+			wvText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		}
+		else {
+			wvText.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
+
 		Button btClose = (Button) dialog.findViewById(R.id.bt_dialog_settings_close);
 
 		//Set text

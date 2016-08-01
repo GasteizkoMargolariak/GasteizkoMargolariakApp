@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,6 +65,14 @@ public class LablancaLayout extends Fragment {
 
 		//Set text
 		WebView headerText = (WebView) view.findViewById(R.id.wv_lablanca_header);
+
+		if (Build.VERSION.SDK_INT >= 19) {
+			headerText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		}
+		else {
+			headerText.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
+
 		headerText.loadDataWithBaseURL(null, cursor.getString(0), "text/html", "utf-8", null);
 
 		//Set image

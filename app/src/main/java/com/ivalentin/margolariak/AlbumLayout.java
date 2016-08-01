@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -60,6 +61,14 @@ public class AlbumLayout extends Fragment {
         //Set album elements
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_album_title);
         WebView tvDescription = (WebView) view.findViewById(R.id.wv_album_description);
+
+		if (Build.VERSION.SDK_INT >= 19) {
+			tvDescription.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		}
+		else {
+			tvDescription.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
+
         tvTitle.setText(cursor.getString(1));
 		final String albumName = cursor.getString(1);
         if (cursor.getString(2).length() < 1){

@@ -43,8 +43,7 @@
                     android:contentDescription="@string/app_cdesc"
                     android:layout_weight=".4"
                     android:layout_margin="3dp"
-                    android:background="@color/album_border"
-                    android:padding="1dp"/>
+                    android:adjustViewBounds="true"/>
 
                 <WebView
                     android:layout_width="wrap_content"
