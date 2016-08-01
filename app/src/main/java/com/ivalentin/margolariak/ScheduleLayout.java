@@ -123,10 +123,21 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		else{
 			cursor = db.rawQuery("SELECT DISTINCT date(start) FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 0;", null);
 		}
+
+
+		//Get current date in the same format as retrieved from the database
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Date today = Calendar.getInstance().getTime();
+		String curDate = df.format(today);
+
+		//Log.e("Cur Date", curDate);
 		while (cursor.moveToNext()){
 			dates[dateCount] = cursor.getString(0);
-			dateCount ++;
 			//TODO: Check if some date is of today, and set selected
+			if (curDate.equals(cursor.getString(0))){
+				selected = dateCount;
+			}
+			dateCount ++;
 		}
 		cursor.close();
 		db.close();

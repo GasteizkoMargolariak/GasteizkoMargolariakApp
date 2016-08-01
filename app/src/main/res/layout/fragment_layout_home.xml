@@ -226,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:text="@string/schedule_now"
-					/>
+					android:textStyle="bold"/>
 
 				<LinearLayout
                     android:id="@+id/ll_home_section_cityschedule_now_list"
@@ -253,7 +253,7 @@
 					android:layout_height="wrap_content"
 					android:textAppearance="@android:style/TextAppearance.Medium"
 					android:text="@string/schedule_later"
-					/>
+					android:textStyle="bold"/>
 
 				<LinearLayout
 					android:id="@+id/ll_home_section_cityschedule_later_list"
