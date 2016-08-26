@@ -24,7 +24,10 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -182,6 +185,8 @@ public class MainActivity extends Activity{
 	    //Set layout.
 		setContentView(R.layout.activity_main);
 		mLayout = (MainLayout) findViewById(R.id.main_layout);
+
+
 		
 		//Assign menu button
 		ImageButton btMenu = (ImageButton) findViewById(R.id.bt_menu); 
@@ -523,7 +528,8 @@ public class MainActivity extends Activity{
 	 */
 	private void sync(){
 		ProgressBar pbSync = (ProgressBar) findViewById(R.id.pb_sync);
-		new Sync(this, pbSync).execute();
+		ImageView ivSync = (ImageView) findViewById(R.id.iv_logo);
+		new Sync(this, pbSync, ivSync).execute();
 	}
 	
 	/**
@@ -551,7 +557,8 @@ public class MainActivity extends Activity{
 		
 		//Sync
 		ProgressBar pbSync = (ProgressBar) findViewById(R.id.pb_sync);
-		new Sync(this, pbSync, dialog, this).execute();
+		ImageView ivSync = (ImageView) findViewById(R.id.iv_logo);
+		new Sync(this, pbSync, ivSync, dialog, this).execute();
 	}
 	
 	/**

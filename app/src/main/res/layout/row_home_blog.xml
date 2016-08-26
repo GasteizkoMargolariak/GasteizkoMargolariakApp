@@ -35,10 +35,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/iv_row_home_blog_image"
-            android:maxWidth="10dp"
+            android:maxWidth="130dp"
             android:layout_weight=".7"
             android:layout_margin="3dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:adjustViewBounds="true"/>
 
         <TextView
             android:layout_width="fill_parent"

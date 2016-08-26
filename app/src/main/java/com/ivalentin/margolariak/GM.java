@@ -39,7 +39,7 @@ final class GM {
 	/**
 	 * Period of time (in seconds) at the end of witch the app will perform a sync.
 	 */
-	static final int PERIOD_SYNC = 10 * 60 * 1000;
+	static final int PERIOD_SYNC = 20 * 60 * 1000;
 	
 	/**
 	 * Name of the preference to store the user code with.

@@ -30,7 +30,7 @@
                 android:textStyle="bold"/>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/entry"
@@ -41,18 +41,19 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_lablanca_header"
                     android:contentDescription="@string/app_cdesc"
-                    android:layout_weight=".4"
                     android:layout_margin="3dp"
-                    android:adjustViewBounds="true"/>
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center_horizontal"
+                    android:maxHeight="130dp"/>
 
                 <WebView
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/wv_lablanca_header"
                     android:padding="7dp"
                     android:layout_marginBottom="7dp"
-                    android:layout_weight=".6"/>
+                    />
             </LinearLayout>
 
         </LinearLayout>

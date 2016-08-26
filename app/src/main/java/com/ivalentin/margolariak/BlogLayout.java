@@ -78,7 +78,7 @@ public class BlogLayout extends Fragment{
                btnNext.setVisibility(View.VISIBLE);
                populate(offset);
                if (offset == 0){
-                   v.setVisibility(View.GONE);
+                   v.setVisibility(View.INVISIBLE);
                }
            }
         });
@@ -90,7 +90,7 @@ public class BlogLayout extends Fragment{
                btnPrevious.setVisibility(View.VISIBLE);
                populate(offset);
                if (offset >= totalPost - 5){
-                   v.setVisibility(View.GONE);
+                   v.setVisibility(View.INVISIBLE);
                }
            }
         });
@@ -114,13 +114,13 @@ public class BlogLayout extends Fragment{
         Button btnPrevious = (Button) view.findViewById(R.id.bt_blog_previous);
         Button btnNext = (Button) view.findViewById(R.id.bt_blog_next);
         if (offset == 0){
-            btnPrevious.setVisibility(View.GONE);
+            btnPrevious.setVisibility(View.INVISIBLE);
         }
         else{
             btnPrevious.setVisibility(View.VISIBLE);
         }
         if (offset >= totalPost - 5){
-            btnNext.setVisibility(View.GONE);
+            btnNext.setVisibility(View.INVISIBLE);
         }
         else{
             btnNext.setVisibility(View.VISIBLE);

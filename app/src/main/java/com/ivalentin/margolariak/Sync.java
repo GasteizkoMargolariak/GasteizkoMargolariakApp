@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	
 	private final Context myContextRef;
 	private ProgressBar pbSync;
+	private ImageView ivSync;
 	private Dialog dialog;
 	private MainActivity activity;
 	private int fg;
@@ -44,8 +46,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	@Override
 	protected void onPreExecute(){
-		if (pbSync != null)
+		if (pbSync != null) {
 			pbSync.setVisibility(View.VISIBLE);
+			ivSync.setVisibility(View.GONE);
+		}
 		if (dialog != null) {
 			dialog.show();
 			strings = new String[10];
@@ -73,8 +77,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	@Override
 	protected void onPostExecute(Void v){
-		if (pbSync != null)
-			pbSync.setVisibility(View.INVISIBLE);
+		if (pbSync != null) {
+			pbSync.setVisibility(View.GONE);
+			ivSync.setVisibility(View.VISIBLE);
+		}
 		if (dialog != null){
 			dialog.dismiss();
 			//Check db version agan
@@ -123,10 +129,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
      * @param myContextRef The Context of the calling activity.
      * @param pb The progress bar that will be shown while the sync goes on.
      */
-    public Sync(Activity myContextRef, ProgressBar pb) {
+    public Sync(Activity myContextRef, ProgressBar pb, ImageView iv) {
         this.myContextRef = myContextRef;
         dialog = null;
         pbSync = pb;
+		ivSync = iv;
         fg = 1;
     }
     
@@ -140,11 +147,12 @@ class Sync extends AsyncTask<Void, Void, Void> {
      * @param pb The progress bar that will be shown while the sync goes on.
      * @param activity The calling MainActvity
      */
-    public Sync(Activity myContextRef, ProgressBar pb, Dialog d, MainActivity activity) {
+    public Sync(Activity myContextRef, ProgressBar pb, ImageView iv, Dialog d, MainActivity activity) {
     	this.dialog = d;
     	this.activity = activity;
         this.myContextRef = myContextRef;
         pbSync = pb;
+		ivSync = iv;
         fg = 1;
     }
     
@@ -167,7 +175,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	protected void onProgressUpdate(Void...progress) {
 		if (doProgress){
-			if (millis + 500 < System.currentTimeMillis()) {
+			if (millis + 600 < System.currentTimeMillis()) {
 				millis = System.currentTimeMillis();
 				int idx = (int) (Math.random() * ((4) + 1));
 				tv.setText(strings[idx]);
