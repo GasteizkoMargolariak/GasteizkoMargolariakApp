@@ -29,6 +29,7 @@ import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +55,13 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 	//The location manager
 	private LocationManager locationManager;
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		Log.e("MENU", "FROM HOME");
+		return false;
+	}
 
 	private View view;
 

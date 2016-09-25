@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/file"
+        android:id="@+id/pop_menu_about"
         android:title="@string/pop_menu_about" />
     <item
-        android:id="@+id/create_new"
+        android:id="@+id/pop_menu_sponsors"
         android:title="@string/pop_menu_sponsors" />
     <item
-        android:id="@+id/open"
+        android:id="@+id/pop_menu_settings"
         android:title="@string/pop_menu_settings" />
 </menu>

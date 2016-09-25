@@ -21,6 +21,7 @@
 
     <color name="background_bar">#9bc1da</color>
     <color name="background_bar_gradient">#bdf8fd</color>
+    <color name="menu_selected">#456075</color>
 
     <!--Color for input fields-->
     <color name="input_background">#223344</color>

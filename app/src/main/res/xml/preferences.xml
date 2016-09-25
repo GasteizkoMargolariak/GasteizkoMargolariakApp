@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/preferences_sync">
+
+        <CheckBoxPreference
+            android:key="pref_sync_sync"
+            android:title="@string/preferences_sync_sync"
+            android:summary="@string/preferences_sync_sync_on"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="pref_sync_notifications"
+            android:title="@string/preferences_sync_notifications"
+            android:summary="@string/preferences_sync_notifications_on"
+            android:defaultValue="true" />
+        <Preference
+            android:key="pref_sync_usage"
+            android:title="@string/preferences_sync_usage"
+            android:summary="0 kb" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preferences_info">
+
+        <Preference
+            android:key="pref_sync_usage"
+            android:title="@string/preferences_info_version"
+            android:summary="_" />
+
+        <Preference
+            android:key="pref_sync_source"
+            android:title="@string/preferences_info_source"
+            android:summary="@string/preferences_info_source_summary" />
+
+        <Preference
+            android:key="pref_sync_feedback"
+            android:title="@string/preferences_info_feedback"
+            android:summary="@string/preferences_info_feedback_summary" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
