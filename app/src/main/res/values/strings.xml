@@ -179,6 +179,12 @@
 
 	<!-- Misc strings -->
 
+
+	<!-- Pop-up menu entry strings -->
+	<string name="pop_menu_settings">Settings</string>
+	<string name="pop_menu_about">About us</string>
+	<string name="pop_menu_sponsors">Sponsors</string>
+
 	<string name="eur" translatable="false">€</string>
 	
 </resources>

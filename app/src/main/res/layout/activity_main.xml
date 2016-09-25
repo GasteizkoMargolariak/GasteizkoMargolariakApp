@@ -1,12 +1,12 @@
-<LinearLayout
+<ScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:ignore="MergeRootFrame"
-	android:orientation="vertical">
+	android:layout_height="wrap_content">
 
-				<!-- The action bar -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 
 		<LinearLayout
 			android:layout_width="fill_parent"
@@ -18,20 +18,17 @@
 
 			<!-- Button to open slider menu -->
 
-			<ImageButton
-				android:id="@+id/bt_menu"
+			<ImageView
+				android:contentDescription="@string/app_name"
 				android:layout_width="40dp"
 				android:layout_height="40dp"
+				android:id="@+id/iv_logo"
+				android:src="@drawable/ic_launcher"
+				android:adjustViewBounds="true"
 				android:layout_weight=".2"
-				android:adjustViewBounds="false"
-				android:background="#00000000"
-				android:contentDescription="@string/app_name"
-				android:maxHeight="20dp"
-				android:maxWidth="20dp"
-				android:scaleType="fitCenter"
-				android:src="@drawable/menu"
-				android:padding="2dp"
-				android:alpha=".5"/>
+				android:maxHeight="45dp"
+				android:maxWidth="45dp"
+				android:padding="1dp"/>
 
 			<!-- Layout with the app title and current section -->
 
@@ -65,16 +62,12 @@
 
 			</LinearLayout>
 
-			<ImageView
-				android:layout_width="40dp"
-				android:layout_height="40dp"
-				android:id="@+id/iv_logo"
-				android:src="@drawable/ic_launcher"
-				android:adjustViewBounds="true"
-				android:layout_weight=".2"
-				android:maxHeight="45dp"
-				android:maxWidth="45dp"
-				android:padding="1dp"/>
+			<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+				android:contentDescription="@string/tutorial_menu"
+				android:onClick="showMenu" />
 
 			<ProgressBar
 				android:id="@+id/pb_sync"
@@ -89,213 +82,213 @@
 
 		<!-- The part where the fragments will be loaded -->
 
-	<HorizontalScrollView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/horizontalScrollView">
+		<HorizontalScrollView
+			android:layout_width="wrap_content"
+			android:layout_height="50dp"
+			android:id="@+id/horizontalScrollView"
+			android:scrollIndicators="none"
+			android:background="@color/background_bar_gradient">
 
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:background="#000000">
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				>
 
-			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="30dp"
-				android:background="#ffffff"
-				android:layout_margin="1dp"
-				android:id="@+id/rl_menu_home">
+				<RelativeLayout
+					android:orientation="vertical"
+					android:layout_width="100dp"
+					android:layout_height="match_parent"
+					android:id="@+id/rl_menu_home"
+					android:layout_marginRight="0.5dp"
+					android:layout_marginLeft="0.5dp">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_home"
-					android:layout_gravity="top"
-					android:layout_centerHorizontal="true"
-					android:textSize="15sp"/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="@string/menu_home"
+						android:layout_gravity="top"
+						android:textSize="15sp"
+						android:layout_centerInParent="true"/>
 
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="8dp"
-					android:id="@+id/iv_menu_home"
-					android:background="#0000dd"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
-					android:layout_alignParentEnd="false"
-					android:layout_alignParentLeft="false"
-					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
-			</RelativeLayout>
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="8dp"
+						android:id="@+id/iv_menu_home"
+						android:background="#0000dd"
+						android:alpha="1"
+						android:layout_gravity="bottom"
+						android:layout_alignParentStart="false"
+						android:layout_alignParentEnd="false"
+						android:layout_alignParentLeft="false"
+						android:layout_alignParentRight="false"
+						android:layout_alignParentBottom="true"/>
+				</RelativeLayout>
 
-			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="30dp"
-				android:background="#ffffff"
-				android:layout_margin="1dp"
-				android:id="@+id/rl_menu_location">
+				<RelativeLayout
+					android:orientation="vertical"
+					android:layout_width="100dp"
+					android:layout_height="match_parent"
+					android:id="@+id/rl_menu_location"
+					android:layout_marginLeft="1dp"
+					android:layout_marginRight="1dp">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_location"
-					android:layout_gravity="top"
-					android:layout_centerHorizontal="true"
-					android:textSize="15sp"/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="@string/menu_location"
+						android:layout_gravity="top"
+						android:textSize="15sp"
+						android:layout_centerInParent="true"/>
 
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
-					android:id="@+id/iv_menu_location"
-					android:background="#0000dd"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
-					android:layout_alignParentEnd="false"
-					android:layout_alignParentLeft="false"
-					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
-			</RelativeLayout>
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="2dp"
+						android:id="@+id/iv_menu_location"
+						android:background="#0000dd"
+						android:alpha="1"
+						android:layout_gravity="bottom"
+						android:layout_alignParentStart="false"
+						android:layout_alignParentEnd="false"
+						android:layout_alignParentLeft="false"
+						android:layout_alignParentRight="false"
+						android:layout_alignParentBottom="true"/>
+				</RelativeLayout>
 
-			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="30dp"
-				android:background="#ffffff"
-				android:layout_margin="1dp"
-				android:id="@+id/rl_menu_lablanca">
+				<RelativeLayout
+					android:orientation="vertical"
+					android:layout_width="100dp"
+					android:layout_height="match_parent"
+					android:id="@+id/rl_menu_lablanca"
+					android:layout_marginLeft="1dp"
+					android:layout_marginRight="1dp">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_lablanca"
-					android:layout_gravity="top"
-					android:layout_centerHorizontal="true"
-					android:textSize="15sp"/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="@string/menu_lablanca"
+						android:layout_gravity="top"
+						android:textSize="15sp"
+						android:layout_centerInParent="true"/>
 
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
-					android:id="@+id/iv_menu_lablanca"
-					android:background="#0000dd"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
-					android:layout_alignParentEnd="false"
-					android:layout_alignParentLeft="false"
-					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
-			</RelativeLayout>
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="2dp"
+						android:id="@+id/iv_menu_lablanca"
+						android:background="#0000dd"
+						android:alpha="1"
+						android:layout_gravity="bottom"
+						android:layout_alignParentStart="false"
+						android:layout_alignParentEnd="false"
+						android:layout_alignParentLeft="false"
+						android:layout_alignParentRight="false"
+						android:layout_alignParentBottom="true"/>
+				</RelativeLayout>
 
-			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="30dp"
-				android:background="#ffffff"
-				android:layout_margin="1dp"
-				android:id="@+id/rl_menu_activities">
+				<RelativeLayout
+					android:orientation="vertical"
+					android:layout_width="100dp"
+					android:layout_height="match_parent"
+					android:id="@+id/rl_menu_activities"
+					android:layout_marginLeft="1dp"
+					android:layout_marginRight="1dp">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_activities"
-					android:layout_gravity="top"
-					android:layout_centerHorizontal="true"
-					android:textSize="15sp"/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="@string/menu_activities"
+						android:layout_gravity="top"
+						android:textSize="15sp"
+						android:layout_centerInParent="true"/>
 
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
-					android:id="@+id/iv_menu_activities"
-					android:background="#0000dd"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
-					android:layout_alignParentEnd="false"
-					android:layout_alignParentLeft="false"
-					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
-			</RelativeLayout>
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="2dp"
+						android:id="@+id/iv_menu_activities"
+						android:background="#0000dd"
+						android:alpha="1"
+						android:layout_gravity="bottom"
+						android:layout_alignParentStart="false"
+						android:layout_alignParentEnd="false"
+						android:layout_alignParentLeft="false"
+						android:layout_alignParentRight="false"
+						android:layout_alignParentBottom="true"/>
+				</RelativeLayout>
 
-			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="30dp"
-				android:background="#ffffff"
-				android:layout_margin="1dp"
-				android:id="@+id/rl_menu_blog">
+				<RelativeLayout
+					android:orientation="vertical"
+					android:layout_width="100dp"
+					android:layout_height="match_parent"
+					android:id="@+id/rl_menu_blog"
+					android:layout_marginLeft="1dp"
+					android:layout_marginRight="1dp">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_blog"
-					android:layout_gravity="top"
-					android:layout_centerHorizontal="true"
-					android:textSize="15sp"/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="@string/menu_blog"
+						android:layout_gravity="top"
+						android:textSize="15sp"
+						android:layout_centerInParent="true"/>
 
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
-					android:id="@+id/iv_menu_blog"
-					android:background="#0000dd"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
-					android:layout_alignParentEnd="false"
-					android:layout_alignParentLeft="false"
-					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
-			</RelativeLayout>
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="2dp"
+						android:id="@+id/iv_menu_blog"
+						android:background="#0000dd"
+						android:alpha="1"
+						android:layout_gravity="bottom"
+						android:layout_alignParentStart="false"
+						android:layout_alignParentEnd="false"
+						android:layout_alignParentLeft="false"
+						android:layout_alignParentRight="false"
+						android:layout_alignParentBottom="true"/>
+				</RelativeLayout>
 
-			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="30dp"
-				android:background="#ffffff"
-				android:layout_margin="1dp"
-				android:id="@+id/rl_menu_gallery">
+				<RelativeLayout
+					android:orientation="vertical"
+					android:layout_width="100dp"
+					android:layout_height="match_parent"
+					android:id="@+id/rl_menu_gallery"
+					android:layout_marginLeft="1dp"
+					android:layout_marginRight="1dp">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_gallery"
-					android:layout_gravity="top"
-					android:layout_centerHorizontal="true"
-					android:textSize="15sp"/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="@string/menu_gallery"
+						android:layout_gravity="top"
+						android:textSize="15sp"
+						android:layout_centerInParent="true"/>
 
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
-					android:id="@+id/iv_menu_gallery"
-					android:background="#0000dd"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
-					android:layout_alignParentEnd="false"
-					android:layout_alignParentLeft="false"
-					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
-			</RelativeLayout>
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="2dp"
+						android:id="@+id/iv_menu_gallery"
+						android:background="#0000dd"
+						android:alpha="1"
+						android:layout_gravity="bottom"
+						android:layout_alignParentStart="false"
+						android:layout_alignParentEnd="false"
+						android:layout_alignParentLeft="false"
+						android:layout_alignParentRight="false"
+						android:layout_alignParentBottom="true"/>
+				</RelativeLayout>
 
-		</LinearLayout>
-	</HorizontalScrollView>
+			</LinearLayout>
+		</HorizontalScrollView>
 
-	<FrameLayout
+		<FrameLayout
 			android:id="@+id/activity_main_content_fragment"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginLeft="9dp"
-			android:layout_marginRight="9dp">
+			android:layout_height="match_parent">
 
 		</FrameLayout>
-
-</LinearLayout>
+	</LinearLayout>
+</ScrollView>

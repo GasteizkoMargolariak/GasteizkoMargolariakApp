@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -39,11 +41,16 @@ import android.widget.TextView;
  */
 public class MainActivity extends Activity{
 
-	//The main layout of the app
-	private MainLayout mLayout;
-
 	//Alarm to get location and notifications.
 	private AlarmReceiver alarm;
+
+	//Not referenced in code.
+	public void showMenu(View v) {
+		PopupMenu popup = new PopupMenu(this, v);
+		MenuInflater inflater = popup.getMenuInflater();
+		inflater.inflate(R.menu.menu, popup.getMenu());
+		popup.show();
+	}
 
 	/**
 	 * Loads a section in the main screen.
@@ -187,17 +194,7 @@ public class MainActivity extends Activity{
 	    
 	    //Set layout.
 		setContentView(R.layout.activity_main);
-		//mLayout = (MainLayout) findViewById(R.id.main_layout);
 
-
-		
-		//Assign menu button
-		ImageButton btMenu = (ImageButton) findViewById(R.id.bt_menu); 
-		btMenu.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { mLayout.toggleMenu(); }
-		});
-		
 		//Assign menu items
 		RelativeLayout menuItem[] = new RelativeLayout[6];
 		menuItem[0] = (RelativeLayout) findViewById(R.id.rl_menu_home);
@@ -586,7 +583,7 @@ public class MainActivity extends Activity{
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
-			mLayout.toggleMenu();
+			//mLayout.toggleMenu();
 			return true;
 		}
 		return super.onKeyUp(keyCode, event);
