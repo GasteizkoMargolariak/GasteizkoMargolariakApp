@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -121,8 +122,10 @@ public class MainActivity extends Activity{
 		setSectionTitle(title);
 		
 		//If calling from the menu, close it.
-		if (fromSliderMenu)
-			mLayout.toggleMenu();
+		if (fromSliderMenu){
+			//TODO: Change tabs
+		}
+			//mLayout.toggleMenu();
 	}
 
 	/**
@@ -184,7 +187,7 @@ public class MainActivity extends Activity{
 	    
 	    //Set layout.
 		setContentView(R.layout.activity_main);
-		mLayout = (MainLayout) findViewById(R.id.main_layout);
+		//mLayout = (MainLayout) findViewById(R.id.main_layout);
 
 
 		
@@ -196,20 +199,19 @@ public class MainActivity extends Activity{
 		});
 		
 		//Assign menu items
-		TextView menuItem[] = new TextView[7];
-		menuItem[0] = (TextView) findViewById(R.id.menu_home);
-		menuItem[1] = (TextView) findViewById(R.id.menu_location);
-		menuItem[2] = (TextView) findViewById(R.id.menu_lablanca);
-		menuItem[3] = (TextView) findViewById(R.id.menu_activities);
-		menuItem[4] = (TextView) findViewById(R.id.menu_blog);
-		menuItem[5] = (TextView) findViewById(R.id.menu_gallery);
-		menuItem[6] = (TextView) findViewById(R.id.menu_settings);
-		TextView menuSpacer = (TextView) findViewById(R.id.menu_space);
+		RelativeLayout menuItem[] = new RelativeLayout[6];
+		menuItem[0] = (RelativeLayout) findViewById(R.id.rl_menu_home);
+		menuItem[1] = (RelativeLayout) findViewById(R.id.rl_menu_location);
+		menuItem[2] = (RelativeLayout) findViewById(R.id.rl_menu_lablanca);
+		menuItem[3] = (RelativeLayout) findViewById(R.id.rl_menu_activities);
+		menuItem[4] = (RelativeLayout) findViewById(R.id.rl_menu_blog);
+		menuItem[5] = (RelativeLayout) findViewById(R.id.rl_menu_gallery);
+		//TextView menuSpacer = (TextView) findViewById(R.id.menu_space);
 
 		//Assign buttons for la blanca submenu
 		TextView menuLablancaItem[] = new TextView[2];
-		menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
-		menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
+		//menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
+		//menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
 
 		//Set click listers for menu items
 		menuItem[0].setOnClickListener(new OnClickListener() {
@@ -236,39 +238,28 @@ public class MainActivity extends Activity{
 			@Override
 			public void onClick(View v) { loadSection(GM.SECTION_GALLERY, true); }
 		});
-		menuItem[6].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_SETTINGS, true); }
-		});
 
 
 		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
 			//Show the entries
-			for (int i = 0; i < 2; i ++){
-				menuLablancaItem[i].setVisibility(View.VISIBLE);
-			}
+			//for (int i = 0; i < 2; i ++){
+			//	menuLablancaItem[i].setVisibility(View.VISIBLE);
+			//}
 		}
-		menuLablancaItem[0].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
-			}
-		});
-
-		menuLablancaItem[1].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
-			}
-		});
-
-		menuSpacer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mLayout.toggleMenu();
-			}
-		});
+//		menuLablancaItem[0].setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
+//			}
+//		});
+//
+//		menuLablancaItem[1].setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
+//			}
+//		});
 
 		//If the user code is not set, generate one
 		if (preferences.getString(GM.USER_CODE, "").length() == 0){

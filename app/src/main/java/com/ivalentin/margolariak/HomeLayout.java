@@ -80,7 +80,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//boolean requestLocation = false;
 
 		//Show tutorial if its the first time
-		final SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		/*final SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 		if (!preferences.getBoolean(GM.PREF_TUTORIAL, false)) {
 			final RelativeLayout llTutorial = (RelativeLayout) getActivity().findViewById(R.id.rl_tutorial);
 			llTutorial.setVisibility(View.VISIBLE);
@@ -100,7 +100,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					editor.apply();
 				}
 			});
-		}
+		}*/
 
 		//Request location permissions if not set
 		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -438,8 +438,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 				llSection.setVisibility(View.VISIBLE);
 
 				//Enable menu entries
-				this.getActivity().findViewById(R.id.menu_lablanca_gm_schedule).setVisibility(View.VISIBLE);
-				this.getActivity().findViewById(R.id.menu_lablanca_schedule).setVisibility(View.VISIBLE);
+				//this.getActivity().findViewById(R.id.menu_lablanca_gm_schedule).setVisibility(View.VISIBLE);
+				//this.getActivity().findViewById(R.id.menu_lablanca_schedule).setVisibility(View.VISIBLE);
 
 				//Set text
 				String text = Html.fromHtml(cursor.getString(0)).toString();

@@ -227,6 +227,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			fu.Run(GM.SERVER + "/app/sync.php?os=android&code=" + code + "&fg=" + fg + "&v=" + dbVersion + "&lang=" + GM.getLang());
 			//All the info
 			o = fu.getOutput().toString();
+			Log.e("SYNC", o);
 			publishProgress();
 		}
 		catch(Exception ex){

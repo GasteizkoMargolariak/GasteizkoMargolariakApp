@@ -87,8 +87,8 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 			editor.apply();
 
 			//Show menu entry
-			LinearLayout menuEntry = (LinearLayout) activity.findViewById(R.id.ll_menu_location);
-			menuEntry.setVisibility(View.VISIBLE);
+			//LinearLayout menuEntry = (LinearLayout) activity.findViewById(R.id.rl_menu_location);
+			//menuEntry.setVisibility(View.VISIBLE);
 
 			//Set up home view section
 			LinearLayout section = (LinearLayout) view.findViewById(R.id.ll_home_section_location);
