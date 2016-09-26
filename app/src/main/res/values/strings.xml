@@ -204,5 +204,7 @@
 	<string name="preferences_info_feedback_summary">Send anonymous feedback to the developer</string>
 
 	<string name="eur" translatable="false">€</string>
+	<string name="Kb" translatable="false"> Kb</string>
+	<string name="Mb" translatable="false"> Mb</string>
 	
 </resources>

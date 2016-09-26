@@ -9,6 +9,9 @@ import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class SettingsActivity extends PreferenceActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,22 @@ public class SettingsActivity extends PreferenceActivity {
 
 
 		//Set up data preference
-		//TODO
+		long bgData = sp.getLong(GM.STORAGE_TRAFFIC_BG_RECEIVED, 0) + sp.getLong(GM.STORAGE_TRAFFIC_BG_SENT, 0);
+		long fgData = sp.getLong(GM.STORAGE_TRAFFIC_FG_RECEIVED, 0) + sp.getLong(GM.STORAGE_TRAFFIC_FG_SENT, 0);
+		String value = "";
+		if (bgData < 1500){
+			value = bgData + getString(R.string.Kb);
+		}
+		else if(bgData < 5 * 1024){
+			NumberFormat formatter = new DecimalFormat("#0.00");
+			value = (formatter.format(((float) bgData) / 1024.0)) + getString(R.string.Mb);
+		}
+		else{
+			value = String.valueOf((int) (((float) bgData) / 1024.0)) + getString(R.string.Mb);
+		}
+		Preference prefData = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_DATA);
+		prefData.setSummary(value);
+
 
 
 		//Set up version preference
