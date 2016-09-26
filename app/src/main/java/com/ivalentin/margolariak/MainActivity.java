@@ -16,12 +16,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -59,12 +55,29 @@ public class MainActivity extends Activity{
 		MenuInflater inflater = popup.getMenuInflater();
 		inflater.inflate(R.menu.menu, popup.getMenu());
 
+		popup.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
+
+		popup.getMenu().getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(MainActivity.this, SponsorActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
+
 		popup.getMenu().getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(MainActivity.this, SettingsFragment.class);
+				Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
 				startActivity(intent);
-
 				return true;
 			}
 		});
@@ -72,54 +85,7 @@ public class MainActivity extends Activity{
 		popup.show();
 	}
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		Log.e("MENU", "CREATED");
-//		getMenuInflater().inflate(R.menu.menu, menu);
-//		Log.e("SETT", String.valueOf(R.id.pop_menu_settings));
-//		for (int i = 0; i< menu.size() ;i++) {
-//			MenuItem menuItem = menu.getItem(i);
-//			Log.e("MENU", String.valueOf(menuItem.getItemId()));
-//
-//			if (menuItem.getItemId() == R.id.pop_menu_settings) {
-//				View view = MenuItemCompat.getActionView(menuItem);
-//				if (view != null) {
-//					view.setOnClickListener(new OnClickListener() {
-//
-//						@Override
-//						public void onClick(View v) {
-//							Intent intent = new Intent(MainActivity.this, SettingsFragment.class);
-//							startActivity(intent);
-//						}
-//					});
-//				}
-//			}
-//		}
-//		return true;
-//	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.e("MENU","SELECTED");
-		// Handle item selection
-		switch (item.getItemId()) {
-			case R.id.pop_menu_about:
-				//TODO
-				return true;
-			case R.id.pop_menu_sponsors:
-				//TODO
-				return true;
-			case R.id.pop_menu_settings:
-				Log.e("MENU","SETTINGS");
-				Intent intent = new Intent( this, SettingsFragment.class );
-				//intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, Fragment1.class.getName() );
-				//intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
-				startActivity(intent);
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
 
 	/**
 	 * Loads a section in the main screen.

@@ -3,17 +3,17 @@
         android:title="@string/preferences_sync">
 
         <CheckBoxPreference
-            android:key="pref_sync_sync"
+            android:key="preference_key_sync"
             android:title="@string/preferences_sync_sync"
             android:summary="@string/preferences_sync_sync_on"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_sync_notifications"
+            android:key="preference_key_notification"
             android:title="@string/preferences_sync_notifications"
             android:summary="@string/preferences_sync_notifications_on"
             android:defaultValue="true" />
         <Preference
-            android:key="pref_sync_usage"
+            android:key="preference_key_data"
             android:title="@string/preferences_sync_usage"
             android:summary="0 kb" />
 
@@ -23,17 +23,17 @@
         android:title="@string/preferences_info">
 
         <Preference
-            android:key="pref_sync_usage"
+            android:key="preference_key_version"
             android:title="@string/preferences_info_version"
             android:summary="_" />
 
         <Preference
-            android:key="pref_sync_source"
+            android:key="preference_key_source"
             android:title="@string/preferences_info_source"
             android:summary="@string/preferences_info_source_summary" />
 
         <Preference
-            android:key="pref_sync_feedback"
+            android:key="preference_key_feedback"
             android:title="@string/preferences_info_feedback"
             android:summary="@string/preferences_info_feedback_summary" />
 

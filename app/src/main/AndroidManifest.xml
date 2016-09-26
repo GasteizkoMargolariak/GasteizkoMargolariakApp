@@ -54,7 +54,7 @@
         </activity>
 
         <activity
-            android:name="com.ivalentin.margolariak.SettingsFragment"
+            android:name=".SettingsActivity"
             android:theme="@style/Theme.NoTitle"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:configChanges="orientation"
