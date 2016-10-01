@@ -3,16 +3,18 @@
 
     <!-- Backgrounds for several sections -->
     
-    <color name="background_app">#c6e4f6</color>
+    <color name="background_app">#e4f4fd</color>
     <color name="background_menu">#4c9ed8</color>
     <color name="background_notification">#000000</color>
     <color name="background_separator">#000000</color>
 
 
-    <color name="section_background">#9bc1da</color>
-    <color name="section_border">#9cd3d9</color>
+    <color name="section_background">#d9ecf9</color>
+    <color name="section_border">#badde1</color>
+    <color name="section_title">#07383e</color>
     <color name="entry_background">#ffffff</color>
-    <color name="entry_border">#9cd3d9</color>
+    <color name="entry_border">#d8f3f5</color>
+    <color name="entry_title">#41786e</color>
     
     <!--Color for the menu entries-->
     <color name="menu_entry">#ffffff</color>
