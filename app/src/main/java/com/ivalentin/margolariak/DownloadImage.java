@@ -27,6 +27,7 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
     private final String file;
     private final String path;
     private final ImageView iv;
+	private final int size;
 
 	/**
 	 * Constructor.
@@ -34,14 +35,16 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
 	 * @param file URL of the remote file.
 	 * @param path Path, including file name, where the image will be saved.
 	 * @param iv ImageView that will hold the image.
+	 * @param size Max size (width or height of the image)
 	 *
 	 * @see android.widget.ImageView
 	 */
-    public DownloadImage(String file, String path, ImageView iv) {
+    public DownloadImage(String file, String path, ImageView iv, int size) {
         super();
         this.file = file;
         this.path = path;
         this.iv = iv;
+		this.size = size;
     }
 
     /**
@@ -93,12 +96,9 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void v) {
         Log.d("File downloaded", path);
-        //Bitmap myBitmap = BitmapFactory.decodeFile(path);
 		try {
-			File file = new File(path); //your image file path
-			//mImage = (ImageView) findViewById(R.id.imageView1);
-			iv.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), 600, 600));
-			//iv.setImageBitmap(myBitmap);
+			File file = new File(path);
+			iv.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), size));
 			iv.setVisibility(View.VISIBLE);
 		}
 		catch(Exception ex){

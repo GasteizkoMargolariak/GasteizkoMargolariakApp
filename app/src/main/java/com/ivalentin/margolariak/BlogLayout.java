@@ -204,7 +204,7 @@ public class BlogLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
+                    new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
                 }
             }
             cursorImage.close();

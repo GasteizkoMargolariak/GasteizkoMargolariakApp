@@ -121,8 +121,8 @@ public class AlbumLayout extends Fragment {
             if (f.exists()){
                 //If the image exists, set it.
 				try{
-					bmp = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-                	ivLeft.setImageBitmap(bmp);
+					File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+					ivLeft.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG_PREVIEW));
 				}
 				catch (Exception ex){
 					Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
@@ -133,7 +133,7 @@ public class AlbumLayout extends Fragment {
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                 fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft, GM.IMG_PREVIEW).execute();
             }
 
 			//Count comments
@@ -191,11 +191,8 @@ public class AlbumLayout extends Fragment {
                 if (f.exists()){
                     //If the image exists, set it.
 					try {
-						//bmp = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-						//ivRight.setImageBitmap(bmp);
-						File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image); //your image file path
-						//mImage = (ImageView) findViewById(R.id.imageView1);
-						ivRight.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), 600, 600));
+						File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+						ivRight.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG_PREVIEW));
 					}
 					catch (Exception ex){
 						Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
@@ -206,7 +203,7 @@ public class AlbumLayout extends Fragment {
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                     fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
+					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight, GM.IMG_PREVIEW).execute();
                 }
 
 				//Count comments

@@ -134,7 +134,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
                 //noinspection ResultOfMethodCallIgnored
                 fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i], GM.IMG_PREVIEW).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

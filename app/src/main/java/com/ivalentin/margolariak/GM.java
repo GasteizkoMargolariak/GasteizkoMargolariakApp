@@ -229,6 +229,14 @@ final class GM {
 	static final int LOCATION_ACCURACY_TIME = 10000;
 
 	/**
+	 * Dimensions of the images in the database.
+	 */
+	static final int IMG_MINIATURE = 340;
+	static final int IMG_PREVIEW = 600;
+	static final int IMG_THUMB = 180;
+	static final int IMG_VIEW = 800;
+
+	/**
 	 * Gets the language code for sql queries.
 	 * Only three values can be returned: es, eu, en.
 	 * Defaults to es.
@@ -326,7 +334,7 @@ final class GM {
 		return output;
 	}
 
-	public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) { // BEST QUALITY MATCH
+	public static Bitmap decodeSampledBitmapFromFile(String path, int size) { // BEST QUALITY MATCH
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -340,15 +348,15 @@ final class GM {
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		int inSampleSize = 1;
 
-		if (height > reqHeight) {
-			inSampleSize = Math.round((float)height / (float)reqHeight);
+		if (height > size) {
+			inSampleSize = Math.round((float)height / (float)size);
 		}
 
 		int expectedWidth = width / inSampleSize;
 
-		if (expectedWidth > reqWidth) {
+		if (expectedWidth > size) {
 			//if(Math.round((float)width / (float)reqWidth) > inSampleSize) // If bigger SampSize..
-			inSampleSize = Math.round((float)width / (float)reqWidth);
+			inSampleSize = Math.round((float)width / (float)size);
 		}
 
 

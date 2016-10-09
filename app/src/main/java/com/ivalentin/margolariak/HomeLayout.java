@@ -470,7 +470,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
 						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage).execute();
+						new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG_PREVIEW).execute();
 					}
 				}
 				else {
@@ -566,7 +566,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
 				fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG_PREVIEW).execute();
 			}
 
 			//Set listeners for images
@@ -701,7 +701,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
 				}
 			}
 			cursorImage.close();
@@ -835,7 +835,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
 					}
 				}
 
@@ -957,7 +957,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
+					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
 				}
 			}
 

@@ -208,7 +208,7 @@ public class PhotoLayout extends Fragment {
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/");
 			fpath.mkdirs();
-			new DownloadImage(GM.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			new DownloadImage(GM.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView, GM.IMG_VIEW).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
 
 		//Hide or show comments, as needed

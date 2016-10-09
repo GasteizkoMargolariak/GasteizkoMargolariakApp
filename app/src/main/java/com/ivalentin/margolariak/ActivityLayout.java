@@ -139,7 +139,7 @@ public class ActivityLayout extends Fragment{
                         File fpath;
                         fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                         fpath.mkdirs();
-                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
                     }
                 }
                 cursorImage.close();
@@ -231,7 +231,7 @@ public class ActivityLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
                 }
             }
             cursorImage.close();

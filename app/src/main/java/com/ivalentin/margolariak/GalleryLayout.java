@@ -126,7 +126,7 @@ public class GalleryLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
+                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG_MINIATURE).execute();
                 }
                 i ++;
             }
