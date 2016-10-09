@@ -13,21 +13,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -38,11 +41,51 @@ import android.widget.TextView;
  */
 public class MainActivity extends Activity{
 
-	//The main layout of the app
-	private MainLayout mLayout;
-
 	//Alarm to get location and notifications.
 	private AlarmReceiver alarm;
+
+	//The menu entries
+	RelativeLayout menuItem[];
+	TextView menuText[];
+	ImageView menuImage[];
+
+	//Not referenced in code.
+	public void showMenu(View v) {
+		PopupMenu popup = new PopupMenu(this, v);
+		MenuInflater inflater = popup.getMenuInflater();
+		inflater.inflate(R.menu.menu, popup.getMenu());
+
+		popup.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
+
+		popup.getMenu().getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(MainActivity.this, SponsorActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
+
+		popup.getMenu().getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
+
+		popup.show();
+	}
+
+
 
 	/**
 	 * Loads a section in the main screen.
@@ -56,15 +99,27 @@ public class MainActivity extends Activity{
 		Fragment fragment = null;
 		String title = "";
 		Bundle bundle = new Bundle();
+
+		//Reset all tabs to it's original state
+		for (int i = 0; i < 6; i ++){
+			menuText[i].setTypeface(null, Typeface.NORMAL);
+			menuImage[i].requestLayout();
+			menuImage[i].getLayoutParams().height = 2;
+		}
+
 		switch (section){
 			case GM.SECTION_HOME:
 				fragment = new HomeLayout();
 				title = getString(R.string.menu_home);
+				menuText[0].setTypeface(null, Typeface.BOLD);
+				menuImage[0].getLayoutParams().height = 8;
 				break;
 
 			case GM.SECTION_LOCATION:
 				fragment = new LocationLayout();
 				title = getString(R.string.menu_location);
+				menuText[1].setTypeface(null, Typeface.BOLD);
+				menuImage[1].getLayoutParams().height = 8;
 				break;
 
 			case GM.SECTION_LABLANCA:
@@ -77,6 +132,8 @@ public class MainActivity extends Activity{
 					fragment = new LablancaNoFestivalsLayout();
 				}
 				title = getString(R.string.menu_lablanca);
+				menuText[2].setTypeface(null, Typeface.BOLD);
+				menuImage[2].getLayoutParams().height = 8;
 				break;
 
 			case GM.SECTION_LABLANCA_SCHEDULE:
@@ -84,6 +141,8 @@ public class MainActivity extends Activity{
 				bundle.putInt(GM.SCHEDULE, GM.SECTION_LABLANCA_SCHEDULE);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_schedule);
+				menuText[2].setTypeface(null, Typeface.BOLD);
+				menuImage[2].getLayoutParams().height = 8;
 				break;
 
 			case GM.SECTION_LABLANCA_GM_SCHEDULE:
@@ -91,38 +150,37 @@ public class MainActivity extends Activity{
 				bundle.putInt(GM.SCHEDULE, GM.SECTION_LABLANCA_GM_SCHEDULE);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_gm_schedule);
+				menuText[2].setTypeface(null, Typeface.BOLD);
+				menuImage[2].getLayoutParams().height = 8;
 				break;
 
 			case GM.SECTION_ACTIVITIES:
 				fragment = new ActivityLayout();
 				title = getString(R.string.menu_activities);
+				menuText[3].setTypeface(null, Typeface.BOLD);
+				menuImage[3].getLayoutParams().height = 8;
 				break;
 
 			case GM.SECTION_BLOG:
 				fragment = new BlogLayout();
 				title = getString(R.string.menu_blog);
+				menuText[4].setTypeface(null, Typeface.BOLD);
+				menuImage[4].getLayoutParams().height = 8;
 				break;
 
 			case GM.SECTION_GALLERY:
 				fragment = new GalleryLayout();
 				title = getString(R.string.menu_blog);
-				break;
-
-			case GM.SECTION_SETTINGS:
-				fragment = new SettingsLayout();
-				title = getString(R.string.menu_settings);
+				menuText[5].setTypeface(null, Typeface.BOLD);
+				menuImage[5].getLayoutParams().height = 8;
 				break;
 		}
 		
 		//Replace the fragment.
 		ft.replace(R.id.activity_main_content_fragment, fragment);
-		ft.addToBackStack(title);
+		//ft.addToBackStack(title);
 		ft.commit();
 		setSectionTitle(title);
-		
-		//If calling from the menu, close it.
-		if (fromSliderMenu)
-			mLayout.toggleMenu();
 	}
 
 	/**
@@ -181,35 +239,41 @@ public class MainActivity extends Activity{
 		//Remove title bar.
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    super.onCreate(savedInstanceState);
-	    
+
 	    //Set layout.
 		setContentView(R.layout.activity_main);
-		mLayout = (MainLayout) findViewById(R.id.main_layout);
 
-
-		
-		//Assign menu button
-		ImageButton btMenu = (ImageButton) findViewById(R.id.bt_menu); 
-		btMenu.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { mLayout.toggleMenu(); }
-		});
-		
 		//Assign menu items
-		TextView menuItem[] = new TextView[7];
-		menuItem[0] = (TextView) findViewById(R.id.menu_home);
-		menuItem[1] = (TextView) findViewById(R.id.menu_location);
-		menuItem[2] = (TextView) findViewById(R.id.menu_lablanca);
-		menuItem[3] = (TextView) findViewById(R.id.menu_activities);
-		menuItem[4] = (TextView) findViewById(R.id.menu_blog);
-		menuItem[5] = (TextView) findViewById(R.id.menu_gallery);
-		menuItem[6] = (TextView) findViewById(R.id.menu_settings);
-		TextView menuSpacer = (TextView) findViewById(R.id.menu_space);
+		menuItem = new RelativeLayout[6];
+		menuItem[0] = (RelativeLayout) findViewById(R.id.rl_menu_home);
+		menuItem[1] = (RelativeLayout) findViewById(R.id.rl_menu_location);
+		menuItem[2] = (RelativeLayout) findViewById(R.id.rl_menu_lablanca);
+		menuItem[3] = (RelativeLayout) findViewById(R.id.rl_menu_activities);
+		menuItem[4] = (RelativeLayout) findViewById(R.id.rl_menu_blog);
+		menuItem[5] = (RelativeLayout) findViewById(R.id.rl_menu_gallery);
+		menuText = new TextView[6];
+		menuText[0] = (TextView) menuItem[0].findViewById(R.id.tv_menu_home);
+		menuText[1] = (TextView) menuItem[1].findViewById(R.id.tv_menu_location);
+		menuText[2] = (TextView) menuItem[2].findViewById(R.id.tv_menu_lablanca);
+		menuText[3] = (TextView) menuItem[3].findViewById(R.id.tv_menu_activities);
+		menuText[4] = (TextView) menuItem[4].findViewById(R.id.tv_menu_blog);
+		menuText[5] = (TextView) menuItem[5].findViewById(R.id.tv_menu_gallery);
+		menuImage = new ImageView[6];
+		menuImage[0] = (ImageView) menuItem[0].findViewById(R.id.iv_menu_home);
+		menuImage[1] = (ImageView) menuItem[1].findViewById(R.id.iv_menu_location);
+		menuImage[2] = (ImageView) menuItem[2].findViewById(R.id.iv_menu_lablanca);
+		menuImage[3] = (ImageView) menuItem[3].findViewById(R.id.iv_menu_activities);
+		menuImage[4] = (ImageView) menuItem[4].findViewById(R.id.iv_menu_blog);
+		menuImage[5] = (ImageView) menuItem[5].findViewById(R.id.iv_menu_gallery);
+
+		//Remove sscrollbars from the sections menu
+		HorizontalScrollView svMenu = (HorizontalScrollView) findViewById(R.id.sv_menu);
+		svMenu.setHorizontalScrollBarEnabled(false);
 
 		//Assign buttons for la blanca submenu
 		TextView menuLablancaItem[] = new TextView[2];
-		menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
-		menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
+		//menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
+		//menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
 
 		//Set click listers for menu items
 		menuItem[0].setOnClickListener(new OnClickListener() {
@@ -236,39 +300,28 @@ public class MainActivity extends Activity{
 			@Override
 			public void onClick(View v) { loadSection(GM.SECTION_GALLERY, true); }
 		});
-		menuItem[6].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_SETTINGS, true); }
-		});
 
 
 		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
 			//Show the entries
-			for (int i = 0; i < 2; i ++){
-				menuLablancaItem[i].setVisibility(View.VISIBLE);
-			}
+			//for (int i = 0; i < 2; i ++){
+			//	menuLablancaItem[i].setVisibility(View.VISIBLE);
+			//}
 		}
-		menuLablancaItem[0].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
-			}
-		});
-
-		menuLablancaItem[1].setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
-			}
-		});
-
-		menuSpacer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mLayout.toggleMenu();
-			}
-		});
+//		menuLablancaItem[0].setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
+//			}
+//		});
+//
+//		menuLablancaItem[1].setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
+//			}
+//		});
 
 		//If the user code is not set, generate one
 		if (preferences.getString(GM.USER_CODE, "").length() == 0){
@@ -595,7 +648,7 @@ public class MainActivity extends Activity{
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
-			mLayout.toggleMenu();
+			showMenu(this.findViewById(R.id.bt_menu));
 			return true;
 		}
 		return super.onKeyUp(keyCode, event);

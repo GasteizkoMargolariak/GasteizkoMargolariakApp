@@ -27,16 +27,6 @@ final class GM {
 	 * Code for the location permission request
 	 */
 	static final int PERMISSION_LOCATION = 1;
-
-	/**
-	 * Duration of the menu sliding animation.
-	 */
-	static final int MENU_SLIDING_DURATION = 500;
-	
-	/**
-	 * Interval between menu sliding queries. 
-	 */
-	static final int MENU_QUERY_INTERVAL = 16;
 	
 	/**
 	 * Period of time (in seconds) at the end of witch the app will perform a sync.
@@ -144,11 +134,6 @@ final class GM {
 	static final byte SECTION_GALLERY = 5;
 
 	/**
-	 * Constant for section "Settings".
-	 */
-	static final byte SECTION_SETTINGS = 6;
-
-	/**
 	 * Name of the preference group for the app.
 	 */
 	static final String PREF = "gmpreferences";
@@ -167,22 +152,17 @@ final class GM {
 	 * Name of the preference that indicates if we are on festivals.
 	 */
 	static final String PREF_DB_FESTIVALS = "prefDbFestivals";
-	
+
 	/**
 	 * Name of the preference indicating if the user wants to to receive notifications intended for the general public.
 	 */
 	static final String PREF_NOTIFICATION = "prefNotification";
 
 	/**
-	 * Name of the preference indicating if the tutorial has been seen.
-	 */
-	static final String PREF_TUTORIAL = "prefTutorial";
-	
-	/**
 	 * Default value of the preference indicating if the user wants to to receive notifications intended for the general public.
 	 */
 	static final int DEFAULT_PREF_NOTIFICATION = 1;
-	
+
 	/**
 	 * Header of a preference to indicate received notifications.
 	 */
@@ -212,6 +192,58 @@ final class GM {
 	 * Name of the preference to store GM last location timestamp.
 	 */
 	static final String DEFAULT_PREF_GM_LOCATION = "19700101000000";
+
+	/**
+	 * Name of the preference indicating if the user wants to perform background syncs.
+	 */
+	static final String PREFERENCE_SYNC_SYNC = "pref_sync_sync";
+
+	/**
+	 * Default value for PREFERENCE_SYNC_SYNC.
+	 */
+	static final boolean DEFAULT_PREFERENCE_SYNC_SYNC = true;
+
+	/**
+	 * Name of the preference indicating if the user wants to to receive notifications intended for the general public.
+	 */
+	static final String PREFERENCE_SYNC_NOTIFICATIONS = "pref_sync_notifications";
+
+	/**
+	 * Default value for PREFERENCE_SYNC_NOTIFICATIONS.
+	 */
+	static final boolean DEFAULT_PREFERENCE_SYNC_NOTIFICATIONS = true;
+
+	/**
+	 * Name of the SharedPreference that stores how many kb have been sent in the foreground.
+	 */
+	static final String STORAGE_TRAFFIC_FG_SENT = "storage_traffic_fg_sent";
+
+	/**
+	 * Name of the SharedPreference that stores how many kb have been received in the foreground.
+	 */
+	static final String STORAGE_TRAFFIC_FG_RECEIVED = "storage_traffic_fg_received";
+
+	/**
+	 * Name of the SharedPreference that stores how many kb have been sent in the background.
+	 */
+	static final String STORAGE_TRAFFIC_BG_SENT = "storage_traffic_bg_received";
+
+	/**
+	 * Name of the SharedPreference that stores how many kb have been received in the background.
+	 */
+	static final String STORAGE_TRAFFIC_BG_RECEIVED = "storage_traffic_bg_received";
+
+	static final String KEY_PREFERENCE_SYNC = "preference_key_sync";
+
+	static final String KEY_PREFERENCE_NOTIFICATION = "preference_key_notification";
+
+	static final String KEY_PREFERENCE_DATA = "preference_key_data";
+
+	static final String KEY_PREFERENCE_VERSION = "preference_key_version";
+
+	static final String KEY_PREFERENCE_SOURCE = "preference_key_source";
+
+	static final String KEY_PREFERENCE_FEEDBACK = "preference_key_feedback";
 
 	/**
 	 * Name of the database

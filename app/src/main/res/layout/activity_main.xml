@@ -1,392 +1,308 @@
-<FrameLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:ignore="MergeRootFrame">
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
 
-	<com.ivalentin.margolariak.MainLayout
-		android:id="@+id/main_layout"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:fitsSystemWindows="true"
-		android:background="@color/background_menu">
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/titlebar"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:padding="2dp">
 
+		<!-- Button to open slider menu -->
 
-		<!-- Slider menu -->
+		<ImageView
+			android:contentDescription="@string/app_name"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:id="@+id/iv_logo"
+			android:src="@drawable/ic_launcher"
+			android:adjustViewBounds="true"
+			android:layout_weight=".2"
+			android:maxHeight="45dp"
+			android:maxWidth="45dp"
+			android:padding="1dp"/>
 
-		<ScrollView
-			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:nestedScrollingEnabled="false"
-			tools:ignore="UnusedAttribute"
-			android:id="@+id/sv_menu">
-
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:divider="@drawable/divider"
-				android:orientation="vertical"
-				android:padding="10dp"
-				android:baselineAligned="false"
-				android:id="@+id/ll_menu">
-
-				<TextView
-					android:id="@+id/menu_home"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_home"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:textStyle="bold"
-					android:textColor="@color/menu_entry"
-					android:paddingTop="4dp"
-					android:paddingBottom="4dp"/>
-
-				<LinearLayout
-					android:orientation="vertical"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/ll_menu_location"
-					android:visibility="gone">
-
-					<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dp"
-						android:background="@color/background_separator"/>
-
-					<TextView
-						android:id="@+id/menu_location"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="10dp"
-						android:layout_marginTop="10dp"
-						android:gravity="center_vertical"
-						android:text="@string/menu_location"
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:textStyle="bold"
-						android:textColor="@color/menu_entry"
-						android:paddingBottom="4dp"
-						android:paddingTop="4dp"/>
-				</LinearLayout>
-
-				<View
-					android:layout_width="fill_parent"
-					android:layout_height="1dp"
-					android:background="@color/background_separator"/>
-
-				<TextView
-					android:id="@+id/menu_lablanca"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_lablanca"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:textStyle="bold"
-					android:textColor="@color/menu_entry"
-					android:paddingTop="4dp"
-					android:paddingBottom="4dp"/>
-
-				<TextView
-					android:id="@+id/menu_lablanca_schedule"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:layout_marginStart="20dp"
-					android:layout_marginLeft="20dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_lablanca_schedule"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:textColor="@color/menu_entry"
-					android:visibility="gone"
-					android:paddingTop="2dp"
-					android:paddingBottom="2dp"/>
-
-				<TextView
-					android:id="@+id/menu_lablanca_gm_schedule"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:layout_marginStart="20dp"
-					android:layout_marginLeft="20dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_lablanca_gm_schedule"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:textColor="@color/menu_entry"
-					android:visibility="gone"
-					android:paddingBottom="2dp"
-					android:paddingTop="2dp"/>
-
-				<View
-					android:layout_width="fill_parent"
-					android:layout_height="1dp"
-					android:background="@color/background_separator"/>
-
-				<TextView
-					android:id="@+id/menu_activities"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_activities"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:textStyle="bold"
-					android:textColor="@color/menu_entry"
-					android:paddingTop="4dp"
-					android:paddingBottom="4dp"/>
-
-				<View
-					android:layout_width="fill_parent"
-					android:layout_height="1dp"
-					android:background="@color/background_separator"/>
-
-				<TextView
-					android:id="@+id/menu_blog"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_blog"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:textStyle="bold"
-					android:textColor="@color/menu_entry"
-					android:paddingBottom="4dp"
-					android:paddingTop="4dp"/>
-
-				<View
-					android:layout_width="fill_parent"
-					android:layout_height="1dp"
-					android:background="@color/background_separator"/>
-
-				<TextView
-					android:id="@+id/menu_gallery"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_gallery"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:textStyle="bold"
-					android:textColor="@color/menu_entry"
-					android:paddingTop="4dp"
-					android:paddingBottom="4dp"/>
-
-				<View
-					android:layout_width="fill_parent"
-					android:layout_height="1dp"
-					android:background="@color/background_separator"/>
-
-				<TextView
-					android:id="@+id/menu_settings"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="10dp"
-					android:layout_marginTop="10dp"
-					android:gravity="center_vertical"
-					android:text="@string/menu_settings"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:textStyle="bold"
-					android:textColor="@color/menu_entry"
-					android:paddingBottom="4dp"
-					android:paddingTop="4dp"/>
-
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:id="@+id/menu_space"
-					android:padding="5dp"/>
-
-			</LinearLayout>
-
-		</ScrollView>
-
-		<!-- The visible screen -->
+		<!-- Layout with the app title and current section -->
 
 		<LinearLayout
-			xmlns:android="http://schemas.android.com/apk/res/android"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:background="@color/background_app"
-			android:orientation="vertical"
-			>
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_weight=".8"
+			android:gravity="center"
+			android:orientation="vertical" >
 
-			<!-- The action bar -->
+			<!-- App name. Remains unchanged -->
 
-			<LinearLayout
-				android:layout_width="fill_parent"
+			<TextView
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:background="@drawable/titlebar"
-				android:gravity="center_vertical"
-				android:orientation="horizontal"
-				android:padding="2dp">
+				android:gravity="center"
+				android:text="@string/app_name"
+				android:textSize="18sp"
+				android:textStyle="bold" />
 
-				<!-- Button to open slider menu -->
+			<!-- Section title -->
 
-				<ImageButton
-					android:id="@+id/bt_menu"
-					android:layout_width="40dp"
-					android:layout_height="40dp"
-					android:layout_weight=".2"
-					android:adjustViewBounds="false"
-					android:background="#00000000"
-					android:contentDescription="@string/app_name"
-					android:maxHeight="20dp"
-					android:maxWidth="20dp"
-					android:scaleType="fitCenter"
-					android:src="@drawable/menu"
-					android:padding="2dp"
-					android:alpha=".5"/>
-
-				<!-- Layout with the app title and current section -->
-
-				<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:layout_weight=".8"
-					android:gravity="center"
-					android:orientation="vertical" >
-
-					<!-- App name. Remains unchanged -->
-
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:gravity="center"
-						android:text="@string/app_name"
-						android:textSize="18sp"
-						android:textStyle="bold" />
-
-					<!-- Section title -->
-
-					<TextView
-						android:id="@+id/activity_main_content_title"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:gravity="center"
-						android:text="@string/menu_home"
-						android:textSize="20sp" />
-
-				</LinearLayout>
-
-				<ImageView
-					android:layout_width="40dp"
-					android:layout_height="40dp"
-					android:id="@+id/iv_logo"
-					android:src="@drawable/ic_launcher"
-					android:adjustViewBounds="true"
-					android:layout_weight=".2"
-					android:maxHeight="45dp"
-					android:maxWidth="45dp"
-					android:padding="1dp"/>
-
-				<ProgressBar
-					android:id="@+id/pb_sync"
-					android:layout_width="40dp"
-					android:layout_height="40dp"
-					android:layout_weight=".2"
-					android:visibility="gone"
-					android:maxHeight="40dp"
-					android:maxWidth="40dp"/>
-
-			</LinearLayout>
-
-			<!-- The part where the fragments will be loaded -->
-
-			<FrameLayout
-				android:id="@+id/activity_main_content_fragment"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_marginLeft="9dp"
-				android:layout_marginRight="9dp">
-
-			</FrameLayout>
+			<TextView
+				android:id="@+id/activity_main_content_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:text="@string/menu_home"
+				android:textSize="20sp" />
 
 		</LinearLayout>
 
-	</com.ivalentin.margolariak.MainLayout>
-
-	<RelativeLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="#003377"
-		android:alpha=".85"
-		android:id="@+id/rl_tutorial"
-		android:visibility="gone">
-
-		<ImageView
-			android:layout_width="90dp"
-			android:layout_height="90dp"
-			android:src="@drawable/tutorial_point"
-			tools:ignore="ContentDescription"/>
-
-		<ImageView
-			android:layout_width="110dp"
-			android:layout_height="110dp"
-			android:src="@drawable/tutorial_slide"
-			android:layout_marginTop="110dp"
-			android:layout_marginLeft="-10dp"
-			android:layout_marginStart="-10dp"
-			tools:ignore="ContentDescription"/>
-
-		<TextView
+		<ImageButton
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:text="@string/tutorial_menu"
-			android:textColor="#ffffff"
-			android:textStyle="bold"
-			android:layout_marginTop="70dp"
-			android:layout_marginRight="20dp"
-			android:layout_marginEnd="20dp"
-			android:layout_marginLeft="100dp"
-			android:layout_marginStart="100dp"/>
+			android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+			android:contentDescription="@string/tutorial_menu"
+			android:onClick="showMenu"
+			android:layout_weight=".2"
+			android:id="@+id/bt_menu"/>
 
-		<ImageView
-			android:layout_width="90dp"
-			android:layout_height="90dp"
-			android:id="@+id/iv_tutorial_content"
-			android:src="@drawable/tutorial_point"
-			android:layout_centerInParent="true"
-			tools:ignore="ContentDescription"/>
+		<ProgressBar
+			android:id="@+id/pb_sync"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:layout_weight=".2"
+			android:visibility="gone"
+			android:maxHeight="40dp"
+			android:maxWidth="40dp"/>
 
-		<TextView
+	</LinearLayout>
+
+	<!-- The part where the fragments will be loaded -->
+
+	<HorizontalScrollView
+		android:layout_width="wrap_content"
+		android:layout_height="50dp"
+		android:id="@+id/sv_menu"
+		android:scrollIndicators="none"
+		android:requiresFadingEdge="horizontal"
+		android:fadingEdgeLength="125dp"
+		android:background="@color/background_bar_gradient">
+
+		<LinearLayout
+			android:orientation="horizontal"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:text="@string/tutorial_content"
-			android:textColor="#ffffff"
-			android:textStyle="bold"
-			android:layout_marginLeft="30dp"
-			android:layout_marginRight="30dp"
-			android:layout_below="@+id/iv_tutorial_content"/>
+			android:layout_height="match_parent"
+			>
 
-		<Button
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/tutorial_button"
-			android:id="@+id/bt_tutorial"
-			android:layout_gravity="center_horizontal"
-			android:textColor="@color/input_button_color"
-			android:textStyle="bold"
-			android:background="@drawable/button_selector"
-			android:layout_centerHorizontal="true"
-			android:layout_alignParentEnd="false"
-			android:layout_alignParentBottom="true"
-			android:layout_marginBottom="50dp"
-			android:paddingLeft="10dp"
-			android:paddingRight="10dp"/>
-	</RelativeLayout>
+			<RelativeLayout
+				android:orientation="vertical"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
+				android:id="@+id/rl_menu_home"
+				android:layout_marginRight="0.5dp"
+				android:layout_marginLeft="0.5dp">
 
-</FrameLayout>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="@string/menu_home"
+					android:layout_gravity="top"
+					android:textSize="15sp"
+					android:layout_centerInParent="true"
+					android:textStyle="bold"
+					android:id="@+id/tv_menu_home"/>
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="8dp"
+					android:id="@+id/iv_menu_home"
+					android:background="@color/menu_selected"
+					android:alpha="1"
+					android:layout_gravity="bottom"
+					android:layout_alignParentStart="false"
+					android:layout_alignParentEnd="false"
+					android:layout_alignParentLeft="false"
+					android:layout_alignParentRight="false"
+					android:layout_alignParentBottom="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:orientation="vertical"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
+				android:id="@+id/rl_menu_location"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="@string/menu_location"
+					android:layout_gravity="top"
+					android:textSize="15sp"
+					android:layout_centerInParent="true"
+					android:id="@+id/tv_menu_location"/>
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="2dp"
+					android:id="@+id/iv_menu_location"
+					android:background="@color/menu_selected"
+					android:alpha="1"
+					android:layout_gravity="bottom"
+					android:layout_alignParentStart="false"
+					android:layout_alignParentEnd="false"
+					android:layout_alignParentLeft="false"
+					android:layout_alignParentRight="false"
+					android:layout_alignParentBottom="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:orientation="vertical"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
+				android:id="@+id/rl_menu_lablanca"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="@string/menu_lablanca"
+					android:layout_gravity="top"
+					android:textSize="15sp"
+					android:layout_centerInParent="true"
+					android:id="@+id/tv_menu_lablanca"/>
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="2dp"
+					android:id="@+id/iv_menu_lablanca"
+					android:background="@color/menu_selected"
+					android:alpha="1"
+					android:layout_gravity="bottom"
+					android:layout_alignParentStart="false"
+					android:layout_alignParentEnd="false"
+					android:layout_alignParentLeft="false"
+					android:layout_alignParentRight="false"
+					android:layout_alignParentBottom="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:orientation="vertical"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
+				android:id="@+id/rl_menu_activities"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="@string/menu_activities"
+					android:layout_gravity="top"
+					android:textSize="15sp"
+					android:layout_centerInParent="true"
+					android:id="@+id/tv_menu_activities"/>
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="2dp"
+					android:id="@+id/iv_menu_activities"
+					android:background="@color/menu_selected"
+					android:alpha="1"
+					android:layout_gravity="bottom"
+					android:layout_alignParentStart="false"
+					android:layout_alignParentEnd="false"
+					android:layout_alignParentLeft="false"
+					android:layout_alignParentRight="false"
+					android:layout_alignParentBottom="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:orientation="vertical"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
+				android:id="@+id/rl_menu_blog"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="@string/menu_blog"
+					android:layout_gravity="top"
+					android:textSize="15sp"
+					android:layout_centerInParent="true"
+					android:id="@+id/tv_menu_blog"/>
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="2dp"
+					android:id="@+id/iv_menu_blog"
+					android:background="@color/menu_selected"
+					android:alpha="1"
+					android:layout_gravity="bottom"
+					android:layout_alignParentStart="false"
+					android:layout_alignParentEnd="false"
+					android:layout_alignParentLeft="false"
+					android:layout_alignParentRight="false"
+					android:layout_alignParentBottom="true"/>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:orientation="vertical"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
+				android:id="@+id/rl_menu_gallery"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="@string/menu_gallery"
+					android:layout_gravity="top"
+					android:textSize="15sp"
+					android:layout_centerInParent="true"
+					android:id="@+id/tv_menu_gallery"/>
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="2dp"
+					android:id="@+id/iv_menu_gallery"
+					android:background="@color/menu_selected"
+					android:alpha="1"
+					android:layout_gravity="bottom"
+					android:layout_alignParentStart="false"
+					android:layout_alignParentEnd="false"
+					android:layout_alignParentLeft="false"
+					android:layout_alignParentRight="false"
+					android:layout_alignParentBottom="true"/>
+			</RelativeLayout>
+
+		</LinearLayout>
+	</HorizontalScrollView>
+
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/sv_main_content">
+
+		<FrameLayout
+			android:id="@+id/activity_main_content_fragment"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+		</FrameLayout>
+	</ScrollView>
+
+</LinearLayout>
+

@@ -8,15 +8,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/tv_row_home_blog_title" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/tv_row_home_blog_title"
+        android:textColor="@color/entry_title"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/tv_row_home_blog_date"
-        android:layout_weight=".5" />
+        android:layout_weight=".5"
+        android:textStyle="italic"/>
 
     <TextView
         android:layout_width="wrap_content"
