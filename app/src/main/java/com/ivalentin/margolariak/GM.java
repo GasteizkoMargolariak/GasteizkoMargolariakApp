@@ -1,5 +1,7 @@
 package com.ivalentin.margolariak;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -19,7 +21,7 @@ final class GM {
 	/**
 	 * Address where the web server is
 	 */
-	static final String SERVER = "http://margolariak.es";
+	static final String SERVER = "http://margolariak.com";
 
 	/**
 	 * Code for the location permission request
@@ -322,5 +324,39 @@ final class GM {
 		}
 
 		return output;
+	}
+
+	public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) { // BEST QUALITY MATCH
+
+		// First decode with inJustDecodeBounds=true to check dimensions
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(path, options);
+
+		// Calculate inSampleSize
+		// Raw height and width of image
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
+		int inSampleSize = 1;
+
+		if (height > reqHeight) {
+			inSampleSize = Math.round((float)height / (float)reqHeight);
+		}
+
+		int expectedWidth = width / inSampleSize;
+
+		if (expectedWidth > reqWidth) {
+			//if(Math.round((float)width / (float)reqWidth) > inSampleSize) // If bigger SampSize..
+			inSampleSize = Math.round((float)width / (float)reqWidth);
+		}
+
+
+		options.inSampleSize = inSampleSize;
+
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+
+		return BitmapFactory.decodeFile(path, options);
 	}
 }

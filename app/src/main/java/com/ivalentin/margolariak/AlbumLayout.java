@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +89,7 @@ public class AlbumLayout extends Fragment {
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
         String image;
+		Bitmap bmp;
         Cursor imageCursor = db.rawQuery("SELECT id, title_" + lang + " AS title, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + id + " ORDER BY uploaded DESC;", null);
         while (imageCursor.moveToNext()){
             //Create a new row
@@ -118,8 +120,13 @@ public class AlbumLayout extends Fragment {
             f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
             if (f.exists()){
                 //If the image exists, set it.
-                Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-                ivLeft.setImageBitmap(myBitmap);
+				try{
+					bmp = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+                	ivLeft.setImageBitmap(bmp);
+				}
+				catch (Exception ex){
+					Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
+				}
             }
             else {
                 //If not, create directories and download asynchronously
@@ -183,8 +190,16 @@ public class AlbumLayout extends Fragment {
                 f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
                 if (f.exists()){
                     //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-                    ivRight.setImageBitmap(myBitmap);
+					try {
+						//bmp = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+						//ivRight.setImageBitmap(bmp);
+						File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image); //your image file path
+						//mImage = (ImageView) findViewById(R.id.imageView1);
+						ivRight.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), 600, 600));
+					}
+					catch (Exception ex){
+						Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
+					}
                 }
                 else {
                     //If not, create directories and download asynchronously

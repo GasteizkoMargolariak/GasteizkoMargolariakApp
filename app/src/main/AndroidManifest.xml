@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.ivalentin.margolariak"
-    android:versionCode="18"
-    android:versionName="2.0.4" >
+    android:versionCode="19"
+    android:versionName="2.0.5" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -29,7 +29,8 @@
         android:isGame="false"
         android:fullBackupContent="@xml/backup"
         android:allowClearUserData="true"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"
+        android:name="android.support.multidex.MultiDexApplication">
         
         <meta-data
     		android:name="com.google.android.gms.version"

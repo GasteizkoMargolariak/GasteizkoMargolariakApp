@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -92,9 +93,17 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void v) {
         Log.d("File downloaded", path);
-        Bitmap myBitmap = BitmapFactory.decodeFile(path);
-        iv.setImageBitmap(myBitmap);
-        iv.setVisibility(View.VISIBLE);
+        //Bitmap myBitmap = BitmapFactory.decodeFile(path);
+		try {
+			File file = new File(path); //your image file path
+			//mImage = (ImageView) findViewById(R.id.imageView1);
+			iv.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), 600, 600));
+			//iv.setImageBitmap(myBitmap);
+			iv.setVisibility(View.VISIBLE);
+		}
+		catch(Exception ex){
+			Log.e("Bitmap error", "Not loading image " + path + ": " + ex.toString());
+		}
     }
 
 }
