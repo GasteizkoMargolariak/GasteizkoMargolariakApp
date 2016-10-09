@@ -1,14 +1,10 @@
 package com.ivalentin.margolariak;
 
-import android.app.Notification;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.util.Log;
-import android.widget.Toast;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -54,13 +50,13 @@ public class SettingsActivity extends PreferenceActivity {
 
 		//Set up Notification preference
 		CheckBoxPreference prefNotification = (CheckBoxPreference) getPreferenceManager().findPreference(GM.KEY_PREFERENCE_NOTIFICATION);
-		if (prefSync.isChecked() == false){
+		if (!prefSync.isChecked()){
 			prefNotification.setEnabled(false);
 		}
 		else {
 			prefNotification.setEnabled(true);
-			if(prefSync.isChecked() == false){
-
+			if(!prefSync.isChecked()){
+				//TODO
 			}
 			if (prefNotification.isChecked()) {
 				prefNotification.setSummary(getString(R.string.preferences_sync_notifications_on));
@@ -85,7 +81,7 @@ public class SettingsActivity extends PreferenceActivity {
 		//Set up data preference
 		long bgData = sp.getLong(GM.STORAGE_TRAFFIC_BG_RECEIVED, 0) + sp.getLong(GM.STORAGE_TRAFFIC_BG_SENT, 0);
 		long fgData = sp.getLong(GM.STORAGE_TRAFFIC_FG_RECEIVED, 0) + sp.getLong(GM.STORAGE_TRAFFIC_FG_SENT, 0);
-		String value = "";
+		String value;
 		if (bgData < 1500){
 			value = bgData + getString(R.string.Kb);
 		}

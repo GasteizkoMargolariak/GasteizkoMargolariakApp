@@ -108,7 +108,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				dial.show();
 			}
 			else{
-				activity.loadSection(GM.SECTION_HOME, false);
+				activity.loadSection(GM.SECTION_HOME);
 			}
 		}
 		Log.d("Sync", "Full sync finished");

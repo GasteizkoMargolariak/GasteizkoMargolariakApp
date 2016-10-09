@@ -245,6 +245,12 @@ final class GM {
 
 	static final String KEY_PREFERENCE_FEEDBACK = "preference_key_feedback";
 
+	static final int INTERVAL_LOCATION = 240000; //4 min
+
+	static final int INTERVAL_SYNC_FESTIVALS = 600000; //10 min
+
+	static final int INTERVAL_SYNC_NO_FESTIVALS = 3600000; //60 min
+
 	/**
 	 * Name of the database
 	 */

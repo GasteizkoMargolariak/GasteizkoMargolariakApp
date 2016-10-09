@@ -1,17 +1,13 @@
 package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +85,6 @@ public class AlbumLayout extends Fragment {
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
         String image;
-		Bitmap bmp;
         Cursor imageCursor = db.rawQuery("SELECT id, title_" + lang + " AS title, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + id + " ORDER BY uploaded DESC;", null);
         while (imageCursor.moveToNext()){
             //Create a new row

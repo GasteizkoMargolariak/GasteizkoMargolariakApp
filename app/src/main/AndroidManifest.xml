@@ -62,7 +62,9 @@
             android:screenOrientation="portrait"
             android:label="@string/app_name">
         </activity>
-        
+        <activity android:name=".AboutActivity"/>
+        <activity android:name=".SponsorActivity"/>
+
         <receiver
             android:process=":remote"
             android:name="com.ivalentin.margolariak.AlarmReceiver"/>

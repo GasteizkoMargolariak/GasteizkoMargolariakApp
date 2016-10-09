@@ -26,7 +26,6 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 	private boolean isLocationReported;
 	private LatLng coord;
 	private final View view;
-	private final Activity activity;
 
 	/**
 	 * Constructor.
@@ -35,9 +34,8 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 	 *
 	 * @see android.widget.ImageView
 	 */
-	public HomeSectionLocation(View v, Activity a) {
+	public HomeSectionLocation(View v) {
 		super();
-		this.activity = a;
 		this.view = v;
 	}
 
@@ -96,7 +94,7 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 			section.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					((MainActivity) v.getContext()).loadSection(GM.SECTION_LOCATION, false);
+					((MainActivity) v.getContext()).loadSection(GM.SECTION_LOCATION);
 				}
 			});
 

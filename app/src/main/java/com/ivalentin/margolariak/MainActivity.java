@@ -3,6 +3,9 @@ package com.ivalentin.margolariak;
 import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -32,6 +35,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.os.Handler;
 
 /**
  * The main Activity of the app. It's actually the only activity, and it loads other fragments.
@@ -42,12 +46,59 @@ import android.widget.TextView;
 public class MainActivity extends Activity{
 
 	//Alarm to get location and notifications.
-	private AlarmReceiver alarm;
+	private AlarmReceiver notificationAlarm;
 
 	//The menu entries
-	RelativeLayout menuItem[];
-	TextView menuText[];
-	ImageView menuImage[];
+	private RelativeLayout menuItem[];
+	private TextView menuText[];
+	private ImageView menuImage[];
+
+	//Handler to periodically check for location updates
+	private final Handler locationHandler = new Handler();
+	// Code to check for location updates
+	private final Runnable checkForLocation = new Runnable() {
+		@Override
+		public void run() {
+
+			//Get location page and parse it
+			boolean result = false;
+			FetchURL fu = new FetchURL();
+			fu.Run(GM.SERVER + "/app/location.php");
+			String lat = "", lon = "";
+			String o = fu.getOutput().toString();
+			Log.d("Location", "Fetched location page");
+			if (o.contains("<location>none</location>"))
+				result = false;
+			if (o.contains("<lat>") && o.contains("<lon>")){
+				lat = o.substring(o.indexOf("<lat>") + 5, o.indexOf("</lat>"));
+				lon = o.substring(o.indexOf("<lon>") + 5, o.indexOf("</lon>"));
+				result = true;
+			}
+
+			SharedPreferences settings = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = settings.edit();
+			if (result){
+				editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(Double.parseDouble(lat)));
+				editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(Double.parseDouble(lon)));
+				editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
+
+				//Show menu entry
+				if (menuItem[1] != null){
+					menuItem[1].setVisibility(View.VISIBLE);
+				}
+			}
+			else{
+				editor.putString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION);
+				if (menuItem[1] != null){
+					menuItem[1].setVisibility(View.GONE);
+				}
+			}
+			editor.apply();
+
+			//Repeat this the same runnable code block again another th specified interval
+			locationHandler.postDelayed(checkForLocation, GM.INTERVAL_LOCATION);
+		}
+	};
 
 	//Not referenced in code.
 	public void showMenu(View v) {
@@ -91,9 +142,8 @@ public class MainActivity extends Activity{
 	 * Loads a section in the main screen.
 	 * 
 	 * @param section Section identifier {@see GM}
-	 * @param fromSliderMenu Indicates if the call has been made from the slider menu, so it can be closed.
 	 */
-	public void loadSection (byte section, boolean fromSliderMenu){
+	public void loadSection (byte section){
 		FragmentManager fm = MainActivity.this.getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		Fragment fragment = null;
@@ -200,7 +250,7 @@ public class MainActivity extends Activity{
 	 * 
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation, ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -223,9 +273,9 @@ public class MainActivity extends Activity{
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							alarm = new AlarmReceiver();
-							alarm.setAlarm(context);
-							alarm.onReceive(context, intent);
+							notificationAlarm = new AlarmReceiver();
+							notificationAlarm.setAlarm(context);
+							notificationAlarm.onReceive(context, intent);
 						}
 					});
 				} catch (InterruptedException e) {
@@ -266,62 +316,40 @@ public class MainActivity extends Activity{
 		menuImage[4] = (ImageView) menuItem[4].findViewById(R.id.iv_menu_blog);
 		menuImage[5] = (ImageView) menuItem[5].findViewById(R.id.iv_menu_gallery);
 
-		//Remove sscrollbars from the sections menu
+		//Remove scrollbars from the sections menu
 		HorizontalScrollView svMenu = (HorizontalScrollView) findViewById(R.id.sv_menu);
 		svMenu.setHorizontalScrollBarEnabled(false);
-
-		//Assign buttons for la blanca submenu
-		TextView menuLablancaItem[] = new TextView[2];
-		//menuLablancaItem[0] = (TextView) findViewById(R.id.menu_lablanca_schedule);
-		//menuLablancaItem[1] = (TextView) findViewById(R.id.menu_lablanca_gm_schedule);
 
 		//Set click listers for menu items
 		menuItem[0].setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_HOME, true); }
+			public void onClick(View v) { loadSection(GM.SECTION_HOME); }
 		});
 		menuItem[1].setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_LOCATION, true); }
+			public void onClick(View v) { loadSection(GM.SECTION_LOCATION); }
 		});
 		menuItem[2].setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_LABLANCA, true); }
+			public void onClick(View v) { loadSection(GM.SECTION_LABLANCA); }
 		});
 		menuItem[3].setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_ACTIVITIES, true); }
+			public void onClick(View v) { loadSection(GM.SECTION_ACTIVITIES); }
 		});
 		menuItem[4].setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_BLOG, true); }
+			public void onClick(View v) { loadSection(GM.SECTION_BLOG); }
 		});
 		menuItem[5].setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) { loadSection(GM.SECTION_GALLERY, true); }
+			public void onClick(View v) { loadSection(GM.SECTION_GALLERY); }
 		});
 
-
+		//Get preferences
 		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
-			//Show the entries
-			//for (int i = 0; i < 2; i ++){
-			//	menuLablancaItem[i].setVisibility(View.VISIBLE);
-			//}
-		}
-//		menuLablancaItem[0].setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				loadSection(GM.SECTION_LABLANCA_SCHEDULE, true);
-//			}
-//		});
-//
-//		menuLablancaItem[1].setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, true);
-//			}
-//		});
+
+		//TODO: Read preferences. If there is a recent location, show the menu entry
 
 		//If the user code is not set, generate one
 		if (preferences.getString(GM.USER_CODE, "").length() == 0){
@@ -348,7 +376,7 @@ public class MainActivity extends Activity{
 			sync();
 			
 			//Load initial section
-			loadSection(GM.SECTION_HOME, false);
+			loadSection(GM.SECTION_HOME);
 			
 			//If the intent had extras (from notifications), do something
 			if (actionText != null){
@@ -406,14 +434,14 @@ public class MainActivity extends Activity{
 									@Override
 									public void onClick(View v) {
 										dialog.dismiss();
-										loadSection(GM.SECTION_LABLANCA, false);
+										loadSection(GM.SECTION_LABLANCA);
 									}
 								});
 								break;
 
 							case GM.EXTRA_ACTION_LOCATION:
 
-								if (preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION) == false) {
+								if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
 									//Set up the action button if location is reported
 									btDialogAction.setVisibility(View.VISIBLE);
 									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
@@ -421,7 +449,7 @@ public class MainActivity extends Activity{
 										@Override
 										public void onClick(View v) {
 											dialog.dismiss();
-											loadSection(GM.SECTION_LOCATION, false);
+											loadSection(GM.SECTION_LOCATION);
 										}
 									});
 
@@ -437,7 +465,7 @@ public class MainActivity extends Activity{
 									@Override
 									public void onClick(View v) {
 										dialog.dismiss();
-										loadSection(GM.SECTION_BLOG, false);
+										loadSection(GM.SECTION_BLOG);
 									}
 								});
 								break;
@@ -451,7 +479,7 @@ public class MainActivity extends Activity{
 									@Override
 									public void onClick(View v) {
 										dialog.dismiss();
-										loadSection(GM.SECTION_ACTIVITIES, false);
+										loadSection(GM.SECTION_ACTIVITIES);
 									}
 								});
 								break;
@@ -465,7 +493,7 @@ public class MainActivity extends Activity{
 									@Override
 									public void onClick(View v) {
 										dialog.dismiss();
-										loadSection(GM.SECTION_GALLERY, false);
+										loadSection(GM.SECTION_GALLERY);
 									}
 								});
 								break;
@@ -480,7 +508,7 @@ public class MainActivity extends Activity{
 										@Override
 										public void onClick(View v) {
 											dialog.dismiss();
-											loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
+											loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
 										}
 									});
 								}
@@ -495,7 +523,7 @@ public class MainActivity extends Activity{
 										@Override
 										public void onClick(View v) {
 											dialog.dismiss();
-											loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
+											loadSection(GM.SECTION_LABLANCA_SCHEDULE);
 										}
 									});
 								}
@@ -590,6 +618,7 @@ public class MainActivity extends Activity{
 	 * A dialog will block the UI. 
 	 * It is intended to be used only when the database is empty.
 	 */
+	@SuppressWarnings("ConstantConditions")
 	private void initialSync(){
 		//Create a dialog
 		Dialog dialog = new Dialog(this);
@@ -633,6 +662,8 @@ public class MainActivity extends Activity{
 		}
 		catch (Exception ex){
 			Log.e("Error going back", "Finishing activity: " + ex.toString());
+			Log.e("RUNNABLE", "Finishing callback for location");
+			locationHandler.removeCallbacks(checkForLocation);
 			finish();
 			//super.onBackPressed();
 		}
@@ -652,6 +683,24 @@ public class MainActivity extends Activity{
 			return true;
 		}
 		return super.onKeyUp(keyCode, event);
+	}
+
+	@Override
+	public void onResume(){
+		locationHandler.post(checkForLocation);
+		super.onResume();
+	}
+
+	@Override
+	public void onPause(){
+		locationHandler.removeCallbacks(checkForLocation);
+		super.onPause();
+	}
+
+	@Override
+	public void onDestroy(){
+		locationHandler.removeCallbacks(checkForLocation);
+		super.onDestroy();
 	}
 	
 }

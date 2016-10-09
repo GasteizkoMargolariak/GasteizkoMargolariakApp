@@ -45,7 +45,7 @@ public class LablancaLayout extends Fragment {
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	@SuppressLint("InflateParams")
+	@SuppressLint({"InflateParams", "SwitchIntDef"})
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -189,14 +189,14 @@ public class LablancaLayout extends Fragment {
 		gmSchedule.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
 			}
 		});
 
 		citySchedule.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE);
 			}
 		});
 

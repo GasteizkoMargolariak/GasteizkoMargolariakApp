@@ -42,7 +42,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 
 	//The map view
 	private MapView mapView;
-	MarkerOptions moGm;
+	private MarkerOptions moGm;
 
 	private LocationManager locationManager;
 
@@ -221,21 +221,14 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	public void onLocationChanged(Location location) {
 		//TODO: Read again the GM Location.
 		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION) == false) {
+		if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
 
 			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
 			Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
 			gmLocation = new LatLng(lat, lon);
-			if (gmLocation != null){
-				calCulateDistance(location);
-				if (moGm != null){
-					moGm.visible(true);
-				}
-			}
-			else{
-				if (moGm != null){
-					moGm.visible(false);
-				}
+						calCulateDistance(location);
+			if (moGm != null){
+				moGm.visible(true);
 			}
 		}
 	}

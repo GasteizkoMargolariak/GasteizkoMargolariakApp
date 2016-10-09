@@ -2,7 +2,6 @@ package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -217,7 +216,8 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
      *
      * @param id The event id
      */
-    private void showDialog(final int id){
+    @SuppressWarnings("ConstantConditions")
+	private void showDialog(final int id){
 
         //Create the dialog
         final Dialog dialog = new Dialog(getActivity());

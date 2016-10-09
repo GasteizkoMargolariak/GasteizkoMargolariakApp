@@ -154,12 +154,12 @@
 	<string name="dialog_sync_text_4">Afinando la tuba&#8230;</string>
 	<string name="dialog_sync_text_5">Margolari camina pa\'lante, margolari camina pa\'trás.</string>
 	<string name="dialog_sync_text_6">Ari ari ari!</string>
-	<string name="dialog_sync_text_7">Llegando tarde...</string>
+	<string name="dialog_sync_text_7">Llegando tarde…</string>
 	<string name="dialog_sync_text_8">¿Cabe más gente en el Foro Margolari?</string>
 	<string name="dialog_sync_failed_title">Synchronization failed</string>
 	<string name="dialog_sync_failed_text">Couldn\'t download content.\n\nMake sure you have a network connection and try again.</string>
 	<string name="dialog_sync_failed_close">Close</string>
 	<string name="lablanca_nofestivals">Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas.</string>
-	<string name="home_section_location_text_calculating">Calculating distance...</string>
+	<string name="home_section_location_text_calculating">Calculating distance…</string>
 
 </resources>
