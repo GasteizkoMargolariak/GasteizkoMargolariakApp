@@ -232,9 +232,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	protected boolean saveVersions(SQLiteDatabase db, String versions){
 		String str = versions;
 		String key;
-		boolean error = false;
+		boolean result = true;
 		int value;
 		int totalVersions = 0;
+
+		//If I ever have a database with more than 99 public sections (not tables), I'll have to change this. Also, ask for a raise.
 		int[] values = new int[99];
 		String[] keys = new String[99];
 		try {
@@ -247,21 +249,23 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				values[totalVersions] = value;
 				totalVersions ++;
 			}
-			if (totalVersions > 0){
+			if (totalVersions > 0 && totalVersions < 99){
 				db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
 				db.execSQL("DELETE FROM version;");
 				for (int i = 0; i < totalVersions; i ++){
 					db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
 				}
 			}
+			else{
+				result = false;
+			}
 
 		}
 		catch (Exception ex){
-			error = true;
+			result = false;
 			Log.e("saveVersions", "Error saving the remote db versions: " + ex.toString());
 		}
-
-		return error;
+		return result;
 	}
 
 	/**
@@ -273,8 +277,79 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @return False if there were errors, true otherwise.
 	 */
 	protected boolean saveData(SQLiteDatabase db, String data){
+		Log.e("ENTER", "SAVEDATA");
+		String str;
+		String key;
+		String value;
+		String table[] = new String[200];
+		String tableData[] = new String[200];
+		int i = 0;
+		boolean result = true;
+		int totalVersions = 0;
+		try{
+			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
+			while (str.indexOf("]") > 0){
+				key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf("\"") + 1));
+				value = str.substring(str.indexOf("["), str.indexOf("]"));
+				str = str.substring(str.indexOf("]") + 1);
+				if (!saveTable(db, key, value)){
+					//TODO: Uncoment to finish the loop as sonn as error
+					//return false;
+				}
+				i ++;
+				str = str.substring(str.indexOf("]") + 1);
+				Log.e("STR", str);
+			}
+		}
+		catch (Exception ex){
+			Log.e("saveData", "Error saving the remote db data: " + ex.toString());
+			result = false;
+		}
 
-		return true;
+		Log.e("DATA", data);
+		return result;
+	}
+
+	protected boolean saveTable(SQLiteDatabase db, String table, String data){
+		String str = data;
+		String key;
+		boolean result = true;
+		int value;
+		int totalFields = 0;
+
+		//If I ever have a database with more than 99 public sections (not tables), I'll have to change this. Also, ask for a raise.
+		int[] values = new int[99];
+		String[] keys = new String[99];
+		try {
+			while (str.indexOf("{") > 0){
+				key = str.substring(str.indexOf("{\"") + 2, str.indexOf("\":"));
+				str = str.substring(str.indexOf("\":\"") + 3);
+				value = Integer.parseInt(str.substring(0, str.indexOf("\"")));
+				str = str.substring(str.indexOf("}") + 1);
+				keys[totalFields] = key;
+				values[totalFields] = value;
+				totalFields ++;
+			}
+			if (totalFields > 0 && totalFields < 99){
+				//db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
+				db.execSQL("DELETE FROM " + table + ";");
+				Log.e("QUERY", "DELETE FROM " + table + ";");
+				for (int i = 0; i < totalFields; i ++){
+					//db.execSQL("INSERT INTO " + table + " VALUES ('" + keys[i] + "', " + values[i] + ");");
+					Log.e("QUERY", "INSERT INTO " + table + " VALUES ('" + keys[i] + "', " + values[i] + ");");
+				}
+			}
+			else{
+				result = false;
+			}
+
+		}
+		catch (Exception ex){
+			result = false;
+			Log.e("saveVersions", "Error saving the remote db versions: " + ex.toString());
+		}
+		//return result;
+		return false;
 	}
 
 
@@ -337,9 +412,22 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					//Get the string wit the versions in JSON format.
 					String strVersion = jsonSync.get("version").toString();
 
-					//Get the string with the data in JSON format,
-					saveVersions(db, strVersion);
-					//saveData(db, data);
+					//Handmade parser, because with:
+					//String strData = jsonSync.get("data").toString();
+					//I get an error: "No value for data"
+					String strData = strSync.substring(1, strSync.toString().length() - 1);
+					strData = strData.substring(strData.indexOf("{\"data\":"));
+
+					//If the data is correctly parsed and stored, commit changes to the database.
+					db.beginTransaction();
+					if (saveVersions(db, strVersion) && saveData(db, strData)){
+						db.setTransactionSuccessful();
+						Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
+					}
+					else{
+						Log.e("SYNC", "The sync process did not finish correctly. Any changes made to the database will be reverted");
+					}
+					db.endTransaction();
 
 					break;
 				default:
@@ -362,196 +450,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			e.printStackTrace();
 		}
 
-
-		/*//Open the database. f its locked, exit.
-		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
-		if (db.isReadOnly()){
-			Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
-			return null;
-		}
-
-		publishProgress();
-
-		//Gets the remote page.
-    	FetchURL fu;
-
-		//The lines of the received web page.
-		String o = null;
-		
-		//List of SQL queries to be performed, as received from the web page.
-		List<String> queryList = new ArrayList<>();
-		
-		//Preferences.
-		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		SharedPreferences.Editor prefEditor;
-		prefEditor = preferences.edit();
-
-		//Boolean that will prevent the process to go on if something goes wrong.
-		boolean success = true;
-		
-		//Get the file
-		try{
-			publishProgress();
-
-			String code = preferences.getString(GM.USER_CODE, "");
-			int dbVersion = preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION);
-			fu = new FetchURL();
-			fu.Run(GM.SERVER + "/app/sync.php?os=android&code=" + code + "&fg=" + fg + "&v=" + dbVersion + "&lang=" + GM.getLang());
-			//All the info
-			o = fu.getOutput().toString();
-			publishProgress();
-		}
-		catch(Exception ex){
-			publishProgress();
-			Log.e("Sync error", "Error fetching remote file: " + ex.toString());
-			success = false;
-		}
-
-		int errorCount = 0;
-
-		if (success){
-
-			publishProgress();
-
-			//Parse the contents of the page
-			//Check if the database is synced
-			if (o.contains("<synced>1</synced>")){
-				Log.i("SYNC", "Database is already at the latest version");
-				return null;
-			}
-
-			//Try to separate the file by tables (<table></table>)
-			try{
-				String table, tableName, row, fieldName, fieldValue, line, query, queryFields, queryValues;
-
-				//Get db version
-				newVersion = Integer.parseInt(o.substring(o.indexOf("<version>") + 9, o.indexOf("</version>")));
-
-				//Get other preferences and store them
-				int prefPhotos = Integer.parseInt(o.substring(o.indexOf("<photos>") + 8, o.indexOf("</photos>")));
-				int prefFestivals = Integer.parseInt(o.substring(o.indexOf("<festivals>") + 11, o.indexOf("</festivals>")));
-				prefEditor.putInt(GM.PREF_DB_PHOTOS, prefPhotos);
-				prefEditor.putInt(GM.PREF_DB_FESTIVALS, prefFestivals);
-				prefEditor.apply();
-
-
-				while (o.contains("<table>")){
-
-					publishProgress();
-
-					try {
-						table = o.substring(o.indexOf("<table>"), o.indexOf("</table>") + 8);
-						tableName = table.substring(table.indexOf("<name>") + 6, table.indexOf("</name>"));
-						queryList.add("DELETE FROM " + tableName + ";");
-						while (table.contains("<row>")) {
-
-							try {
-								if (table.length() < 5) {
-									break;
-								}
-								row = table.substring(table.indexOf("<row>") + 5, table.indexOf("</row>"));
-
-								//if (row.indexOf("Gracias a todos vosotros no hemos hecho") != -1)
-								//	Log.e("Row", row);
-
-								query = "INSERT INTO " + tableName + " ";
-								queryFields = "(";
-								queryValues = "(";
-								while (row.contains(">,")) {
-
-									publishProgress();
-
-									try {
-										if (row.length() < 5) {
-											break;
-										}
-										line = row.substring(0, row.indexOf(">, \t") + 1);
-										line = line.substring(line.indexOf("<"));
-
-										fieldName = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
-										queryFields = queryFields + fieldName + ", ";
-										fieldValue = line.substring(line.indexOf("<" + fieldName + ">") + 2 + fieldName.length());
-										//fieldValue = fieldValue.substring(0, fieldValue.length() - fieldName.length() - 2);
-										fieldValue = fieldValue.substring(0, fieldValue.indexOf("</" + fieldName + ">"));
-										//if (fieldValue.indexOf("Gracias a todos vosotros no hemos hecho") != -1)
-										//Log.e("Fieldvalue", fieldValue);
-
-										if (fieldValue.length() == 0)
-											fieldValue = "null";
-										if (fieldValue.charAt(0) == '\'' && fieldValue.charAt(fieldValue.length() - 1) == '\'') {
-											fieldValue = fieldValue.substring(1, fieldValue.length() - 1);
-											fieldValue = fieldValue.replace("'", "''");
-											fieldValue = "\'" + fieldValue + "\'";
-										}
-										//Log.e(fieldName, fieldValue);
-										queryValues = queryValues + fieldValue + ", ";
-										row = row.substring(row.indexOf(">, \t") + 4);
-									}
-									catch(Exception ex){
-										Log.e("Parsing error", "Error getting values from row: " + ex.toString());
-										errorCount ++;
-										break;
-									}
-								}
-
-								queryFields = queryFields.substring(0, queryFields.length() - 2) + ")";
-								queryValues = queryValues.substring(0, queryValues.length() - 2) + ")";
-								query = query + queryFields + " VALUES " + queryValues + ";";
-								queryList.add(query);
-								//Log.e("Query", query);
-
-								table = table.substring(table.indexOf("</row>") + 6);
-							}
-							catch(Exception ex){
-								Log.e("Parsing error", "Error getting rows from tables: " + ex.toString());
-								errorCount ++;
-								break;
-							}
-						}
-					}
-					catch(Exception ex){
-						Log.e("Parsing error", "Error getting tables from the sync file: " + ex.toString());
-						errorCount ++;
-						break;
-					}
-					o = o.substring(o.indexOf("</table>") + 8);
-				}
-			}
-			catch(Exception ex){
-				Log.e("Sync error", "Error parsing remote info: " + ex.toString());
-				errorCount ++;
-			}
-		}
-		try{
-
-			for(int i = 0; i < queryList.size(); i++){
-				publishProgress();
-				try {
-					db.execSQL(queryList.get(i));
-				}
-				catch(Exception ex){
-					Log.e("Query Error", "Error on sync query: " + ex.toString());
-					errorCount ++;
-				}
-			}
-			db.close();
-
-			//Set current database version in preferences.
-			if (errorCount == 0){
-				prefEditor.putInt(GM.PREF_DB_VERSION, newVersion);
-				prefEditor.apply();
-			}
-			else{
-				Log.e("Db update", "Not updating db version because there were errors");
-				if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION) {
-					prefEditor.putInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION + 1);
-					prefEditor.apply();
-				}
-			}
-		}
-		catch(Exception ex){
-			Log.e("Sync error", "Error updating info: " + ex.toString());
-		}*/
 		return null;
     	
 	}

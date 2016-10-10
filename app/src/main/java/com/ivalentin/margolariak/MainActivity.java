@@ -1,6 +1,5 @@
 package com.ivalentin.margolariak;
 
-import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
@@ -360,11 +359,9 @@ public class MainActivity extends Activity{
 			editor.apply();
 		}
 		
-		//If the database doesn't exist, create it.
-		if (!databaseExists()){
-        	Log.i("DB status", "Database not found. Creating it...");
-        	createDatabase();
-        }
+		//Cerate database if it's not already created
+		createDatabase();
+
 		
 		//If its the first time
 		if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION){
@@ -554,16 +551,6 @@ public class MainActivity extends Activity{
 			}
 		}
 	}
-	
-	/**
-	 * Checks if the app database exists.
-	 * 
-	 * @return True if the database exists, false otherwise.
-	 */
-	private boolean databaseExists(){
-    	File database = getApplicationContext().getDatabasePath(GM.DB_NAME);
-		return database.exists();
-    }
     
     /**
      * Creates the app database and fills it with the hard coded, default data.
@@ -597,6 +584,7 @@ public class MainActivity extends Activity{
 			db.execSQL("CREATE TABLE IF NOT EXISTS post_image (id INT, post INT, image VARCHAR, idx INT);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS post_tag (post INT, tag VARCHAR);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS settings (name VARCHAR, value VARCHAR);");
+			db.execSQL("CREATE TABLE IF NOT EXISTS sponsor (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, image VARCHAR, address_es VARCHAR, address_en VARCHAR, address_eu VARCHAR, link VARCHAR, lat FLOAT, lon FLOAT)");
 			db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
 			db.close();
     	}
