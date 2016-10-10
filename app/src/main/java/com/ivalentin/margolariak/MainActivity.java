@@ -597,6 +597,7 @@ public class MainActivity extends Activity{
 			db.execSQL("CREATE TABLE IF NOT EXISTS post_image (id INT, post INT, image VARCHAR, idx INT);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS post_tag (post INT, tag VARCHAR);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS settings (name VARCHAR, value VARCHAR);");
+			db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
 			db.close();
     	}
     	catch (Exception ex){

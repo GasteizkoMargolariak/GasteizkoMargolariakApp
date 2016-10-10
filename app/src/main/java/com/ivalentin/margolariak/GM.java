@@ -17,11 +17,28 @@ import java.util.Locale;
  *
  */
 final class GM {
-	
+
+	static final String CLIENT = "com.ivalentin.margolariak";
+
 	/**
 	 * Address where the web server is
 	 */
 	static final String SERVER = "http://margolariak.com";
+
+	static final String SERVER_SYNC = "/API/v1/sync.php";
+
+	static final String SERVER_SYNC_KEY_CLIENT = "client";
+	static final String SERVER_SYNC_KEY_USER = "user";
+	static final String SERVER_SYNC_KEY_ACTION = "action";
+	static final String SERVER_SYNC_KEY_SECTION = "section";
+	static final String SERVER_SYNC_KEY_VERSION = "version";
+	static final String SERVER_SYNC_KEY_FOREGROUND = "foreground";
+	static final String SERVER_SYNC_KEY_FORMAT = "format";
+	static final String SERVER_SYNC_KEY_LANG = "lang";
+
+	static final String SERVER_SYNC_VALUE_ACTION = "sync";
+	static final String SERVER_SYNC_VALUE_SECTION = "all";
+	static final String SERVER_SYNC_VALUE_FORMAT = "json";
 
 	/**
 	 * Code for the location permission request

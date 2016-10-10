@@ -1,5 +1,14 @@
 package com.ivalentin.margolariak;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +26,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.json.*;
 
 /**
  * AsyncTask that synchronizes the online database to the device.
@@ -171,7 +182,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	/**
 	 * Called when the AsyncTask is updated.
 	 * Used to change text in the sync window.
-	 *
 	 */
 	protected void onProgressUpdate(Void...progress) {
 		if (doProgress){
@@ -184,14 +194,176 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	}
 
 	/**
+	 * Creates the URL required to performa a sync. Uses static data and data passed as arguments.
+	 *
+	 * @param user A unique user identifier.
+	 * @param version The db version of the client.
+	 * @param foreground 1 if the sync is done while the app is running, 0 otherwise.
+	 * @param lang Two letter language identifier.
+	 * @return The URL that will be used for syncing.
+	 */
+	private String buildUrl(String user, int version, int foreground, String lang){
+		String url = "";
+		try {
+			url = GM.SERVER + GM.SERVER_SYNC + "?" +
+					GM.SERVER_SYNC_KEY_CLIENT + "=" + URLEncoder.encode(GM.CLIENT, "UTF-8") + "&" +
+					GM.SERVER_SYNC_KEY_USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
+					GM.SERVER_SYNC_KEY_ACTION + "=" + URLEncoder.encode(GM.SERVER_SYNC_VALUE_ACTION, "UTF-8") + "&" +
+					GM.SERVER_SYNC_KEY_SECTION + "=" + URLEncoder.encode(GM.SERVER_SYNC_VALUE_SECTION, "UTF-8") + "&" +
+					GM.SERVER_SYNC_KEY_VERSION + "=" + version + "&" +
+					GM.SERVER_SYNC_KEY_FOREGROUND + "=" + foreground + "&" +
+					GM.SERVER_SYNC_KEY_FORMAT + "=" + URLEncoder.encode(GM.SERVER_SYNC_VALUE_FORMAT, "UTF-8") + "&" +
+					GM.SERVER_SYNC_KEY_LANG + "=" + URLEncoder.encode(lang, "UTF-8");
+		}
+		catch (java.io.UnsupportedEncodingException ex){
+			Log.e("UTF-8", "Error encoding url for sync \"" + url + "\" - " + ex.toString());
+		}
+		return url;
+	}
+
+	/**
+	 * Stores version data for each section in the database.
+	 * Uses a custom JSON parser.
+	 *
+	 * @param db Database store the data.
+	 * @param versions List of strings with data about the versions.
+	 * @return False if there were errors, true otherwise.
+	 */
+	protected boolean saveVersions(SQLiteDatabase db, String versions){
+		String str = versions;
+		String key;
+		boolean error = false;
+		int value;
+		int totalVersions = 0;
+		int[] values = new int[99];
+		String[] keys = new String[99];
+		try {
+			while (str.indexOf("{") > 0){
+				key = str.substring(str.indexOf("{\"") + 2, str.indexOf("\":"));
+				str = str.substring(str.indexOf("\":\"") + 3);
+				value = Integer.parseInt(str.substring(0, str.indexOf("\"")));
+				str = str.substring(str.indexOf("}") + 1);
+				keys[totalVersions] = key;
+				values[totalVersions] = value;
+				totalVersions ++;
+			}
+			if (totalVersions > 0){
+				db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
+				db.execSQL("DELETE FROM version;");
+				for (int i = 0; i < totalVersions; i ++){
+					db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
+				}
+			}
+
+		}
+		catch (Exception ex){
+			error = true;
+			Log.e("saveVersions", "Error saving the remote db versions: " + ex.toString());
+		}
+
+		return error;
+	}
+
+	/**
+	 * Stores version data for each section in the database.
+	 * Uses a custom JSON parser.
+	 *
+	 * @param db Database store the data.
+	 * @param data List of strings in json format with the tables.
+	 * @return False if there were errors, true otherwise.
+	 */
+	protected boolean saveData(SQLiteDatabase db, String data){
+
+		return true;
+	}
+
+
+	/**
 	 * The sweet stuff. Actually performs the sync. 
-	 * 
-	 * //@see android.os.AsyncTask#doInBackground(Params[])
 	 */
 	@Override
 	protected Void doInBackground(Void... params) {
 
-		//Open the database. f its locked, exit.
+		//Get preferences
+		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences.Editor prefEditor;
+		prefEditor = preferences.edit();
+
+		//Get usefull data for the uri
+		String userCode = preferences.getString(GM.USER_CODE, "");
+		int dbVersion = preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION);
+
+		//Get database. Stop if it's locked
+		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
+		if (db.isReadOnly()){
+			Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
+			return null;
+		}
+
+		URL url;
+		String uri = buildUrl(userCode, dbVersion, fg, GM.getLang());
+		try {
+			url = new URL(uri);
+
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+			int httpCode = urlConnection.getResponseCode();
+			switch (httpCode){
+				case 400:	//Client error: Bad request
+					Log.e("Sync error", "The server returned a 400 code (Client Error: Bad request) for the url \"" + uri + "\"");
+					break;
+				case 403:	//Client error: Forbidden
+					Log.e("Sync error", "The server returned a 403 code (Client Error: Forbidden) for the url \"" + uri + "\"");
+					break;
+				case 204:	//Success: No content
+					Log.d("Sync success", "The server returned a 204 code (Success: No content) for the url \"" + uri + "\". Stoping sync process...");
+					break;
+				case 200:	//Success: OK
+					Log.d("Sync", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now syncing...");
+					InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+					BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+					StringBuilder sb = new StringBuilder();
+					String o;
+					while ((o = br.readLine()) != null)
+						sb.append(o);
+
+					//Get the string with the sync json. (The whole page)
+					String strSync = sb.toString();
+
+					//Get the JSON object from the string.
+					JSONObject jsonSync = new JSONObject(strSync);
+					jsonSync = new JSONObject(jsonSync.get("sync").toString().substring(1, jsonSync.get("sync").toString().length() - 1));
+
+					//Get the string wit the versions in JSON format.
+					String strVersion = jsonSync.get("version").toString();
+
+					//Get the string with the data in JSON format,
+					saveVersions(db, strVersion);
+					//saveData(db, data);
+
+					break;
+				default:
+					Log.e("Sync error", "The server returned an unexpected code (" + httpCode + ") for the url \"" + uri + "\"");
+			}
+			urlConnection.disconnect();
+			return null;
+
+		}
+		catch (MalformedURLException e) {
+			Log.e("Sync error", "Malformed URL (" + uri + "): " + e.toString());
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			Log.e("Sync error", "IOException for URL (" + uri + "): " + e.toString());
+			e.printStackTrace();
+		}
+		catch (org.json.JSONException e) {
+			Log.e("Sync error", "JSONException for URL (" + uri + "): " + e.toString());
+			e.printStackTrace();
+		}
+
+
+		/*//Open the database. f its locked, exit.
 		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
 		if (db.isReadOnly()){
 			Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
@@ -379,7 +551,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		}
 		catch(Exception ex){
 			Log.e("Sync error", "Error updating info: " + ex.toString());
-		}
+		}*/
 		return null;
     	
 	}
