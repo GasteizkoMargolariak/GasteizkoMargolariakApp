@@ -62,6 +62,7 @@ public class MainActivity extends Activity{
 			//Get location page and parse it
 			boolean result = false;
 			FetchURL fu = new FetchURL();
+			//TODO: This needs a simple API too
 			fu.Run(GM.SERVER + "/app/location.php");
 			String lat = "", lon = "";
 			String o = fu.getOutput().toString();
@@ -561,6 +562,7 @@ public class MainActivity extends Activity{
     		//Create database
     		db = openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
 
+			//TODO: Predefine these queries as static strings in GM.java, so they can be used also in Sync.java
 			db.execSQL("CREATE TABLE IF NOT EXISTS activity (id INT, permalink VARCHAR, date DATETIME, city VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, after_es VARCHAR, after_en VARCHAR, after_eu VARCHAR, price INT, inscription INT, max_people INT, album INT, dtime DATETIME, comments INT);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS activity_comment (id INT, activity INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS activity_image (id INT, activity INT, image VARCHAR, idx INT);");

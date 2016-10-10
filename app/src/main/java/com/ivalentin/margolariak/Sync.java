@@ -1,9 +1,7 @@
 package com.ivalentin.margolariak;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -44,7 +42,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	private Dialog dialog;
 	private MainActivity activity;
 	private int fg;
-	private int newVersion;
 	private String strings[];
 	private boolean doProgress = false;
 	private long millis = 0;
@@ -229,7 +226,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @param versions List of strings with data about the versions.
 	 * @return False if there were errors, true otherwise.
 	 */
-	protected boolean saveVersions(SQLiteDatabase db, String versions){
+	private boolean saveVersions(SQLiteDatabase db, String versions){
 		String str = versions;
 		String key;
 		boolean result = true;
@@ -276,12 +273,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @param data List of strings in json format with the tables.
 	 * @return False if there were errors, true otherwise.
 	 */
-	protected boolean saveData(SQLiteDatabase db, String data){
-		Log.e("ENTER", "SAVEDATA");
+	private boolean saveData(SQLiteDatabase db, String data){
 		String str;
 		String key;
 		String value;
-		int i = 0;
 		boolean result = true;
 		try{
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
@@ -290,10 +285,9 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				value = str.substring(str.indexOf("["), str.indexOf("]"));
 				str = str.substring(str.indexOf("]") + 1);
 				if (!saveTable(db, key, value)){
-					//TODO: Uncoment to finish the loop as sonn as error
-					//return false;
+					//Finish the loop if there is an error
+					return false;
 				}
-				i ++;
 				str = str.substring(str.indexOf("]") + 1);
 			}
 		}
@@ -314,19 +308,18 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @param data String in JSON format with the data of the table.
 	 * @return False if there were errors, true otherwise.
 	 */
-	protected boolean saveTable(SQLiteDatabase db, String table, String data){
+	private boolean saveTable(SQLiteDatabase db, String table, String data){
 		String str = data;
 		str = str.replace(":null", ":\"\"");
 		String key, fields, vals;
-		boolean result = true;
 		String value;
-		int totalFields = 0;
+		int totalFields;
 
-		//If I ever have a database with more than 99 public sections (not tables), I'll have to change this. Also, ask for a raise.
 		String[] values = new String[99];
 		String[] keys = new String[99];
 
 		List<String> queries = new ArrayList<>();
+		//TODO: Add a query deleting the table and another recreating it, so its compatible with older installs.
 		queries.add("DELETE FROM " + table + ";");
 
 		int i = 0;
@@ -346,7 +339,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					row = row.substring(row.indexOf(value) + value.length() + 1);
 				}
 
-				//TODO: With all the keys and the values, create an INSERT query and add to queries
+				//With all the keys and the values, create an INSERT query and add to queries
 				fields = "(";
 				vals = "(";
 				for (int j = 0; j < totalFields; j ++){
@@ -376,20 +369,24 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 		}
 		catch (Exception ex){
-			Log.e("saveVersions", "Error saving the remote db versions: " + ex.toString());
+			Log.e("saveTable", "Error parsing remote table " + table + ": " + ex.toString());
 			return false;
 		}
 
 		//If I get to this point, there were no errors, and I can safely execute the queries
-		int totalQueries = queries.size();
-		for (i = 0; i < totalQueries; i ++){
-			db.execSQL(queries.get(i));
-			Log.e("QUERY", queries.get(i));
+		try {
+			int totalQueries = queries.size();
+			for (i = 0; i < totalQueries; i++) {
+				db.execSQL(queries.get(i));
+				Log.e("QUERY", queries.get(i));
+			}
+		}
+		catch (Exception ex){
+			Log.e("saveTable", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
+			return false;
 		}
 
-		//TODO: Uncomment
-		//return result;
-		return false;
+		return true;
 	}
 
 
@@ -435,7 +432,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					break;
 				case 200:	//Success: OK
 					Log.d("Sync", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now syncing...");
-					InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 					BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 					StringBuilder sb = new StringBuilder();
 					String o;
@@ -455,7 +451,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					//Handmade parser, because with:
 					//String strData = jsonSync.get("data").toString();
 					//I get an error: "No value for data"
-					String strData = strSync.substring(1, strSync.toString().length() - 1);
+					String strData = strSync.substring(1, strSync.length() - 1);
 					strData = strData.substring(strData.indexOf("{\"data\":"));
 
 					//If the data is correctly parsed and stored, commit changes to the database.
