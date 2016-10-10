@@ -281,11 +281,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		String str;
 		String key;
 		String value;
-		String table[] = new String[200];
-		String tableData[] = new String[200];
 		int i = 0;
 		boolean result = true;
-		int totalVersions = 0;
 		try{
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("]") > 0){
@@ -298,7 +295,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				}
 				i ++;
 				str = str.substring(str.indexOf("]") + 1);
-				Log.e("STR", str);
 			}
 		}
 		catch (Exception ex){
@@ -306,48 +302,92 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			result = false;
 		}
 
-		Log.e("DATA", data);
 		return result;
 	}
 
+	/**
+	 * Stores a table data into the database.
+	 * Uses a custom JSON parser.
+	 *
+	 * @param db Database to store the data.
+	 * @param table Name of the table.
+	 * @param data String in JSON format with the data of the table.
+	 * @return False if there were errors, true otherwise.
+	 */
 	protected boolean saveTable(SQLiteDatabase db, String table, String data){
 		String str = data;
-		String key;
+		str = str.replace(":null", ":\"\"");
+		String key, fields, vals;
 		boolean result = true;
-		int value;
+		String value;
 		int totalFields = 0;
 
 		//If I ever have a database with more than 99 public sections (not tables), I'll have to change this. Also, ask for a raise.
-		int[] values = new int[99];
+		String[] values = new String[99];
 		String[] keys = new String[99];
+
+		List<String> queries = new ArrayList<>();
+		queries.add("DELETE FROM " + table + ";");
+
+		int i = 0;
 		try {
 			while (str.indexOf("{") > 0){
-				key = str.substring(str.indexOf("{\"") + 2, str.indexOf("\":"));
-				str = str.substring(str.indexOf("\":\"") + 3);
-				value = Integer.parseInt(str.substring(0, str.indexOf("\"")));
+				String row = str.substring(str.indexOf("{"), str.indexOf("}") + 1);
+				totalFields = 0;
+				while (row.indexOf("\",") > 0) {
+					key = row.substring(row.indexOf("\"") + 1, row.indexOf("\":"));
+					value = row.substring(row.indexOf("\"", row.indexOf(":")), row.indexOf("\"", row.indexOf(":") + 2) + 1);
+					//Log.e("FIELD", key + ": " + value);
+
+					keys[totalFields] = key;
+					values[totalFields] = value;
+					totalFields ++;
+
+					row = row.substring(row.indexOf(value) + value.length() + 1);
+				}
+
+				//TODO: With all the keys and the values, create an INSERT query and add to queries
+				fields = "(";
+				vals = "(";
+				for (int j = 0; j < totalFields; j ++){
+					fields = fields + keys[j] + ", ";
+					vals = vals + values[j] + ", ";
+				}
+				fields = fields.substring(0, fields.length()-2) + ")";
+				vals = vals.substring(0, vals.length()-2) + ")";
+				queries.add("INSERT INTO " + table + " " + fields + " VALUES " + vals + ";");
+
+				i ++;
 				str = str.substring(str.indexOf("}") + 1);
-				keys[totalFields] = key;
-				values[totalFields] = value;
-				totalFields ++;
 			}
-			if (totalFields > 0 && totalFields < 99){
+
+			/*if (totalFields > 0 && totalFields < 99){
 				//db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
 				db.execSQL("DELETE FROM " + table + ";");
 				Log.e("QUERY", "DELETE FROM " + table + ";");
-				for (int i = 0; i < totalFields; i ++){
+				for (i = 0; i < totalFields; i ++){
 					//db.execSQL("INSERT INTO " + table + " VALUES ('" + keys[i] + "', " + values[i] + ");");
 					Log.e("QUERY", "INSERT INTO " + table + " VALUES ('" + keys[i] + "', " + values[i] + ");");
 				}
 			}
 			else{
 				result = false;
-			}
+			}*/
 
 		}
 		catch (Exception ex){
-			result = false;
 			Log.e("saveVersions", "Error saving the remote db versions: " + ex.toString());
+			return false;
 		}
+
+		//If I get to this point, there were no errors, and I can safely execute the queries
+		int totalQueries = queries.size();
+		for (i = 0; i < totalQueries; i ++){
+			db.execSQL(queries.get(i));
+			Log.e("QUERY", queries.get(i));
+		}
+
+		//TODO: Uncomment
 		//return result;
 		return false;
 	}

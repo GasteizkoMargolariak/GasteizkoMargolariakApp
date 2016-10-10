@@ -579,7 +579,7 @@ public class MainActivity extends Activity{
 			db.execSQL("CREATE TABLE IF NOT EXISTS photo_album (photo INT, album INT);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS photo_comment (id INT, photo INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS place (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, address_es VARCHAR, address_en VARCHAR, address_eu VARCHAR, cp VARCHAR, lat FLOAT, lon FLOAT);");
-			db.execSQL("CREATE TABLE IF NOT EXISTS post (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, dtime DATETIME, comments INT);");
+			db.execSQL("CREATE TABLE IF NOT EXISTS post (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, dtime DATETIME, comments INT, username VARCHAR);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS post_comment (id INT, post INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS post_image (id INT, post INT, image VARCHAR, idx INT);");
 			db.execSQL("CREATE TABLE IF NOT EXISTS post_tag (post INT, tag VARCHAR);");
