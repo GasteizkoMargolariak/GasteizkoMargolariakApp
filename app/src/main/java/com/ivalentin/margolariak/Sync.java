@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -92,8 +93,24 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		if (dialog != null){
 			dialog.dismiss();
 			//Check db version agan
-			SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-			if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION){
+			//SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+
+			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
+			if (db.isReadOnly()){
+				Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
+				return;
+			}
+
+			//Get database version
+			Cursor cursor;
+			int dbVersion;
+			cursor = db.rawQuery("SELECT sum(version) AS v FROM version;", null);
+			cursor.moveToFirst();
+			dbVersion = cursor.getInt(0);
+			cursor.close();
+			db.close();
+
+			if (dbVersion == GM.DEFAULT_PREF_DB_VERSION){
 				//Create a dialog
 				final Dialog dial = new Dialog(activity);
 				dial.setCancelable(false);
@@ -278,23 +295,31 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		String key;
 		String value;
 		boolean result = true;
-		try{
+		//try{
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("]") > 0){
-				key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf("\"") + 1));
-				value = str.substring(str.indexOf("["), str.indexOf("]"));
-				str = str.substring(str.indexOf("]") + 1);
-				if (!saveTable(db, key, value)){
-					//Finish the loop if there is an error
-					return false;
+				try {
+					key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf("\"") + 1));
+					value = str.substring(str.indexOf("["), str.indexOf("]"));
+					str = str.substring(str.indexOf("]") + 1);
+					if (!saveTable(db, key, value)){
+						//Finish the loop if there is an error
+						return false;
+					}
+
+					str = str.substring(str.indexOf("]") + 1);
 				}
-				str = str.substring(str.indexOf("]") + 1);
+				catch (Exception ex){
+					//End of string
+					Log.d("SAVEDATA", "End of string");
+					str = "";
+				}
 			}
-		}
-		catch (Exception ex){
-			Log.e("saveData", "Error saving the remote db data: " + ex.toString());
-			result = false;
-		}
+		//}
+		//catch (Exception ex){
+		//	Log.e("saveData", "Error saving the remote db data: " + ex.toString());
+		//	result = false;
+		//}
 
 		return result;
 	}
@@ -324,9 +349,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 		int i = 0;
 		try {
-			while (str.indexOf("{") > 0){
+			while (str.indexOf("{") > 0) {
 				String row = str.substring(str.indexOf("{"), str.indexOf("}") + 1);
 				totalFields = 0;
+				values = new String[99];
+				keys = new String[99];
 				while (row.indexOf("\",") > 0) {
 					key = row.substring(row.indexOf("\"") + 1, row.indexOf("\":"));
 					value = row.substring(row.indexOf("\"", row.indexOf(":")), row.indexOf("\"", row.indexOf(":") + 2) + 1);
@@ -334,7 +361,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					keys[totalFields] = key;
 					values[totalFields] = value;
-					totalFields ++;
+					totalFields++;
 
 					row = row.substring(row.indexOf(value) + value.length() + 1);
 				}
@@ -342,30 +369,17 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				//With all the keys and the values, create an INSERT query and add to queries
 				fields = "(";
 				vals = "(";
-				for (int j = 0; j < totalFields; j ++){
+				for (int j = 0; j < totalFields; j++) {
 					fields = fields + keys[j] + ", ";
 					vals = vals + values[j] + ", ";
 				}
-				fields = fields.substring(0, fields.length()-2) + ")";
-				vals = vals.substring(0, vals.length()-2) + ")";
+				fields = fields.substring(0, fields.length() - 2) + ")";
+				vals = vals.substring(0, vals.length() - 2) + ")";
 				queries.add("INSERT INTO " + table + " " + fields + " VALUES " + vals + ";");
 
-				i ++;
+				i++;
 				str = str.substring(str.indexOf("}") + 1);
 			}
-
-			/*if (totalFields > 0 && totalFields < 99){
-				//db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
-				db.execSQL("DELETE FROM " + table + ";");
-				Log.e("QUERY", "DELETE FROM " + table + ";");
-				for (i = 0; i < totalFields; i ++){
-					//db.execSQL("INSERT INTO " + table + " VALUES ('" + keys[i] + "', " + values[i] + ");");
-					Log.e("QUERY", "INSERT INTO " + table + " VALUES ('" + keys[i] + "', " + values[i] + ");");
-				}
-			}
-			else{
-				result = false;
-			}*/
 
 		}
 		catch (Exception ex){
@@ -377,8 +391,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		try {
 			int totalQueries = queries.size();
 			for (i = 0; i < totalQueries; i++) {
-				db.execSQL(queries.get(i));
 				Log.e("QUERY", queries.get(i));
+				db.execSQL(queries.get(i));
 			}
 		}
 		catch (Exception ex){
@@ -398,12 +412,9 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 		//Get preferences
 		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		SharedPreferences.Editor prefEditor;
-		prefEditor = preferences.edit();
 
 		//Get usefull data for the uri
 		String userCode = preferences.getString(GM.USER_CODE, "");
-		int dbVersion = preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION);
 
 		//Get database. Stop if it's locked
 		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
@@ -411,6 +422,14 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
 			return null;
 		}
+
+		//Get database version
+		Cursor cursor;
+		int dbVersion;
+		cursor = db.rawQuery("SELECT sum(version) AS v FROM version;", null);
+		cursor.moveToFirst();
+		dbVersion = cursor.getInt(0);
+		cursor.close();
 
 		URL url;
 		String uri = buildUrl(userCode, dbVersion, fg, GM.getLang());
@@ -486,6 +505,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			e.printStackTrace();
 		}
 
+		db.close();
 		return null;
     	
 	}

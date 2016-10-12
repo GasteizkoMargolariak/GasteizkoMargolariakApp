@@ -18,6 +18,18 @@ import java.util.Locale;
  */
 final class GM {
 
+	final class QUERY {
+
+		final class CREATE{
+
+			//static final String
+		}
+
+		final class DELETE{
+
+		}
+	}
+
 	static final String CLIENT = "com.ivalentin.margolariak";
 
 	/**
