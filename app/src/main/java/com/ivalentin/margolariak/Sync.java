@@ -297,7 +297,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		boolean result = true;
 		//try{
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
-			while (str.indexOf("]") > 0){
+			while (str.indexOf("}") > 0){
 				try {
 					key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf("\"") + 1));
 					value = str.substring(str.indexOf("["), str.indexOf("]"));
@@ -307,7 +307,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 						return false;
 					}
 
-					str = str.substring(str.indexOf("]") + 1);
+					str = str.substring(str.indexOf("}") + 1);
 				}
 				catch (Exception ex){
 					//End of string
@@ -349,8 +349,9 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 		int i = 0;
 		try {
+			String row;
 			while (str.indexOf("{") > 0) {
-				String row = str.substring(str.indexOf("{"), str.indexOf("}") + 1);
+				row = str.substring(str.indexOf("{"), str.indexOf("}") + 1);
 				totalFields = 0;
 				values = new String[99];
 				keys = new String[99];
@@ -365,6 +366,13 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					row = row.substring(row.indexOf(value) + value.length() + 1);
 				}
+				//TODO: Last column
+				row = row.substring(row.indexOf("\"") + 1, row.indexOf("}"));
+				key = row.substring(0, row.indexOf("\""));
+				value = row.substring(row.indexOf(":") + 1);
+				keys[totalFields] = key;
+				values[totalFields] = value;
+				totalFields++;
 
 				//With all the keys and the values, create an INSERT query and add to queries
 				fields = "(";
