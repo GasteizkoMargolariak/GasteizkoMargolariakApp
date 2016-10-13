@@ -20,6 +20,12 @@ final class GM {
 
 	final class DB {
 
+		final class COLUMN {
+			static final int INT = 0;
+			static final int VARCHAR = 1;
+			static final int DATETIME = 2;
+		}
+
 		final class QUERY {
 
 			final class CREATE {

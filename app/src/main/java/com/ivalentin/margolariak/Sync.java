@@ -238,35 +238,94 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	private boolean recreateDb(SQLiteDatabase db) {
 		boolean result = true;
 		try {
-			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY);
-			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_COMMENT);
-			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_IMAGE);
-			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_ITINERARY);
-			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_TAG);
-			db.execSQL(GM.DB.QUERY.RECREATE.ALBUM);
-			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL);
-			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_DAY);
-			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_EVENT);
-			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_EVENT_IMAGE);
-			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_OFFER);
-			db.execSQL(GM.DB.QUERY.RECREATE.PEOPLE);
-			db.execSQL(GM.DB.QUERY.RECREATE.PHOTO);
-			db.execSQL(GM.DB.QUERY.RECREATE.PHOTO_ALBUM);
-			db.execSQL(GM.DB.QUERY.RECREATE.PHOTO_COMMENT);
-			db.execSQL(GM.DB.QUERY.RECREATE.PLACE);
-			db.execSQL(GM.DB.QUERY.RECREATE.POST);
-			db.execSQL(GM.DB.QUERY.RECREATE.POST_COMMENT);
-			db.execSQL(GM.DB.QUERY.RECREATE.POST_IMAGE);
-			db.execSQL(GM.DB.QUERY.RECREATE.POST_TAG);
-			db.execSQL(GM.DB.QUERY.RECREATE.SETTINGS);
-			db.execSQL(GM.DB.QUERY.RECREATE.SPONSOR);
-			db.execSQL(GM.DB.QUERY.RECREATE.VERSION);
+			//Log.e("RECREATE", "START DROP");
+			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY);
+			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_COMMENT);
+			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_IMAGE);
+			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_ITINERARY);
+			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_TAG);
+			db.execSQL(GM.DB.QUERY.DROP.ALBUM);
+			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL);
+			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_DAY);
+			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT);
+			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT_IMAGE);
+			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_OFFER);
+			db.execSQL(GM.DB.QUERY.DROP.PEOPLE);
+			db.execSQL(GM.DB.QUERY.DROP.PHOTO);
+			db.execSQL(GM.DB.QUERY.DROP.PHOTO_ALBUM);
+			db.execSQL(GM.DB.QUERY.DROP.PHOTO_COMMENT);
+			db.execSQL(GM.DB.QUERY.DROP.PLACE);
+			db.execSQL(GM.DB.QUERY.DROP.POST);
+			db.execSQL(GM.DB.QUERY.DROP.POST_COMMENT);
+			db.execSQL(GM.DB.QUERY.DROP.POST_IMAGE);
+			db.execSQL(GM.DB.QUERY.DROP.POST_TAG);
+			db.execSQL(GM.DB.QUERY.DROP.SETTINGS);
+			db.execSQL(GM.DB.QUERY.DROP.SPONSOR);
+			db.execSQL(GM.DB.QUERY.DROP.VERSION);
+			//Log.e("RECREATE", "FINISH DROP");
+			Thread.sleep(1000);
+			//Log.e("RECREATE", "START CREATE");
+			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
+			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
+			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
+			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_ITINERARY);
+			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_TAG);
+			db.execSQL(GM.DB.QUERY.CREATE.ALBUM);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_DAY);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_IMAGE);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_OFFER);
+			db.execSQL(GM.DB.QUERY.CREATE.PEOPLE);
+			db.execSQL(GM.DB.QUERY.CREATE.PHOTO);
+			db.execSQL(GM.DB.QUERY.CREATE.PHOTO_ALBUM);
+			db.execSQL(GM.DB.QUERY.CREATE.PHOTO_COMMENT);
+			db.execSQL(GM.DB.QUERY.CREATE.PLACE);
+			db.execSQL(GM.DB.QUERY.CREATE.POST);
+			db.execSQL(GM.DB.QUERY.CREATE.POST_COMMENT);
+			db.execSQL(GM.DB.QUERY.CREATE.POST_IMAGE);
+			db.execSQL(GM.DB.QUERY.CREATE.POST_TAG);
+			db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
+			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
+			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
+			//Log.e("RECREATE", "STOP CREATE");
+			Thread.sleep(1000);
+			//Log.e("RECREATE", "CONTINUE");
+		} catch (InterruptedException e) {
+			Log.e("SYNC", "Couldn't wait for the database to be recreated: " + e.toString());
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			result = false;
 			Log.e("SYNC", "Error recreating the database: " + ex.toString());
 		}
 		return result;
+	}
+
+	private final int getColumnType(SQLiteDatabase db, String table, int idx) {
+		String type = "";
+		Cursor typeCursor;
+		try {
+			//typeCursor = db.rawQuery("SELECT typeof (" + column + ") FROM " + table + ";", null);
+			//typeCursor.moveToFirst();
+			//type = typeCursor.getString(0);
+			String Query = "PRAGMA table_info(" + table + ")";
+			Cursor my_cursor  = db.rawQuery(Query, null);
+			my_cursor.moveToPosition(idx);
+			//Column_name = my_cursor.getString(my_cursor.getColumnIndex("name"));
+			type = my_cursor.getString(2);
+			my_cursor.close();
+		}
+		catch(Exception ex){
+			Log.e("SYNC", "Unable to reliably determine the type of the column '" + idx + "' of the table " + table + ": " + ex.toString());
+		}
+		//Log.e("Returned type", "#" + type);
+		if (type.equals("INT")) {
+			return GM.DB.COLUMN.INT;
+		}
+		if (type.equals("DATETIME")) {
+			return GM.DB.COLUMN.DATETIME;
+		}
+		return GM.DB.COLUMN.VARCHAR;
 	}
 
 	/**
@@ -319,7 +378,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	/**
 	 * Stores version data for each section in the database.
 	 * Uses a custom JSON parser.
-	 *
+	 *http://forum.xda-developers.com/apps/supersu/suhide-t3450396
 	 * @param db Database store the data.
 	 * @param data List of strings in json format with the tables.
 	 * @return False if there were errors, true otherwise.
@@ -333,25 +392,34 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("}") > 0){
 				try {
-					key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf("\"") + 1));
-					value = str.substring(str.indexOf("["), str.indexOf("]"));
+					Log.e("R", "1");
+					Log.e("PostR1", str);
+					key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf(":") - 1));
+					Log.e("R", "2");
+					value = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
+					Log.e("KEY/VALUE", key + "/" + value.substring(0, 30) + "..." + value.substring(3 * value.length() / 4));
+					Log.e("R", "3");
 					str = str.substring(str.indexOf("]") + 1);
+					Log.e("R", "4");
+
 					if (!saveTable(db, key, value)){
 						//Finish the loop if there is an error
 						return false;
 					}
+					Log.e("R", "5");
 
 					str = str.substring(str.indexOf("}") + 1);
+					Log.e("R", "6");
 				}
 				catch (Exception ex){
 					//End of string
-					Log.d("SYNC", "End of string");
+					Log.d("SYNC", "End of string:" + ex.toString());
 					str = "";
 				}
 			}
 		}
 		catch (Exception ex){
-			Log.e("saveData", "Error saving the remote db data: " + ex.toString());
+			Log.e("SYNC", "Error saving the remote db data: " + ex.toString());
 			result = false;
 		}
 
@@ -361,7 +429,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	/**
 	 * Stores a table data into the database.
 	 * Uses a custom JSON parser.
-	 *
+	 *http://forum.xda-developers.com/apps/supersu/suhide-t3450396
 	 * @param db Database to store the data.
 	 * @param table Name of the table.
 	 * @param data String in JSON format with the data of the table.
@@ -369,13 +437,13 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	private boolean saveTable(SQLiteDatabase db, String table, String data){
 		String str = data;
-		str = str.replace(":null", ":\"\"");
+		//str = str.replace(":null", ":\"\"");
 		String key, fields, vals;
 		String value;
 		int totalFields;
-
-		String[] values = new String[99];
-		String[] keys = new String[99];
+		int type;
+		String[] values;
+		String[] keys;
 
 		List<String> queries = new ArrayList<>();
 		queries.add("DELETE FROM " + table + ";");
@@ -384,6 +452,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		try {
 			String row;
 			while (str.indexOf("{") > 0) {
+				//Log.e("STR", str.substring(0, 30) + " ... " + str.substring(3 * str.length() / 4));
 				row = str.substring(str.indexOf("{"), str.indexOf("}") + 1);
 				totalFields = 0;
 				values = new String[99];
@@ -392,14 +461,38 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				while (row.indexOf("\",") > 0) {
 					key = row.substring(row.indexOf("\"") + 1, row.indexOf("\":"));
 					value = row.substring(row.indexOf("\"", row.indexOf(":")), row.indexOf("\"", row.indexOf(":") + 2) + 1);
-					//TODO: Get data type
-					//TODO: Reencode
+
+					type = getColumnType(db, table, totalFields);
+					switch (type) {
+						case GM.DB.COLUMN.INT:
+
+							row = row.substring(row.indexOf(value) + value.length() + 1);
+							//TODO: Remove quotes
+							value = value.replace("\"", "");
+
+							if (value.equals("")){
+								value = "null";
+							}
+							//Log.e("COLUMN", table + "INT(" + key + "): " + value);
+
+							break;
+						case GM.DB.COLUMN.DATETIME:
+							//TODO: Date fromat
+							//Log.e("COLUMN", table + "(" + key + "): DATETIME");
+							row = row.substring(row.indexOf(value) + value.length() + 1);
+							break;
+						default: //VARCHAR
+							//TODO: Reencode
+							//Log.e("COLUMN", table + "(" + key + "): VARCHAR");
+							row = row.substring(row.indexOf(value) + value.length() + 1);
+
+					}
 
 					keys[totalFields] = key;
 					values[totalFields] = value;
 					totalFields++;
 
-					row = row.substring(row.indexOf(value) + value.length() + 1);
+
 				}
 				//Do last column
 				row = row.substring(row.indexOf("\"") + 1, row.indexOf("}"));
@@ -408,6 +501,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				keys[totalFields] = key;
 				values[totalFields] = value;
 				totalFields++;
+				//Log.e("REACH", "1");
 
 				//With all the keys and the values, create an INSERT query and add to queries
 				fields = "(";
@@ -416,17 +510,26 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					fields = fields + keys[j] + ", ";
 					vals = vals + values[j] + ", ";
 				}
+				//Log.e("REACH", "2");
 				fields = fields.substring(0, fields.length() - 2) + ")";
 				vals = vals.substring(0, vals.length() - 2) + ")";
+				//Log.e("REACH", "3");
 				queries.add("INSERT INTO " + table + " " + fields + " VALUES " + vals + ";");
+				//Log.e("REACH", "4");
 
 				i++;
-				str = str.substring(str.indexOf("}") + 1);
+				//Log.e("REM", str);
+				try{
+					str = str.substring(str.indexOf("{"));
+				}
+				catch (Exception ex){
+					Log.e("SYNC", "End of string for table '" + table + "': " + ex.toString());
+				}
 			}
 
 		}
 		catch (Exception ex){
-			Log.e("saveTable", "Error parsing remote table " + table + ": " + ex.toString());
+			Log.e("SYNC", "Error parsing remote table " + table + ": " + ex.toString());
 			return false;
 		}
 
@@ -434,12 +537,12 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		try {
 			int totalQueries = queries.size();
 			for (i = 0; i < totalQueries; i++) {
-				Log.e("QUERY", queries.get(i));
+				//Log.e("QUERY", queries.get(i));
 				db.execSQL(queries.get(i));
 			}
 		}
 		catch (Exception ex){
-			Log.e("saveTable", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
+			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
 			return false;
 		}
 
@@ -462,7 +565,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		//Get database. Stop if it's locked
 		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
 		if (db.isReadOnly()){
-			Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
+			Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
 			return null;
 		}
 
@@ -484,16 +587,16 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			int httpCode = urlConnection.getResponseCode();
 			switch (httpCode){
 				case 400:	//Client error: Bad request
-					Log.e("Sync error", "The server returned a 400 code (Client Error: Bad request) for the url \"" + uri + "\"");
+					Log.e("SYNC", "The server returned a 400 code (Client Error: Bad request) for the url \"" + uri + "\"");
 					break;
 				case 403:	//Client error: Forbidden
-					Log.e("Sync error", "The server returned a 403 code (Client Error: Forbidden) for the url \"" + uri + "\"");
+					Log.e("SYNC", "The server returned a 403 code (Client Error: Forbidden) for the url \"" + uri + "\"");
 					break;
 				case 204:	//Success: No content
-					Log.d("Sync success", "The server returned a 204 code (Success: No content) for the url \"" + uri + "\". Stoping sync process...");
+					Log.d("SYNC", "The server returned a 204 code (Success: No content) for the url \"" + uri + "\". Stoping sync process...");
 					break;
 				case 200:	//Success: OK
-					Log.d("Sync", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now syncing...");
+					Log.d("SYNC", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now syncing...");
 					BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 					StringBuilder sb = new StringBuilder();
 					String o;
@@ -502,6 +605,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					//Get the string with the sync json. (The whole page)
 					String strSync = sb.toString();
+					strSync = strSync.replace(":null", ":\"\"");
 
 					//Get the JSON object from the string.
 					JSONObject jsonSync = new JSONObject(strSync);
@@ -518,7 +622,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					//If the data is correctly parsed and stored, commit changes to the database.
 					db.beginTransaction();
-					if (recreateDb(db) && saveVersions(db, strVersion) && saveData(db, strData)){
+					//recreateDb(db);
+					if (saveVersions(db, strVersion) && saveData(db, strData)){
 						db.setTransactionSuccessful();
 						Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
 					}
@@ -529,22 +634,22 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					break;
 				default:
-					Log.e("Sync error", "The server returned an unexpected code (" + httpCode + ") for the url \"" + uri + "\"");
+					Log.e("SYNC", "The server returned an unexpected code (" + httpCode + ") for the url \"" + uri + "\"");
 			}
 			urlConnection.disconnect();
 			return null;
 
 		}
 		catch (MalformedURLException e) {
-			Log.e("Sync error", "Malformed URL (" + uri + "): " + e.toString());
+			Log.e("SYNC", "Malformed URL (" + uri + "): " + e.toString());
 			e.printStackTrace();
 		}
 		catch (IOException e) {
-			Log.e("Sync error", "IOException for URL (" + uri + "): " + e.toString());
+			Log.e("SYNC", "IOException for URL (" + uri + "): " + e.toString());
 			e.printStackTrace();
 		}
 		catch (org.json.JSONException e) {
-			Log.e("Sync error", "JSONException for URL (" + uri + "): " + e.toString());
+			Log.e("SYNC", "JSONException for URL (" + uri + "): " + e.toString());
 			e.printStackTrace();
 		}
 
