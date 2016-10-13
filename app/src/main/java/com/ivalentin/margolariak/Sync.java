@@ -235,6 +235,40 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		return url;
 	}
 
+	private boolean recreateDb(SQLiteDatabase db) {
+		boolean result = true;
+		try {
+			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY);
+			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_COMMENT);
+			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_IMAGE);
+			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_ITINERARY);
+			db.execSQL(GM.DB.QUERY.RECREATE.ACTIVITY_TAG);
+			db.execSQL(GM.DB.QUERY.RECREATE.ALBUM);
+			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL);
+			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_DAY);
+			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_EVENT);
+			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_EVENT_IMAGE);
+			db.execSQL(GM.DB.QUERY.RECREATE.FESTIVAL_OFFER);
+			db.execSQL(GM.DB.QUERY.RECREATE.PEOPLE);
+			db.execSQL(GM.DB.QUERY.RECREATE.PHOTO);
+			db.execSQL(GM.DB.QUERY.RECREATE.PHOTO_ALBUM);
+			db.execSQL(GM.DB.QUERY.RECREATE.PHOTO_COMMENT);
+			db.execSQL(GM.DB.QUERY.RECREATE.PLACE);
+			db.execSQL(GM.DB.QUERY.RECREATE.POST);
+			db.execSQL(GM.DB.QUERY.RECREATE.POST_COMMENT);
+			db.execSQL(GM.DB.QUERY.RECREATE.POST_IMAGE);
+			db.execSQL(GM.DB.QUERY.RECREATE.POST_TAG);
+			db.execSQL(GM.DB.QUERY.RECREATE.SETTINGS);
+			db.execSQL(GM.DB.QUERY.RECREATE.SPONSOR);
+			db.execSQL(GM.DB.QUERY.RECREATE.VERSION);
+		}
+		catch (Exception ex){
+			result = false;
+			Log.e("SYNC", "Error recreating the database: " + ex.toString());
+		}
+		return result;
+	}
+
 	/**
 	 * Stores version data for each section in the database.
 	 * Uses a custom JSON parser.
@@ -277,7 +311,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		}
 		catch (Exception ex){
 			result = false;
-			Log.e("saveVersions", "Error saving the remote db versions: " + ex.toString());
+			Log.e("SYNC", "Error saving the remote db versions: " + ex.toString());
 		}
 		return result;
 	}
@@ -295,7 +329,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		String key;
 		String value;
 		boolean result = true;
-		//try{
+		try{
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("}") > 0){
 				try {
@@ -311,15 +345,15 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				}
 				catch (Exception ex){
 					//End of string
-					Log.d("SAVEDATA", "End of string");
+					Log.d("SYNC", "End of string");
 					str = "";
 				}
 			}
-		//}
-		//catch (Exception ex){
-		//	Log.e("saveData", "Error saving the remote db data: " + ex.toString());
-		//	result = false;
-		//}
+		}
+		catch (Exception ex){
+			Log.e("saveData", "Error saving the remote db data: " + ex.toString());
+			result = false;
+		}
 
 		return result;
 	}
@@ -344,7 +378,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		String[] keys = new String[99];
 
 		List<String> queries = new ArrayList<>();
-		//TODO: Add a query deleting the table and another recreating it, so its compatible with older installs.
 		queries.add("DELETE FROM " + table + ";");
 
 		int i = 0;
@@ -355,10 +388,12 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				totalFields = 0;
 				values = new String[99];
 				keys = new String[99];
+
 				while (row.indexOf("\",") > 0) {
 					key = row.substring(row.indexOf("\"") + 1, row.indexOf("\":"));
 					value = row.substring(row.indexOf("\"", row.indexOf(":")), row.indexOf("\"", row.indexOf(":") + 2) + 1);
-					//Log.e("FIELD", key + ": " + value);
+					//TODO: Get data type
+					//TODO: Reencode
 
 					keys[totalFields] = key;
 					values[totalFields] = value;
@@ -366,7 +401,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					row = row.substring(row.indexOf(value) + value.length() + 1);
 				}
-				//TODO: Last column
+				//Do last column
 				row = row.substring(row.indexOf("\"") + 1, row.indexOf("}"));
 				key = row.substring(0, row.indexOf("\""));
 				value = row.substring(row.indexOf(":") + 1);
@@ -483,7 +518,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					//If the data is correctly parsed and stored, commit changes to the database.
 					db.beginTransaction();
-					if (saveVersions(db, strVersion) && saveData(db, strData)){
+					if (recreateDb(db) && saveVersions(db, strVersion) && saveData(db, strData)){
 						db.setTransactionSuccessful();
 						Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
 					}
