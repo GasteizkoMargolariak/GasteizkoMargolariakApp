@@ -47,7 +47,7 @@ final class GM {
 				static final String PHOTO_ALBUM = "CREATE TABLE IF NOT EXISTS photo_album (photo INT, album INT);";
 				static final String PHOTO_COMMENT = "CREATE TABLE IF NOT EXISTS photo_comment (id INT, photo INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
 				static final String PLACE = "CREATE TABLE IF NOT EXISTS place (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, address_es VARCHAR, address_en VARCHAR, address_eu VARCHAR, cp VARCHAR, lat FLOAT, lon FLOAT);";
-				static final String POST = "CREATE TABLE IF NOT EXISTS post (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, dtime DATETIME, comments INT, username VARCHAR);";
+				static final String POST = "CREATE TABLE IF NOT EXISTS post (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, comments INT, username VARCHAR, dtime DATETIME);";
 				static final String POST_COMMENT = "CREATE TABLE IF NOT EXISTS post_comment (id INT, post INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
 				static final String POST_IMAGE = "CREATE TABLE IF NOT EXISTS post_image (id INT, post INT, image VARCHAR, idx INT);";
 				static final String POST_TAG = "CREATE TABLE IF NOT EXISTS post_tag (post INT, tag VARCHAR);";

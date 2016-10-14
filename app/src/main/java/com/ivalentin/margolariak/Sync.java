@@ -8,14 +8,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -392,28 +397,28 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("}") > 0){
 				try {
-					Log.e("R", "1");
-					Log.e("PostR1", str);
+					//Log.e("R", "1");
+					//Log.e("PostR1", str);
 					key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf(":") - 1));
-					Log.e("R", "2");
+					//Log.e("R", "2");
 					value = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
-					Log.e("KEY/VALUE", key + "/" + value.substring(0, 30) + "..." + value.substring(3 * value.length() / 4));
-					Log.e("R", "3");
+					//Log.e("KEY/VALUE", key + "/" + value.substring(0, 30) + "..." + value.substring(3 * value.length() / 4));
+					//Log.e("R", "3");
 					str = str.substring(str.indexOf("]") + 1);
-					Log.e("R", "4");
+					//Log.e("R", "4");
 
 					if (!saveTable(db, key, value)){
 						//Finish the loop if there is an error
 						return false;
 					}
-					Log.e("R", "5");
+					//Log.e("R", "5");
 
 					str = str.substring(str.indexOf("}") + 1);
-					Log.e("R", "6");
+					//Log.e("R", "6");
 				}
 				catch (Exception ex){
 					//End of string
-					Log.d("SYNC", "End of string:" + ex.toString());
+					Log.d("SYNC", "End of data string:" + ex.toString());
 					str = "";
 				}
 			}
@@ -426,6 +431,38 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		return result;
 	}
 
+	private static Object fromJson(Object json) throws JSONException {
+		if (json == JSONObject.NULL) {
+			return null;
+		} else if (json instanceof JSONObject) {
+			return toMap((JSONObject) json);
+		} else if (json instanceof JSONArray) {
+			return toList((JSONArray) json);
+		} else {
+			return json;
+		}
+	}
+
+	public static List toList(JSONArray array) throws JSONException {
+		List list = new ArrayList();
+		for (int i = 0; i < array.length(); i++) {
+			list.add(fromJson(array.get(i)));
+		}
+		return list;
+	}
+
+	public static Map<String, Object> toMap(JSONObject object) throws JSONException {
+		Map<String, Object> map = new HashMap();
+		Iterator keys = object.keys();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+			map.put(key, fromJson(object.get(key)));
+		}
+		return map;
+	}
+
+
+
 	/**
 	 * Stores a table data into the database.
 	 * Uses a custom JSON parser.
@@ -436,7 +473,174 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @return False if there were errors, true otherwise.
 	 */
 	private boolean saveTable(SQLiteDatabase db, String table, String data){
-		String str = data;
+		//Log.e("TABLE", table);
+		//Log.e("DATA", data.substring(0, 30) + " ... " + data.substring(20 * data.length() / 21));
+
+		boolean result = true;
+		int type;
+		JSONObject jsonObj;
+		int i = 0;
+		String fields, vals;
+		String[] values;
+		String[] columns;
+		String val;
+		values = new String[99];
+		columns = new String[99];
+		List<String> queries = new ArrayList<>();
+		queries.add("DELETE FROM " + table + ";");
+		//db.execSQL("DELETE FROM " + table + ";");
+
+		try {
+			jsonObj = new JSONObject(data);
+			Iterator<?> keys = jsonObj.keys();
+
+			while( keys.hasNext() ) {
+				String key = (String)keys.next();
+				String value = jsonObj.get(key).toString();
+				if (value.equals("")){
+					value = "null";
+				}
+				else {
+					type = getColumnType(db, table, i);
+					switch (type) {
+						case GM.DB.COLUMN.INT:
+							//Log.e("COLUMN", table + "INT(" + key + "): " + value);
+							break;
+						case GM.DB.COLUMN.DATETIME:
+							//TODO: Date format
+							//Log.e("COLUMN", table + "(" + key + "): DATETIME");
+							break;
+						default: //VARCHAR
+							value = "\"" + value + "\"";
+					}
+				}
+
+				//Log.e("COLUMN", table + "(" + key + "): VARCHAR");
+				columns[i] = key;
+				values[i] = value;
+				i ++;
+
+				//if ( jsonObj.get(key) instanceof JSONObject ) {
+					//Log.e(table, key + ": " + jsonObj.get(key).toString());
+				//}
+
+				//With all the keys and the values, create an INSERT query and add to queries
+
+				/*fields = "(";
+				vals = "(";
+				for (int j = 0; j < i; j++) {
+					fields = fields + columns[j] + ", ";
+					vals = vals + values[j] + ", ";
+				}
+				//Log.e("REACH", "2");
+				fields = fields.substring(0, fields.length() - 2) + ")";
+				vals = vals.substring(0, vals.length() - 2) + ")";
+				//Log.e("REACH", "3");
+				String q = DatabaseUtils.sqlEscapeString("INSERT INTO " + table + " " + fields + " VALUES " + vals + ";");
+				q = q.substring(1, q.length() -2);
+
+				queries.add(q);
+				Log.e("QUERY", q);*/
+			}
+
+			String q = "INSERT INTO " + table + "(";
+			for (int j = 0; j < i; j ++){
+				q = q + columns[j] + ", ";
+			}
+			q = q.substring(0, q.length() - 2) + ") VALUES (";
+			for (int j = 0; j < i; j ++){
+				//TODO: For integers, dont escape and remove quotes. For strings, remove quotes. For datetimes,  dont know.
+				if (values[j].length() == 0){
+					val = "null";
+					q = q + val + ", ";
+					Log.e("COLUMN", columns[j] + " (null): " + val);
+				}
+				else {
+					type = getColumnType(db, table, j);
+
+					switch (type) {
+						case GM.DB.COLUMN.INT:
+							//Log.e("INT", values[j]);
+							//val = values[j].replace("\'", "");
+							//TODO: Check that is really a number to prevent injection
+							q = q + values[j] + ", ";
+							Log.e("COLUMN", columns[j] + " (int): " + values[j]);
+							break;
+						case GM.DB.COLUMN.DATETIME:
+							//TODO: Give a date format
+							//val = values[j].substring(1, values[j].length() - 1);
+							//val = val.replace("\"", "\\\"");
+							//val = DatabaseUtils.sqlEscapeString(val) + ", ";
+							//val = "\"" + val + "\", ";
+
+
+							//q = q + val + ", ";
+							q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
+							Log.e("COLUMN", columns[j] + " (datetime): " + values[j]);
+							break;
+						default: //VARCHAR
+							val = values[j].substring(1, values[j].length() - 1);
+							q = q + DatabaseUtils.sqlEscapeString(val) + ", ";
+
+							//val = values[j].replace("\"", "\\\"");
+							//q = q + val + ", ";
+
+							//val = values[j].substring(1, values[j].length() - 1);
+							//val = val.replace("\"", "\\\"");
+							//val = DatabaseUtils.sqlEscapeString(val) + ", ";
+							//val = "\"" + val + "\", ";
+
+
+							//q = q + val + ", ";
+							//q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
+							Log.e("COLUMN", columns[j] + " (varchar): " + val);
+
+
+					}
+				}
+
+				//q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
+			}
+			q = q.substring(0, q.length() - 2) + ")";
+			//SQLiteStatement stmt = db.compileStatement(q);
+			//for (int j = 0; j < i; j ++){
+			//	stmt.bindString(j, columns[j]);
+			//}
+			// (int j = 0; j < i; j ++){
+			//	stmt.bindString(j, values[j]);
+			//}
+
+			//stmt.bindString(1, "US");
+			Log.e("QUERY", q);
+			queries.add(q);
+			//stmt.execute();
+
+		} catch (JSONException e) {
+			Log.e("SYNC", "Error parsing table '" + table + "': " + e.toString());
+			return false;
+		}
+		catch (Exception ex){
+			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
+			return false;
+		}
+
+		//If I get to this point, there were no errors, and I can safely execute the queries
+		try {
+			int totalQueries = queries.size();
+			for (i = 0; i < totalQueries; i++) {
+				//Log.e("QUERY", queries.get(i));
+				db.execSQL(queries.get(i));
+			}
+		}
+		catch (Exception ex){
+			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString().substring(18* ex.toString().length() / 20));
+			return false;
+		}
+
+		return true;
+
+
+		/*String str = data;
 		//str = str.replace(":null", ":\"\"");
 		String key, fields, vals;
 		String value;
@@ -547,6 +751,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		}
 
 		return true;
+		*/
+		//return false;
 	}
 
 
