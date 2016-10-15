@@ -8,10 +8,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -20,7 +19,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -56,15 +54,22 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	
 	/**
 	 * Things to do before sync. Namely, displaying a spinning progress bar.
+	 *
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
 	protected void onPreExecute(){
+
+		//If pbSync and dialog are not null, it means that the sync is being done on the foreground
 		if (pbSync != null) {
+
+			//Show the spinning bar
 			pbSync.setVisibility(View.VISIBLE);
 			ivSync.setVisibility(View.GONE);
 		}
 		if (dialog != null) {
+
+			//Show the dialog and assign the elements on it
 			dialog.show();
 			strings = new String[10];
 			strings[0] = myContextRef.getString(R.string.dialog_sync_text_0);
@@ -86,20 +91,26 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	}
 	
 	/**
-	 * Things to do after sync. Namely, hiddng the spinning progress bar.
+	 * Things to do after sync. Namely, hiding the spinning progress bar.
+	 *
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
 	protected void onPostExecute(Void v){
+
+		//If pbSync and dialog are not null, it means that the sync is being done on the foreground
 		if (pbSync != null) {
+
+			//Hide the spinner
 			pbSync.setVisibility(View.GONE);
 			ivSync.setVisibility(View.VISIBLE);
 		}
 		if (dialog != null){
-			dialog.dismiss();
-			//Check db version agan
-			//SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 
+			//Close the dialog
+			dialog.dismiss();
+
+			//Check db version again
 			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()){
 				Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
@@ -115,8 +126,12 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			cursor.close();
 			db.close();
 
+			//If the database is on it's initial version (i.e: There is no data, new or old)
 			if (dbVersion == GM.DEFAULT_PREF_DB_VERSION){
-				//Create a dialog
+
+				Log.e("SYNC", "Full sync failed");
+
+				//Create a message dialog
 				final Dialog dial = new Dialog(activity);
 				dial.setCancelable(false);
 				
@@ -138,14 +153,16 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				dial.show();
 			}
 			else{
+				Log.d("SYNC", "Full sync finished");
 				activity.loadSection(GM.SECTION_HOME);
 			}
 		}
-		Log.d("Sync", "Full sync finished");
+
 	}
 
 	/**
 	 * Called when the AsyncTask is created.
+	 * This constructor is intended for syncs on the background.
 	 *
 	 * @param myContextRef The Context of the calling activity.
 	 */
@@ -155,6 +172,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
     /**
      * Called when the AsyncTask is created.
+	 * This constructor is intended for syncs done from the foreground,
+	 * because it shows and hides a spinner (except for the initial one).
      * 
      * @param myContextRef The Context of the calling activity.
      * @param pb The progress bar that will be shown while the sync goes on.
@@ -169,8 +188,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
     
     /**
      * Called when the AsyncTask is created. 
-     * This constructor is intended to use only in the first sync, 
-     * because a dialog will block the UI.
+     * This constructor is intended to use only in the first sync,
+     * from the foreground, because a dialog will block the UI.
      * 
      * @param myContextRef The Context of the calling activity.
      * @param d Dialog of the initial sync
@@ -219,6 +238,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @param version The db version of the client.
 	 * @param foreground 1 if the sync is done while the app is running, 0 otherwise.
 	 * @param lang Two letter language identifier.
+	 *
 	 * @return The URL that will be used for syncing.
 	 */
 	private String buildUrl(String user, int version, int foreground, String lang){
@@ -240,10 +260,17 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		return url;
 	}
 
+	/**
+	 * Recreates the database, dropping and then creating all the tables containing
+	 * data. "location" and "notification" tables are untouched.
+	 *
+	 * @param db A database connection.
+	 *
+	 * @return False if there were errors, true otherwise.
+	 */
 	private boolean recreateDb(SQLiteDatabase db) {
 		boolean result = true;
 		try {
-			//Log.e("RECREATE", "START DROP");
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_IMAGE);
@@ -267,9 +294,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.DROP.SETTINGS);
 			db.execSQL(GM.DB.QUERY.DROP.SPONSOR);
 			db.execSQL(GM.DB.QUERY.DROP.VERSION);
-			//Log.e("RECREATE", "FINISH DROP");
+			//TODO: Is this really necessary?
 			Thread.sleep(1000);
-			//Log.e("RECREATE", "START CREATE");
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
@@ -293,9 +319,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
 			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
-			//Log.e("RECREATE", "STOP CREATE");
+			//TODO: Is this really necessary?
 			Thread.sleep(1000);
-			//Log.e("RECREATE", "CONTINUE");
 		} catch (InterruptedException e) {
 			Log.e("SYNC", "Couldn't wait for the database to be recreated: " + e.toString());
 		}
@@ -306,24 +331,28 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		return result;
 	}
 
-	private final int getColumnType(SQLiteDatabase db, String table, int idx) {
+	/**
+	 * Finds out the type of a column of a table in the database.
+	 *
+	 * @param db A database connection.
+	 * @param table The name of the table.
+	 * @param idx Index of the column in the database (starting on 0).
+	 *
+	 * @return GM.DB.COLUMN.INT, GM.DB.COLUMN.DATETIME, GM.DB.COLUMN.VARCHAR (default).
+	 */
+	private int getColumnType(SQLiteDatabase db, String table, int idx) {
 		String type = "";
 		Cursor typeCursor;
 		try {
-			//typeCursor = db.rawQuery("SELECT typeof (" + column + ") FROM " + table + ";", null);
-			//typeCursor.moveToFirst();
-			//type = typeCursor.getString(0);
 			String Query = "PRAGMA table_info(" + table + ")";
-			Cursor my_cursor  = db.rawQuery(Query, null);
-			my_cursor.moveToPosition(idx);
-			//Column_name = my_cursor.getString(my_cursor.getColumnIndex("name"));
-			type = my_cursor.getString(2);
-			my_cursor.close();
+			typeCursor  = db.rawQuery(Query, null);
+			typeCursor.moveToPosition(idx);
+			type = typeCursor.getString(2);
+			typeCursor.close();
 		}
 		catch(Exception ex){
 			Log.e("SYNC", "Unable to reliably determine the type of the column '" + idx + "' of the table " + table + ": " + ex.toString());
 		}
-		//Log.e("Returned type", "#" + type);
 		if (type.equals("INT")) {
 			return GM.DB.COLUMN.INT;
 		}
@@ -339,6 +368,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 *
 	 * @param db Database store the data.
 	 * @param versions List of strings with data about the versions.
+	 *
 	 * @return False if there were errors, true otherwise.
 	 */
 	private boolean saveVersions(SQLiteDatabase db, String versions){
@@ -362,8 +392,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				totalVersions ++;
 			}
 			if (totalVersions > 0 && totalVersions < 99){
-				db.execSQL("CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);");
-				db.execSQL("DELETE FROM version;");
+				db.execSQL(GM.DB.QUERY.CREATE.VERSION);
+				db.execSQL(GM.DB.QUERY.EMPTY.VERSION);
 				for (int i = 0; i < totalVersions; i ++){
 					db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
 				}
@@ -383,9 +413,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	/**
 	 * Stores version data for each section in the database.
 	 * Uses a custom JSON parser.
-	 *http://forum.xda-developers.com/apps/supersu/suhide-t3450396
+	 *
 	 * @param db Database store the data.
 	 * @param data List of strings in json format with the tables.
+	 *
 	 * @return False if there were errors, true otherwise.
 	 */
 	private boolean saveData(SQLiteDatabase db, String data){
@@ -397,24 +428,16 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("}") > 0){
 				try {
-					//Log.e("R", "1");
-					//Log.e("PostR1", str);
 					key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf(":") - 1));
-					//Log.e("R", "2");
 					value = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
-					//Log.e("KEY/VALUE", key + "/" + value.substring(0, 30) + "..." + value.substring(3 * value.length() / 4));
-					//Log.e("R", "3");
 					str = str.substring(str.indexOf("]") + 1);
-					//Log.e("R", "4");
 
 					if (!saveTable(db, key, value)){
 						//Finish the loop if there is an error
 						return false;
 					}
-					//Log.e("R", "5");
 
 					str = str.substring(str.indexOf("}") + 1);
-					//Log.e("R", "6");
 				}
 				catch (Exception ex){
 					//End of string
@@ -431,330 +454,129 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		return result;
 	}
 
-	private static Object fromJson(Object json) throws JSONException {
-		if (json == JSONObject.NULL) {
-			return null;
-		} else if (json instanceof JSONObject) {
-			return toMap((JSONObject) json);
-		} else if (json instanceof JSONArray) {
-			return toList((JSONArray) json);
-		} else {
-			return json;
-		}
-	}
-
-	public static List toList(JSONArray array) throws JSONException {
-		List list = new ArrayList();
-		for (int i = 0; i < array.length(); i++) {
-			list.add(fromJson(array.get(i)));
-		}
-		return list;
-	}
-
-	public static Map<String, Object> toMap(JSONObject object) throws JSONException {
-		Map<String, Object> map = new HashMap();
-		Iterator keys = object.keys();
-		while (keys.hasNext()) {
-			String key = (String) keys.next();
-			map.put(key, fromJson(object.get(key)));
-		}
-		return map;
-	}
 
 
 
 	/**
 	 * Stores a table data into the database.
 	 * Uses a custom JSON parser.
-	 *http://forum.xda-developers.com/apps/supersu/suhide-t3450396
+	 *
 	 * @param db Database to store the data.
 	 * @param table Name of the table.
 	 * @param data String in JSON format with the data of the table.
 	 * @return False if there were errors, true otherwise.
 	 */
-	private boolean saveTable(SQLiteDatabase db, String table, String data){
-		//Log.e("TABLE", table);
-		//Log.e("DATA", data.substring(0, 30) + " ... " + data.substring(20 * data.length() / 21));
-
-		boolean result = true;
-		int type;
+	private boolean saveTable(SQLiteDatabase db, String table, String data) {
+		int type, i;
 		JSONObject jsonObj;
-		int i = 0;
-		String fields, vals;
-		String[] values;
-		String[] columns;
-		String val;
-		values = new String[99];
-		columns = new String[99];
+		String[] values = new String[99];
+		String[] columns = new String[99];
+		String val, row;
+		String str = data;
 		List<String> queries = new ArrayList<>();
+
+		//The first query has to delete all entries
 		queries.add("DELETE FROM " + table + ";");
-		//db.execSQL("DELETE FROM " + table + ";");
 
-		try {
-			jsonObj = new JSONObject(data);
-			Iterator<?> keys = jsonObj.keys();
+		//Process each row
+		while (str.contains("{\"") && str.contains("\"}")) {
+			row = str.substring(str.indexOf("{\""), str.indexOf("\"}") + 2);
+			i = 0;
 
-			while( keys.hasNext() ) {
-				String key = (String)keys.next();
-				String value = jsonObj.get(key).toString();
-				if (value.equals("")){
-					value = "null";
-				}
-				else {
-					type = getColumnType(db, table, i);
-					switch (type) {
-						case GM.DB.COLUMN.INT:
-							//Log.e("COLUMN", table + "INT(" + key + "): " + value);
-							break;
-						case GM.DB.COLUMN.DATETIME:
-							//TODO: Date format
-							//Log.e("COLUMN", table + "(" + key + "): DATETIME");
-							break;
-						default: //VARCHAR
-							value = "\"" + value + "\"";
-					}
+			try {
+
+				//Create a json object with the collumn names and values of the row...
+				jsonObj = new JSONObject(row);
+				Iterator<?> keys = jsonObj.keys();
+
+				//... and loop through it.
+				while (keys.hasNext()) {
+					String key = (String) keys.next();
+					String value = jsonObj.get(key).toString();
+					columns[i] = key;
+					values[i] = value;
+					i++;
 				}
 
-				//Log.e("COLUMN", table + "(" + key + "): VARCHAR");
-				columns[i] = key;
-				values[i] = value;
-				i ++;
+				//Start building the query
+				String q = "INSERT INTO " + table + "(";
 
-				//if ( jsonObj.get(key) instanceof JSONObject ) {
-					//Log.e(table, key + ": " + jsonObj.get(key).toString());
-				//}
-
-				//With all the keys and the values, create an INSERT query and add to queries
-
-				/*fields = "(";
-				vals = "(";
+				//Add column names
 				for (int j = 0; j < i; j++) {
-					fields = fields + columns[j] + ", ";
-					vals = vals + values[j] + ", ";
+					q = q + columns[j] + ", ";
 				}
-				//Log.e("REACH", "2");
-				fields = fields.substring(0, fields.length() - 2) + ")";
-				vals = vals.substring(0, vals.length() - 2) + ")";
-				//Log.e("REACH", "3");
-				String q = DatabaseUtils.sqlEscapeString("INSERT INTO " + table + " " + fields + " VALUES " + vals + ";");
-				q = q.substring(1, q.length() -2);
+				q = q.substring(0, q.length() - 2) + ") VALUES (";
 
+				//Loop trough values
+				for (int j = 0; j < i; j++) {
+
+					//If the value is empty, I dont care what tipe is it, it will be 'null'.
+					if (values[j].length() == 0) {
+						val = "null";
+						q = q + val + ", ";
+					}
+
+					//If the value is not empty, I need the type
+					else {
+						type = getColumnType(db, table, j);
+
+						switch (type) {
+							case GM.DB.COLUMN.INT:
+
+								//Check that is really a number to prevent injection.
+								if (Pattern.matches("\\-?\\d+", values[j]))
+									q = q + values[j] + ", ";
+								else{
+									//If its not and actually number, just insert null to avoid problems.
+									q = q + "null, ";
+								}
+								break;
+
+							case GM.DB.COLUMN.DATETIME:
+								//The API formats ('YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS') are good for inserting. Just escape and add quotes.
+								q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
+								break;
+
+							default: //VARCHAR
+								//Just escape and add quotes.
+								q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
+						}
+					}
+
+				}
+
+				//End the query string and add it to the array.
+				q = q.substring(0, q.length() - 2) + ")";
 				queries.add(q);
-				Log.e("QUERY", q);*/
+
+			}
+			catch (JSONException e) {
+				Log.e("SYNC", "Error parsing table '" + table + "': " + e.toString());
+				return false;
+			}
+			catch (Exception ex) {
+				Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
+				return false;
 			}
 
-			String q = "INSERT INTO " + table + "(";
-			for (int j = 0; j < i; j ++){
-				q = q + columns[j] + ", ";
-			}
-			q = q.substring(0, q.length() - 2) + ") VALUES (";
-			for (int j = 0; j < i; j ++){
-				//TODO: For integers, dont escape and remove quotes. For strings, remove quotes. For datetimes,  dont know.
-				if (values[j].length() == 0){
-					val = "null";
-					q = q + val + ", ";
-					Log.e("COLUMN", columns[j] + " (null): " + val);
-				}
-				else {
-					type = getColumnType(db, table, j);
-
-					switch (type) {
-						case GM.DB.COLUMN.INT:
-							//Log.e("INT", values[j]);
-							//val = values[j].replace("\'", "");
-							//TODO: Check that is really a number to prevent injection
-							q = q + values[j] + ", ";
-							Log.e("COLUMN", columns[j] + " (int): " + values[j]);
-							break;
-						case GM.DB.COLUMN.DATETIME:
-							//TODO: Give a date format
-							//val = values[j].substring(1, values[j].length() - 1);
-							//val = val.replace("\"", "\\\"");
-							//val = DatabaseUtils.sqlEscapeString(val) + ", ";
-							//val = "\"" + val + "\", ";
-
-
-							//q = q + val + ", ";
-							q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
-							Log.e("COLUMN", columns[j] + " (datetime): " + values[j]);
-							break;
-						default: //VARCHAR
-							val = values[j].substring(1, values[j].length() - 1);
-							q = q + DatabaseUtils.sqlEscapeString(val) + ", ";
-
-							//val = values[j].replace("\"", "\\\"");
-							//q = q + val + ", ";
-
-							//val = values[j].substring(1, values[j].length() - 1);
-							//val = val.replace("\"", "\\\"");
-							//val = DatabaseUtils.sqlEscapeString(val) + ", ";
-							//val = "\"" + val + "\", ";
-
-
-							//q = q + val + ", ";
-							//q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
-							Log.e("COLUMN", columns[j] + " (varchar): " + val);
-
-
-					}
-				}
-
-				//q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
-			}
-			q = q.substring(0, q.length() - 2) + ")";
-			//SQLiteStatement stmt = db.compileStatement(q);
-			//for (int j = 0; j < i; j ++){
-			//	stmt.bindString(j, columns[j]);
-			//}
-			// (int j = 0; j < i; j ++){
-			//	stmt.bindString(j, values[j]);
-			//}
-
-			//stmt.bindString(1, "US");
-			Log.e("QUERY", q);
-			queries.add(q);
-			//stmt.execute();
-
-		} catch (JSONException e) {
-			Log.e("SYNC", "Error parsing table '" + table + "': " + e.toString());
-			return false;
-		}
-		catch (Exception ex){
-			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
-			return false;
+			//Process str for the next loop pass.
+			str = str.substring(str.indexOf("\"}") + 2);
 		}
 
 		//If I get to this point, there were no errors, and I can safely execute the queries
 		try {
 			int totalQueries = queries.size();
 			for (i = 0; i < totalQueries; i++) {
-				//Log.e("QUERY", queries.get(i));
 				db.execSQL(queries.get(i));
 			}
-		}
-		catch (Exception ex){
-			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString().substring(18* ex.toString().length() / 20));
-			return false;
+		} catch (Exception ex) {
+			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString().substring(18 * ex.toString().length() / 20));
+
+			//I don't put a 'return false;' here because I dont want to loose the whole table for just one row.
 		}
 
 		return true;
-
-
-		/*String str = data;
-		//str = str.replace(":null", ":\"\"");
-		String key, fields, vals;
-		String value;
-		int totalFields;
-		int type;
-		String[] values;
-		String[] keys;
-
-		List<String> queries = new ArrayList<>();
-		queries.add("DELETE FROM " + table + ";");
-
-		int i = 0;
-		try {
-			String row;
-			while (str.indexOf("{") > 0) {
-				//Log.e("STR", str.substring(0, 30) + " ... " + str.substring(3 * str.length() / 4));
-				row = str.substring(str.indexOf("{"), str.indexOf("}") + 1);
-				totalFields = 0;
-				values = new String[99];
-				keys = new String[99];
-
-				while (row.indexOf("\",") > 0) {
-					key = row.substring(row.indexOf("\"") + 1, row.indexOf("\":"));
-					value = row.substring(row.indexOf("\"", row.indexOf(":")), row.indexOf("\"", row.indexOf(":") + 2) + 1);
-
-					type = getColumnType(db, table, totalFields);
-					switch (type) {
-						case GM.DB.COLUMN.INT:
-
-							row = row.substring(row.indexOf(value) + value.length() + 1);
-							//TODO: Remove quotes
-							value = value.replace("\"", "");
-
-							if (value.equals("")){
-								value = "null";
-							}
-							//Log.e("COLUMN", table + "INT(" + key + "): " + value);
-
-							break;
-						case GM.DB.COLUMN.DATETIME:
-							//TODO: Date fromat
-							//Log.e("COLUMN", table + "(" + key + "): DATETIME");
-							row = row.substring(row.indexOf(value) + value.length() + 1);
-							break;
-						default: //VARCHAR
-							//TODO: Reencode
-							//Log.e("COLUMN", table + "(" + key + "): VARCHAR");
-							row = row.substring(row.indexOf(value) + value.length() + 1);
-
-					}
-
-					keys[totalFields] = key;
-					values[totalFields] = value;
-					totalFields++;
-
-
-				}
-				//Do last column
-				row = row.substring(row.indexOf("\"") + 1, row.indexOf("}"));
-				key = row.substring(0, row.indexOf("\""));
-				value = row.substring(row.indexOf(":") + 1);
-				keys[totalFields] = key;
-				values[totalFields] = value;
-				totalFields++;
-				//Log.e("REACH", "1");
-
-				//With all the keys and the values, create an INSERT query and add to queries
-				fields = "(";
-				vals = "(";
-				for (int j = 0; j < totalFields; j++) {
-					fields = fields + keys[j] + ", ";
-					vals = vals + values[j] + ", ";
-				}
-				//Log.e("REACH", "2");
-				fields = fields.substring(0, fields.length() - 2) + ")";
-				vals = vals.substring(0, vals.length() - 2) + ")";
-				//Log.e("REACH", "3");
-				queries.add("INSERT INTO " + table + " " + fields + " VALUES " + vals + ";");
-				//Log.e("REACH", "4");
-
-				i++;
-				//Log.e("REM", str);
-				try{
-					str = str.substring(str.indexOf("{"));
-				}
-				catch (Exception ex){
-					Log.e("SYNC", "End of string for table '" + table + "': " + ex.toString());
-				}
-			}
-
-		}
-		catch (Exception ex){
-			Log.e("SYNC", "Error parsing remote table " + table + ": " + ex.toString());
-			return false;
-		}
-
-		//If I get to this point, there were no errors, and I can safely execute the queries
-		try {
-			int totalQueries = queries.size();
-			for (i = 0; i < totalQueries; i++) {
-				//Log.e("QUERY", queries.get(i));
-				db.execSQL(queries.get(i));
-			}
-		}
-		catch (Exception ex){
-			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
-			return false;
-		}
-
-		return true;
-		*/
-		//return false;
 	}
-
 
 	/**
 	 * The sweet stuff. Actually performs the sync. 
@@ -765,7 +587,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		//Get preferences
 		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
 
-		//Get usefull data for the uri
+		//Get useful data for the uri
 		String userCode = preferences.getString(GM.USER_CODE, "");
 
 		//Get database. Stop if it's locked
@@ -828,7 +650,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					//If the data is correctly parsed and stored, commit changes to the database.
 					db.beginTransaction();
+
+					//TODO: for save version apps, this is not needed, but I have to check it after an app update.
 					//recreateDb(db);
+
 					if (saveVersions(db, strVersion) && saveData(db, strData)){
 						db.setTransactionSuccessful();
 						Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");

@@ -82,7 +82,34 @@ final class GM {
 				static final String SETTINGS = "DROP TABLE settings;";
 				static final String SPONSOR = "DROP TABLE sponsor;";
 				static final String VERSION = "DROP TABLE version;";
+			}
 
+			final class EMPTY {
+				static final String ACTIVITY = "DELETE FROM activity;";
+				static final String ACTIVITY_COMMENT = "DELETE FROM activity_comment;";
+				static final String ACTIVITY_IMAGE = "DELETE FROM activity_image;";
+				static final String ACTIVITY_ITINERARY = "DELETE FROM activity_itinerary;";
+				static final String ACTIVITY_TAG = "DELETE FROM activity_tag;";
+				static final String ALBUM = "DELETE FROM album;";
+				static final String FESTIVAL = "DELETE FROM festival;";
+				static final String FESTIVAL_DAY = "DELETE FROM festival_day;";
+				static final String FESTIVAL_EVENT = "DELETE FROM festival_event;";
+				static final String FESTIVAL_EVENT_IMAGE = "DELETE FROM festival_event_image;";
+				static final String FESTIVAL_OFFER = "DELETE FROM festival_offer;";
+				static final String LOCATION = "DELETE FROM location;";
+				static final String NOTIFICATION = "DELETE FROM notification;";
+				static final String PEOPLE = "DELETE FROM people;";
+				static final String PHOTO = "DELETE FROM photo;";
+				static final String PHOTO_ALBUM = "DELETE FROM photo_album;";
+				static final String PHOTO_COMMENT = "DELETE FROM photo_comment;";
+				static final String PLACE = "DELETE FROM place;";
+				static final String POST = "DELETE FROM post;";
+				static final String POST_COMMENT = "DELETE FROM post_comment;";
+				static final String POST_IMAGE = "DELETE FROM post_image;";
+				static final String POST_TAG = "DELETE FROM post_tag;";
+				static final String SETTINGS = "DELETE FROM settings;";
+				static final String SPONSOR = "DELETE FROM sponsor;";
+				static final String VERSION = "DELETE FROM version;";
 			}
 
 			final class RECREATE {
