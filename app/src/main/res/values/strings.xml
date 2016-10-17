@@ -181,8 +181,7 @@
 
 
 	<!-- Pop-up menu entry strings -->
-	<string name="pop_menu_settings">Settings</string>
-	<string name="pop_menu_about">About us</string>
+	<string name="pop_menu_settings">Ajustes</string>
 	<string name="pop_menu_sponsors">Sponsors</string>
 
 	<!--Preferences screen-->
@@ -206,5 +205,6 @@
 	<string name="eur" translatable="false">€</string>
 	<string name="Kb" translatable="false"> Kb</string>
 	<string name="Mb" translatable="false"> Mb</string>
-	
+	<string name="pop_menu_about">Sobre nosotros</string>
+
 </resources>

@@ -367,6 +367,7 @@ public class MainActivity extends Activity {
 
 		//Get preferences
 		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
 
 		//TODO: Read preferences. If there is a recent location, show the menu entry
 
@@ -374,7 +375,6 @@ public class MainActivity extends Activity {
 		if (preferences.getString(GM.USER_CODE, "").length() == 0) {
 			SecureRandom random = new SecureRandom();
 			String newCode = new BigInteger(130, random).toString(32).substring(0, 16);
-			SharedPreferences.Editor editor = preferences.edit();
 			editor.putString(GM.USER_CODE, newCode);
 			editor.apply();
 		}
@@ -382,193 +382,206 @@ public class MainActivity extends Activity {
 		//Cerate database if it's not already created
 		createDatabase();
 
-
-		//If its the first time
-		if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION) {
+		//If the database has just been updated, recreate the database
+		if (preferences.getInt(GM.PREF_PREVIOUS_VERSION, 0) < BuildConfig.VERSION_CODE) {
+			Log.d("UPDATE", "App updated from version " + preferences.getInt(GM.PREF_PREVIOUS_VERSION, 0) + " to " + BuildConfig.VERSION_CODE + ". Forcing a new sync...");
+			deleteDatabase();
+			editor.putInt(GM.PREF_PREVIOUS_VERSION, BuildConfig.VERSION_CODE);
+			editor.putInt(GM.PREF_DB_VERSION, 0);
+			editor.apply();
+			createDatabase();
 			initialSync();
 		}
-		//If t's not the first time
 		else {
-			//Sync db
-			sync();
 
-			//Load initial section
-			loadSection(GM.SECTION_HOME);
+			//If its the first time
+			if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION) {
+				initialSync();
+			}
+			//If t's not the first time
+			else {
+				//Sync db
+				sync();
 
-			//If the intent had extras (from notifications), do something
-			if (actionText != null) {
-				TextView tvDialogTitle, tvDialogText;
-				Button btDialogClose, btDialogAction;
-				Drawable dialogIcon;
-				if (actionTitle != null) {
+				//Load initial section
+				loadSection(GM.SECTION_HOME);
 
-					//Create a dialog
-					final Dialog dialog = new Dialog(this);
+				//If the intent had extras (from notifications), do something
+				if (actionText != null) {
+					TextView tvDialogTitle, tvDialogText;
+					Button btDialogClose, btDialogAction;
+					Drawable dialogIcon;
+					if (actionTitle != null) {
 
-					//Set up dialog window
-					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					dialog.setContentView(R.layout.dialog_notification);
+						//Create a dialog
+						final Dialog dialog = new Dialog(this);
 
-					//Set title
-					tvDialogTitle = (TextView) dialog.findViewById(R.id.tv_dialog_notification_title);
-					tvDialogTitle.setText(actionTitle);
+						//Set up dialog window
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.setContentView(R.layout.dialog_notification);
 
-					//Set text
-					tvDialogText = (TextView) dialog.findViewById(R.id.tv_dialog_notification_text);
-					tvDialogText.setText(actionText);
+						//Set title
+						tvDialogTitle = (TextView) dialog.findViewById(R.id.tv_dialog_notification_title);
+						tvDialogTitle.setText(actionTitle);
 
-					//Set close button
-					btDialogClose = (Button) dialog.findViewById(R.id.bt_dialog_notification_close);
-					btDialogClose.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							dialog.dismiss();
+						//Set text
+						tvDialogText = (TextView) dialog.findViewById(R.id.tv_dialog_notification_text);
+						tvDialogText.setText(actionText);
+
+						//Set close button
+						btDialogClose = (Button) dialog.findViewById(R.id.bt_dialog_notification_close);
+						btDialogClose.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+							}
+						});
+
+						//Set the icon
+						dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
+						if (dialogIcon != null) {
+							dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 						}
-					});
+						tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
+						tvDialogTitle.setCompoundDrawablePadding(20);
 
-					//Set the icon
-					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
-					if (dialogIcon != null) {
-						dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
-					}
-					tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
-					tvDialogTitle.setCompoundDrawablePadding(20);
+						//Get preferences
+						int festivals = preferences.getInt(GM.PREF_DB_FESTIVALS, 0);
 
-					//Get preferences
-					int festivals = preferences.getInt(GM.PREF_DB_FESTIVALS, 0);
+						//Set the action button
+						btDialogAction = (Button) dialog.findViewById(R.id.bt_dialog_notification_action);
+						if (action != null) {
+							switch (action) {
 
-					//Set the action button
-					btDialogAction = (Button) dialog.findViewById(R.id.bt_dialog_notification_action);
-					if (action != null) {
-						switch (action) {
+								case GM.EXTRA_ACTION_LABLANCA:
 
-							case GM.EXTRA_ACTION_LABLANCA:
-
-								//Set up the action button
-								btDialogAction.setVisibility(View.VISIBLE);
-								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_lablanca));
-								btDialogAction.setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										dialog.dismiss();
-										loadSection(GM.SECTION_LABLANCA);
-									}
-								});
-								break;
-
-							case GM.EXTRA_ACTION_LOCATION:
-
-								if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
-									//Set up the action button if location is reported
-									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
-									btDialogAction.setOnClickListener(new OnClickListener() {
-										@Override
-										public void onClick(View v) {
-											dialog.dismiss();
-											loadSection(GM.SECTION_LOCATION);
-										}
-									});
-
-								}
-								break;
-
-							case GM.EXTRA_ACTION_BLOG:
-
-								//Set up the action button
-								btDialogAction.setVisibility(View.VISIBLE);
-								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_blog));
-								btDialogAction.setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										dialog.dismiss();
-										loadSection(GM.SECTION_BLOG);
-									}
-								});
-								break;
-
-							case GM.EXTRA_ACTION_ACTIVITIES:
-
-								//Set up the action button
-								btDialogAction.setVisibility(View.VISIBLE);
-								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_activities));
-								btDialogAction.setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										dialog.dismiss();
-										loadSection(GM.SECTION_ACTIVITIES);
-									}
-								});
-								break;
-
-							case GM.EXTRA_ACTION_GALLERY:
-
-								//Set up the action button
-								btDialogAction.setVisibility(View.VISIBLE);
-								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gallery));
-								btDialogAction.setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										dialog.dismiss();
-										loadSection(GM.SECTION_GALLERY);
-									}
-								});
-								break;
-
-							case GM.EXTRA_ACTION_GMSCHEDULE:
-
-								if (festivals == 1) {
 									//Set up the action button
 									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gmschedule));
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_lablanca));
 									btDialogAction.setOnClickListener(new OnClickListener() {
 										@Override
 										public void onClick(View v) {
 											dialog.dismiss();
-											loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
+											loadSection(GM.SECTION_LABLANCA);
 										}
 									});
-								}
-								break;
+									break;
 
-							case GM.EXTRA_ACTION_CITYSCHEDULE:
-								if (festivals == 1) {
+								case GM.EXTRA_ACTION_LOCATION:
+
+									if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
+										//Set up the action button if location is reported
+										btDialogAction.setVisibility(View.VISIBLE);
+										btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
+										btDialogAction.setOnClickListener(new OnClickListener() {
+											@Override
+											public void onClick(View v) {
+												dialog.dismiss();
+												loadSection(GM.SECTION_LOCATION);
+											}
+										});
+
+									}
+									break;
+
+								case GM.EXTRA_ACTION_BLOG:
+
 									//Set up the action button
 									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_cityschedule));
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_blog));
 									btDialogAction.setOnClickListener(new OnClickListener() {
 										@Override
 										public void onClick(View v) {
 											dialog.dismiss();
-											loadSection(GM.SECTION_LABLANCA_SCHEDULE);
+											loadSection(GM.SECTION_BLOG);
 										}
 									});
-								}
-								break;
+									break;
 
-							//If the notification is just text
-							default:
-								//Hide action button
-								btDialogAction.setVisibility(View.GONE);
+								case GM.EXTRA_ACTION_ACTIVITIES:
+
+									//Set up the action button
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_activities));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION_ACTIVITIES);
+										}
+									});
+									break;
+
+								case GM.EXTRA_ACTION_GALLERY:
+
+									//Set up the action button
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gallery));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION_GALLERY);
+										}
+									});
+									break;
+
+								case GM.EXTRA_ACTION_GMSCHEDULE:
+
+									if (festivals == 1) {
+										//Set up the action button
+										btDialogAction.setVisibility(View.VISIBLE);
+										btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gmschedule));
+										btDialogAction.setOnClickListener(new OnClickListener() {
+											@Override
+											public void onClick(View v) {
+												dialog.dismiss();
+												loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
+											}
+										});
+									}
+									break;
+
+								case GM.EXTRA_ACTION_CITYSCHEDULE:
+									if (festivals == 1) {
+										//Set up the action button
+										btDialogAction.setVisibility(View.VISIBLE);
+										btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_cityschedule));
+										btDialogAction.setOnClickListener(new OnClickListener() {
+											@Override
+											public void onClick(View v) {
+												dialog.dismiss();
+												loadSection(GM.SECTION_LABLANCA_SCHEDULE);
+											}
+										});
+									}
+									break;
+
+								//If the notification is just text
+								default:
+									//Hide action button
+									btDialogAction.setVisibility(View.GONE);
+							}
+						} else {
+							btDialogAction.setVisibility(View.GONE);
 						}
-					} else {
-						btDialogAction.setVisibility(View.GONE);
+
+						//Set dialog parameters
+						WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+						lp.copyFrom(dialog.getWindow().getAttributes());
+						lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+						lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+						lp.gravity = Gravity.CENTER;
+						lp.dimAmount = 0.4f;
+						dialog.getWindow().setAttributes(lp);
+
+						//Show dialog
+						dialog.show();
 					}
-
-					//Set dialog parameters
-					WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-					lp.copyFrom(dialog.getWindow().getAttributes());
-					lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-					lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-					lp.gravity = Gravity.CENTER;
-					lp.dimAmount = 0.4f;
-					dialog.getWindow().setAttributes(lp);
-
-					//Show dialog
-					dialog.show();
 				}
 			}
 		}
+
 		// ATTENTION: This was auto-generated to implement the App Indexing API.
 		// See https://g.co/AppIndexing/AndroidStudio for more information.
 		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -582,8 +595,6 @@ public class MainActivity extends Activity {
 		try {
 			//Create database
 			db = openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
-
-			//TODO: Predefine these queries as static strings in GM.java, so they can be used also in Sync.java
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
@@ -612,6 +623,18 @@ public class MainActivity extends Activity {
 			db.close();
 		} catch (Exception ex) {
 			Log.e("Error creating database", ex.toString());
+		}
+	}
+
+	/**
+	 * Creates the app database and fills it with the hard coded, default data.
+	 */
+	private void deleteDatabase() {
+		SQLiteDatabase db;
+		try {
+			deleteDatabase(GM.DB_NAME);
+		} catch (Exception ex) {
+			Log.e("Error deleting database", ex.toString());
 		}
 	}
 

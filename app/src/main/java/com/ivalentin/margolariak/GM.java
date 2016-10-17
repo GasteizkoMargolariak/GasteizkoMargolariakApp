@@ -285,6 +285,11 @@ final class GM {
 	static final String PREF_DB_VERSION = "prefDbVersion";
 
 	/**
+	 * Name of the preference to store the previous app version.
+	 */
+	static final String PREF_PREVIOUS_VERSION = "prefAppPreviousVersion";
+
+	/**
 	 * Name of the preference to store the setting that allows user to upload comments.
 	 */
 	static final String PREF_DB_PHOTOS = "prefDbPhotos";
