@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,11 +192,15 @@ public class ActivityLayout extends Fragment{
 
             //Set text
             String text;
-            if (cursorPast.getString(5).length() < 1){
+            if (cursorPast.getString(5) == null){
                 text = Html.fromHtml(cursorPast.getString(4)).toString();
             }
-            else{
-                text = Html.fromHtml(cursorPast.getString(5)).toString();
+            else {
+                if (cursorPast.getString(5).length() < 1) {
+                    text = Html.fromHtml(cursorPast.getString(4)).toString();
+                } else {
+                    text = Html.fromHtml(cursorPast.getString(5)).toString();
+                }
             }
             if (text.length() > 130) {
                 text = text.substring(0, 130) + "...";

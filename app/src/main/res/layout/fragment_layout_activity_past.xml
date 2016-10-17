@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:id="@+id/scrollView3"
     android:background="@color/background_app"
     android:padding="7dp"
@@ -27,6 +27,7 @@
 
         <LinearLayout
             android:orientation="vertical"
+            android:transitionGroup="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/entry"
@@ -65,7 +66,7 @@
                 android:maxHeight="70dp" />
 
             <WebView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/wv_activity_past_text"
                 android:layout_marginTop="10dp"

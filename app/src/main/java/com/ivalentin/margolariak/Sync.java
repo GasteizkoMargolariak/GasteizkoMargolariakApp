@@ -621,7 +621,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					Log.e("SYNC", "The server returned a 403 code (Client Error: Forbidden) for the url \"" + uri + "\"");
 					break;
 				case 204:	//Success: No content
-					Log.d("SYNC", "The server returned a 204 code (Success: No content) for the url \"" + uri + "\". Stoping sync process...");
+					Log.d("SYNC", "The server returned a 204 code (Success: No content) for the url \"" + uri + "\". Stopping sync process...");
 					break;
 				case 200:	//Success: OK
 					Log.d("SYNC", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now syncing...");
