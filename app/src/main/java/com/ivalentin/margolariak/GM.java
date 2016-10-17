@@ -17,11 +17,152 @@ import java.util.Locale;
  *
  */
 final class GM {
-	
+
+	final class DB {
+
+		final class COLUMN {
+			static final int INT = 0;
+			static final int VARCHAR = 1;
+			static final int DATETIME = 2;
+		}
+
+		final class QUERY {
+
+			final class CREATE {
+				static final String ACTIVITY = "CREATE TABLE IF NOT EXISTS activity (id INT, permalink VARCHAR, date DATETIME, city VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, after_es VARCHAR, after_en VARCHAR, after_eu VARCHAR, price INT, inscription INT, max_people INT, album INT, dtime DATETIME, comments INT);";
+				static final String ACTIVITY_COMMENT = "CREATE TABLE IF NOT EXISTS activity_comment (id INT, activity INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
+				static final String ACTIVITY_IMAGE = "CREATE TABLE IF NOT EXISTS activity_image (id INT, activity INT, image VARCHAR, idx INT);";
+				static final String ACTIVITY_ITINERARY = "CREATE TABLE IF NOT EXISTS activity_itinerary (id INT, activity INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, start DATETIME, end DATETIME, place INT);";
+				static final String ACTIVITY_TAG = "CREATE TABLE IF NOT EXISTS activity_tag (activity INT, tag VARCHAR);";
+				static final String ALBUM = "CREATE TABLE IF NOT EXISTS album (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, open INT, time DATETIME);";
+				static final String FESTIVAL = "CREATE TABLE IF NOT EXISTS festival (id INT, year INT, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, summary_es VARCHAR, summary_en VARCHAR, summary_eu VARCHAR, img VARCHAR);";
+				static final String FESTIVAL_DAY = "CREATE TABLE IF NOT EXISTS festival_day (id INT, date DATETIME, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, price INT);";
+				static final String FESTIVAL_EVENT = "CREATE TABLE IF NOT EXISTS festival_event (id INT, gm INT, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, host INT, place INT, start DATETIME, end DATETIME);";
+				static final String FESTIVAL_EVENT_IMAGE = "CREATE TABLE IF NOT EXISTS festival_event_image (id INT, event INT, image VARCHAR, idx INT);";
+				static final String FESTIVAL_OFFER = "CREATE TABLE IF NOT EXISTS festival_offer (id INT, year INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, days INT, price INT);";
+				static final String LOCATION = "CREATE TABLE IF NOT EXISTS location (id INT, dtime DATETIME, lat FLOAT, lon FLOAT, manual INT);";
+				static final String NOTIFICATION = "CREATE TABLE IF NOT EXISTS notification (id INT, dtime DATETIME, duration INT, action VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, internal INT);";
+				static final String PEOPLE = "CREATE TABLE IF NOT EXISTS people (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, link VARCHAR);";
+				static final String PHOTO = "CREATE TABLE IF NOT EXISTS photo (id INT, file VARCHAR, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, dtime DATETIME, uploaded DATETIME, place INT, width INT, height INT, size INT, username VARCHAR);";
+				static final String PHOTO_ALBUM = "CREATE TABLE IF NOT EXISTS photo_album (photo INT, album INT);";
+				static final String PHOTO_COMMENT = "CREATE TABLE IF NOT EXISTS photo_comment (id INT, photo INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
+				static final String PLACE = "CREATE TABLE IF NOT EXISTS place (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, address_es VARCHAR, address_en VARCHAR, address_eu VARCHAR, cp VARCHAR, lat FLOAT, lon FLOAT);";
+				static final String POST = "CREATE TABLE IF NOT EXISTS post (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, comments INT, username VARCHAR, dtime DATETIME);";
+				static final String POST_COMMENT = "CREATE TABLE IF NOT EXISTS post_comment (id INT, post INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
+				static final String POST_IMAGE = "CREATE TABLE IF NOT EXISTS post_image (id INT, post INT, image VARCHAR, idx INT);";
+				static final String POST_TAG = "CREATE TABLE IF NOT EXISTS post_tag (post INT, tag VARCHAR);";
+				static final String SETTINGS = "CREATE TABLE IF NOT EXISTS settings (name VARCHAR, value VARCHAR);";
+				static final String SPONSOR = "CREATE TABLE IF NOT EXISTS sponsor (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, image VARCHAR, address_es VARCHAR, address_en VARCHAR, address_eu VARCHAR, link VARCHAR, lat FLOAT, lon FLOAT);";
+				static final String VERSION = "CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);";
+			}
+
+			final class DROP {
+				static final String ACTIVITY = "DROP TABLE activity;";
+				static final String ACTIVITY_COMMENT = "DROP TABLE activity_comment;";
+				static final String ACTIVITY_IMAGE = "DROP TABLE activity_image;";
+				static final String ACTIVITY_ITINERARY = "DROP TABLE activity_itinerary;";
+				static final String ACTIVITY_TAG = "DROP TABLE activity_tag;";
+				static final String ALBUM = "DROP TABLE album;";
+				static final String FESTIVAL = "DROP TABLE festival;";
+				static final String FESTIVAL_DAY = "DROP TABLE festival_day;";
+				static final String FESTIVAL_EVENT = "DROP TABLE festival_event;";
+				static final String FESTIVAL_EVENT_IMAGE = "DROP TABLE festival_event_image;";
+				static final String FESTIVAL_OFFER = "DROP TABLE festival_offer;";
+				static final String LOCATION = "DROP TABLE location;";
+				static final String NOTIFICATION = "DROP TABLE notification;";
+				static final String PEOPLE = "DROP TABLE people;";
+				static final String PHOTO = "DROP TABLE photo;";
+				static final String PHOTO_ALBUM = "DROP TABLE photo_album;";
+				static final String PHOTO_COMMENT = "DROP TABLE photo_comment;";
+				static final String PLACE = "DROP TABLE place;";
+				static final String POST = "DROP TABLE post;";
+				static final String POST_COMMENT = "DROP TABLE post_comment;";
+				static final String POST_IMAGE = "DROP TABLE post_image;";
+				static final String POST_TAG = "DROP TABLE post_tag;";
+				static final String SETTINGS = "DROP TABLE settings;";
+				static final String SPONSOR = "DROP TABLE sponsor;";
+				static final String VERSION = "DROP TABLE version;";
+			}
+
+			final class EMPTY {
+				static final String ACTIVITY = "DELETE FROM activity;";
+				static final String ACTIVITY_COMMENT = "DELETE FROM activity_comment;";
+				static final String ACTIVITY_IMAGE = "DELETE FROM activity_image;";
+				static final String ACTIVITY_ITINERARY = "DELETE FROM activity_itinerary;";
+				static final String ACTIVITY_TAG = "DELETE FROM activity_tag;";
+				static final String ALBUM = "DELETE FROM album;";
+				static final String FESTIVAL = "DELETE FROM festival;";
+				static final String FESTIVAL_DAY = "DELETE FROM festival_day;";
+				static final String FESTIVAL_EVENT = "DELETE FROM festival_event;";
+				static final String FESTIVAL_EVENT_IMAGE = "DELETE FROM festival_event_image;";
+				static final String FESTIVAL_OFFER = "DELETE FROM festival_offer;";
+				static final String LOCATION = "DELETE FROM location;";
+				static final String NOTIFICATION = "DELETE FROM notification;";
+				static final String PEOPLE = "DELETE FROM people;";
+				static final String PHOTO = "DELETE FROM photo;";
+				static final String PHOTO_ALBUM = "DELETE FROM photo_album;";
+				static final String PHOTO_COMMENT = "DELETE FROM photo_comment;";
+				static final String PLACE = "DELETE FROM place;";
+				static final String POST = "DELETE FROM post;";
+				static final String POST_COMMENT = "DELETE FROM post_comment;";
+				static final String POST_IMAGE = "DELETE FROM post_image;";
+				static final String POST_TAG = "DELETE FROM post_tag;";
+				static final String SETTINGS = "DELETE FROM settings;";
+				static final String SPONSOR = "DELETE FROM sponsor;";
+				static final String VERSION = "DELETE FROM version;";
+			}
+
+			final class RECREATE {
+				static final String ACTIVITY = GM.DB.QUERY.DROP.ACTIVITY + GM.DB.QUERY.CREATE.ACTIVITY;
+				static final String ACTIVITY_COMMENT = GM.DB.QUERY.DROP.ACTIVITY_COMMENT + GM.DB.QUERY.CREATE.ACTIVITY_COMMENT;
+				static final String ACTIVITY_IMAGE = GM.DB.QUERY.DROP.ACTIVITY_IMAGE + GM.DB.QUERY.CREATE.ACTIVITY_IMAGE;
+				static final String ACTIVITY_ITINERARY = GM.DB.QUERY.DROP.ACTIVITY_ITINERARY + GM.DB.QUERY.CREATE.ACTIVITY_ITINERARY;
+				static final String ACTIVITY_TAG = GM.DB.QUERY.DROP.ACTIVITY_TAG + GM.DB.QUERY.CREATE.ACTIVITY_TAG;
+				static final String ALBUM = GM.DB.QUERY.DROP.ALBUM + GM.DB.QUERY.CREATE.ALBUM;
+				static final String FESTIVAL = GM.DB.QUERY.DROP.FESTIVAL + GM.DB.QUERY.CREATE.FESTIVAL;
+				static final String FESTIVAL_DAY = GM.DB.QUERY.DROP.FESTIVAL_DAY + GM.DB.QUERY.CREATE.FESTIVAL_DAY;
+				static final String FESTIVAL_EVENT = GM.DB.QUERY.DROP.FESTIVAL_EVENT + GM.DB.QUERY.CREATE.FESTIVAL_EVENT;
+				static final String FESTIVAL_EVENT_IMAGE = GM.DB.QUERY.DROP.FESTIVAL_EVENT_IMAGE + GM.DB.QUERY.CREATE.FESTIVAL_EVENT_IMAGE;
+				static final String FESTIVAL_OFFER = GM.DB.QUERY.DROP.FESTIVAL_OFFER + GM.DB.QUERY.CREATE.FESTIVAL_OFFER;
+				static final String LOCATION = GM.DB.QUERY.DROP.LOCATION + GM.DB.QUERY.CREATE.LOCATION;
+				static final String NOTIFICATION = GM.DB.QUERY.DROP.NOTIFICATION + GM.DB.QUERY.CREATE.NOTIFICATION;
+				static final String PEOPLE = GM.DB.QUERY.DROP.PEOPLE + GM.DB.QUERY.CREATE.PEOPLE;
+				static final String PHOTO = GM.DB.QUERY.DROP.PHOTO + GM.DB.QUERY.CREATE.PHOTO;
+				static final String PHOTO_ALBUM = GM.DB.QUERY.DROP.PHOTO_ALBUM + GM.DB.QUERY.CREATE.PHOTO_ALBUM;
+				static final String PHOTO_COMMENT = GM.DB.QUERY.DROP.PHOTO_COMMENT + GM.DB.QUERY.CREATE.PHOTO_COMMENT;
+				static final String PLACE = GM.DB.QUERY.DROP.PLACE + GM.DB.QUERY.CREATE.PLACE;
+				static final String POST = GM.DB.QUERY.DROP.POST + GM.DB.QUERY.CREATE.POST;
+				static final String POST_COMMENT = GM.DB.QUERY.DROP.POST_COMMENT + GM.DB.QUERY.CREATE.POST_COMMENT;
+				static final String POST_IMAGE = GM.DB.QUERY.DROP.POST_IMAGE + GM.DB.QUERY.CREATE.POST_IMAGE;
+				static final String POST_TAG = GM.DB.QUERY.DROP.POST_TAG + GM.DB.QUERY.CREATE.POST_TAG;
+				static final String SETTINGS = GM.DB.QUERY.DROP.SETTINGS + GM.DB.QUERY.CREATE.SETTINGS;
+				static final String SPONSOR = GM.DB.QUERY.DROP.SPONSOR + GM.DB.QUERY.CREATE.SPONSOR;
+				static final String VERSION = GM.DB.QUERY.DROP.VERSION + GM.DB.QUERY.CREATE.VERSION;
+			}
+		}
+	}
+
+	static final String CLIENT = "com.ivalentin.margolariak";
+
 	/**
 	 * Address where the web server is
 	 */
 	static final String SERVER = "http://margolariak.com";
+
+	static final String SERVER_SYNC = "/API/v1/sync.php";
+
+	static final String SERVER_SYNC_KEY_CLIENT = "client";
+	static final String SERVER_SYNC_KEY_USER = "user";
+	static final String SERVER_SYNC_KEY_ACTION = "action";
+	static final String SERVER_SYNC_KEY_SECTION = "section";
+	static final String SERVER_SYNC_KEY_VERSION = "version";
+	static final String SERVER_SYNC_KEY_FOREGROUND = "foreground";
+	static final String SERVER_SYNC_KEY_FORMAT = "format";
+	static final String SERVER_SYNC_KEY_LANG = "lang";
+
+	static final String SERVER_SYNC_VALUE_ACTION = "sync";
+	static final String SERVER_SYNC_VALUE_SECTION = "all";
+	static final String SERVER_SYNC_VALUE_FORMAT = "json";
 
 	/**
 	 * Code for the location permission request
@@ -142,6 +283,11 @@ final class GM {
 	 * Name of the preference to store the database version with.
 	 */
 	static final String PREF_DB_VERSION = "prefDbVersion";
+
+	/**
+	 * Name of the preference to store the previous app version.
+	 */
+	static final String PREF_PREVIOUS_VERSION = "prefAppPreviousVersion";
 
 	/**
 	 * Name of the preference to store the setting that allows user to upload comments.

@@ -28,6 +28,7 @@
         android:supportsRtl="true"
         android:isGame="false"
         android:fullBackupContent="@xml/backup"
+        android:hardwareAccelerated="true"
         android:allowClearUserData="true"
         tools:ignore="UnusedAttribute"
         android:name="android.support.multidex.MultiDexApplication">
