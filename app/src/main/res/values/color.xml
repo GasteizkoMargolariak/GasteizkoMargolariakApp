@@ -3,15 +3,15 @@
 
     <!-- Backgrounds for several sections -->
     
-    <color name="background_app">#e4f4fd</color>
-    <color name="background_menu">#4c9ed8</color>
+    <color name="background_app">#b5d3e5</color>
+    <color name="background_menu">#0078ff</color>
     <color name="background_notification">#000000</color>
     <color name="background_separator">#000000</color>
 
 
-    <color name="section_background">#d9ecf9</color>
-    <color name="section_border">#badde1</color>
-    <color name="section_title">#07383e</color>
+    <color name="section_background">#98c8ff</color>
+    <color name="section_border">#000011</color>
+    <color name="section_title">#ffffff</color>
     <color name="entry_background">#ffffff</color>
     <color name="entry_border">#d8f3f5</color>
     <color name="entry_title">#41786e</color>
@@ -23,7 +23,7 @@
 
     <color name="background_bar">#9bc1da</color>
     <color name="background_bar_gradient">#bdf8fd</color>
-    <color name="menu_selected">#456075</color>
+    <color name="menu_selected">#ccccff</color>
 
     <!--Color for input fields-->
     <color name="input_background">#223344</color>
