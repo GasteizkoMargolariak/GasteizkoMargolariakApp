@@ -1,5 +1,7 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
@@ -59,13 +61,15 @@
 		</LinearLayout>
 
 		<ImageButton
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+			android:layout_width="40dp"
+			android:layout_height="match_parent"
+			android:src="@drawable/ic_expand"
 			android:contentDescription="@string/tutorial_menu"
 			android:onClick="showMenu"
 			android:layout_weight=".2"
-			android:id="@+id/bt_menu"/>
+			android:id="@+id/bt_menu"
+			app:srcCompat="@drawable/ic_expand"
+			android:background="#00000000"/>
 
 		<ProgressBar
 			android:id="@+id/pb_sync"
@@ -87,7 +91,8 @@
 		android:scrollIndicators="none"
 		android:requiresFadingEdge="horizontal"
 		android:fadingEdgeLength="125dp"
-		android:background="@color/background_bar_gradient">
+		android:background="@color/background_bar_gradient"
+		tools:ignore="UnusedAttribute">
 
 		<LinearLayout
 			android:orientation="horizontal"
@@ -125,7 +130,8 @@
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
+					android:layout_alignParentBottom="true"
+					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -157,7 +163,8 @@
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
+					android:layout_alignParentBottom="true"
+					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -189,7 +196,8 @@
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
+					android:layout_alignParentBottom="true"
+					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -221,7 +229,8 @@
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
+					android:layout_alignParentBottom="true"
+					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -253,7 +262,8 @@
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
+					android:layout_alignParentBottom="true"
+					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -285,7 +295,8 @@
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"/>
+					android:layout_alignParentBottom="true"
+					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 		</LinearLayout>
@@ -299,7 +310,8 @@
 		<FrameLayout
 			android:id="@+id/activity_main_content_fragment"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			tools:ignore="ScrollViewSize">
 
 		</FrameLayout>
 	</ScrollView>

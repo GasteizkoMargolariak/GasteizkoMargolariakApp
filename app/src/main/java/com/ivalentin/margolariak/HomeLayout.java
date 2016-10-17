@@ -30,14 +30,11 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,7 +138,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 		//Asynchronously set up location section
 		//This will trigger onLocationChanged, that will trigger setUpLocation
-		new HomeSectionLocation(view, this.getActivity()).execute();
+		new HomeSectionLocation(view).execute();
 
 		//Set up schedule sections
 		setUpSchedule(1, view);
@@ -296,7 +293,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				section.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
+						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
 					}
 				});
 
@@ -304,7 +301,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				section.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
+						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE);
 					}
 				});
 			}
@@ -432,7 +429,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			llSection.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA, false);
+					((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA);
 				}
 			});
 
@@ -478,7 +475,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
 						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage).execute();
+						new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG_PREVIEW).execute();
 					}
 				}
 				else {
@@ -500,7 +497,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	private boolean setUpLocation(Location location, View view) {
 		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION) == false) {
+		if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
 			try {
 				Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
 				Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
@@ -539,7 +536,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		llGallery.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_GALLERY, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_GALLERY);
 			}
 		});
 
@@ -574,7 +571,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
 				fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter]).execute();
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG_PREVIEW).execute();
 			}
 
 			//Set listeners for images
@@ -636,7 +633,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		llActivitiesPast.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES);
 			}
 		});
 
@@ -709,7 +706,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
 				}
 			}
 			cursorImage.close();
@@ -782,7 +779,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			llActivitiesFuture.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES, false);
+					((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES);
 				}
 			});
 
@@ -843,7 +840,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
 					}
 				}
 
@@ -898,7 +895,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		llBlog.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_BLOG, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_BLOG);
 			}
 		});
 
@@ -965,7 +962,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv).execute();
+					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
 				}
 			}
 

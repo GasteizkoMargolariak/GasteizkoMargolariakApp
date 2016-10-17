@@ -2,7 +2,6 @@ package com.ivalentin.margolariak;
 
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -77,7 +76,7 @@ public class GalleryLayout extends Fragment{
 		String lang = GM.getLang();
 
         //Get data from the database
-        cursor = db.rawQuery("SELECT DISTINCT album.id AS id, album.name_" + lang + " AS name FROM photo, album, photo_album WHERE photo.id = photo AND album.id = album ORDER BY uploaded DESC;", null);
+        cursor = db.rawQuery("SELECT DISTINCT album.id AS id, album.title_" + lang + " AS name FROM photo, album, photo_album WHERE photo.id = photo AND album.id = album ORDER BY uploaded DESC;", null);
 
         //Loop
         while (cursor.moveToNext()){
@@ -126,7 +125,7 @@ public class GalleryLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i]).execute();
+                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG_MINIATURE).execute();
                 }
                 i ++;
             }

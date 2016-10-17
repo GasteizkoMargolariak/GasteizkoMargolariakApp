@@ -2,7 +2,6 @@ package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -27,7 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Fragment openen for La Blanca sections while the festivals are not close.
+ * Fragment opened for La Blanca sections while the festivals are not close.
  *
  * @see Fragment
  *
@@ -39,14 +38,14 @@ public class LablancaLayout extends Fragment {
 	/**
 	 * Run when the fragment is inflated.
 	 *
-	 * @param inflater           A LayoutInflater to manage views
-	 * @param container          The container View
+	 * @param inflater A LayoutInflater to manage views
+	 * @param container The container View
 	 * @param savedInstanceState Bundle containing the state
 	 * @return The fragment view
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	@SuppressLint("InflateParams")
+	@SuppressLint({"InflateParams", "SwitchIntDef"})
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -92,7 +91,7 @@ public class LablancaLayout extends Fragment {
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
 				fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage).execute();
+				new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage, GM.IMG_PREVIEW).execute();
 			}
 		}
 		else{
@@ -135,10 +134,10 @@ public class LablancaLayout extends Fragment {
 				int month = calendar.get(Calendar.MONTH);
 				switch (month){
 					case 6:
-						tvDate.setText(String.format(getString(R.string.lablanca_date_july), day));
+						tvDate.setText(String.format(getString(R.string.lablanca_date_july), String.valueOf(day)));
 						break;
 					case 7:
-						tvDate.setText(String.format(getString(R.string.lablanca_date_august), day));
+						tvDate.setText(String.format(getString(R.string.lablanca_date_august), String.valueOf(day)));
 						break;
 				}
 			}
@@ -190,14 +189,14 @@ public class LablancaLayout extends Fragment {
 		gmSchedule.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
 			}
 		});
 
 		citySchedule.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE, false);
+				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE);
 			}
 		});
 

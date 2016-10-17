@@ -2,7 +2,6 @@ package com.ivalentin.margolariak;
 
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -12,6 +11,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +139,7 @@ public class ActivityLayout extends Fragment{
                         File fpath;
                         fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                         fpath.mkdirs();
-                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
                     }
                 }
                 cursorImage.close();
@@ -192,11 +192,15 @@ public class ActivityLayout extends Fragment{
 
             //Set text
             String text;
-            if (cursorPast.getString(5).length() < 1){
+            if (cursorPast.getString(5) == null){
                 text = Html.fromHtml(cursorPast.getString(4)).toString();
             }
-            else{
-                text = Html.fromHtml(cursorPast.getString(5)).toString();
+            else {
+                if (cursorPast.getString(5).length() < 1) {
+                    text = Html.fromHtml(cursorPast.getString(4)).toString();
+                } else {
+                    text = Html.fromHtml(cursorPast.getString(5)).toString();
+                }
             }
             if (text.length() > 130) {
                 text = text.substring(0, 130) + "...";
@@ -231,7 +235,7 @@ public class ActivityLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv).execute();
+                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
                 }
             }
             cursorImage.close();

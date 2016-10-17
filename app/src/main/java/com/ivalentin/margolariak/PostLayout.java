@@ -110,7 +110,7 @@ public class PostLayout extends Fragment {
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/preview/");
                 fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i]).execute();
+				new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i], GM.IMG_PREVIEW).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

@@ -8,6 +8,7 @@ android {
         applicationId "com.ivalentin.margolariak"
         minSdkVersion 12
         targetSdkVersion 23
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -16,11 +17,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    dexOptions {
+        incremental = true
+        preDexLibraries = false
+        javaMaxHeapSize "2g"
+    }
 }
 
 dependencies {
-//    compile 'com.android.support:support-v4:23.4.0'
-//    compile 'com.android.support:appcompat-v7:23.4.0'
     //noinspection GradleDynamicVersion
     compile 'com.google.android.gms:play-services:+'
+    compile 'com.android.support:multidex:1.0.1'
 }

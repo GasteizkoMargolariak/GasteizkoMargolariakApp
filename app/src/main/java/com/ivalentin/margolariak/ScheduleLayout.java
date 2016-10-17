@@ -18,7 +18,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnShowListener;
@@ -126,7 +125,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 
 		//Get current date in the same format as retrieved from the database
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 		Date today = Calendar.getInstance().getTime();
 		String curDate = df.format(today);
 
@@ -189,7 +188,8 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * Populates the list of activities with the ones n the selected day.
 	 * 
 	 */
-	@SuppressLint("InflateParams") //Views are added from a loop: I can't specify the parent when inflating.
+	@SuppressLint({"InflateParams", "SwitchIntDef"})
+	//Views are added from a loop: I can't specify the parent when inflating.
 	private int populateSchedule() {
 
 		int eventCount = 0;
@@ -373,6 +373,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * 
 	 * @param id The event id
 	 */
+	@SuppressWarnings("ConstantConditions")
 	private void showDialog(final int id){
 		
 		//Create the dialog

@@ -1,9 +1,5 @@
 package com.ivalentin.margolariak;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -126,32 +122,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 				Log.e("Notification error", "Error fetching remote file: " + ex.toString());
 			}
     	}
-		
-		//Get location
-		boolean result = false;
-		fu = new FetchURL();
-		fu.Run(GM.SERVER + "/app/location.php");
-		String lat = "", lon = "";
-		String o = fu.getOutput().toString();
-		Log.d("Alarm", "Fetched location");
-		if (o.contains("<location>none</location>"))
-			result = false;
-		if (o.contains("<lat>") && o.contains("<lon>")){
-			lat = o.substring(o.indexOf("<lat>") + 5, o.indexOf("</lat>"));
-			lon = o.substring(o.indexOf("<lon>") + 5, o.indexOf("</lon>"));
-			result = true;
-		}
-
-		SharedPreferences.Editor editor = settings.edit();
-		if (result){
-	    	editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(Double.parseDouble(lat)));
-			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(Double.parseDouble(lon)));
-			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
-		}
-		else{
-			editor.putString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION);
-		}
-		editor.apply();
 
 		//Perform a background sync
 		new Sync(context).execute();
@@ -175,4 +145,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         PackageManager pm = context.getPackageManager();
         pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);           
     }
+
 }

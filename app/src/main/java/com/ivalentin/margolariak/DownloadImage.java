@@ -1,13 +1,12 @@
 package com.ivalentin.margolariak;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,6 +25,7 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
     private final String file;
     private final String path;
     private final ImageView iv;
+	private final int size;
 
 	/**
 	 * Constructor.
@@ -33,14 +33,16 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
 	 * @param file URL of the remote file.
 	 * @param path Path, including file name, where the image will be saved.
 	 * @param iv ImageView that will hold the image.
+	 * @param size Max size (width or height of the image)
 	 *
 	 * @see android.widget.ImageView
 	 */
-    public DownloadImage(String file, String path, ImageView iv) {
+    public DownloadImage(String file, String path, ImageView iv, int size) {
         super();
         this.file = file;
         this.path = path;
         this.iv = iv;
+		this.size = size;
     }
 
     /**
@@ -92,9 +94,14 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void v) {
         Log.d("File downloaded", path);
-        Bitmap myBitmap = BitmapFactory.decodeFile(path);
-        iv.setImageBitmap(myBitmap);
-        iv.setVisibility(View.VISIBLE);
+		try {
+			File file = new File(path);
+			iv.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), size));
+			iv.setVisibility(View.VISIBLE);
+		}
+		catch(Exception ex){
+			Log.e("Bitmap error", "Not loading image " + path + ": " + ex.toString());
+		}
     }
 
 }

@@ -2,7 +2,6 @@ package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -110,6 +109,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 			wvText.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
 		wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
+		//wvText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
         tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
         tvCity.setText(cursor.getString(4));
@@ -117,8 +117,9 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         //Get images
         Cursor imageCursor = db.rawQuery("SELECT image, idx FROM activity_image WHERE activity = " + id + " ORDER BY idx LIMIT 5;", null);
         int i = 0;
+		String image;
         while (imageCursor.moveToNext()) {
-            String image = imageCursor.getString(0);
+            image = imageCursor.getString(0);
 
             //Check if image exists
             File f;
@@ -134,7 +135,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
                 //noinspection ResultOfMethodCallIgnored
                 fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i]).execute();
+                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i], GM.IMG_PREVIEW).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;
@@ -190,7 +191,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
                     tvSchAddress.setText(cursorItinerary.getString(5));
                 }
 
-				//Set clisk listener
+				//Set click listener
 				entry.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -217,7 +218,8 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
      *
      * @param id The event id
      */
-    private void showDialog(final int id){
+    @SuppressWarnings("ConstantConditions")
+	private void showDialog(final int id){
 
         //Create the dialog
         final Dialog dialog = new Dialog(getActivity());

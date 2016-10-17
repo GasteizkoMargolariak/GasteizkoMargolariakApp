@@ -24,6 +24,7 @@
 			android:id="@+id/textView2"
 			android:textStyle="bold"
 			android:layout_marginLeft="10dp"
+			android:layout_marginStart="10dp"
 			android:textColor="@color/section_title"/>
 
 		<LinearLayout

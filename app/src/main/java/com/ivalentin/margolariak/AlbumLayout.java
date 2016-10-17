@@ -1,11 +1,8 @@
 package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -118,15 +115,20 @@ public class AlbumLayout extends Fragment {
             f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
             if (f.exists()){
                 //If the image exists, set it.
-                Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-                ivLeft.setImageBitmap(myBitmap);
+				try{
+					File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+					ivLeft.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG_PREVIEW));
+				}
+				catch (Exception ex){
+					Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
+				}
             }
             else {
                 //If not, create directories and download asynchronously
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                 fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft).execute();
+				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft, GM.IMG_PREVIEW).execute();
             }
 
 			//Count comments
@@ -183,15 +185,20 @@ public class AlbumLayout extends Fragment {
                 f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
                 if (f.exists()){
                     //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-                    ivRight.setImageBitmap(myBitmap);
+					try {
+						File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
+						ivRight.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG_PREVIEW));
+					}
+					catch (Exception ex){
+						Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
+					}
                 }
                 else {
                     //If not, create directories and download asynchronously
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                     fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight).execute();
+					new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight, GM.IMG_PREVIEW).execute();
                 }
 
 				//Count comments
