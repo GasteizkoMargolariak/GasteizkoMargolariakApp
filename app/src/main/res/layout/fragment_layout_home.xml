@@ -13,23 +13,27 @@
     
 	    <LinearLayout
 			android:id="@+id/ll_home_section_location"
-			android:layout_width="fill_parent"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:visibility="gone"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp"
+			android:visibility="gone">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_location"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
@@ -39,7 +43,7 @@
 				android:orientation="vertical"
 				android:background="@drawable/entry"
 				android:padding="7dp"
-				android:layout_margin="3dp">
+				android:layout_margin="8dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -81,24 +85,26 @@
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="wrap_content"
 			android:background="@drawable/section"
 			android:id="@+id/ll_home_section_lablanca"
-			android:visibility="gone"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp"
+			android:visibility="gone">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:text="@string/lablanca_title"
-				android:id="@+id/textView4"
 				android:textStyle="bold"
-				android:textColor="@color/section_title"/>
+				android:textColor="@color/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
+				android:background="@drawable/section_title"/>
 
 			<LinearLayout
 				android:orientation="horizontal"
@@ -106,7 +112,7 @@
 				android:layout_height="match_parent"
 				android:background="@drawable/entry"
 				android:padding="7dp"
-				android:layout_margin="3dp">
+				android:layout_margin="8dp">
 
 				<ImageView
 					android:layout_width="wrap_content"
@@ -137,20 +143,23 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:visibility="gone"
-			android:layout_marginLeft="0dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp"
+			android:visibility="gone">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_gmschedule"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:layout_marginBottom="10dp"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
@@ -160,7 +169,7 @@
 				android:background="@drawable/entry"
 				android:id="@+id/ll_home_section_gmschedule_now_content"
 				android:padding="7dp"
-				android:layout_margin="3dp">
+				android:layout_margin="8dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -187,7 +196,7 @@
 				android:background="@drawable/entry"
 				android:id="@+id/ll_home_section_gmschedule_later_content"
 				android:padding="7dp"
-				android:layout_margin="3dp">
+				android:layout_margin="8dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -215,20 +224,23 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:visibility="gone"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp"
+			android:visibility="gone">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_cityschedule"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:layout_marginBottom="10dp"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
@@ -238,7 +250,7 @@
 				android:background="@drawable/entry"
 				android:id="@+id/ll_home_section_cityschedule_now_content"
 				android:padding="7dp"
-				android:layout_margin="3dp">
+				android:layout_margin="8dp">
 
 				<TextView
                     android:layout_width="wrap_content"
@@ -265,7 +277,7 @@
 				android:background="@drawable/entry"
 				android:id="@+id/ll_home_section_cityschedule_later_content"
 				android:padding="7dp"
-				android:layout_margin="3dp">
+				android:layout_margin="8dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -293,26 +305,30 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:visibility="gone"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp"
+			android:visibility="gone">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_around"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_around_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="3dp"
+				android:layout_margin="8dp"
 				android:orientation="vertical"
 				android:background="@drawable/entry"
 				>
@@ -327,26 +343,30 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:visibility="gone"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp"
+			android:visibility="gone">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_activities_future"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_activities_future_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="3dp"
+				android:layout_margin="8dp"
 				android:orientation="vertical">
 
 			</LinearLayout>
@@ -359,25 +379,28 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_blog"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_blog_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="3dp"
 				android:orientation="vertical"
 				>
 
@@ -391,25 +414,29 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_gallery"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_gallery_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="3dp"
+				android:layout_margin="8dp"
 				android:orientation="vertical"
 				android:background="@drawable/entry"
 				android:padding="7dp">
@@ -544,26 +571,29 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:visibility="gone"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp"
+			android:visibility="gone">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_activities_past"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_activities_past_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="3dp"
 				android:orientation="vertical">
 
 			</LinearLayout>
@@ -576,25 +606,29 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:background="@drawable/section"
-			android:layout_marginLeft="0dp"
-			android:layout_marginTop="2dp"
-			android:layout_marginRight="0dp"
-			android:layout_marginBottom="4dp"
-			android:paddingTop="5dp">
+			android:layout_margin="10dp">
 
 			<TextView
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/home_section_social"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textStyle="bold"
+				tools:layout_width="match_parent"
+				android:background="@drawable/section_title"
+				android:paddingBottom="4dp"
+				android:paddingEnd="10dp"
+				android:paddingLeft="20dp"
+				android:paddingRight="10dp"
+				android:paddingStart="20dp"
+				android:paddingTop="4dp"
 				android:textColor="@color/section_title"/>
 
 			<LinearLayout
 				android:id="@+id/ll_home_section_social_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="3dp"
+				android:layout_margin="8dp"
 				android:orientation="vertical"
 				android:background="@drawable/entry"
 				android:padding="7dp">

@@ -12,8 +12,9 @@
     <color name="section_background">#98c8ff</color>
     <color name="section_border">#000011</color>
     <color name="section_title">#ffffff</color>
+    <color name="section_title_background">#0078ff</color>
     <color name="entry_background">#ffffff</color>
-    <color name="entry_border">#d8f3f5</color>
+    <color name="entry_border">#6D6990</color>
     <color name="entry_title">#41786e</color>
     
     <!--Color for the menu entries-->

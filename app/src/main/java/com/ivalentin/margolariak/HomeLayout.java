@@ -650,7 +650,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(10, 10, 10, 25);
+			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -790,7 +790,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				layoutParams.setMargins(10, 10, 10, 25);
+				layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 				entry.setLayoutParams(layoutParams);
 
 				//Set title
@@ -920,7 +920,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(10, 10, 10, 25);
+			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title

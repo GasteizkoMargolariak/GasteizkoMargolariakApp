@@ -421,6 +421,11 @@ final class GM {
 	static final int IMG_VIEW = 800;
 
 	/**
+	 *Programaticall loaded rows needs their margin to also be set programatically
+	 */
+	static final int ENTRY_MARGIN = 8;
+
+	/**
 	 * Gets the language code for sql queries.
 	 * Only three values can be returned: es, eu, en.
 	 * Defaults to es.
