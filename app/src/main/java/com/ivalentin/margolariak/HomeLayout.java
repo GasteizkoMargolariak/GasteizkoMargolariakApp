@@ -673,9 +673,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			} else {
 				text = Html.fromHtml(cursor.getString(6)).toString();
 			}
-			if (text.length() > 100) {
-				text = text.substring(0, 100) + "...";
-			}
+
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_activity_text);
 			tvText.setText(text);
 
@@ -807,9 +805,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set text
 				String text = Html.fromHtml(cursor.getString(4)).toString();
-				if (text.length() > 100) {
-					text = text.substring(0, 100) + "...";
-				}
 				TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_activity_text);
 				tvText.setText(text);
 
@@ -929,9 +924,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set text
 			String text = Html.fromHtml(cursor.getString(2)).toString();
-			if (text.length() > 100) {
-				text = text.substring(0, 100) + "...";
-			}
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_blog_text);
 			tvText.setText(text);
 

@@ -1,5 +1,6 @@
 <com.ivalentin.margolariak.CustomScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/sh_home_layout"
     android:layout_width="fill_parent"
@@ -46,11 +47,12 @@
 				android:layout_margin="8dp">
 
 				<TextView
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:textAppearance="@android:style/TextAppearance.Medium"
-					android:text="@string/home_section_location_text_0"
-					android:id="@+id/textView9"/>
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/entry_title"
+					android:textStyle="bold"
+					android:text="@string/home_section_location_text_0"/>
 
 				<LinearLayout
 					android:orientation="horizontal"
@@ -131,8 +133,14 @@
 					android:id="@+id/tv_home_section_lablanca_text"
 					android:layout_weight=".6"
 					android:padding="7dp"
-					android:maxLines="4"
-					android:ellipsize="end"/>
+					android:maxLines="4"/>
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_weight="1"
+					android:layout_height="40dp"
+					android:layout_marginTop="-40dp"
+					android:background="@drawable/gradient_v_white"/>
 
 			</LinearLayout>
 		</LinearLayout>
@@ -172,11 +180,12 @@
 				android:layout_margin="8dp">
 
 				<TextView
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:textAppearance="@android:style/TextAppearance.Medium"
-					android:text="@string/schedule_now"
-					android:textStyle="bold"/>
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/entry_title"
+					android:textStyle="bold"
+					android:text="@string/schedule_now"/>
 
 				<LinearLayout
 					android:id="@+id/ll_home_section_gmschedule_now_list"
@@ -199,11 +208,12 @@
 				android:layout_margin="8dp">
 
 				<TextView
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:textAppearance="@android:style/TextAppearance.Medium"
-					android:text="@string/schedule_later"
-					android:textStyle="bold"/>
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/entry_title"
+					android:textStyle="bold"
+					android:text="@string/schedule_later"/>
 
 				<LinearLayout
 					android:id="@+id/ll_home_section_gmschedule_later_list"
@@ -253,11 +263,12 @@
 				android:layout_margin="8dp">
 
 				<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:text="@string/schedule_now"
-					android:textStyle="bold"/>
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/entry_title"
+					android:textStyle="bold"
+                    android:text="@string/schedule_now"/>
 
 				<LinearLayout
                     android:id="@+id/ll_home_section_cityschedule_now_list"
@@ -280,11 +291,12 @@
 				android:layout_margin="8dp">
 
 				<TextView
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:textAppearance="@android:style/TextAppearance.Medium"
-					android:text="@string/schedule_later"
-					android:textStyle="bold"/>
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/entry_title"
+					android:textStyle="bold"
+					android:text="@string/schedule_later"/>
 
 				<LinearLayout
 					android:id="@+id/ll_home_section_cityschedule_later_list"
@@ -402,7 +414,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				>
+				android:layout_margin="8dp">
 
 			</LinearLayout>
 
@@ -459,9 +471,9 @@
 							android:layout_height="wrap_content"
 							android:id="@+id/iv_home_section_gallery_0"
 							android:contentDescription="@string/app_cdesc"
-							android:layout_margin="7dp"
-							android:padding="1dp"
-							android:background="@color/album_border"
+							android:layout_margin="3dp"
+							android:padding="0.5dp"
+							android:background="@color/image_border"
 							android:adjustViewBounds="true"
 							/>
 					</LinearLayout>
@@ -478,9 +490,9 @@
 							android:layout_height="wrap_content"
 							android:id="@+id/iv_home_section_gallery_1"
 							android:contentDescription="@string/app_cdesc"
-							android:layout_margin="7dp"
-							android:background="@color/album_border"
-							android:padding="1dp"
+							android:layout_margin="3dp"
+							android:background="@color/image_border"
+							android:padding="0.5dp"
 							android:adjustViewBounds="true"
 							/>
 					</LinearLayout>
@@ -505,9 +517,9 @@
 							android:layout_height="wrap_content"
 							android:id="@+id/iv_home_section_gallery_2"
 							android:contentDescription="@string/app_cdesc"
-							android:layout_margin="7dp"
-							android:padding="1dp"
-							android:background="@color/album_border"
+							android:layout_margin="3dp"
+							android:padding="0.5dp"
+							android:background="@color/image_border"
 							android:adjustViewBounds="true"
 							/>
 					</LinearLayout>
@@ -524,9 +536,9 @@
 							android:layout_height="wrap_content"
 							android:id="@+id/iv_home_section_gallery_3"
 							android:contentDescription="@string/app_cdesc"
-							android:layout_margin="7dp"
-							android:background="@color/album_border"
-							android:padding="1dp"
+							android:layout_margin="3dp"
+							android:background="@color/image_border"
+							android:padding="0.5dp"
 							android:adjustViewBounds="true"
 							/>
 					</LinearLayout>
@@ -642,40 +654,40 @@
 						android:id="@+id/iv_home_section_social_phone"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_phone"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_phone"/>
 
 					<ImageView
 						android:id="@+id/iv_home_section_social_mail"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_mail"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_mail" />
 
 					<ImageView
 						android:id="@+id/iv_home_section_social_whatsapp"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_whatsapp"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_whatsapp" />
 
 					<ImageView
 						android:id="@+id/iv_home_section_social_facebook"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_facebook"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_facebook" />
 				</LinearLayout>
 
@@ -688,42 +700,44 @@
 						android:id="@+id/iv_home_section_social_twitter"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_twitter"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_twitter" />
 
 					<ImageView
 						android:id="@+id/iv_home_section_social_googleplus"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_googleplus"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_googleplus" />
 
 					<ImageView
 						android:id="@+id/iv_home_section_social_youtube"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_youtube"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_youtube" />
 
 					<ImageView
 						android:id="@+id/iv_home_section_social_instagram"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_margin="10dp"
+						android:layout_margin="5dp"
 						android:adjustViewBounds="true"
 						android:contentDescription="@string/social_instagram"
-						android:maxWidth="50dp"
+						android:maxWidth="60dp"
 						android:src="@drawable/social_instagram" />
+
 				</LinearLayout>
+
 			</LinearLayout>
 
 		</LinearLayout>

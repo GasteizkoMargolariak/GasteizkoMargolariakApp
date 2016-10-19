@@ -15,7 +15,10 @@
     <color name="section_title_background">#0078ff</color>
     <color name="entry_background">#ffffff</color>
     <color name="entry_border">#6D6990</color>
-    <color name="entry_title">#41786e</color>
+    <color name="entry_title">#275573</color>
+
+    <!--Color for the border of the image-->
+    <color name="image_border">#292690</color>
     
     <!--Color for the menu entries-->
     <color name="menu_entry">#ffffff</color>

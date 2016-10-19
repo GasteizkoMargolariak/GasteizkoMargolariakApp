@@ -7,25 +7,16 @@
               android:layout_margin="8dp">
 
     <TextView
+        android:id="@+id/tv_row_home_blog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/tv_row_home_blog_title"
         android:textColor="@color/entry_title"
         android:textStyle="bold"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/tv_row_home_blog_date"
-        android:layout_weight=".5"
-        android:textStyle="italic"/>
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/tv_row_home_blog_hidden"
         android:visibility="gone" />
 
@@ -42,16 +33,47 @@
             android:maxWidth="130dp"
             android:layout_weight=".7"
             android:layout_margin="3dp"
-            android:layout_gravity="center_vertical"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:padding="0.5dp"
+            android:background="@color/image_border"
+            android:layout_gravity="top"/>
 
-        <TextView
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_row_home_blog_text"
             android:layout_weight=".3"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:layout_margin="5dp" />
+            android:layout_gravity="top">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/tv_row_home_blog_date"
+                android:layout_weight=".3"
+                android:textStyle="italic"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_row_home_blog_text"
+                android:layout_weight=".3"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:layout_margin="5dp"
+                android:maxLines="4"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:layout_marginTop="-40dp"
+                android:background="@drawable/gradient_v_white"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
