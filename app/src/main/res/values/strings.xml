@@ -185,26 +185,26 @@
 	<string name="pop_menu_sponsors">Sponsors</string>
 
 	<!--Preferences screen-->
-	<string name="preferences">Preferences</string>
-	<string name="preferences_sync">Sync</string>
-	<string name="preferences_sync_sync">Background Sync</string>
-	<string name="preferences_sync_sync_on">Background sync is enabled</string>
-	<string name="preferences_sync_sync_off">Background sync is disabled</string>
-	<string name="preferences_sync_notifications">Notifications</string>
-	<string name="preferences_sync_notifications_on">Notifications will be received</string>
-	<string name="preferences_sync_notifications_off">Notifications will not be received</string>
-	<string name="preferences_sync_notifications_disabled">Enable background sync to enable notifications</string>
-	<string name="preferences_sync_usage">Background data usage</string>
-	<string name="preferences_info">Information</string>
-	<string name="preferences_info_version">App version</string>
-	<string name="preferences_info_source">Source code</string>
-	<string name="preferences_info_source_summary">Checkout source code on Github</string>
+	<string name="preferences">Preferencias</string>
+	<string name="preferences_sync">Sincronización</string>
+	<string name="preferences_sync_sync">Sincronización en segundo plano</string>
+	<string name="preferences_sync_sync_on">Sincronización activada</string>
+	<string name="preferences_sync_sync_off">Sincronización desactivada</string>
+	<string name="preferences_sync_notifications">Notificaciones</string>
+	<string name="preferences_sync_notifications_on">Se recibirán notificaciones</string>
+	<string name="preferences_sync_notifications_off">No se recibirán notificaciones</string>
+	<string name="preferences_sync_notifications_disabled">Activa la sincronización en segundo plano para recibir notificaciones</string>
+	<string name="preferences_sync_usage">Uso de datos</string>
+	<string name="preferences_info">Informacion</string>
+	<string name="preferences_info_version">Versión de la aplicación</string>
+	<string name="preferences_info_source_summary">Ojear el código fuente en Github</string>
 	<string name="preferences_info_feedback">Feedback</string>
-	<string name="preferences_info_feedback_summary">Send anonymous feedback to the developer</string>
+	<string name="preferences_info_feedback_summary">Enviar información anónima al desarrollador</string>
 
 	<string name="eur" translatable="false">€</string>
 	<string name="Kb" translatable="false"> Kb</string>
 	<string name="Mb" translatable="false"> Mb</string>
 	<string name="pop_menu_about">Sobre nosotros</string>
+	<string name="preferences_info_source">Código fuente</string>
 
 </resources>

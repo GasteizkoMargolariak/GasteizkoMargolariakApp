@@ -164,21 +164,21 @@
 	<string name="pop_menu_about">About us</string>
 	<string name="pop_menu_settings">Settings</string>
 	<string name="pop_menu_sponsors">-</string>
-	<string name="preferences">-</string>
-	<string name="preferences_info">-</string>
-	<string name="preferences_info_feedback">-</string>
-	<string name="preferences_info_feedback_summary">-</string>
-	<string name="preferences_info_source">-</string>
-	<string name="preferences_info_source_summary">-</string>
-	<string name="preferences_info_version">-</string>
-	<string name="preferences_sync">-</string>
-	<string name="preferences_sync_notifications">-</string>
-	<string name="preferences_sync_usage">-</string>
-	<string name="preferences_sync_sync_on">-</string>
-	<string name="preferences_sync_sync_off">-</string>
-	<string name="preferences_sync_sync">-</string>
-	<string name="preferences_sync_notifications_on">-</string>
-	<string name="preferences_sync_notifications_off">-</string>
-	<string name="preferences_sync_notifications_disabled">-</string>
+	<string name="preferences">Preferences</string>
+	<string name="preferences_info">Information</string>
+	<string name="preferences_info_feedback">Feedback</string>
+	<string name="preferences_info_feedback_summary">Send anonymous feedback to the developer</string>
+	<string name="preferences_info_source">Source code</string>
+	<string name="preferences_info_source_summary">Checkout source code on Github</string>
+	<string name="preferences_info_version">App version</string>
+	<string name="preferences_sync">Sync</string>
+	<string name="preferences_sync_notifications">Notifications</string>
+	<string name="preferences_sync_usage">Background data usage</string>
+	<string name="preferences_sync_sync_on">Background sync is enabled</string>
+	<string name="preferences_sync_notifications_on">Notifications will be received</string>
+	<string name="preferences_sync_notifications_off">Notifications will not be received</string>
+	<string name="preferences_sync_notifications_disabled">Enable background sync to enable notifications</string>
+	<string name="preferences_sync_sync">Background Sync</string>
+	<string name="preferences_sync_sync_off">Background sync is disabled</string>
 
 </resources>
