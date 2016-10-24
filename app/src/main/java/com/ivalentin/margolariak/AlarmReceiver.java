@@ -41,12 +41,12 @@ public class AlarmReceiver extends BroadcastReceiver {
     	Log.d("Alarm", "Received");
 		    	
 		//Open the preferences to be available several times later.
-		SharedPreferences settings = context.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences preferences = context.getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 		
 		FetchURL fu;
 		
 		//Check if the user wants to receive notifications
-		if (settings.getInt(GM.PREF_NOTIFICATION , GM.DEFAULT_PREF_NOTIFICATION) == 1){
+		if (preferences.getBoolean(GM.PREFERENCES.KEY.NOTIFICATIONS, GM.PREFERENCES.DEFAULT.NOTIFICATIONS)){
 
 			//Get the file
 			try{
@@ -63,7 +63,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 					String action = notification.substring(notification.indexOf("<action>") + 8, notification.indexOf("</action>"));
 
 					//Is the notification seen already?
-					if(!settings.getBoolean(GM.NOTIFICATION_SEEN_ + id, false)){
+					//TODO: Create a db table for this
+					if(!preferences.getBoolean(GM.NOTIFICATION_SEEN_ + id, false)){
 
 						String lang = GM.getLang();
 						String title = notification.substring(notification.indexOf("<title_" + lang + ">") + 10, notification.indexOf("</title_" + lang + ">"));
@@ -111,7 +112,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 						mNotificationManager.notify(Integer.parseInt(id), mBuilder.build());
 
 						//Mark as notified
-						SharedPreferences.Editor editor = settings.edit();
+						SharedPreferences.Editor editor = preferences.edit();
 						editor.putBoolean(GM.NOTIFICATION_SEEN_ + id, true);
 						editor.apply();
 					}
@@ -133,17 +134,22 @@ public class AlarmReceiver extends BroadcastReceiver {
      * @param context The context of the app
      */
     public void setAlarm(Context context) {
-        AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        
-        //Set the alarm cycle.
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, GM.PERIOD_SYNC, GM.PERIOD_SYNC, alarmIntent);
-        
-        // Enable SampleBootReceiver to automatically restart the alarm when the device is rebooted.
-        ComponentName receiver = new ComponentName(context, BootReceiver.class);
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);           
+		//Only do this if the preference is enabled
+		SharedPreferences prefs = context.getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
+		if (prefs.getBoolean(GM.PREFERENCES.KEY.SYNC, GM.PREFERENCES.DEFAULT.SYNC)) {
+
+			AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, AlarmReceiver.class);
+			PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+			//Set the alarm cycle.
+			alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, GM.PERIOD_SYNC, GM.PERIOD_SYNC, alarmIntent);
+
+			// Enable SampleBootReceiver to automatically restart the alarm when the device is rebooted.
+			ComponentName receiver = new ComponentName(context, BootReceiver.class);
+			PackageManager pm = context.getPackageManager();
+			pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+		}
     }
 
 }

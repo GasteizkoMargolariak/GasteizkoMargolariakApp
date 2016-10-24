@@ -173,7 +173,8 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 		}
 		
 		//Set GM marker
-		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		//TODO: Use db
+		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 		Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
 		Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
 		gmLocation = new LatLng(lat, lon);
@@ -220,7 +221,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	@Override
 	public void onLocationChanged(Location location) {
 		//TODO: Read again the GM Location.
-		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 		if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
 
 			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));

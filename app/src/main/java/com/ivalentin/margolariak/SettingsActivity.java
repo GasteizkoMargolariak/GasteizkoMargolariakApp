@@ -1,12 +1,12 @@
 package com.ivalentin.margolariak;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 public class SettingsActivity extends PreferenceActivity {
 	@Override
@@ -77,42 +77,38 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 
-
-		//Set up data preference
-		long bgData = sp.getLong(GM.STORAGE_TRAFFIC_BG_RECEIVED, 0) + sp.getLong(GM.STORAGE_TRAFFIC_BG_SENT, 0);
-		long fgData = sp.getLong(GM.STORAGE_TRAFFIC_FG_RECEIVED, 0) + sp.getLong(GM.STORAGE_TRAFFIC_FG_SENT, 0);
-		String value;
-		if (bgData < 1500){
-			value = bgData + getString(R.string.Kb);
-		}
-		else if(bgData < 5 * 1024){
-			NumberFormat formatter = new DecimalFormat("#0.00");
-			value = (formatter.format(((float) bgData) / 1024.0)) + getString(R.string.Mb);
-		}
-		else{
-			value = String.valueOf((int) (((float) bgData) / 1024.0)) + getString(R.string.Mb);
-		}
-		Preference prefData = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_DATA);
-		prefData.setSummary(value);
-
-
-
 		//Set up version preference
 		Preference prefVersion = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_VERSION);
 		prefVersion.setSummary(com.ivalentin.margolariak.BuildConfig.VERSION_NAME);
-		prefNotification.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+		prefVersion.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				//TODO
+				//TODO: Show changelog
 				return false;
 			}
 		});
 
 		//Set up source preference
-		//TODO
+		Preference prefSource = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_VERSION);
+		prefSource.setSummary(com.ivalentin.margolariak.BuildConfig.VERSION_NAME);
+		prefSource.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(GM.URL.GITHUB));
+				startActivity(i);
+				return false;
+			}
+		});
 
 		//Set up feedback preference
-		//TODO
-
+		Preference prefFeedback = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_VERSION);
+		prefFeedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				//TODO: Show dialog
+				return false;
+			}
+		});
 	}
 }

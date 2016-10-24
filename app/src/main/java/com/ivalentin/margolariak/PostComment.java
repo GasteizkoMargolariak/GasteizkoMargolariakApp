@@ -61,8 +61,8 @@ class PostComment extends AsyncTask<String, String, Integer> {
         pb.setVisibility(View.VISIBLE);
 
         //Get user code
-        SharedPreferences preferences = context.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-        userCode = preferences.getString(GM.USER_CODE, "");
+        SharedPreferences sharedData = context.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+        userCode = sharedData.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER);
     }
 
     /**
