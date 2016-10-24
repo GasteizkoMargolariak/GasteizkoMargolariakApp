@@ -1,114 +1,74 @@
 package com.ivalentin.margolariak;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
+import android.view.View;
+import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends Activity {
+
+	//Assign menu items
+	private LinearLayout llSync, llNotifications, llVersion, llSource, llFeedback;
+	private CheckBox cbSync, cbNotifications;
+	private TextView tvSync, tvNotifications, tvVersion;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Load the preferences from an XML resource
-		addPreferencesFromResource(R.xml.preferences);
+		//Remove title bar.
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);
 
-		SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
+		//Set layout.
+		setContentView(R.layout.activity_settings);
 
-		//Set up Sync preference
-		CheckBoxPreference prefSync = (CheckBoxPreference) getPreferenceManager().findPreference(GM.KEY_PREFERENCE_SYNC);
-		if (prefSync.isChecked()){
-			prefSync.setSummary(getString(R.string.preferences_sync_sync_on));
-		}
-		else{
-			prefSync.setSummary(getString(R.string.preferences_sync_sync_off));
-		}
-		prefSync.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				CheckBoxPreference prefNotification = (CheckBoxPreference) getPreferenceManager().findPreference(GM.KEY_PREFERENCE_NOTIFICATION);
-				if (newValue.toString().equals("true")) {
-					preference.setSummary(getString(R.string.preferences_sync_sync_on));
-					if (prefNotification.isChecked()){
-						prefNotification.setSummary(getString(R.string.preferences_sync_notifications_on));
-					}
-					else{
-						prefNotification.setSummary(getString(R.string.preferences_sync_notifications_off));
-					}
-					prefNotification.setEnabled(true);
-				} else {
-					prefNotification.setEnabled(false);
-					prefNotification.setSummary(getString(R.string.preferences_sync_notifications_disabled));
-					preference.setSummary(getString(R.string.preferences_sync_sync_off));
-				}
-				return true;
-			}
-		});
-
-		//Set up Notification preference
-		CheckBoxPreference prefNotification = (CheckBoxPreference) getPreferenceManager().findPreference(GM.KEY_PREFERENCE_NOTIFICATION);
-		if (!prefSync.isChecked()){
-			prefNotification.setEnabled(false);
-		}
-		else {
-			prefNotification.setEnabled(true);
-			if(!prefSync.isChecked()){
-				//TODO
-			}
-			if (prefNotification.isChecked()) {
-				prefNotification.setSummary(getString(R.string.preferences_sync_notifications_on));
-			} else {
-				prefNotification.setSummary(getString(R.string.preferences_sync_notifications_off));
-			}
-		}
-
-		prefNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				if (newValue.toString().equals("true")) {
-					preference.setSummary(getString(R.string.preferences_sync_notifications_on));
-				} else {
-					preference.setSummary(getString(R.string.preferences_sync_notifications_off));
-				}
-				return true;
-			}
-		});
+		//Assign views
+		llSync = (LinearLayout) findViewById(R.id.ll_settings_sync);
+		llNotifications = (LinearLayout) findViewById(R.id.ll_settings_notifications);
+		llVersion = (LinearLayout) findViewById(R.id.ll_settings_version);
+		llSource = (LinearLayout) findViewById(R.id.ll_settings_source);
+		llFeedback = (LinearLayout) findViewById(R.id.ll_settings_feedback);
+		tvSync = (TextView) findViewById(R.id.tv_settings_sync);
+		tvNotifications = (TextView) findViewById(R.id.tv_settings_notifications);
+		tvVersion = (TextView) findViewById(R.id.tv_settings_version);
+		cbSync = (CheckBox) findViewById(R.id.cb_settings_sync);
+		cbNotifications = (CheckBox) findViewById(R.id.cb_settings_notifications);
 
 		//Set up version preference
-		Preference prefVersion = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_VERSION);
-		prefVersion.setSummary(com.ivalentin.margolariak.BuildConfig.VERSION_NAME);
-		prefVersion.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+		tvVersion.setText(com.ivalentin.margolariak.BuildConfig.VERSION_NAME);
+		llVersion.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public boolean onPreferenceClick(Preference preference) {
+			public void onClick(View v) {
 				//TODO: Show changelog
-				return false;
 			}
 		});
 
 		//Set up source preference
-		Preference prefSource = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_VERSION);
-		prefSource.setSummary(com.ivalentin.margolariak.BuildConfig.VERSION_NAME);
-		prefSource.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+		llSource.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public boolean onPreferenceClick(Preference preference) {
+			public void onClick(View v) {
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(GM.URL.GITHUB));
 				startActivity(i);
-				return false;
 			}
 		});
 
 		//Set up feedback preference
-		Preference prefFeedback = getPreferenceManager().findPreference(GM.KEY_PREFERENCE_VERSION);
-		prefFeedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+		llFeedback.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				//TODO: Show dialog
-				return false;
+			public void onClick(View v) {
+				//TODO: Show dialog to enter text
 			}
 		});
+
+		//TODO: Set up sync and notifications
 	}
 }
