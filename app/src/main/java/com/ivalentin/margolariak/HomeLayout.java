@@ -651,7 +651,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(10, 10, 10, 25);
+			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -674,9 +674,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			} else {
 				text = Html.fromHtml(cursor.getString(6)).toString();
 			}
-			if (text.length() > 100) {
-				text = text.substring(0, 100) + "...";
-			}
+
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_activity_text);
 			tvText.setText(text);
 
@@ -791,7 +789,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				layoutParams.setMargins(10, 10, 10, 25);
+				layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 				entry.setLayoutParams(layoutParams);
 
 				//Set title
@@ -808,9 +806,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set text
 				String text = Html.fromHtml(cursor.getString(4)).toString();
-				if (text.length() > 100) {
-					text = text.substring(0, 100) + "...";
-				}
 				TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_activity_text);
 				tvText.setText(text);
 
@@ -921,7 +916,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(10, 10, 10, 25);
+			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -930,9 +925,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set text
 			String text = Html.fromHtml(cursor.getString(2)).toString();
-			if (text.length() > 100) {
-				text = text.substring(0, 100) + "...";
-			}
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_blog_text);
 			tvText.setText(text);
 
