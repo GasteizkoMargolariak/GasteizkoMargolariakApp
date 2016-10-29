@@ -14,15 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/section"
-        android:padding="7dp">
+        android:layout_margin="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/lablanca_title"
-            android:id="@+id/textView10"
-            android:textStyle="bold"/>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            tools:layout_width="match_parent"
+            android:background="@drawable/section_title"
+            android:paddingBottom="4dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingStart="20dp"
+            android:paddingTop="4dp"
+            android:textColor="@color/section_title"/>
 
         <TextView
             android:layout_width="fill_parent"
@@ -31,7 +39,8 @@
             android:text="@string/lablanca_nofestivals"
             android:id="@+id/textView11"
             android:background="@drawable/entry"
-            android:padding="7dp"/>
+            android:padding="7dp"
+            android:layout_margin="8dp"/>
     </LinearLayout>
 
 
