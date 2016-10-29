@@ -5,15 +5,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:id="@+id/scrollView3"
-    android:background="@color/background_app"
-    android:padding="7dp"
     tools:ignore="Overdraw">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="20dp">
+        >
 
         <LinearLayout
             android:orientation="vertical"
@@ -57,27 +55,40 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gallery_albums"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            tools:layout_width="match_parent"
+            android:background="@drawable/section_title"
+            android:paddingBottom="4dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingStart="20dp"
+            android:paddingTop="4dp"
+            android:textColor="@color/section_title"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="-1.5dp"/>
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/section"
-            android:padding="7dp"
-            android:layout_marginTop="20dp">
+            android:id="@+id/ll_gallery_album_list"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/section_large"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/gallery_albums"
-                android:textStyle="bold"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/ll_gallery_album_list"/>
-        </LinearLayout>
     </LinearLayout>
 </com.ivalentin.margolariak.CustomScrollView>
