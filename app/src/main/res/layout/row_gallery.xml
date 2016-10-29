@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/entry"
-    android:padding="7dp">
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/entry"
+              android:padding="7dp"
+              android:layout_margin="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/entry_title"
+        android:textStyle="bold"
+        android:id="@+id/tv_row_gallery_title" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="15dp"
-        android:background="@drawable/album"
-        android:layout_margin="15dp">
+        android:layout_margin="0dp"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:contentDescription="@string/app_cdesc"
@@ -23,14 +31,18 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginEnd="90dp"
-            android:layout_marginBottom="90dp"
-            android:padding="1dp"
+            android:layout_marginEnd="110dp"
+            android:layout_marginBottom="110dp"
+            android:padding="2dp"
             android:layout_alignParentEnd="false"
             android:layout_alignParentStart="false"
             android:maxHeight="180dp"
             android:src="@drawable/photo_placeholder_thumb"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"/>
 
         <ImageView
             android:contentDescription="@string/app_cdesc"
@@ -42,15 +54,17 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="60dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:padding="1dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginBottom="80dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="50dp"
+            android:padding="2dp"
             android:layout_alignParentStart="false"
             android:maxHeight="180dp"
             android:src="@drawable/photo_placeholder_thumb"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
         <ImageView
             android:contentDescription="@string/app_cdesc"
@@ -62,15 +76,17 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="60dp"
-            android:padding="1dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="80dp"
+            android:padding="2dp"
             android:layout_alignParentStart="false"
             android:maxHeight="180dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="50dp"
             android:src="@drawable/photo_placeholder_thumb"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
         <ImageView
             android:contentDescription="@string/app_cdesc"
@@ -82,22 +98,18 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentEnd="false"
             android:layout_alignParentBottom="false"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="90dp"
-            android:padding="1dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="110dp"
+            android:padding="2dp"
             android:layout_alignParentStart="false"
             android:maxHeight="180dp"
             android:src="@drawable/photo_placeholder_thumb"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
     </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:id="@+id/tv_row_gallery_title"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
