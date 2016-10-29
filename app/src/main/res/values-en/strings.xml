@@ -180,5 +180,6 @@
 	<string name="preferences_sync_notifications_disabled">Enable background sync to enable notifications</string>
 	<string name="preferences_sync_sync">Background Sync</string>
 	<string name="preferences_sync_sync_off">Background sync is disabled</string>
+	<string name="changelog">Changelog</string>
 
 </resources>

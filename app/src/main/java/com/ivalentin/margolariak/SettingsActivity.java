@@ -2,13 +2,20 @@ package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -85,7 +92,7 @@ public class SettingsActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				blink(v);
-				//TODO: Show changelog
+				showChangelog();
 			}
 		});
 
@@ -228,6 +235,45 @@ public class SettingsActivity extends Activity {
 		llNotifications.setAlpha(0.4f);
 		tvNotifications.setText(R.string.preferences_sync_notifications_disabled);
 		cbNotifications.setChecked(false);
+	}
+
+	private void showChangelog(){
+
+		//Create the dialog
+		final Dialog dialog = new Dialog(SettingsActivity.this);
+
+		//Set up dialog window
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.dialog_changelog);
+
+		//Set the web view
+		WebView wv = (WebView) dialog.findViewById(R.id.wv_changelog);
+		wv.getSettings().setAllowContentAccess(true);
+		Log.e("URL", "file:///android_assets/changelog_" + GM.getLang() + ".html");
+		wv.loadUrl("file:///android_asset/changelog_" + GM.getLang() + ".html");
+
+		//Set close button
+		Button bt = (Button) dialog.findViewById(R.id.bt_changelog);
+		bt.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		//Prep the dialog
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+		lp.copyFrom(dialog.getWindow().getAttributes());
+		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		lp.gravity = Gravity.CENTER;
+		//lp.dimAmount = 0.0f;
+		dialog.getWindow().setAttributes(lp);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+		//Show dialog
+		dialog.show();
+
 	}
 
 	/**

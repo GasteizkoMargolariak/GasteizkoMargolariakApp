@@ -3,7 +3,7 @@
               android:layout_height="wrap_content"
               android:background="@drawable/section"
               android:orientation="vertical"
-              android:padding="7dp">
+    >
 
     <TextView
         android:id="@+id/textView1"

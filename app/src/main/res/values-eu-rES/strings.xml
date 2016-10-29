@@ -185,5 +185,6 @@
 	<string name="preferences_info_feedback">Feedback</string>
 	<string name="preferences_sync_sync">Sincronización en segundo plano</string>
 	<string name="preferences_sync_sync_off">Sincronización desactivada</string>
+	<string name="changelog">Changelog</string>
 
 </resources>
