@@ -15,7 +15,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,7 +46,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
- * The main Activity of the app. It's actually the only activity, and it loads other fragments.
+ * The main Activity of the app. It's actually the only content activity, and it loads other fragments.
  *
  * @author Iñigo Valentin
  */
@@ -668,7 +670,7 @@ public class MainActivity extends Activity {
 		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp.gravity = Gravity.CENTER;
-		lp.dimAmount = 0.4f;
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		dialog.getWindow().setAttributes(lp);
 
 		//Sync
