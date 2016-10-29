@@ -14,8 +14,6 @@
         android:orientation="horizontal"
         android:padding="2dp">
 
-        <!-- Button to open slider menu -->
-
         <ImageView
             android:contentDescription="@string/app_name"
             android:layout_width="40dp"
@@ -28,8 +26,6 @@
             android:maxWidth="45dp"
             android:padding="1dp"/>
 
-        <!-- Layout with the app title and current section -->
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,8 +33,6 @@
             android:layout_weight=".8"
             android:gravity="center"
             android:orientation="vertical" >
-
-            <!-- App name. Remains unchanged -->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,8 +42,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/menu_entry"/>
-
-            <!-- Section title -->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,7 +57,6 @@
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:src="@android:drawable/ic_menu_revert"
-            android:contentDescription="@string/tutorial_menu"
             android:onClick="finish();"
             android:layout_weight=".2"
             android:id="@+id/bt_menu"
@@ -82,8 +73,6 @@
             android:maxWidth="40dp"/>
 
     </LinearLayout>
-
-    <!-- The part where the fragments will be loaded -->
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -103,24 +92,21 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/background_menu"
-                android:layout_marginEnd="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:paddingEnd="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingStart="10dp"
                 android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="5dp"
+                android:background="@color/section_background"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ll_settings_sync"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingStart="20dp"
-                android:paddingTop="15dp"
-                android:layout_marginBottom="15dp">
+                android:padding="10dp"
+                android:layout_marginBottom="5dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -143,9 +129,11 @@
                         android:id="@+id/tv_settings_sync"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:textStyle="italic"
+                        android:alpha="0.8"/>
                 </LinearLayout>
 
                 <CheckBox
@@ -160,16 +148,22 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/entry_border"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ll_settings_notifications"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingStart="20dp"
-                android:paddingTop="15dp"
-                android:layout_marginBottom="15dp">
+                android:padding="10dp"
+                android:layout_marginBottom="5dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -192,9 +186,11 @@
                         android:id="@+id/tv_settings_notifications"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:textStyle="italic"
+                        android:alpha="0.8"/>
                 </LinearLayout>
 
                 <CheckBox
@@ -215,24 +211,22 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/background_menu"
-                android:layout_marginEnd="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingStart="10dp"
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="5dp"
+                android:background="@color/section_background"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ll_settings_version"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingStart="20dp"
-                android:paddingTop="15dp"
-                android:layout_marginBottom="15dp">
+                android:padding="10dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:text="@string/preferences_info_version"
@@ -248,23 +242,31 @@
                     android:id="@+id/tv_settings_version"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight=".15"/>
+                    android:layout_weight=".15"
+                    android:textStyle="italic"
+                    android:alpha="0.8"/>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/entry_border"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ll_settings_source"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingStart="20dp"
-                android:paddingTop="15dp"
-                android:layout_marginBottom="15dp">
+                android:padding="10dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:text="@string/preferences_info_source"
@@ -280,23 +282,31 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight=".15"/>
+                    android:layout_weight=".15"
+                    android:textStyle="italic"
+                    android:alpha="0.8"/>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/entry_border"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ll_settings_feedback"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingStart="20dp"
-                android:paddingTop="15dp"
-                android:layout_marginBottom="15dp">
+                android:padding="10dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:text="@string/preferences_info_feedback"
@@ -312,10 +322,12 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight=".15"/>
+                    android:layout_weight=".15"
+                    android:textStyle="italic"
+                    android:alpha="0.8"/>
 
             </LinearLayout>
 
