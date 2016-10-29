@@ -160,8 +160,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 	private int setUpSchedule(int gm, View view) {
 		int count = 0;
 
-		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 0) {
+		SharedPreferences data = view.getContext().getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+		if (!data.getBoolean(GM.DATA.KEY.LABLANCA, GM.DATA.DEFAULT.LABLANCA)) {
 			return count;
 		}
 
@@ -418,9 +418,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private boolean setUpLablanca(View view) {
-		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 		Boolean set = false;
-		if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
+		if (preferences.getBoolean(GM.DATA.KEY.LABLANCA, GM.DATA.DEFAULT.LABLANCA)) {
 			LinearLayout llSection = (LinearLayout) view.findViewById(R.id.ll_home_section_lablanca);
 			TextView tvText = (TextView) view.findViewById(R.id.tv_home_section_lablanca_text);
 			ImageView ivImage = (ImageView) view.findViewById(R.id.iv_home_section_lablanca_image);
@@ -496,7 +496,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * @return True if the section has been shown, false otherwise.
 	 */
 	private boolean setUpLocation(Location location, View view) {
-		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
+		//Do this from db
 		if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
 			try {
 				Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
@@ -650,7 +651,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(10, 10, 10, 25);
+			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -673,9 +674,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			} else {
 				text = Html.fromHtml(cursor.getString(6)).toString();
 			}
-			if (text.length() > 100) {
-				text = text.substring(0, 100) + "...";
-			}
+
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_activity_text);
 			tvText.setText(text);
 
@@ -790,7 +789,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				layoutParams.setMargins(10, 10, 10, 25);
+				layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 				entry.setLayoutParams(layoutParams);
 
 				//Set title
@@ -807,9 +806,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set text
 				String text = Html.fromHtml(cursor.getString(4)).toString();
-				if (text.length() > 100) {
-					text = text.substring(0, 100) + "...";
-				}
 				TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_activity_text);
 				tvText.setText(text);
 
@@ -920,7 +916,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(10, 10, 10, 25);
+			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -929,9 +925,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set text
 			String text = Html.fromHtml(cursor.getString(2)).toString();
-			if (text.length() > 100) {
-				text = text.substring(0, 100) + "...";
-			}
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_home_blog_text);
 			tvText.setText(text);
 

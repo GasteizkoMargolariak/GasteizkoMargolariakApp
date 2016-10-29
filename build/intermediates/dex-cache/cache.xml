@@ -2,526 +2,553 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="af7582c6b327449c6d32518e6a10307860b7b5d6">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-base-9.6.1_7ac195096f4e0ada520db3c53d8ae9864e1c8ba2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="1e14ebe1cda8491f152083e752ca5bf73cd37bff">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-iid-9.6.1_403ea5a61be49e21332f3462c234008ca60f6336.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage-common/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="159494eb362396d073d8c922b77e40c0da5fc5bc">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-storage-common-9.6.1_48af8689644cd6ecb17fc824c2419f055cba7102.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-config/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="cf2c4e6607c77b0e671dc5ca252c5ea0d9c1ce0d">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-config-9.6.1_db8ba77b89d7aa440ac0686170139e28f09de65e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="a136366045678579300d161de97c2211c4c4f7a0">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-cast-9.6.1_e6cebcfd61f8db0e1de857ed62e76f8cc4074fbf.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="0dfc12e4aacf514346ea866560c99807d032bc48">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-iid-9.6.1_7014a27f57ed36da6bde443bc509f94d66ac5992.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="c828add497d2b7a3de7c047bf72050cd4b7521a1">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-safetynet-9.6.1_4678d98ae5dccc9db0ffa35bc61cb0e5973b2165.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gass/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="ee61ace5f3e488fc610e1c67693c49186a441f32">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gass-9.6.1_896c4af60e1d386beaddc6f5875a8ade673aa21e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="1ef72e72bc0d05602c366582afa9439f58bb31d6">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-common-9.6.1_1ee9d93b6a5bef16c77f067d004083613ebe5687.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="eccaaa9ffa6bb4bfbd2e870f01aaf69655d353be">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-9.6.1_3b563553288b9611099ebf3986f0aa6217a54dd2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="f8db47be01cbe8cfa81e9cecce5ff1371ed1ad95">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-drive-9.6.1_439b5527f332d0fde03f43ed22ef4715c0997ebf.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="518adc52081d41724932b41bc132e4d50a352b86">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-identity-9.6.1_8dd6e8ed2658f860e3443c0a2cc4c83ba83d7f8a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast-framework/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="9c0cf3d4f9d7d076f301e110b92e18ae23da12c2">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-cast-framework-9.6.1_e3b8b0d2f2f44a2811f6ff98a35fe11a83e590d2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/24.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="b327fbe2fad414bc38cf0ce8f7efe1a38f572837">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-mediarouter-v7-24.0.0_37111cf3f37cb25b45cafcbf20b7d59ebc35f8b4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="a76a6983a23788b3689524d4bed763955afbd306">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-fitness-9.6.1_94a53ea85de76064035a935ef964dffc16dc8411.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-awareness/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="90be14317e3f26d18438e8dbf8544500d1dfe07f">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-awareness-9.6.1_13b3809e1cbc9236685716ab1101442909c4a61b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="8ebae43cd06058e99e08c8b4d305b72f2b9927c6">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-plus-9.6.1_74efde925ed72f28ae8a6c63e854c6f453803ba2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="f6aa7c76cbaa867e05dbad0afab1ef0e65c4e55f">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-nearby-9.6.1_3ab37a921fabd80c6d6d8d25526c87e9cecacffb.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="0cae6511c5705869cacf199f8abb0ea84cd10157">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-vision-9.6.1_7046c35ff7fab1822f646ca381c7c432487957ce.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="e70f608219ed6b974644c333249ab2bb7b71de98">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-24.0.0_0432bfa53eb43dda18ef4e2a2522d2908732ec51.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-instantapps/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="babb25794a7599069d34705038744c5760a9a88c">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-instantapps-9.6.1_502472f88bac34da85fdaac903a4792fd6880b0c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads-lite/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="6ff796a3173787afe2e712f3aec6f5b99796118e">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-ads-lite-9.6.1_8ac9236c48c6caefc7f159eadfb1127b136cefaf.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-clearcut/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="ee0ccb43f6ab276191b7f2d77c305fa9beb26db9">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-clearcut-9.6.1_150290d780b3cbce95dff4c78f1ef8ad67452090.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="2a18547ea91d258866d132c2a763185f15b01b25">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-9.6.1_b65a93693af9823e5d71520a6b5252c45e96537c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="cdddf21e0a8205e9955661061d1735ed10e44a7b">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-places-9.6.1_ae576b6d11930d9721dce2ad8c83a0665d9b2bfd.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-crash/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="4df40545c9b875855f3dd9d4928e5d07f07c20ba">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-crash-9.6.1_30cc233294b5b71e088083f80812d190a960a390.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="47bbb3ec4b31ba71e125241c090dabe70cbb4de7">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-ads-9.6.1_cb8fcbdf4447e783b359533368a55cff32d7fcf4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth-base/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="465f40f840e583f8b7421a3aacf3fbf08c28f00a">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-auth-base-9.6.1_7c13c2c00b4257fd63f3da661fa647661d12adf5.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="da3f763afd39da1c947d9442847c837e9182a09f">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-auth-9.6.1_7b0956e5298c0704efcdce87ed69e78870b69577.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="526f4b02f1771fa7607ff1b89fe2e9bd0344fee8">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-9.6.1_7a7d4736db50f805b1dff41d472dae36c85fa415.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="0e0e0681c26a1f575d3e4c542182dd59bab75fd6">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-appinvite-9.6.1_44fde3350ae98e4b6b4e01b9a98c6ebd08618756.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="0874286cc2fd88d54fdf130e9d5372730da6de97">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-24.0.0_fffe2f4e617ed3b8b602d243b14e5bfddbc035fe.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="ad7706f8bb4a985656a8d2142f74021c8b0e03d8">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-gcm-9.6.1_0cd90341675e204663d8aded708c25b798e726cd.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/24.0.0/jars/libs/internal_impl-24.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="b6763651ec29b4c95e7bbe63fc393ffcc8c4c2c5">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/internal_impl-24.0.0_9e4eec54accb1025979d2d84a5828ba0a5fa0f7e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager-api/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="f0e96478ca3147bc588aadb9ae467d85b42473cc">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tagmanager-api-9.6.1_3a3f426ee25c2910c6847e28a26e06c92b412979.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/palette-v7/24.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="734e80dffea7bd76c18ae256822a124c30d85850">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-palette-v7-24.0.0_1eb42a962599c03e9301e4593d9d3e0752764a5e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/libs/internal_impl-24.0.0.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/libs/internal_impl-24.0.0.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
         sha1="fcaf463e10e69c1923ccf1edeba3b4196d239e00">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/internal_impl-24.0.0_0bfa3fe36cec8d9b2d7905ab662ceeb5a4a0e58a.jar" />
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.0.0_1f5abb0d2e89b98d6d33de46b87c13626eb7935b/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-module/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="d45c048bb1c55cf963899190e507065aea8e5be9">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-games-9.6.1_7187e617d56a281306570d28a8f3f1fc56d3bceb.jar" />
+        sha1="3f8f779a22cbb4c4d0759467a4f1011bb5252970">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-auth-module-9.8.0_026ec631482474d9a78a3613caf910156cf35d07/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics-impl/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/24.0.0/jars/libs/internal_impl-24.0.0.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="a53ac0560ab915a02c50d2e5c7b003381e6fb5e3">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-analytics-impl-9.6.1_0bf634eb6b12cfc69346189837582a52fcd9a023.jar" />
+        sha1="b6763651ec29b4c95e7bbe63fc393ffcc8c4c2c5">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.0.0_1055fe1af038c6ce63de654dd954a4d039099a24/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-module/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="6ffe8b28ab61e5ee92ab9431a220379790c71ddf">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-module-9.6.1_77dbaa8ee2121c4b96ecf141481f5174812c95b1.jar" />
+        sha1="0874286cc2fd88d54fdf130e9d5372730da6de97">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.0.0_7fef7b8e9a4b533406d389142608cd7b149350fe/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gass/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="a1c351dc10b92d638da57f3a6513f87cfbdc9f83">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-9.6.1_23e650ce0aab172a687385979e89845d745beb83.jar" />
+        sha1="363a20f1d25336e827dd24020f2ecdc42d62638f">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-gass-9.8.0_136935441bc2374d3e6fef0991c3f67f6c063a3c/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Programs/Android/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="2943c74db6d4346ab8c6531adac91fa05c137c40">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/support-annotations-24.0.0_a307c3e70da68a9f44492c93047893d0b55d1b75.jar" />
+        sha1="910c013c511f752c4bbe24c5f492f669f4a3ccc0">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-wallet-9.8.0_33918df18de852ff9c11022eafe5c929c4d66667/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-instantapps/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="cc39b4bcc9e7062891db90d5a752fa9e4986f447">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-appindexing-9.6.1_598e839e48d8dd58401117fe429593be893f77b9.jar" />
+        sha1="00d358528c5a8731a6e19bca910cbb3fd755ee31">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-instantapps-9.8.0_fc1c185b5952d0d2037bd5bd14e9a98d5d2d7a80/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="b75ecdd04a37d31b4a0da2729fc5c558962a529b">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-database-9.6.1_d0ea3856c392787d15aac4247ee2e2ba824b6feb.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="8c6ef5bd4072f8cda2b89d8356ea7d8acd0683aa">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-storage-9.6.1_130d84515be5e8380c6231d1accd13b45ca98716.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database-connection/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="ac8365c87591065db07f7bac8551504504832cd4">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-database-connection-9.6.1_8dfb11044e39d6aeeee7f957383e98ef73f294b4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="1810ae0df0a1b9b539ce97df54e96f2bf8f5ff94">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tagmanager-9.6.1_4ebb81133a0d5b4b538b68858350108b02f5f790.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="ff9be0a1e75a21c372735930d8987a55b5e6065f">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-panorama-9.6.1_edbce62deb7f068efdf61b8b2fb432bfd6340029.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.0.0_82200ff615466707c1068dc2de15d0e06b5f7532.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="80dd8bea08bc5fe10b10a3243b8279c856ccc690">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-messaging-9.6.1_ca9035fcae6e09c2bc3167ed7844256ed56f010c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="c4394d46152165cd3256fb711ac94f66a28fbae1">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wearable-9.6.1_032dcfc4a8f685fde6ebb96ace6ff7e6aefad27f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-common/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="77558e74bb2056ef38516296f13a27c4c4fc3e5c">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-auth-common-9.6.1_eeb25c700a88f601d9a935cdc3c0d9a2ea2720b4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.6.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="79f521967ad7f49b34748db89df02852c2b2f87b">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-location-9.6.1_4dd398850bcc58da034d2a7115aef034f34715ee.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.0.0/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.0.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
         sha1="3bd97cfefd783e9de1dd1c30574a6adb44b4409b">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-24.0.0_30a210962b76daf110f6c248d758ff76af36c91f.jar" />
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.0.0_779af4c59b4d7b1c1469457bd8bfdd61d69f6f97/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager-api/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="4a36600281a648769411ef642c331851732bf29e">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-9.6.1_e5da4cbad7106508e70f48ab1c58b1bd89f9d339.jar" />
+        sha1="266570862e5792ef3c51143a8b8593cf54fac68d">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tagmanager-api-9.8.0_0781074c70dff3dd41ee18703578e2c477c4a0b4/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="62ff84124b89177abc0c27f3e38c9732f2d41617">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-maps-9.6.1_7d3d201dd83655f1e56d50051050b9fc7499d5e7.jar" />
+        sha1="7fd91ec2730fdaa82906aad32a3f3d3e574bae56">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-storage-9.8.0_aa88eadb0e5cad3cd10296be35cb1e8736af8077/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="dfcba20b85ef3669a8ced0a8760a6df281cbd7c7">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wallet-9.6.1_e14df77cbd735d7b7b5220855532ace3c5be2c47.jar" />
+        sha1="5ffe8867f51cfc726e9fb21db1e5b6962ebf25a0">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-messaging-9.8.0_57e03b5b76fc3707d229b8b7b92b694594cb050c/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.6.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/9.8.0/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="0efd1b44f47c134fb245914a1d54a55adbfc2f8d">
-        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-impl-9.6.1_53934db2b49616a01755c1a794694d08424aa1a4.jar" />
+        sha1="0b8e087da59c0b062c33f49a335e59f907086da2">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-wearable-9.8.0_035236780241321148d8689380c1e2002010820f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9f6d236bac26d02b410e4ee186ba517ace5ee661">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.8.0_3bccf6bcc9662d6e3f4ace5094096aaed494ae00/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="6b6f292b8b951dcf2ecf2b20853e3eabc7d65c48">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-iid-9.8.0_85b28521c4d103b0aa554598bc525fd9b4f3facd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="c61641e333fa88da21758bab8cc28ee16604b05f">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-9.8.0_d79ae3ff232f7acc69aebbc63aaaa88ad3883237/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.0.0_2405e5abb42e00b89ce6df7f5c072345c0402549/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e56f31b23ddb067f95f01255295167db7c798612">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appinvite-9.8.0_db1641e5bc566dd01e9f1987d238565ff5dfba79/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.8.0_93124110ade0eca1bc1f90b1bd46a89f834744b4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e3234cd25e23069abd48ecd2117bc0e8011bf45a">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appindexing-9.8.0_8388d6b91d0a8a7d86a3a815169d825571470938/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="679251204de40ace98776a6f4e3a649c27e3d89f">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-places-9.8.0_2b6ccaba062c06153d4172e13d7f697acff114d5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="74ac7cbcf0de4a88e59612dc3a9e3f9e71acb4ca">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-cast-9.8.0_7a5b206f5c8b69748f976abda3113164a226084f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-iid/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="85299bf1924dde0200109a58033c5ef84ecb6991">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-iid-9.8.0_a26961d68877f0fe7bc2dc682d45ec69c41e2e1a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast-framework/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="055eed08c9cff50cac0db69c74c4d9ff7aef3d84">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-cast-framework-9.8.0_e38928212d681428077eafcc1c4630117185f64b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="c81df6bd515398ebe45089b0b16c55752a131f6a">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-nearby-9.8.0_f93f25e4b32bddd155d384a9aa998e314032c7a7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database-connection/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="5f47ede9561595584dca71104baa0fecb36dda87">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-database-connection-9.8.0_6172862b79dc258844ca29a43ce22407e8641a10/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics-impl/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="50e35ae101a679c4c8ef3dda075b1df9d5d947d9">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-analytics-impl-9.8.0_a0984f87512b8c86bf04266016f62f0a71027fd1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="6cf346e253708b5f7644233a177549c90b526951">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_15a1d2a9f707c04a32b2e59a05f11d5d24fd3ce9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-multidex-1.0.1_acbdadd08a79c83848e4c5c45cf39c3c1e5068a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-database/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="03df48d3713661d66ad024b1e406259a4c26fcac">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-database-9.8.0_0e49b07e90ce06f18619b27c049b66b27573b528/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="04bbbddf868aa02dd33f9e90d8f5d908c360f638">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-location-9.8.0_09556db1e4fa2f91ac1b8a666e4b482e7f0ea35d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-common/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="4438b1a7848a7c571122ba618aa1304514aabee6">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-auth-common-9.8.0_991a8566aff547b010754b1e30f5c65297e013bf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="f2d240dd085626f03f759c41d628a0c8b63e491f">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-ads-9.8.0_f0e3f40d925b978bae5086f1b688ad465c13974f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-config/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="289cad663c288ce965463cb9ece8b35cc7de0fac">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-config-9.8.0_80b37e37c27d00f8c0f312a883ad116bed31d32c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth-base/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a1ed98e01bd58976d80c062fd0ea2968a1ff68a1">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-auth-base-9.8.0_e51c86e62ac06fb61d2ea8b66ac2cea4810c0450/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e028955d7c7107d32dcd97784324a384650182b5">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_1f8d3b9c93240d0d1885dad81b19dab9322da9fd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a30aea7df545072ad3c06f56b2efc13e67222140">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-vision-9.8.0_e9d270e53ca3748e41bbc3b49095af940d1be322/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="190a642ba16d1421296a4d794606279b80039c59">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-impl-9.8.0_9310018f448c90b6176e92e47f467e6e0b652572/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-crash/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="b4671be3d1288bf4e5f527cd33e42909fbe4ecc6">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-crash-9.8.0_4d3e16bde72e1f0b90cb4c701e690ec7810d598a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="16afe57c1d7f8165d107c7806ce7b0c71de87159">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-analytics-9.8.0_304497a55aa685d6d7fe616fc4685f1da9ece2d4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="20a3c4e355150c15c13dd58045d43ad0c717d916">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-safetynet-9.8.0_b6a3be890d92e2bceb9c239098aa4e5ded9a2fde/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-auth/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ca851be26ff89f5b32cc222cee98139fb3fac830">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-auth-9.8.0_d9ee32f042317823baa9e464f78570f0ddaedbe5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e70f608219ed6b974644c333249ab2bb7b71de98">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.0.0_025bebee508480f87c4e017fd682ee9c2d5e2648/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9ff04cc3470178a44512624036751a803418c2ca">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-9.8.0_38d0e9b02eb98f963d5ddc03aacb914cac779b19/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="0b53c4b90654b67ee3892a8e2e7b819c083ab7a6">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-drive-9.8.0_a39dd64fc73178a7fbf9b4e7af36127cdb5b41a2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a7a04d6b7c01e569a285fa627cf64f5b05295906">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-fitness-9.8.0_4e390e594e082fcc57db950dfa56f0d1219a805f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="122ec9237acd8a57d974b9d529987f1ee6ca5aea">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-maps-9.8.0_3f533d8d2a31d2095f5a226af82b4a5049032ed1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="fbb3885c40e431cd2b0dc69c0cab2bf6d5da7b43">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-games-9.8.0_1cfe6955cc90c06bd807299d0e42e6d3dbed1420/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tagmanager/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a972970c8beddb69c198f61f3fc55f0606a7dfe3">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tagmanager-9.8.0_d3cb228a84cb7e2023a7cda3d65bf9dffb738436/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads-lite/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e9b2cfdfd59b03643f1e240668275378b96615a8">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-ads-lite-9.8.0_2d1a8abbfd58330e7ee0598533be3a1c14f91b08/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="cef85cfc7df40e29fbea58844dd4c1e7d0b15542">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-identity-9.8.0_92e692dac73502fa44dfbf2111ddcb440f910699/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="2d3035050a075484cbf2e33f1ce1f779bae4d451">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-panorama-9.8.0_443e11effa260c78dd048572e74481584197c280/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="15e59454416c6341bd3ed2533b585cd340682dd1">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-auth-9.8.0_bf70c5f6c5d03920f28655523113af69e0bf55bf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Programs/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="2943c74db6d4346ab8c6531adac91fa05c137c40">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.0.0_a204ee22575048a5757e016bb09883c73ef9d2fe/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-clearcut/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ee5304fd374e0b4ebf6b42d4037fbfb2c5336511">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-clearcut-9.8.0_23e57e78b70f65b627689c14c5a1a7943651614c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-awareness/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a2537b11ae24b42172d34e2a613fc0b903c56158">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-awareness-9.8.0_d033a8aa306a43878a1a01b805c4c7ff651a163c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-storage-common/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ec9104b53aee77dfcfd2fe1c4add23ff7c4df55f">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-storage-common-9.8.0_eadb09fec83faf92d2a3962402bbcaddadd1837b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/24.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="b327fbe2fad414bc38cf0ce8f7efe1a38f572837">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-mediarouter-v7-24.0.0_706b31c0a28b18bdf2132ccc7939541728a94cb9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9dae58326f6f6a515022468cce56dd04ec3b9fdb">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-gcm-9.8.0_8a83d84cd4e99ced12f131366186881e3994205a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.8.0_043faf11c6abe645354a5c73a74a8605204b1261/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/9.8.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="3daa7a9c9009fd386872a84c177a76979bdcafd6">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-plus-9.8.0_9d0fe6ff89528de9139499cc0e7c80783e4b1df2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/exploded-aar/com.android.support/palette-v7/24.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="734e80dffea7bd76c18ae256822a124c30d85850">
+        <dex dex="/home/seavenois/Workspace/GasteizkoMargolariakApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-palette-v7-24.0.0_36f3b0263787295c8ddece1cb24ad54877f5ca2f/classes.dex" />
     </item>
 
 </items>

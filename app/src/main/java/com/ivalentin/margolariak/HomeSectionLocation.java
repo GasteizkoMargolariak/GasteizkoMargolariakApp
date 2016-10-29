@@ -77,7 +77,8 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 	protected void onPostExecute(Void v) {
 		if (isLocationReported){
 
-			SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+			//TODO: Do this on a db table
+			SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(coord.latitude));
 			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(coord.longitude));
