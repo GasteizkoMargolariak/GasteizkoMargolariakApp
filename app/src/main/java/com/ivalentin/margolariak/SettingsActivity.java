@@ -1,28 +1,44 @@
 package com.ivalentin.margolariak;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * Activity that allows the user to change the app settings.
+ *
+ * @author Iñigo Valentin
+ * @see Activity
+ */
 public class SettingsActivity extends Activity {
 
 	//Assign menu items
-	private LinearLayout llSync, llNotifications, llVersion, llSource, llFeedback;
+	private LinearLayout llSync;
+	private LinearLayout llNotifications;
 	private CheckBox cbSync, cbNotifications;
-	private TextView tvSync, tvNotifications, tvVersion;
+	private TextView tvSync;
+	private TextView tvNotifications;
 	private SharedPreferences preferences;
 	private SharedPreferences.Editor editor;
 
+	/**
+	 * Run when the app is created. Assigns views, configures their initial
+	 * states, and sets listeners
+	 *
+	 * @param savedInstanceState Activity state.
+	 *
+	 * @see Activity#onCreate(Bundle)
+	 */
+	@SuppressLint("CommitPrefEdits") // apply() is called in other methods
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,12 +54,12 @@ public class SettingsActivity extends Activity {
 		//Assign views
 		llSync = (LinearLayout) findViewById(R.id.ll_settings_sync);
 		llNotifications = (LinearLayout) findViewById(R.id.ll_settings_notifications);
-		llVersion = (LinearLayout) findViewById(R.id.ll_settings_version);
-		llSource = (LinearLayout) findViewById(R.id.ll_settings_source);
-		llFeedback = (LinearLayout) findViewById(R.id.ll_settings_feedback);
+		LinearLayout llVersion = (LinearLayout) findViewById(R.id.ll_settings_version);
+		LinearLayout llSource = (LinearLayout) findViewById(R.id.ll_settings_source);
+		LinearLayout llFeedback = (LinearLayout) findViewById(R.id.ll_settings_feedback);
 		tvSync = (TextView) findViewById(R.id.tv_settings_sync);
 		tvNotifications = (TextView) findViewById(R.id.tv_settings_notifications);
-		tvVersion = (TextView) findViewById(R.id.tv_settings_version);
+		TextView tvVersion = (TextView) findViewById(R.id.tv_settings_version);
 		cbSync = (CheckBox) findViewById(R.id.cb_settings_sync);
 		cbNotifications = (CheckBox) findViewById(R.id.cb_settings_notifications);
 
@@ -94,6 +110,12 @@ public class SettingsActivity extends Activity {
 		});
 	}
 
+	/**
+	 * UI feedback for touched settings.
+	 * Just makes them blink.
+	 *
+	 * @param v The view to be made to blink
+	 */
 	private void blink(View v){
 		final View view = v;
 
@@ -117,7 +139,6 @@ public class SettingsActivity extends Activity {
 										  @Override
 										  public void run() {
 											  view.setBackgroundColor(Color.argb(passAlpha, r, g, b));
-											  Log.e("PASS", "Alpha: " + passAlpha);
 										  }
 									  });
 
@@ -133,6 +154,14 @@ public class SettingsActivity extends Activity {
 
 	}
 
+	/**
+	 * Not called from code, but referenced from activity_settings.xml.
+	 * Toggles the value of the sync preferences, changing the actual
+	 * preference, the ui, and, if set to disabled, it also disables the
+	 * notification setting.
+	 *
+	 * @param v Ignored
+	 */
 	public void toggleSync(View v){
 		blink(llSync);
 		editor.putBoolean(GM.PREFERENCES.KEY.SYNC, !preferences.getBoolean(GM.PREFERENCES.KEY.SYNC, GM.PREFERENCES.DEFAULT.SYNC));
@@ -149,6 +178,13 @@ public class SettingsActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Not called from code, but referenced from activity_settings.xml.
+	 * Toggles the value of the notification preferences, changing the
+	 * actual preference and the ui.
+	 *
+	 * @param v Ignored
+	 */
 	public void toggleNotifications(View v){
 		if (preferences.getBoolean(GM.PREFERENCES.KEY.SYNC, GM.PREFERENCES.DEFAULT.SYNC)) {
 			blink(llNotifications);
@@ -167,6 +203,10 @@ public class SettingsActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Enables the notification setting toggler. Must be called when
+	 * the sync preference changes to true.
+	 */
 	private void enableNotifications(){
 		llNotifications.setAlpha(1);
 		if (preferences.getBoolean(GM.PREFERENCES.KEY.NOTIFICATIONS, GM.PREFERENCES.DEFAULT.NOTIFICATIONS)){
@@ -180,12 +220,24 @@ public class SettingsActivity extends Activity {
 
 	}
 
+	/**
+	 * Enables the notification setting toggler. Must be called when
+	 * the sync preference changes to false.
+	 */
 	private void disableNotifications(){
 		llNotifications.setAlpha(0.4f);
 		tvNotifications.setText(R.string.preferences_sync_notifications_disabled);
 		cbNotifications.setChecked(false);
 	}
 
+	/**
+	 * Not called from code, but referenced from activity_settings.xml.
+	 * Finishes the activity.
+	 *
+	 * @param v Ignored
+	 *
+	 * @see Activity#finish()
+	 */
 	public void finish(View v){
 		finish();
 	}

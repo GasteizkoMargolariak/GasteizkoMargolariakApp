@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/app_name"
+                android:contentDescription="@string/app_name"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/menu_entry"/>
@@ -57,20 +58,12 @@
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:src="@android:drawable/ic_menu_revert"
-            android:onClick="finish();"
+            android:onClick="finish"
+            android:contentDescription="@string/accept"
             android:layout_weight=".2"
-            android:id="@+id/bt_menu"
+            android:id="@+id/bt_back"
             app:srcCompat="@android:drawable/ic_menu_revert"
             android:background="#00000000"/>
-
-        <ProgressBar
-            android:id="@+id/pb_sync"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight=".2"
-            android:visibility="gone"
-            android:maxHeight="40dp"
-            android:maxWidth="40dp"/>
 
     </LinearLayout>
 
@@ -106,7 +99,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ll_settings_sync"
                 android:padding="10dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:onClick="toggleSync">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -144,7 +138,8 @@
                     android:layout_weight=".85"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:onClick="toggleSync"/>
 
             </LinearLayout>
 
@@ -163,7 +158,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ll_settings_notifications"
                 android:padding="10dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:onClick="toggleNotifications">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -201,7 +197,8 @@
                     android:layout_weight=".85"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:onClick="toggleNotifications"/>
 
             </LinearLayout>
 
