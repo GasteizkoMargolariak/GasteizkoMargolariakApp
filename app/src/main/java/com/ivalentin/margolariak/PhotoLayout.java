@@ -172,7 +172,7 @@ public class PhotoLayout extends Fragment {
 		LinearLayout llCommentList = (LinearLayout) v.findViewById(R.id.ll_comment_list);
 
 		//Set fields
-		if (cursor.getString(2).length() > 0) {
+		if (cursor.getString(2) != null && cursor.getString(2).length() > 0) {
 			tvTitle.setVisibility(View.VISIBLE);
 			tvTitle.setText(cursor.getString(2));
 			((MainActivity) getActivity()).setSectionTitle(cursor.getString(2));
@@ -182,7 +182,7 @@ public class PhotoLayout extends Fragment {
 			((MainActivity) getActivity()).setSectionTitle(albumName);
 		}
 
-		if (cursor.getString(3).length() > 0) {
+		if (cursor.getString(3) != null && cursor.getString(3).length() > 0) {
 			tvDescription.setVisibility(View.VISIBLE);
 			tvDescription.setText(cursor.getString(3));
 		}
