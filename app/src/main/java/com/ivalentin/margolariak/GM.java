@@ -142,6 +142,46 @@ final class GM {
 		}
 	}
 
+	static final class DATA {
+
+		static final String DATA = "data";
+
+		static final class KEY {
+
+			static final String USER = "user-id";
+			static final String PREVIOUS_APP_VERSION = "previous_app_version";
+			static final String LABLANCA = "lablanca";
+		}
+
+		static final class DEFAULT {
+
+			static final String USER = "";
+			static final int PREVIOUS_APP_VERSION = 0;
+			static final boolean LABLANCA = false;
+		}
+	}
+
+	static final class PREFERENCES {
+
+		static final String PREFERNCES = "preferences";
+
+		static final class KEY {
+
+			static final String SYNC = "performBackgroundSyncs";
+			static final String NOTIFICATIONS = "recieveNotificacions";
+		}
+
+		static final class DEFAULT {
+
+			static final boolean SYNC = true;
+			static final boolean NOTIFICATIONS = true;
+		}
+	}
+
+	static class URL {
+		static final String GITHUB = "https://github.com/GasteizkoMargolariak/GasteizkoMargolariakApp";
+	}
+
 	static final String CLIENT = "com.ivalentin.margolariak";
 
 	/**
@@ -277,37 +317,37 @@ final class GM {
 	/**
 	 * Name of the preference group for the app.
 	 */
-	static final String PREF = "gmpreferences";
+	//static final String PREF = "gmpreferences";
 	
 	/**
 	 * Name of the preference to store the database version with.
 	 */
-	static final String PREF_DB_VERSION = "prefDbVersion";
+	//static final String PREF_DB_VERSION = "prefDbVersion";
 
 	/**
 	 * Name of the preference to store the previous app version.
 	 */
-	static final String PREF_PREVIOUS_VERSION = "prefAppPreviousVersion";
+	//static final String PREF_PREVIOUS_VERSION = "prefAppPreviousVersion";
 
 	/**
 	 * Name of the preference to store the setting that allows user to upload comments.
 	 */
-	static final String PREF_DB_PHOTOS = "prefDbPhotos";
+	//static final String PREF_DB_PHOTOS = "prefDbPhotos";
 
 	/**
 	 * Name of the preference that indicates if we are on festivals.
 	 */
-	static final String PREF_DB_FESTIVALS = "prefDbFestivals";
+	//static final String PREF_DB_FESTIVALS = "prefDbFestivals";
 
 	/**
 	 * Name of the preference indicating if the user wants to to receive notifications intended for the general public.
 	 */
-	static final String PREF_NOTIFICATION = "prefNotification";
+	//static final String PREF_NOTIFICATION = "prefNotification";
 
 	/**
 	 * Default value of the preference indicating if the user wants to to receive notifications intended for the general public.
 	 */
-	static final int DEFAULT_PREF_NOTIFICATION = 1;
+	//static final int DEFAULT_PREF_NOTIFICATION = 1;
 
 	/**
 	 * Header of a preference to indicate received notifications.

@@ -586,10 +586,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	protected Void doInBackground(Void... params) {
 
 		//Get preferences
-		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 
 		//Get useful data for the uri
-		String userCode = preferences.getString(GM.USER_CODE, "");
+		String userCode = preferences.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER);
 
 		//Get database. Stop if it's locked
 		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
@@ -668,6 +668,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				default:
 					Log.e("SYNC", "The server returned an unexpected code (" + httpCode + ") for the url \"" + uri + "\"");
 			}
+
 			urlConnection.disconnect();
 			return null;
 

@@ -59,8 +59,8 @@ public class SettingsLayout extends Fragment{
 
 
 		//Set initial state of the notification  settings
-		SharedPreferences settings = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (settings.getInt(GM.PREF_NOTIFICATION, GM.DEFAULT_PREF_NOTIFICATION) == 1){
+		SharedPreferences settings = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
+		if (settings.getBoolean(GM.PREFERENCES.KEY.NOTIFICATIONS, GM.PREFERENCES.DEFAULT.NOTIFICATIONS)){
 			cbNotification.setChecked(true);
 			tvNotification.setText(view.getContext().getString(R.string.settings_notification_on));
 		}
@@ -76,17 +76,17 @@ public class SettingsLayout extends Fragment{
 				if (cbNotification.isChecked()){
 					cbNotification.setChecked(false);
 					tvNotification.setText(view.getContext().getString(R.string.settings_notification_off));
-					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = preferences.edit();
-					editor.putInt(GM.PREF_NOTIFICATION, 0);
+					editor.putBoolean(GM.PREFERENCES.KEY.NOTIFICATIONS, false);
 					editor.apply();
 				}
 				else{
 					cbNotification.setChecked(true);
 					tvNotification.setText(view.getContext().getString(R.string.settings_notification_on));
-					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+					SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = preferences.edit();
-					editor.putInt(GM.PREF_NOTIFICATION, 1);
+					editor.putBoolean(GM.PREFERENCES.KEY.NOTIFICATIONS, true);
 					editor.apply();
 				}
 			}
