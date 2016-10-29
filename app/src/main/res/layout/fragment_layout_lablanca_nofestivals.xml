@@ -5,8 +5,6 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:id="@+id/scrollView3"
-    android:background="@color/background_app"
-    android:padding="7dp"
     tools:ignore="Overdraw">
 
     <LinearLayout
@@ -17,7 +15,7 @@
         android:layout_margin="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lablanca_title"
             android:textAppearance="?android:attr/textAppearanceLarge"
