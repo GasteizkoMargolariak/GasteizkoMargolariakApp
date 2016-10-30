@@ -29,7 +29,8 @@
             android:layout_gravity="center_vertical"
             android:background="@color/image_border"
             android:padding="0.5dp"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp"
+            android:adjustViewBounds="true"/>
 
         <LinearLayout
             android:orientation="vertical"

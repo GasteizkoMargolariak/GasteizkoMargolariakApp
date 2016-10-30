@@ -87,9 +87,10 @@ public class ActivityLayout extends Fragment{
                 //Create a new row
                 entry = (LinearLayout) factory.inflate(R.layout.row_activity_future, null);
 
-                //Set margins
+                //Set margins TODO: I dont know why it doesnt read margins from the xml
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(10, 10, 10, 25);
+                int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+                layoutParams.setMargins(margin, margin, margin, margin);
                 entry.setLayoutParams(layoutParams);
 
                 //Set title
@@ -178,9 +179,10 @@ public class ActivityLayout extends Fragment{
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_activity_past, null);
 
-            //Set margins
+            //Set margins TODO: I dont know why it doesnt read margins from the xml
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(10, 10, 10, 25);
+            int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+            layoutParams.setMargins(margin, margin, margin, margin);
             entry.setLayoutParams(layoutParams);
 
             //Set title
