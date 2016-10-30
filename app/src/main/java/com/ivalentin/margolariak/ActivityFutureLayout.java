@@ -78,7 +78,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         }
 
         //Get data from database
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
 		String lang = GM.getLang();
 
@@ -135,7 +135,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/preview/");
                 //noinspection ResultOfMethodCallIgnored
                 fpath.mkdirs();
-                new DownloadImage(GM.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i], GM.IMG_PREVIEW).execute();
+                new DownloadImage(GM.API.SERVER + "/img/actividades/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/preview/" + image, images[i], GM.IMG.PREVIEW).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;
@@ -244,7 +244,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
 
         //Get info about the event
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         String lang = GM.getLang();
         Cursor cursor = db.rawQuery("SELECT activity_itinerary.id, activity_itinerary.name_" + lang + ", description_" + lang + ", place, start, end, place.name_" + lang + ", address_" + lang + ", lat, lon FROM activity_itinerary, place WHERE place = place.id AND activity_itinerary.id = " + id + ";", null);
         if (cursor.getCount() > 0){

@@ -18,72 +18,304 @@ import java.util.Locale;
  */
 final class GM {
 
+	/**
+	 * Contains info about the database.
+	 */
 	final class DB {
 
+		static final String NAME = "gm";
+
+		/**
+		 * Column types
+		 */
 		final class COLUMN {
+
+			/**
+			 * INT column.
+			 */
 			static final int INT = 0;
+
+			/**
+			 * VARCHAR column.
+			 */
 			static final int VARCHAR = 1;
+
+			/**
+			 * Datetime column.
+			 */
 			static final int DATETIME = 2;
 		}
 
+		/**
+		 * Usefull queries
+		 */
 		final class QUERY {
 
+			/**
+			 * Queries to create tables.
+			 */
 			final class CREATE {
+
+				/**
+				 * Creates the table "activity" on the database.
+				 */
 				static final String ACTIVITY = "CREATE TABLE IF NOT EXISTS activity (id INT, permalink VARCHAR, date DATETIME, city VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, after_es VARCHAR, after_en VARCHAR, after_eu VARCHAR, price INT, inscription INT, max_people INT, album INT, dtime DATETIME, comments INT);";
+
+				/**
+				 * Creates the table "activity_comment" on the database.
+				 */
 				static final String ACTIVITY_COMMENT = "CREATE TABLE IF NOT EXISTS activity_comment (id INT, activity INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
+
+				/**
+				 * Creates the table "activity_image" on the database.
+				 */
 				static final String ACTIVITY_IMAGE = "CREATE TABLE IF NOT EXISTS activity_image (id INT, activity INT, image VARCHAR, idx INT);";
+
+				/**
+				 * Creates the table "activity_itinerary" on the database.
+				 */
 				static final String ACTIVITY_ITINERARY = "CREATE TABLE IF NOT EXISTS activity_itinerary (id INT, activity INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, start DATETIME, end DATETIME, place INT);";
+
+				/**
+				 * Creates the table "activity_tag" on the database.
+				 */
 				static final String ACTIVITY_TAG = "CREATE TABLE IF NOT EXISTS activity_tag (activity INT, tag VARCHAR);";
+
+				/**
+				 * Creates the table "album" on the database.
+				 */
 				static final String ALBUM = "CREATE TABLE IF NOT EXISTS album (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, open INT, time DATETIME);";
+
+				/**
+				 * Creates the table "festival" on the database.
+				 */
 				static final String FESTIVAL = "CREATE TABLE IF NOT EXISTS festival (id INT, year INT, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, summary_es VARCHAR, summary_en VARCHAR, summary_eu VARCHAR, img VARCHAR);";
+
+				/**
+				 * Creates the table "festival_day" on the database.
+				 */
 				static final String FESTIVAL_DAY = "CREATE TABLE IF NOT EXISTS festival_day (id INT, date DATETIME, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, price INT);";
+
+				/**
+				 * Creates the table "festival_event" on the database.
+				 */
 				static final String FESTIVAL_EVENT = "CREATE TABLE IF NOT EXISTS festival_event (id INT, gm INT, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, host INT, place INT, start DATETIME, end DATETIME);";
+
+				/**
+				 * Creates the table "festival_event_image" on the database.
+				 */
 				static final String FESTIVAL_EVENT_IMAGE = "CREATE TABLE IF NOT EXISTS festival_event_image (id INT, event INT, image VARCHAR, idx INT);";
+
+				/**
+				 * Creates the table "festival_offer" on the database.
+				 */
 				static final String FESTIVAL_OFFER = "CREATE TABLE IF NOT EXISTS festival_offer (id INT, year INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, days INT, price INT);";
+
+				/**
+				 * Creates the table "location" on the database.
+				 */
 				static final String LOCATION = "CREATE TABLE IF NOT EXISTS location (id INT, dtime DATETIME, lat FLOAT, lon FLOAT, manual INT);";
-				static final String NOTIFICATION = "CREATE TABLE IF NOT EXISTS notification (id INT, dtime DATETIME, duration INT, action VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, internal INT);";
+
+				/**
+				 * Creates the table "notification" on the database.
+				 */
+				static final String NOTIFICATION = "CREATE TABLE IF NOT EXISTS notification (id INT, dtime DATETIME, duration INT, action VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, internal INT, seen INT DEFAULT 0);";
+
+				/**
+				 * Creates the table "people" on the database.
+				 */
 				static final String PEOPLE = "CREATE TABLE IF NOT EXISTS people (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, link VARCHAR);";
+
+				/**
+				 * Creates the table "photo" on the database.
+				 */
 				static final String PHOTO = "CREATE TABLE IF NOT EXISTS photo (id INT, file VARCHAR, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, dtime DATETIME, uploaded DATETIME, place INT, width INT, height INT, size INT, username VARCHAR);";
+
+				/**
+				 * Creates the table "photo_album" on the database.
+				 */
 				static final String PHOTO_ALBUM = "CREATE TABLE IF NOT EXISTS photo_album (photo INT, album INT);";
+
+				/**
+				 * Creates the table "photo_comment" on the database.
+				 */
 				static final String PHOTO_COMMENT = "CREATE TABLE IF NOT EXISTS photo_comment (id INT, photo INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
+
+				/**
+				 * Creates the table "place" on the database.
+				 */
 				static final String PLACE = "CREATE TABLE IF NOT EXISTS place (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, address_es VARCHAR, address_en VARCHAR, address_eu VARCHAR, cp VARCHAR, lat FLOAT, lon FLOAT);";
+
+				/**
+				 * Creates the table "post" on the database.
+				 */
 				static final String POST = "CREATE TABLE IF NOT EXISTS post (id INT, permalink VARCHAR, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, comments INT, username VARCHAR, dtime DATETIME);";
+
+				/**
+				 * Creates the table "post_comment" on the database.
+				 */
 				static final String POST_COMMENT = "CREATE TABLE IF NOT EXISTS post_comment (id INT, post INT, text VARCHAR, dtime DATETIME, username VARCHAR, lang VARCHAR);";
+
+				/**
+				 * Creates the table "photo" on the database.
+				 */
 				static final String POST_IMAGE = "CREATE TABLE IF NOT EXISTS post_image (id INT, post INT, image VARCHAR, idx INT);";
+
+				/**
+				 * Creates the table "post_tag" on the database.
+				 */
 				static final String POST_TAG = "CREATE TABLE IF NOT EXISTS post_tag (post INT, tag VARCHAR);";
+
+				/**
+				 * Creates the table "settings" on the database.
+				 */
 				static final String SETTINGS = "CREATE TABLE IF NOT EXISTS settings (name VARCHAR, value VARCHAR);";
+
+				/**
+				 * Creates the table "sponsor" on the database.
+				 */
 				static final String SPONSOR = "CREATE TABLE IF NOT EXISTS sponsor (id INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, text_es VARCHAR, text_en VARCHAR, text_eu VARCHAR, image VARCHAR, address_es VARCHAR, address_en VARCHAR, address_eu VARCHAR, link VARCHAR, lat FLOAT, lon FLOAT);";
+
+				/**
+				 * Creates the table "version" on the database.
+				 */
 				static final String VERSION = "CREATE TABLE IF NOT EXISTS version (section VARCHAR, version INT);";
 			}
 
+			/**
+			 * Queries to remove tables.
+			 */
 			final class DROP {
+
+				/**
+				 * Deletes the table "activity" from the database.
+				 */
 				static final String ACTIVITY = "DROP TABLE activity;";
+
+				/**
+				 * Deletes the table "activity_comment" from the database.
+				 */
 				static final String ACTIVITY_COMMENT = "DROP TABLE activity_comment;";
+
+				/**
+				 * Deletes the table "activity_comment" from the database.
+				 */
 				static final String ACTIVITY_IMAGE = "DROP TABLE activity_image;";
+
+				/**
+				 * Deletes the table "activity_comment" from the database.
+				 */
 				static final String ACTIVITY_ITINERARY = "DROP TABLE activity_itinerary;";
+
+				/**
+				 * Deletes the table "activity_comment" from the database.
+				 */
 				static final String ACTIVITY_TAG = "DROP TABLE activity_tag;";
+
+				/**
+				 * Deletes the table "album" from the database.
+				 */
 				static final String ALBUM = "DROP TABLE album;";
+
+				/**
+				 * Deletes the table "festival" from the database.
+				 */
 				static final String FESTIVAL = "DROP TABLE festival;";
+
+				/**
+				 * Deletes the table "festival_day" from the database.
+				 */
 				static final String FESTIVAL_DAY = "DROP TABLE festival_day;";
+
+				/**
+				 * Deletes the table "festival_event" from the database.
+				 */
 				static final String FESTIVAL_EVENT = "DROP TABLE festival_event;";
+
+				/**
+				 * Deletes the table "festival_event_image" from the database.
+				 */
 				static final String FESTIVAL_EVENT_IMAGE = "DROP TABLE festival_event_image;";
+
+				/**
+				 * Deletes the table "festival_offer" from the database.
+				 */
 				static final String FESTIVAL_OFFER = "DROP TABLE festival_offer;";
+
+				/**
+				 * Deletes the table "location" from the database.
+				 */
 				static final String LOCATION = "DROP TABLE location;";
+
+				/**
+				 * Deletes the table "notification" from the database.
+				 */
 				static final String NOTIFICATION = "DROP TABLE notification;";
+
+				/**
+				 * Deletes the table "people" from the database.
+				 */
 				static final String PEOPLE = "DROP TABLE people;";
+
+				/**
+				 * Deletes the table "photo" from the database.
+				 */
 				static final String PHOTO = "DROP TABLE photo;";
+
+				/**
+				 * Deletes the table "photo_album" from the database.
+				 */
 				static final String PHOTO_ALBUM = "DROP TABLE photo_album;";
+
+				/**
+				 * Deletes the table "photo_comment" from the database.
+				 */
 				static final String PHOTO_COMMENT = "DROP TABLE photo_comment;";
+
+				/**
+				 * Deletes the table "place" from the database.
+				 */
 				static final String PLACE = "DROP TABLE place;";
+
+				/**
+				 * Deletes the table "post" from the database.
+				 */
 				static final String POST = "DROP TABLE post;";
+
+				/**
+				 * Deletes the table "post_comment" from the database.
+				 */
 				static final String POST_COMMENT = "DROP TABLE post_comment;";
+
+				/**
+				 * Deletes the table "post_image" from the database.
+				 */
 				static final String POST_IMAGE = "DROP TABLE post_image;";
+
+				/**
+				 * Deletes the table "post_tag" from the database.
+				 */
 				static final String POST_TAG = "DROP TABLE post_tag;";
+
+				/**
+				 * Deletes the table "settings" from the database.
+				 */
 				static final String SETTINGS = "DROP TABLE settings;";
+
+				/**
+				 * Deletes the table "sponsor" from the database.
+				 */
 				static final String SPONSOR = "DROP TABLE sponsor;";
+
+				/**
+				 * Deletes the table "version" from the database.
+				 */
 				static final String VERSION = "DROP TABLE version;";
 			}
 
+			/**
+			 * Queries to empty tables.
+			 */
 			final class EMPTY {
 				static final String ACTIVITY = "DELETE FROM activity;";
 				static final String ACTIVITY_COMMENT = "DELETE FROM activity_comment;";
@@ -112,6 +344,9 @@ final class GM {
 				static final String VERSION = "DELETE FROM version;";
 			}
 
+			/**
+			 * Queries to remove and the recreate tables.
+			 */
 			final class RECREATE {
 				static final String ACTIVITY = GM.DB.QUERY.DROP.ACTIVITY + GM.DB.QUERY.CREATE.ACTIVITY;
 				static final String ACTIVITY_COMMENT = GM.DB.QUERY.DROP.ACTIVITY_COMMENT + GM.DB.QUERY.CREATE.ACTIVITY_COMMENT;
@@ -142,17 +377,29 @@ final class GM {
 		}
 	}
 
+	/**
+	 * Keys and values of data that the app needs to store.
+	 */
 	static final class DATA {
 
+		/**
+		 * Name of the file where data will be stored.
+		 */
 		static final String DATA = "data";
 
+		/**
+		 * Keys of data that the app needs to store.
+		 */
 		static final class KEY {
 
-			static final String USER = "user-id";
+			static final String USER = "user_id";
 			static final String PREVIOUS_APP_VERSION = "previous_app_version";
 			static final String LABLANCA = "lablanca";
 		}
 
+		/**
+		 * Default values of data that the app needs to store.
+		 */
 		static final class DEFAULT {
 
 			static final String USER = "";
@@ -161,16 +408,25 @@ final class GM {
 		}
 	}
 
+	/**
+	 * Keys and values of the app settings.
+	 */
 	static final class PREFERENCES {
 
 		static final String PREFERNCES = "preferences";
 
+		/**
+		 * Keys of the app settings.
+		 */
 		static final class KEY {
 
 			static final String SYNC = "performBackgroundSyncs";
 			static final String NOTIFICATIONS = "recieveNotificacions";
 		}
 
+		/**
+		 * Default values of the app settings.
+		 */
 		static final class DEFAULT {
 
 			static final boolean SYNC = true;
@@ -178,287 +434,216 @@ final class GM {
 		}
 	}
 
+	/**
+	 * Used URLs.
+	 */
 	static class URL {
 		static final String GITHUB = "https://github.com/GasteizkoMargolariak/GasteizkoMargolariakApp";
 	}
 
-	static final String CLIENT = "com.ivalentin.margolariak";
-
 	/**
-	 * Address where the web server is
+	 * Info about the API.
 	 */
-	static final String SERVER = "http://margolariak.com";
+	public static final class API {
 
-	static final String SERVER_SYNC = "/API/v1/sync.php";
 
-	static final String SERVER_SYNC_KEY_CLIENT = "client";
-	static final String SERVER_SYNC_KEY_USER = "user";
-	static final String SERVER_SYNC_KEY_ACTION = "action";
-	static final String SERVER_SYNC_KEY_SECTION = "section";
-	static final String SERVER_SYNC_KEY_VERSION = "version";
-	static final String SERVER_SYNC_KEY_FOREGROUND = "foreground";
-	static final String SERVER_SYNC_KEY_FORMAT = "format";
-	static final String SERVER_SYNC_KEY_LANG = "lang";
+		static final String CLIENT = "com.ivalentin.margolariak";
 
-	static final String SERVER_SYNC_VALUE_ACTION = "sync";
-	static final String SERVER_SYNC_VALUE_SECTION = "all";
-	static final String SERVER_SYNC_VALUE_FORMAT = "json";
+		static final String SERVER = "http://margolariak.com";
 
-	/**
-	 * Code for the location permission request
-	 */
-	static final int PERMISSION_LOCATION = 1;
+		static final String SYNC = "/API/v1/sync.php";
+
+		static final String ACTION = "sync";
+		static final String SECTION = "all";
+		static final String FORMAT = "json";
+
+		static final class KEY{
+
+			static final String CLIENT = "client";
+			static final String USER = "user";
+			static final String ACTION = "action";
+			static final String SECTION = "section";
+			static final String VERSION = "version";
+			static final String FOREGROUND = "foreground";
+			static final String FORMAT = "format";
+			static final String LANG = "lang";
+		}
+
+
+
+
+	}
+
+	static final class PERMISSION {
+
+		/**
+		 * Code for the location permission request
+		 */
+		static final int LOCATION = 1;
+	}
+
+
+	static final class PERIOD_SYNC {
+
+		/**
+		 * Period of time (in seconds) at the end of witch the app will perform a sync during the festivals.
+		 */
+		static final int FESTIVALS = 20 * 60 * 1000;
+
+		/**
+		 * Period of time (in seconds) at the end of witch the app will perform a sync if no festivals.
+		 */
+		static final int NORMAL = 60 * 60 * 1000;
+	}
+
+	static final class SCHEDULE {
+
+		static final String KEY = "schedule";
+
+		/**
+		 * Constant to diferentiate schedules".
+		 */
+		static final int CITY = 0;
+		
+		static final int MARGOLARIAK = 1;
+	}
 	
-	/**
-	 * Period of time (in seconds) at the end of witch the app will perform a sync.
-	 */
-	static final int PERIOD_SYNC = 20 * 60 * 1000;
-	
-	/**
-	 * Name of the preference to store the user code with.
-	 */
-	static final String USER_CODE = "prefcode";
+	static final class EXTRA {
 
-	/**
-	 * Constant to diferentiate schedules".
-	 */
-	static final String SCHEDULE = "schedule";
-	
-	/**
-	 * Constant to set extras on the main intent.
-	 */
-	static final String EXTRA_TITLE = "title";
-	
-	/**
-	 * Constant to set extras on the main intent.
-	 */
-	static final String EXTRA_TEXT = "text";
-	
-	/**
-	 * Constant to set extras on the main intent.
-	 */
-	static final String EXTRA_ACTION = "action";
+		/**
+		 * Constant to set extras on the main intent.
+		 */
+		static final String TITLE = "title";
 
-	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the lablanca section.
-	 */
-	static final String EXTRA_ACTION_LABLANCA = "lablanca";
+		/**
+		 * Constant to set extras on the main intent.
+		 */
+		static final String TEXT = "text";
 
-	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the official schedule.
-	 */
-	static final String EXTRA_ACTION_CITYSCHEDULE = "cityschedule";
-	
-	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the GM schedule.
-	 */
-	static final String EXTRA_ACTION_GMSCHEDULE = "gmschedule";
+		/**
+		 * Constant to set extras on the main intent.
+		 */
+		static final String ACTION = "action";
 
-	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the location secton.
-	 */
-	static final String EXTRA_ACTION_LOCATION = "location";
+		static final class SECTION {
 
-	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the blog.
-	 */
-	static final String EXTRA_ACTION_BLOG = "blog";
+			/**
+			 * Value for {@see GM.EXTRA_ACTION} that opens the lablanca section.
+			 */
+			static final String LABLANCA = "lablanca";
 
-	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the activities section.
-	 */
-	static final String EXTRA_ACTION_ACTIVITIES = "activities";
+			/**
+			 * Value for {@see GM.EXTRA_ACTION} that opens the official schedule.
+			 */
+			static final String SCHEDULE = "cityschedule";
 
-	/**
-	 * Value for {@see GM.EXTRA_ACTION} that opens the gallery section.
-	 */
-	static final String EXTRA_ACTION_GALLERY = "gallery";
-	
-	/**
-	 * Constant for section "Home".
-	 */
-	static final byte SECTION_HOME = 0;
+			/**
+			 * Value for {@see GM.EXTRA_ACTION} that opens the GM schedule.
+			 */
+			static final String GMSCHEDULE = "gmschedule";
 
-	/**
-	 * Constant for La Blanca section "Location".
-	 */
-	static final byte SECTION_LOCATION = 1;
+			/**
+			 * Value for {@see GM.EXTRA_ACTION} that opens the location secton.
+			 */
+			static final String LOCATION = "location";
 
-	/**
-	 * Constant for section "La Blanca".
-	 */
-	static final byte SECTION_LABLANCA = 2;
+			/**
+			 * Value for {@see GM.EXTRA_ACTION} that opens the blog.
+			 */
+			static final String BLOG = "blog";
 
-	/**
-	 * Constant for La Blanca section "Festival schedule".
-	 */
-	static final byte SECTION_LABLANCA_SCHEDULE = 20;
+			/**
+			 * Value for {@see GM.EXTRA_ACTION} that opens the activities section.
+			 */
+			static final String ACTIVITIES = "activities";
 
-	/**
-	 * Constant for La Blanca section "Gasteizko Margolariak Schedule".
-	 */
-	static final byte SECTION_LABLANCA_GM_SCHEDULE = 21;
+			/**
+			 * Value for {@see GM.EXTRA_ACTION} that opens the gallery section.
+			 */
+			static final String GALLERY = "gallery";
+		}
+		
 
-	/**
-	 * Constant for section "Activities".
-	 */
-	static final byte SECTION_ACTIVITIES = 3;
+	}
 
-	/**
-	 * Constant for section "Blog".
-	 */
-	static final byte SECTION_BLOG = 4;
+	public static final class SECTION {
 
-	/**
-	 * Constant for section "Gallery".
-	 */
-	static final byte SECTION_GALLERY = 5;
+		/**
+		 *Bundle identifier to pass between fragments.
+		 */
+		static final String BUNDLE = "section";
 
-	/**
-	 * Name of the preference group for the app.
-	 */
-	//static final String PREF = "gmpreferences";
-	
-	/**
-	 * Name of the preference to store the database version with.
-	 */
-	//static final String PREF_DB_VERSION = "prefDbVersion";
+		/**
+		 * Constant for section "Home".
+		 */
+		static final byte HOME = 0;
 
-	/**
-	 * Name of the preference to store the previous app version.
-	 */
-	//static final String PREF_PREVIOUS_VERSION = "prefAppPreviousVersion";
+		/**
+		 * Constant for La Blanca section "Location".
+		 */
+		static final byte LOCATION = 1;
 
-	/**
-	 * Name of the preference to store the setting that allows user to upload comments.
-	 */
-	//static final String PREF_DB_PHOTOS = "prefDbPhotos";
+		/**
+		 * Constant for section "La Blanca".
+		 */
+		static final byte LABLANCA = 2;
 
-	/**
-	 * Name of the preference that indicates if we are on festivals.
-	 */
-	//static final String PREF_DB_FESTIVALS = "prefDbFestivals";
+		/**
+		 * Constant for La Blanca section "Festival schedule".
+		 */
+		static final byte SCHEDULE = 20;
 
-	/**
-	 * Name of the preference indicating if the user wants to to receive notifications intended for the general public.
-	 */
-	//static final String PREF_NOTIFICATION = "prefNotification";
+		/**
+		 * Constant for La Blanca section "Gasteizko Margolariak Schedule".
+		 */
+		static final byte GM_SCHEDULE = 21;
 
-	/**
-	 * Default value of the preference indicating if the user wants to to receive notifications intended for the general public.
-	 */
-	//static final int DEFAULT_PREF_NOTIFICATION = 1;
+		/**
+		 * Constant for section "Activities".
+		 */
+		static final byte ACTIVITIES = 3;
 
-	/**
-	 * Header of a preference to indicate received notifications.
-	 */
-	static final String NOTIFICATION_SEEN_ ="notificationSeen";
-	
-	/**
-	 * Default value for the {//@link GM.PREF_DB_VERSION}  preference
-	 */
-	static final int DEFAULT_PREF_DB_VERSION = -2;
-	
-	/**
-	 * Name of the preference to store GM location's latitude.
-	 */
-	static final String PREF_GM_LATITUDE = "gmlat";
-	
-	/**
-	 * Name of the preference to store GM location's longitude.
-	 */
-	static final String PREF_GM_LONGITUDE = "gmlon";
-	
-	/**
-	 * Name of the preference to store GM last location timestamp.
-	 */
-	static final String PREF_GM_LOCATION = "gmlocationtime";
+		/**
+		 * Constant for section "Blog".
+		 */
+		static final byte BLOG = 4;
 
-	/**
-	 * Name of the preference to store GM last location timestamp.
-	 */
-	static final String DEFAULT_PREF_GM_LOCATION = "19700101000000";
+		/**
+		 * Constant for section "Gallery".
+		 */
+		static final byte GALLERY = 5;
+	}
 
-	/**
-	 * Name of the preference indicating if the user wants to perform background syncs.
-	 */
-	static final String PREFERENCE_SYNC_SYNC = "pref_sync_sync";
 
-	/**
-	 * Default value for PREFERENCE_SYNC_SYNC.
-	 */
-	static final boolean DEFAULT_PREFERENCE_SYNC_SYNC = true;
 
-	/**
-	 * Name of the preference indicating if the user wants to to receive notifications intended for the general public.
-	 */
-	static final String PREFERENCE_SYNC_NOTIFICATIONS = "pref_sync_notifications";
+	static class LOCATION {
 
-	/**
-	 * Default value for PREFERENCE_SYNC_NOTIFICATIONS.
-	 */
-	static final boolean DEFAULT_PREFERENCE_SYNC_NOTIFICATIONS = true;
+		static class ACCURACY {
+			/**
+			 * The desired accuracy of the GPS coordinates, used to provide location updates, in meters.
+			 */
+			static final int SPACE = 10;
 
-	/**
-	 * Name of the SharedPreference that stores how many kb have been sent in the foreground.
-	 */
-	static final String STORAGE_TRAFFIC_FG_SENT = "storage_traffic_fg_sent";
+			/**
+			 * The desired accuracy of the GPS coordinates, used to provide location updates, in milliseconds.
+			 */
+			static final int TIME = 10000;
+		}
 
-	/**
-	 * Name of the SharedPreference that stores how many kb have been received in the foreground.
-	 */
-	static final String STORAGE_TRAFFIC_FG_RECEIVED = "storage_traffic_fg_received";
+		static final int INTERVAL = 10000;
+	}
 
-	/**
-	 * Name of the SharedPreference that stores how many kb have been sent in the background.
-	 */
-	static final String STORAGE_TRAFFIC_BG_SENT = "storage_traffic_bg_received";
+	static final class IMG {
 
-	/**
-	 * Name of the SharedPreference that stores how many kb have been received in the background.
-	 */
-	static final String STORAGE_TRAFFIC_BG_RECEIVED = "storage_traffic_bg_received";
+		/**
+		 * Dimensions of the images in the database.
+		 */
+		static final int MINIATURE = 340;
+		static final int PREVIEW = 600;
+		static final int THUMB = 180;
+		static final int VIEW = 800;
+	}
 
-	static final String KEY_PREFERENCE_SYNC = "preference_key_sync";
-
-	static final String KEY_PREFERENCE_NOTIFICATION = "preference_key_notification";
-
-	static final String KEY_PREFERENCE_DATA = "preference_key_data";
-
-	static final String KEY_PREFERENCE_VERSION = "preference_key_version";
-
-	static final String KEY_PREFERENCE_SOURCE = "preference_key_source";
-
-	static final String KEY_PREFERENCE_FEEDBACK = "preference_key_feedback";
-
-	static final int INTERVAL_LOCATION = 240000; //4 min
-
-	static final int INTERVAL_SYNC_FESTIVALS = 600000; //10 min
-
-	static final int INTERVAL_SYNC_NO_FESTIVALS = 3600000; //60 min
-
-	/**
-	 * Name of the database
-	 */
-	static final String DB_NAME = "gm";
-
-	/**
-	 * The desired accuracy of the GPS coordinates, used to provide location updates, in meters.
-	 */
-	static final int LOCATION_ACCURACY_SPACE = 10;
-
-	/**
-	 * The desired accuracy of the GPS coordinates, used to provide location updates, in milliseconds.
-	 */
-	static final int LOCATION_ACCURACY_TIME = 10000;
-
-	/**
-	 * Dimensions of the images in the database.
-	 */
-	static final int IMG_MINIATURE = 340;
-	static final int IMG_PREVIEW = 600;
-	static final int IMG_THUMB = 180;
-	static final int IMG_VIEW = 800;
 
 	/**
 	 *Programaticall loaded rows needs their margin to also be set programatically
@@ -473,7 +658,7 @@ final class GM {
 	 * @return Language two-letter code
 	 */
 	public static String getLang(){
-		String currLang = Locale.getDefault().getISO3Language();//getDisplayLanguage();
+		String currLang = Locale.getDefault().getISO3Language();
 		switch (currLang){
 			case "eng":
 				currLang = "en";

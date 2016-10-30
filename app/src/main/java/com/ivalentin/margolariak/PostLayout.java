@@ -57,7 +57,7 @@ public class PostLayout extends Fragment {
         }
 
         //Get data from database
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
         String lang = GM.getLang();
         cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, dtime FROM post WHERE id = " + id + ";", null);
@@ -110,7 +110,7 @@ public class PostLayout extends Fragment {
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/preview/");
                 fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i], GM.IMG_PREVIEW).execute();
+				new DownloadImage(GM.API.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i], GM.IMG.PREVIEW).execute();
             }
             images[i].setVisibility(View.VISIBLE);
             i ++;

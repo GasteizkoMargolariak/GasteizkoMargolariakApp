@@ -123,7 +123,7 @@ public class PhotoLayout extends Fragment {
 	 */
 	private Integer[] loadPhotos(int id){
 
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 
 		//Get album id for the photo
 		Cursor cAlbum = db.rawQuery("SELECT album FROM photo_album WHERE photo = " + id + ";", null);
@@ -156,7 +156,7 @@ public class PhotoLayout extends Fragment {
 		final int photoId = id;
 
 		//Get data from database
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		final Cursor cursor;
 		final String lang = GM.getLang();
 		cursor = db.rawQuery("SELECT id, file, title_" + lang+ " AS title, description_" + lang + " AS description, uploaded, width, height, size FROM photo WHERE id = " + id + ";", null);
@@ -208,7 +208,7 @@ public class PhotoLayout extends Fragment {
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/");
 			fpath.mkdirs();
-			new DownloadImage(GM.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView, GM.IMG_VIEW).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			new DownloadImage(GM.API.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView, GM.IMG.VIEW).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
 
 		//Hide or show comments, as needed
