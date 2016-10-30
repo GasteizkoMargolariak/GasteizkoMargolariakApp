@@ -37,7 +37,8 @@
             android:padding="0.5dp"
             android:layout_margin="2dp"
             android:layout_gravity="top"
-            android:maxHeight="100dp"/>
+            android:maxHeight="100dp"
+            android:adjustViewBounds="true"/>
 
         <LinearLayout
             android:orientation="vertical"

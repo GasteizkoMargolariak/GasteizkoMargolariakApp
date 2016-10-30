@@ -158,9 +158,10 @@ public class BlogLayout extends Fragment{
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_blog, null);
 
-            //Set margins
+            //Set margins TODO: I dont know why it doesnt read margins from the xml
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(10, 10, 10, 25);
+            int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+            layoutParams.setMargins(margin, margin, margin, margin);
             entry.setLayoutParams(layoutParams);
 
             //Set title
@@ -169,9 +170,6 @@ public class BlogLayout extends Fragment{
 
             //Set text
             String text = Html.fromHtml(cursor.getString(2)).toString();
-            if (text.length() > 180){
-                text = text.substring(0, 180) + "...";
-            }
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_blog_text);
             tvText.setText(text);
 
@@ -205,6 +203,9 @@ public class BlogLayout extends Fragment{
                     fpath.mkdirs();
                     new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.MINIATURE).execute();
                 }
+            }
+            else{
+                iv.setVisibility(View.GONE);
             }
             cursorImage.close();
 

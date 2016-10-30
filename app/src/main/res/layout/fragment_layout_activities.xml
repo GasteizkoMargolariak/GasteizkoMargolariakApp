@@ -49,7 +49,6 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="7dp"
                 android:id="@+id/ll_activities_future_list" />
         </LinearLayout>
 
