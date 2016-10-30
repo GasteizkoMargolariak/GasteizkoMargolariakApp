@@ -52,7 +52,7 @@ public class AlbumLayout extends Fragment {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
 		String lang = GM.getLang();
-        cursor = db.rawQuery("SELECT id, name_" + lang + " AS name, description_" + lang + " AS description FROM album WHERE id = " + id + ";", null);
+        cursor = db.rawQuery("SELECT id, title_" + lang + " AS title, description_" + lang + " AS description FROM album WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Set album elements
@@ -95,7 +95,7 @@ public class AlbumLayout extends Fragment {
 
             //Set title
             TextView tvTitleLeft = (TextView) entry.findViewById(R.id.tv_row_album_title_left);
-			if (imageCursor.getString(1).length() > 0) {
+			if (imageCursor.getString(1) != null && imageCursor.getString(1).length() > 0) {
 				tvTitleLeft.setText(imageCursor.getString(1));
 			}
 			else{
@@ -167,7 +167,7 @@ public class AlbumLayout extends Fragment {
 
                 //Set title
                 TextView tvTitleRight = (TextView) entry.findViewById(R.id.tv_row_album_title_right);
-				if (imageCursor.getString(1).length() > 0) {
+				if (imageCursor.getString(1) != null && imageCursor.getString(1).length() > 0) {
 					tvTitleRight.setText(imageCursor.getString(1));
 				}
 				else{

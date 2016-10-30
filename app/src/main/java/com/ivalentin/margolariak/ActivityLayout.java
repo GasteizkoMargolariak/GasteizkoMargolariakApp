@@ -106,9 +106,6 @@ public class ActivityLayout extends Fragment{
 
                 //Set text
                 String text = Html.fromHtml(cursor.getString(4)).toString();
-                if (text.length() > 180) {
-                    text = text.substring(0, 180) + "...";
-                }
                 TextView tvText = (TextView) entry.findViewById(R.id.tv_row_activity_future_text);
                 tvText.setText(text);
 
@@ -201,9 +198,6 @@ public class ActivityLayout extends Fragment{
                 } else {
                     text = Html.fromHtml(cursorPast.getString(5)).toString();
                 }
-            }
-            if (text.length() > 130) {
-                text = text.substring(0, 130) + "...";
             }
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_activity_past_text);
             tvText.setText(text);

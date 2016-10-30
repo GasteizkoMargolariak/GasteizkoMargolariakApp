@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@drawable/entry"
-              android:padding="7dp"
-              android:layout_margin="8dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/entry"
+    android:padding="7dp"
+    android:layout_margin="8dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -47,34 +48,33 @@
             android:layout_gravity="top">
 
             <TextView
+                android:id="@+id/tv_row_home_activity_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/tv_row_home_activity_date"
-                android:gravity="end"
                 android:textStyle="italic"
-                android:layout_weight="1"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"/>
 
             <TextView
+                android:id="@+id/tv_row_home_activity_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/tv_row_home_activity_city"
-                android:layout_weight="1"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"/>
+                android:textStyle="italic"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_row_home_activity_text"
-                android:layout_weight="1"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:layout_margin="5dp"
-                android:maxLines="4"/>
+                android:maxLines="4"
+                android:minHeight="30dp"/>
 
             <ImageView
                 android:layout_width="match_parent"

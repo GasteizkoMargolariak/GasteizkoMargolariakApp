@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.Random;
 
 /**
  * Fragment of the gallery section.
@@ -84,9 +85,10 @@ public class GalleryLayout extends Fragment{
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_gallery, null);
 
-            //Set margins
+            //Set margins TODO: I dont know why it doesnt read margins from the xml
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(10, 10, 10, 25);
+			int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+            layoutParams.setMargins(margin, margin, margin, margin);
             entry.setLayoutParams(layoutParams);
 
             //Set title
@@ -109,6 +111,7 @@ public class GalleryLayout extends Fragment{
 
             //Loop
             int i = 0;
+            Random r;
             while (cursorImage.moveToNext()){
                 String image = cursorImage.getString(1);
 
@@ -127,6 +130,12 @@ public class GalleryLayout extends Fragment{
                     fpath.mkdirs();
                     new DownloadImage(GM.API.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG.MINIATURE).execute();
                 }
+
+                //Rotate the image
+                r = new Random();
+                int rot = r.nextInt(31) - 15;
+                preview[i].setRotation(rot);
+
                 i ++;
             }
 

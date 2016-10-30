@@ -86,6 +86,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			int idx = (int) (Math.random() * 9);
 			tv.setText(strings[idx]);
 			doProgress = true;
+
 		}
 		Log.d("Sync", "Starting full sync");
 	}
