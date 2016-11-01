@@ -2,9 +2,6 @@ package com.ivalentin.margolariak;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -55,63 +52,47 @@ public class MainActivity extends Activity {
 	//Alarm to get location and notifications.
 	private AlarmReceiver notificationAlarm;
 
-	//The menu entries
-	private RelativeLayout menuItem[];
 	private TextView menuText[];
 	private ImageView menuImage[];
 
 	//Handler to periodically check for location updates
 	private final Handler locationHandler = new Handler();
 	// Code to check for location updates
+	private MainActivity activity = this;
 	private final Runnable checkForLocation = new Runnable() {
 		@Override
 		public void run() {
 
-			//Get location page and parse it
-			boolean result = false;
-			FetchURL fu = new FetchURL();
-			//TODO: This needs a simple API too
-			fu.Run(GM.API.SERVER + "/app/location.php");
-			String lat = "", lon = "";
-			String o = fu.getOutput().toString();
-			Log.d("Location", "Fetched location page");
-			if (o.contains("<location>none</location>"))
-				result = false;
-			if (o.contains("<lat>") && o.contains("<lon>")) {
-				lat = o.substring(o.indexOf("<lat>") + 5, o.indexOf("</lat>"));
-				lon = o.substring(o.indexOf("<lon>") + 5, o.indexOf("</lon>"));
-				result = true;
-			}
-
-			//TODO: Store in database
-			SharedPreferences settings = getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = settings.edit();
-			if (result) {
-				//TODO editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(Double.parseDouble(lat)));
-				//TODO editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(Double.parseDouble(lon)));
-				//TODO editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
-
-				//Show menu entry
-				if (menuItem[1] != null) {
-					menuItem[1].setVisibility(View.VISIBLE);
-				}
-			} else {
-				//TODO editor.putString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION);
-				if (menuItem[1] != null) {
-					menuItem[1].setVisibility(View.GONE);
-				}
-			}
-			editor.apply();
+			new ReceiveLocation(activity).execute();
 
 			//Repeat this the same runnable code block again another th specified interval
 			locationHandler.postDelayed(checkForLocation, GM.LOCATION.INTERVAL);
 		}
 	};
+
 	/**
 	 * ATTENTION: This was auto-generated to implement the App Indexing API.
 	 * See https://g.co/AppIndexing/AndroidStudio for more information.
 	 */
 	private GoogleApiClient client;
+
+	/**
+	 * Enables o disables the location section.
+	 *
+	 * Shows or hiddes the menu entry and the home fragment,
+	 *
+	 * @param report True to show, false to hide.
+	 */
+	public void gotLocation(boolean report){
+		if (report){
+			findViewById(R.id.rl_menu_location).setVisibility(View.GONE);
+			findViewById(R.id.ll_home_section_location).setVisibility(View.GONE);
+		}
+		else {
+			findViewById(R.id.rl_menu_location).setVisibility(View.VISIBLE);
+			findViewById(R.id.ll_home_section_location).setVisibility(View.VISIBLE);
+		}
+	}
 
 	//Not referenced in code.
 	public void showMenu(View v) {
@@ -304,7 +285,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		//Assign menu items
-		menuItem = new RelativeLayout[6];
+		RelativeLayout[] menuItem = new RelativeLayout[6];
 		menuItem[0] = (RelativeLayout) findViewById(R.id.rl_menu_home);
 		menuItem[1] = (RelativeLayout) findViewById(R.id.rl_menu_location);
 		menuItem[2] = (RelativeLayout) findViewById(R.id.rl_menu_lablanca);
@@ -625,7 +606,6 @@ public class MainActivity extends Activity {
 	 * Creates the app database and fills it with the hard coded, default data.
 	 */
 	private void deleteDatabase() {
-		SQLiteDatabase db;
 		try {
 			getApplicationContext().deleteDatabase(GM.DB.NAME);
 		} catch (Exception ex) {
@@ -712,18 +692,36 @@ public class MainActivity extends Activity {
 		return super.onKeyUp(keyCode, event);
 	}
 
+	/**
+	 * Overrides onResume().
+	 * Resumes the location handler to check for location regularly.
+	 *
+	 * @see Activity#onResume()
+	 */
 	@Override
 	public void onResume() {
 		locationHandler.post(checkForLocation);
 		super.onResume();
 	}
 
+	/**
+	 * Overrides onPause().
+	 * Stops the location handler to check for location regularly.
+	 *
+	 * @see Activity#onPause()
+	 */
 	@Override
 	public void onPause() {
 		locationHandler.removeCallbacks(checkForLocation);
 		super.onPause();
 	}
 
+	/**
+	 * Overrides onDestroy().
+	 * Stops the location handler to check for location regularly.
+	 *
+	 * @see Activity#onDestroy()
+	 */
 	@Override
 	public void onDestroy() {
 		locationHandler.removeCallbacks(checkForLocation);
