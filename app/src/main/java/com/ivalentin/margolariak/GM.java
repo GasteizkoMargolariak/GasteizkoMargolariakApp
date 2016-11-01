@@ -114,7 +114,7 @@ final class GM {
 				/**
 				 * Creates the table "location" on the database.
 				 */
-				static final String LOCATION = "CREATE TABLE IF NOT EXISTS location (id INT, dtime DATETIME, lat FLOAT, lon FLOAT, manual INT);";
+				static final String LOCATION = "CREATE TABLE IF NOT EXISTS location (dtime DATETIME, lat DOUBLE, lon DOUBLE);";
 
 				/**
 				 * Creates the table "notification" on the database.
