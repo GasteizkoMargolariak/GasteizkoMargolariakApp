@@ -84,13 +84,17 @@ public class MainActivity extends Activity {
 	 * @param report True to show, false to hide.
 	 */
 	public void gotLocation(boolean report){
-		if (report){
-			findViewById(R.id.rl_menu_location).setVisibility(View.GONE);
-			findViewById(R.id.ll_home_section_location).setVisibility(View.GONE);
+		if (report) {
+			findViewById(R.id.rl_menu_location).setVisibility(View.VISIBLE);
+			if (findViewById(R.id.ll_home_section_location) != null){
+				findViewById(R.id.ll_home_section_location).setVisibility(View.VISIBLE);
+			}
 		}
 		else {
-			findViewById(R.id.rl_menu_location).setVisibility(View.VISIBLE);
-			findViewById(R.id.ll_home_section_location).setVisibility(View.VISIBLE);
+			findViewById(R.id.rl_menu_location).setVisibility(View.GONE);
+			if (findViewById(R.id.ll_home_section_location) != null) {
+				findViewById(R.id.ll_home_section_location).setVisibility(View.GONE);
+			}
 		}
 	}
 
