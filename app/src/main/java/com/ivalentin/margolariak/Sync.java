@@ -245,15 +245,15 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	private String buildUrl(String user, int version, int foreground, String lang){
 		String url = "";
 		try {
-			url = GM.API.SERVER + GM.API.SYNC + "?" +
-					GM.API.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
-					GM.API.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
-					GM.API.KEY.ACTION + "=" + URLEncoder.encode(GM.API.ACTION, "UTF-8") + "&" +
-					GM.API.KEY.SECTION + "=" + URLEncoder.encode(GM.API.SECTION, "UTF-8") + "&" +
-					GM.API.KEY.VERSION + "=" + version + "&" +
-					GM.API.KEY.FOREGROUND + "=" + foreground + "&" +
-					GM.API.KEY.FORMAT + "=" + URLEncoder.encode(GM.API.FORMAT, "UTF-8") + "&" +
-					GM.API.KEY.LANG + "=" + URLEncoder.encode(lang, "UTF-8");
+			url = GM.API.SERVER + GM.API.SYNC.PATH + "?" +
+					GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.ACTION + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.ACTION, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.SECTION + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.SECTION, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.VERSION + "=" + version + "&" +
+					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground + "&" +
+					GM.API.SYNC.KEY.FORMAT + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.FORMAT, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.LANG + "=" + URLEncoder.encode(lang, "UTF-8");
 		}
 		catch (java.io.UnsupportedEncodingException ex){
 			Log.e("UTF-8", "Error encoding url for sync \"" + url + "\" - " + ex.toString());

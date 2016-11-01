@@ -117,7 +117,7 @@ public class AlbumLayout extends Fragment {
                 //If the image exists, set it.
 				try{
 					File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-					ivLeft.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG.PREVIEW));
+					ivLeft.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG.SIZE.PREVIEW));
 				}
 				catch (Exception ex){
 					Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
@@ -128,7 +128,7 @@ public class AlbumLayout extends Fragment {
                 File fpath;
                 fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                 fpath.mkdirs();
-				new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft, GM.IMG.PREVIEW).execute();
+				new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivLeft, GM.IMG.SIZE.PREVIEW).execute();
             }
 
 			//Count comments
@@ -187,7 +187,7 @@ public class AlbumLayout extends Fragment {
                     //If the image exists, set it.
 					try {
 						File file = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image);
-						ivRight.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG.PREVIEW));
+						ivRight.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG.SIZE.PREVIEW));
 					}
 					catch (Exception ex){
 						Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
@@ -198,7 +198,7 @@ public class AlbumLayout extends Fragment {
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
                     fpath.mkdirs();
-					new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight, GM.IMG.PREVIEW).execute();
+					new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivRight, GM.IMG.SIZE.PREVIEW).execute();
                 }
 
 				//Count comments

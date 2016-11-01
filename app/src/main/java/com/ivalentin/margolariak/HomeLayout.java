@@ -475,7 +475,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
 						fpath.mkdirs();
-						new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG.PREVIEW).execute();
+						new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG.SIZE.PREVIEW).execute();
 					}
 				}
 				else {
@@ -572,7 +572,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
 				fpath.mkdirs();
-				new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG.PREVIEW).execute();
+				new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG.SIZE.PREVIEW).execute();
 			}
 
 			//Set listeners for images
@@ -651,7 +651,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
+			layoutParams.setMargins(GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -705,7 +705,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.MINIATURE).execute();
+					new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 				}
 			}
 			cursorImage.close();
@@ -789,7 +789,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
+				layoutParams.setMargins(GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN);
 				entry.setLayoutParams(layoutParams);
 
 				//Set title
@@ -836,7 +836,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 						fpath.mkdirs();
-						new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.MINIATURE).execute();
+						new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 					}
 				}
 
@@ -916,7 +916,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
+			layoutParams.setMargins(GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -955,7 +955,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.MINIATURE).execute();
+					new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 				}
 			}
 
