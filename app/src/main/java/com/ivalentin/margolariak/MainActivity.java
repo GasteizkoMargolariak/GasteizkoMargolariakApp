@@ -357,8 +357,6 @@ public class MainActivity extends Activity {
 		SharedPreferences sharedData = getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 		SharedPreferences.Editor dataEditor = sharedData.edit();
 
-		//TODO: Read database. If there is a recent location, show the menu entry
-
 		//If the user code is not set, generate one
 		if (sharedData.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER).length() == GM.DATA.DEFAULT.USER.length()) {
 			SecureRandom random = new SecureRandom();

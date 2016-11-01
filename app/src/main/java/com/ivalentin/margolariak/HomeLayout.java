@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,8 +56,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		Log.e("MENU", "FROM HOME");
 		return false;
 	}
 
@@ -81,39 +80,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Load the layout.
 		view = inflater.inflate(R.layout.fragment_layout_home, null);
 
-		//Variable to know if I need a location manager
-		//boolean requestLocation = false;
-
-		//Show tutorial if its the first time
-		/*final SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (!preferences.getBoolean(GM.PREF_TUTORIAL, false)) {
-			final RelativeLayout llTutorial = (RelativeLayout) getActivity().findViewById(R.id.rl_tutorial);
-			llTutorial.setVisibility(View.VISIBLE);
-			llTutorial.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					return true;
-				}
-			});
-			Button btTutorial = (Button) getActivity().findViewById(R.id.bt_tutorial);
-			btTutorial.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					llTutorial.setVisibility(View.GONE);
-					SharedPreferences.Editor editor = preferences.edit();
-					editor.putBoolean(GM.PREF_TUTORIAL, true);
-					editor.apply();
-				}
-			});
-		}*/
-
 		//Request location permissions if not set
 		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
 		}
 
 		//Set Location manager
-		//TODO: Only do this if location is required
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
 		if (!(ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
@@ -496,12 +468,25 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * @return True if the section has been shown, false otherwise.
 	 */
 	private boolean setUpLocation(Location location, View view) {
-		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
-		//TODO Do this from db
-		/*if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
-			try {
-				Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
-				Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
+		try {
+
+			Double lat, lon;
+
+			SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+			Cursor cursor;
+			cursor = db.rawQuery("SELECT lat, lon FROM location WHERE dtime >= Datetime('now', '-10 minutes') ORDER BY dtime DESC LIMIT 1;", null);
+			if (cursor.getCount() == 0){
+				cursor.close();
+				db.close();
+				return false;
+			}
+			else {
+				cursor.moveToFirst();
+				lat = cursor.getDouble(0);
+				lon = cursor.getDouble(1);
+				cursor.close();
+				db.close();
+
 				Double distance = Distance.calculateDistance(lat, lon, location.getLatitude(), location.getLongitude());
 				TextView text = (TextView) view.findViewById(R.id.tv_home_section_location_distance);
 				if (distance <= 2) {
@@ -510,13 +495,14 @@ public class HomeLayout extends Fragment implements LocationListener {
 				} else {
 					text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
 				}
+
 				return true;
 			}
-			catch (Exception ex){
-				Log.e("Location", "Couldn't set up home location section: " + ex.toString());
-			}
+		}
+		catch (Exception ex){
+			Log.e("Location", "Couldn't set up home location section: " + ex.toString());
+		}
 
-		}*/
 		return false;
 	}
 
@@ -1057,7 +1043,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onPause() {
-		//TODO: Only do this if location is required
 		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			locationManager.removeUpdates(this);
 		}
@@ -1071,7 +1056,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onDestroy() {
-		//TODO: Only do this if location is required
 		try {
 			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 				locationManager.removeUpdates(this);
@@ -1091,7 +1075,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onResume(){
-		//TODO: Only do this if location is required
 		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		}
