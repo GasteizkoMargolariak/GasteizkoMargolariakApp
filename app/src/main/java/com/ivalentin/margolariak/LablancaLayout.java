@@ -58,7 +58,7 @@ public class LablancaLayout extends Fragment {
 		//Get database info from the database
 		String lang = GM.getLang();
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT text_" + lang + ", img FROM festival WHERE year = " + year + ";", null);
 		cursor.moveToFirst();
 
@@ -91,7 +91,7 @@ public class LablancaLayout extends Fragment {
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
 				fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage, GM.IMG_PREVIEW).execute();
+				new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage, GM.IMG.SIZE.PREVIEW).execute();
 			}
 		}
 		else{
@@ -189,14 +189,14 @@ public class LablancaLayout extends Fragment {
 		gmSchedule.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
+				((MainActivity) getActivity()).loadSection(GM.SECTION.GM_SCHEDULE);
 			}
 		});
 
 		citySchedule.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE);
+				((MainActivity) getActivity()).loadSection(GM.SECTION.SCHEDULE);
 			}
 		});
 

@@ -70,7 +70,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 		//Set up
 		locationManager = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 		}
 
 		//Set the title
@@ -98,7 +98,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 			mapView.onResume();
 		}
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 		}
 		super.onResume();
 	}
@@ -175,8 +175,8 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 		//Set GM marker
 		//TODO: Use db
 		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
-		Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
-		Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
+		Double lat = 0.0; //Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
+		Double lon = 0.0; //Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
 		gmLocation = new LatLng(lat, lon);
 		moGm = new MarkerOptions();
 		moGm.title(v.getContext().getString(R.string.app_name));
@@ -187,7 +187,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 
 		//Start device location requests
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		}
 	}
@@ -221,7 +221,8 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	@Override
 	public void onLocationChanged(Location location) {
 		//TODO: Read again the GM Location.
-		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
+		//TODO From database
+		/*SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 		if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
 
 			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
@@ -231,7 +232,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 			if (moGm != null){
 				moGm.visible(true);
 			}
-		}
+		}*/
 	}
 
 	/**
