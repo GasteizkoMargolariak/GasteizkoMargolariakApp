@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,8 +56,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		Log.e("MENU", "FROM HOME");
 		return false;
 	}
 
@@ -81,42 +80,15 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Load the layout.
 		view = inflater.inflate(R.layout.fragment_layout_home, null);
 
-		//Variable to know if I need a location manager
-		//boolean requestLocation = false;
-
-		//Show tutorial if its the first time
-		/*final SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		if (!preferences.getBoolean(GM.PREF_TUTORIAL, false)) {
-			final RelativeLayout llTutorial = (RelativeLayout) getActivity().findViewById(R.id.rl_tutorial);
-			llTutorial.setVisibility(View.VISIBLE);
-			llTutorial.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					return true;
-				}
-			});
-			Button btTutorial = (Button) getActivity().findViewById(R.id.bt_tutorial);
-			btTutorial.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					llTutorial.setVisibility(View.GONE);
-					SharedPreferences.Editor editor = preferences.edit();
-					editor.putBoolean(GM.PREF_TUTORIAL, true);
-					editor.apply();
-				}
-			});
-		}*/
-
 		//Request location permissions if not set
 		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION_LOCATION);
+			ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
 		}
 
 		//Set Location manager
-		//TODO: Only do this if location is required
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
 		if (!(ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		}
 
@@ -165,7 +137,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			return count;
 		}
 
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Calendar calendar = Calendar.getInstance();
 		Calendar calendarEnd;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -226,7 +198,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			tvRowPlace.setText(cursorNow.getString(6));
 
 			//Set icon
-			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE) {
+			if (gm == GM.SECTION.GM_SCHEDULE) {
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_home_schedule_pinpoint);
 				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
 			}
@@ -270,7 +242,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			tvRowPlace.setText(cursorNext.getString(6));
 
 			//Set icon
-			if (gm == GM.SECTION_LABLANCA_GM_SCHEDULE) {
+			if (gm == GM.SECTION.GM_SCHEDULE) {
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_home_schedule_pinpoint);
 				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.gm:drawable/pinpoint_gm", null, null));
 			}
@@ -293,7 +265,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				section.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
+						((MainActivity) getActivity()).loadSection(GM.SECTION.GM_SCHEDULE);
 					}
 				});
 
@@ -301,7 +273,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				section.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA_SCHEDULE);
+						((MainActivity) getActivity()).loadSection(GM.SECTION.SCHEDULE);
 					}
 				});
 			}
@@ -429,12 +401,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 			llSection.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((MainActivity) getActivity()).loadSection(GM.SECTION_LABLANCA);
+					((MainActivity) getActivity()).loadSection(GM.SECTION.LABLANCA);
 				}
 			});
 
 			//Get data from the database of the future activities
-			SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+			SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			String lang = GM.getLang();
 			Cursor cursor = db.rawQuery("SELECT text_" + lang + ", img FROM festival WHERE year = " + year + ";", null);
@@ -475,7 +447,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
 						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG_PREVIEW).execute();
+						new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG.SIZE.PREVIEW).execute();
 					}
 				}
 				else {
@@ -496,12 +468,25 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * @return True if the section has been shown, false otherwise.
 	 */
 	private boolean setUpLocation(Location location, View view) {
-		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
-		//Do this from db
-		if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
-			try {
-				Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
-				Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
+		try {
+
+			Double lat, lon;
+
+			SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+			Cursor cursor;
+			cursor = db.rawQuery("SELECT lat, lon FROM location WHERE dtime >= Datetime('now', '-10 minutes') ORDER BY dtime DESC LIMIT 1;", null);
+			if (cursor.getCount() == 0){
+				cursor.close();
+				db.close();
+				return false;
+			}
+			else {
+				cursor.moveToFirst();
+				lat = cursor.getDouble(0);
+				lon = cursor.getDouble(1);
+				cursor.close();
+				db.close();
+
 				Double distance = Distance.calculateDistance(lat, lon, location.getLatitude(), location.getLongitude());
 				TextView text = (TextView) view.findViewById(R.id.tv_home_section_location_distance);
 				if (distance <= 2) {
@@ -510,13 +495,14 @@ public class HomeLayout extends Fragment implements LocationListener {
 				} else {
 					text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
 				}
+
 				return true;
 			}
-			catch (Exception ex){
-				Log.e("Location", "Couldn't set up home location section: " + ex.toString());
-			}
-
 		}
+		catch (Exception ex){
+			Log.e("Location", "Couldn't set up home location section: " + ex.toString());
+		}
+
 		return false;
 	}
 
@@ -537,7 +523,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		llGallery.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_GALLERY);
+				((MainActivity) getActivity()).loadSection(GM.SECTION.GALLERY);
 			}
 		});
 
@@ -549,7 +535,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		ivPhoto[3] = (ImageView) view.findViewById(R.id.iv_home_section_gallery_3);
 
 		//Get data from the database of the future activities
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT id, album, file, uploaded FROM photo, photo_album WHERE id = photo ORDER BY uploaded DESC LIMIT 4;", null);
 
 		while (cursor.moveToNext()) {
@@ -572,7 +558,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
 				fpath.mkdirs();
-				new DownloadImage(GM.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG_PREVIEW).execute();
+				new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG.SIZE.PREVIEW).execute();
 			}
 
 			//Set listeners for images
@@ -623,7 +609,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		String lang = GM.getLang();
 
 		//Get data from the database of the future activities
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, price, after_" + lang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC LIMIT 2;", null);
 
 		//Show section
@@ -634,7 +620,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		llActivitiesPast.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES);
+				((MainActivity) getActivity()).loadSection(GM.SECTION.ACTIVITIES);
 			}
 		});
 
@@ -651,7 +637,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
+			layoutParams.setMargins(GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -705,7 +691,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
+					new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 				}
 			}
 			cursorImage.close();
@@ -764,7 +750,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		LayoutInflater factory = LayoutInflater.from(getActivity());
 
 		//Get data from the database of the future activities
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date LIMIT 2;", null);
 
 		//If there are future activities...
@@ -778,7 +764,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			llActivitiesFuture.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((MainActivity) getActivity()).loadSection(GM.SECTION_ACTIVITIES);
+					((MainActivity) getActivity()).loadSection(GM.SECTION.ACTIVITIES);
 				}
 			});
 
@@ -789,7 +775,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
+				layoutParams.setMargins(GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN);
 				entry.setLayoutParams(layoutParams);
 
 				//Set title
@@ -836,7 +822,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
 						fpath.mkdirs();
-						new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
+						new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 					}
 				}
 
@@ -891,7 +877,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		llBlog.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).loadSection(GM.SECTION_BLOG);
+				((MainActivity) getActivity()).loadSection(GM.SECTION.BLOG);
 			}
 		});
 
@@ -902,7 +888,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//An inflater
 		LayoutInflater factory = LayoutInflater.from(getActivity());
 
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		final Cursor cursor;
 
 		//Get data from the database
@@ -916,7 +902,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			layoutParams.setMargins(GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN, GM.ENTRY_MARGIN);
+			layoutParams.setMargins(GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN, GM.UI.ENTRY_MARGIN);
 			entry.setLayoutParams(layoutParams);
 
 			//Set title
@@ -955,7 +941,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
 					fpath.mkdirs();
-					new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
+					new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 				}
 			}
 
@@ -1057,7 +1043,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onPause() {
-		//TODO: Only do this if location is required
 		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			locationManager.removeUpdates(this);
 		}
@@ -1071,7 +1056,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onDestroy() {
-		//TODO: Only do this if location is required
 		try {
 			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 				locationManager.removeUpdates(this);
@@ -1091,7 +1075,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onResume(){
-		//TODO: Only do this if location is required
 		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		}

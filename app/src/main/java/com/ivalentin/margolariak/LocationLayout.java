@@ -9,17 +9,21 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +46,7 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 
 	//The map view
 	private MapView mapView;
-	private MarkerOptions moGm;
+	GoogleMap gMap;
 
 	private LocationManager locationManager;
 
@@ -51,6 +55,35 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 
 	//The main View
 	private View v;
+
+	private double lat, lon;
+
+	//Map marker
+	Marker gmMarker;
+	MarkerOptions moGm = new MarkerOptions();
+
+	private final Handler markerHandler = new Handler();
+
+	private final Runnable resetMarker = new Runnable() {
+		@Override
+		public void run() {
+
+			if (gmMarker != null) {
+				gmMarker.remove();
+				if (refreshLocation()) {
+					gmMarker.setPosition(new LatLng(lat, lon));
+					gmLocation = new LatLng(lat, lon);
+					//moGm = new MarkerOptions();
+					moGm.title(v.getContext().getString(R.string.app_name));
+					moGm.position(gmLocation);
+					moGm.icon(BitmapDescriptorFactory.fromResource(R.drawable.pinpoint_gm));
+					gmMarker = gMap.addMarker(moGm);
+				}
+			}
+			markerHandler.postDelayed(resetMarker, GM.LOCATION.INTERVAL);
+		}
+	};
+
 
 	/**
 	 * Run when the fragment is inflated.
@@ -70,11 +103,17 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 		//Set up
 		locationManager = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 		}
 
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(v.getContext().getString(R.string.menu_location));
+
+		//Refresh the location.
+		refreshLocation();
+
+		//Periodically check map
+		markerHandler.post(resetMarker);
 
 		mapView = (MapView) v.findViewById(R.id.mapview);
 		mapView.onCreate(savedInstanceState);
@@ -98,9 +137,11 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 			mapView.onResume();
 		}
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 		}
 		super.onResume();
+
+		markerHandler.post(resetMarker);
 	}
 
 	/**
@@ -114,6 +155,8 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 			locationManager.removeUpdates(this);
 		}
 		super.onPause();
+
+		markerHandler.removeCallbacks(resetMarker);
 	}
 
 	/**
@@ -128,10 +171,13 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			locationManager.removeUpdates(this);
 		}
+
 		if (mapView != null){
 			mapView.onResume();
 			mapView.onDestroy();
 		}
+
+		markerHandler.removeCallbacks(resetMarker);
 	}
 
 	/**
@@ -150,6 +196,34 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	}
 
 	/**
+	 * Refresh the global variables "lat" and "lon".
+	 *
+	 * Uses the most recent data in the database, if they are not older than 10 minutes.
+	 *
+	 * @return true if there is a location from less than 10 minutes ago, 0 otherwise.
+	 */
+	private boolean refreshLocation(){
+
+		SQLiteDatabase db = getActivity().openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+		Cursor cursor;
+		cursor = db.rawQuery("SELECT lat, lon FROM location WHERE dtime >= Datetime('now', '-10 minutes') ORDER BY dtime DESC LIMIT 1;", null);
+		if (cursor.getCount() == 0){
+			cursor.close();
+			db.close();
+			return false;
+		}
+		else {
+			cursor.moveToFirst();
+			lat = cursor.getDouble(0);
+			lon = cursor.getDouble(1);
+			cursor.close();
+			db.close();
+			return true;
+		}
+
+	}
+
+	/**
 	 * Called when the map is ready to be used. 
 	 * Initializes it and sets the Gasteizko Margolariak marker.
 	 * 
@@ -159,6 +233,8 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	 */
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
+
+		gMap = googleMap;
 
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 			googleMap.setMyLocationEnabled(true);
@@ -171,31 +247,31 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 		} catch (Exception e) {
 			Log.e("Error initializing maps", e.toString());
 		}
-		
-		//Set GM marker
-		//TODO: Use db
-		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
-		Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
-		Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
-		gmLocation = new LatLng(lat, lon);
-		moGm = new MarkerOptions();
-		moGm.title(v.getContext().getString(R.string.app_name));
-		moGm.position(gmLocation);
-		moGm.icon(BitmapDescriptorFactory.fromResource(R.drawable.pinpoint_gm));
-		googleMap.addMarker(moGm);
-		googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 14.0f));
+
+		//If there is a location, set it
+		if (refreshLocation()) {
+
+			//Set the marker
+			gmLocation = new LatLng(lat, lon);
+			moGm.title(v.getContext().getString(R.string.app_name));
+			moGm.position(gmLocation);
+			moGm.icon(BitmapDescriptorFactory.fromResource(R.drawable.pinpoint_gm));
+			gmMarker = googleMap.addMarker(moGm);
+			googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 14.0f));
+		}
 
 		//Start device location requests
 		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION_ACCURACY_TIME, GM.LOCATION_ACCURACY_SPACE, this);
+			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		}
 	}
 
+
 	private void calCulateDistance(Location userLocation){
 		TextView text = (TextView) v.findViewById(R.id.tv_location_distance);
 		try {
-			Double distance = Distance.calculateDistance(userLocation.getLatitude(), userLocation.getLongitude(), gmLocation.latitude, gmLocation.longitude);
+			Double distance = Distance.calculateDistance(userLocation.getLatitude(), userLocation.getLongitude(), lat, lon);
 			if (distance <= 2) {
 				distance = 1000 * distance;
 				text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
@@ -220,23 +296,11 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		//TODO: Read again the GM Location.
-		SharedPreferences preferences = v.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
-		if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
-
-			Double lat = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LATITUDE, 0));
-			Double lon = Double.longBitsToDouble(preferences.getLong(GM.PREF_GM_LONGITUDE, 0));
-			gmLocation = new LatLng(lat, lon);
-						calCulateDistance(location);
-			if (moGm != null){
-				moGm.visible(true);
-			}
-		}
+		calCulateDistance(location);
 	}
 
 	/**
 	 * Called when the location provider changes it's state.
-	 * Recalculates the list of events in the around section.
 	 *
 	 * @param provider The name of the provider
 	 * @param status Status code of the provider
@@ -275,7 +339,4 @@ public class LocationLayout extends Fragment implements OnMapReadyCallback, Loca
 	public void onProviderDisabled(String provider) {
 		//populateAround();
 	}
-
-
-
 }

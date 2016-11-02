@@ -1,5 +1,7 @@
 package com.ivalentin.margolariak;
 
+//TODO: This doesn't work. Revise once the notification API is ready
+
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
@@ -51,7 +55,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			//Get the file
 			try{
 				fu = new FetchURL();
-				fu.Run(GM.SERVER + "/app/notifications.php");
+				fu.Run(GM.API.SERVER + "/app/notifications.php");
 				Log.d("Alarm", "Fetched notifications");
 
 				//Parse info
@@ -64,57 +68,67 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 					//Is the notification seen already?
 					//TODO: Create a db table for this
-					if(!preferences.getBoolean(GM.NOTIFICATION_SEEN_ + id, false)){
 
-						String lang = GM.getLang();
-						String title = notification.substring(notification.indexOf("<title_" + lang + ">") + 10, notification.indexOf("</title_" + lang + ">"));
-						String text = notification.substring(notification.indexOf("<text_" + lang + ">") + 9, notification.indexOf("</text_" + lang + ">"));
+					//Get data from database
+					SQLiteDatabase db = SQLiteDatabase.openDatabase(context.getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+					final Cursor cursor;
+					cursor = db.rawQuery("SELECT id, seen FROM notification WHERE id = " + id + ";", null);
+					if (cursor.getCount() == 0){
+
+					}
+					else {
+
+						if (cursor.getInt(1) == 0) {
 
 
-						//Get the notification manager ready
-						NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+							String lang = GM.getLang();
+							String title = notification.substring(notification.indexOf("<title_" + lang + ">") + 10, notification.indexOf("</title_" + lang + ">"));
+							String text = notification.substring(notification.indexOf("<text_" + lang + ">") + 9, notification.indexOf("</text_" + lang + ">"));
 
-						//Variables to create intents for each notification
-						Intent resultIntent;
-						TaskStackBuilder stackBuilder;
 
-						//Send the notification.
-						NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-								.setSmallIcon(R.drawable.ic_notification)
-								.setContentTitle(title)
-								.setAutoCancel(true)
-								.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
-								.setVibrate((new long[] { 400, 400, 400}))
-								.setColor(context.getResources().getColor(R.color.background_notification))
-								.setSubText(context.getString(R.string.app_name))
-								.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-								.setContentText(text);
+							//Get the notification manager ready
+							NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-						// Creates an intent for an Activity to be launched from the notification.
-						resultIntent = new Intent(context, MainActivity.class);
-						resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+							//Variables to create intents for each notification
+							Intent resultIntent;
+							TaskStackBuilder stackBuilder;
 
-						//Set extras depending on type.
-						resultIntent.putExtra(GM.EXTRA_TEXT, text);
-						resultIntent.putExtra(GM.EXTRA_TITLE, title);
-						resultIntent.putExtra(GM.EXTRA_ACTION, action);
+							//Send the notification.
+							NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+									.setSmallIcon(R.drawable.ic_notification)
+									.setContentTitle(title)
+									.setAutoCancel(true)
+									.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
+									.setVibrate((new long[]{400, 400, 400}))
+									.setColor(context.getResources().getColor(R.color.background_notification))
+									.setSubText(context.getString(R.string.app_name))
+									.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+									.setContentText(text);
 
-						//Add the intent to the notification.
-						stackBuilder = TaskStackBuilder.create(context);
-						stackBuilder.addParentStack(MainActivity.class);
+							// Creates an intent for an Activity to be launched from the notification.
+							resultIntent = new Intent(context, MainActivity.class);
+							resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-						// Adds the Intent that starts the Activity to the top of the stack.
-						stackBuilder.addNextIntent(resultIntent);
-						PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-						mBuilder.setContentIntent(resultPendingIntent);
+							//Set extras depending on type.
+							resultIntent.putExtra(GM.EXTRA.TEXT, text);
+							resultIntent.putExtra(GM.EXTRA.TITLE, title);
+							resultIntent.putExtra(GM.EXTRA.ACTION, action);
 
-						//Actually send the notification.
-						mNotificationManager.notify(Integer.parseInt(id), mBuilder.build());
+							//Add the intent to the notification.
+							stackBuilder = TaskStackBuilder.create(context);
+							stackBuilder.addParentStack(MainActivity.class);
 
-						//Mark as notified
-						SharedPreferences.Editor editor = preferences.edit();
-						editor.putBoolean(GM.NOTIFICATION_SEEN_ + id, true);
-						editor.apply();
+							// Adds the Intent that starts the Activity to the top of the stack.
+							stackBuilder.addNextIntent(resultIntent);
+							PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+							mBuilder.setContentIntent(resultPendingIntent);
+
+							//Actually send the notification.
+							mNotificationManager.notify(Integer.parseInt(id), mBuilder.build());
+
+							//Mark as notified
+							db.execSQL("UPDATE notification SET seen = 1 WHERE id = " + id);
+						}
 					}
 				o = o.substring(o.indexOf("</notification>") + 15);
 				}
@@ -143,7 +157,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
 			//Set the alarm cycle.
-			alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, GM.PERIOD_SYNC, GM.PERIOD_SYNC, alarmIntent);
+			alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, GM.PERIOD_SYNC.FESTIVALS, GM.PERIOD_SYNC.NORMAL, alarmIntent);
 
 			// Enable SampleBootReceiver to automatically restart the alarm when the device is rebooted.
 			ComponentName receiver = new ComponentName(context, BootReceiver.class);
