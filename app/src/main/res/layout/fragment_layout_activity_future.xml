@@ -4,20 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/scrollView3"
-    android:background="@color/background_app"
-    >
+    android:background="@color/background_app">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/section"
             android:layout_margin="10dp"
             tools:ignore="UselessParent">
@@ -44,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/entry"
                 android:padding="7dp"
-                android:layout_margin="8dp" >
+                android:layout_margin="8dp">
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -67,9 +65,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/iv_activity_future_0"
                     android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/app_cdesc"
+                    android:contentDescription="@string/empty"
                     android:visibility="gone"
-                    android:maxHeight="70dp"/>
+                    android:maxHeight="90dp"/>
 
                 <LinearLayout
                     android:orientation="horizontal"
