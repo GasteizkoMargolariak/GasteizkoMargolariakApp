@@ -19,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -147,11 +148,16 @@ public class MainActivity extends Activity {
 		String title = "";
 		Bundle bundle = new Bundle();
 
+		//Get measures in dp
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		int dp7 = (int) (8 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+		int dp3 = (int) (4 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+
 		//Reset all tabs to it's original state
 		for (int i = 0; i < 6; i++) {
 			menuText[i].setTypeface(null, Typeface.NORMAL);
 			menuImage[i].requestLayout();
-			menuImage[i].getLayoutParams().height = 2;
+			menuImage[i].getLayoutParams().height = dp3;
 		}
 
 		switch (section) {
@@ -159,14 +165,14 @@ public class MainActivity extends Activity {
 				fragment = new HomeLayout();
 				title = getString(R.string.menu_home);
 				menuText[0].setTypeface(null, Typeface.BOLD);
-				menuImage[0].getLayoutParams().height = 8;
+				menuImage[0].getLayoutParams().height = dp7;
 				break;
 
 			case GM.SECTION.LOCATION:
 				fragment = new LocationLayout();
 				title = getString(R.string.menu_location);
 				menuText[1].setTypeface(null, Typeface.BOLD);
-				menuImage[1].getLayoutParams().height = 8;
+				menuImage[1].getLayoutParams().height = dp7;
 				break;
 
 			case GM.SECTION.LABLANCA:
@@ -179,7 +185,7 @@ public class MainActivity extends Activity {
 				}
 				title = getString(R.string.menu_lablanca);
 				menuText[2].setTypeface(null, Typeface.BOLD);
-				menuImage[2].getLayoutParams().height = 8;
+				menuImage[2].getLayoutParams().height = dp7;
 				break;
 
 			case GM.SECTION.SCHEDULE:
@@ -188,7 +194,7 @@ public class MainActivity extends Activity {
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_schedule);
 				menuText[2].setTypeface(null, Typeface.BOLD);
-				menuImage[2].getLayoutParams().height = 8;
+				menuImage[2].getLayoutParams().height = dp7;
 				break;
 
 			case GM.SECTION.GM_SCHEDULE:
@@ -197,28 +203,28 @@ public class MainActivity extends Activity {
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_gm_schedule);
 				menuText[2].setTypeface(null, Typeface.BOLD);
-				menuImage[2].getLayoutParams().height = 8;
+				menuImage[2].getLayoutParams().height = dp7;
 				break;
 
 			case GM.SECTION.ACTIVITIES:
 				fragment = new ActivityLayout();
 				title = getString(R.string.menu_activities);
 				menuText[3].setTypeface(null, Typeface.BOLD);
-				menuImage[3].getLayoutParams().height = 8;
+				menuImage[3].getLayoutParams().height = dp7;
 				break;
 
 			case GM.SECTION.BLOG:
 				fragment = new BlogLayout();
 				title = getString(R.string.menu_blog);
 				menuText[4].setTypeface(null, Typeface.BOLD);
-				menuImage[4].getLayoutParams().height = 8;
+				menuImage[4].getLayoutParams().height = dp7;
 				break;
 
 			case GM.SECTION.GALLERY:
 				fragment = new GalleryLayout();
 				title = getString(R.string.menu_blog);
 				menuText[5].setTypeface(null, Typeface.BOLD);
-				menuImage[5].getLayoutParams().height = 8;
+				menuImage[5].getLayoutParams().height = dp7;
 				break;
 		}
 
