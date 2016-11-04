@@ -6,178 +6,170 @@
     android:layout_height="wrap_content"
     android:id="@+id/scrollView3"
     android:background="@color/background_app"
-    android:padding="7dp"
-    tools:ignore="Overdraw">
+    >
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/section"
-        android:layout_margin="7dp"
-        android:padding="7dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/tv_activity_future_title"
-            android:textStyle="bold"/>
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/entry"
-            android:padding="7dp" >
+            android:background="@drawable/section"
+            android:layout_margin="10dp"
+            tools:ignore="UselessParent">
 
             <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/tv_activity_future_date"
-                android:layout_gravity="end"
-                android:gravity="center_horizontal" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/iv_activity_future_0"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/app_cdesc"
-                android:visibility="gone"
-                android:maxHeight="70dp"
-                />
-
-            <WebView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/wv_activity_future_text" />
-
-            <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_future_1"
-                    android:contentDescription="@string/app_cdesc"
-                    android:layout_gravity="center_horizontal"
-                    android:maxHeight="50dp"
-                    android:visibility="gone"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_future_2"
-                    android:contentDescription="@string/app_cdesc"
-                    android:visibility="gone"
-                    android:maxHeight="50dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_future_3"
-                    android:contentDescription="@string/app_cdesc"
-                    android:visibility="gone"
-                    android:maxHeight="50dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_future_4"
-                    android:contentDescription="@string/app_cdesc"
-                    android:visibility="gone"
-                    android:maxHeight="50dp" />
-            </LinearLayout>
-
-            <TableLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/album_border"
-                >
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:text="@string/activity_city"
-                        android:gravity="end"
-                        android:background="#ffffff"
-                        android:layout_margin="1dp"
-                        android:padding="4dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:id="@+id/tv_activity_future_city"
-                        android:layout_margin="1dp"
-                        android:background="#ffffff"
-                        android:padding="4dp"/>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:text="@string/activity_price"
-                        android:layout_margin="1dp"
-                        android:gravity="end"
-                        android:background="#ffffff"
-                        android:padding="4dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:id="@+id/tv_activity_future_price"
-                        android:layout_margin="1dp"
-                        android:background="#ffffff"
-                        android:padding="4dp"/>
-                </TableRow>
-            </TableLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:id="@+id/ll_activity_future_schedule">
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tv_activity_future_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/activity_schedule"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:layout_width="match_parent"
+                android:background="@drawable/section_title"
+                android:paddingBottom="4dp"
+                android:paddingEnd="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingStart="20dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/section_title"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/ll_activity_future_schedule_list"
                 android:background="@drawable/entry"
-                android:padding="7dp"/>
+                android:padding="7dp"
+                android:layout_margin="8dp" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_activity_future_date"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_activity_future_city"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_activity_future_0"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/app_cdesc"
+                    android:visibility="gone"
+                    android:maxHeight="70dp"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:text="@string/activity_price"
+                        android:layout_margin="1dp"
+                        android:padding="4dp"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:id="@+id/tv_activity_future_price"
+                        android:padding="4dp"/>
+                </LinearLayout>
+
+                <WebView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/wv_activity_future_text" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_future_1"
+                        android:contentDescription="@string/app_cdesc"
+                        android:layout_gravity="center_horizontal"
+                        android:maxHeight="50dp"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_future_2"
+                        android:contentDescription="@string/app_cdesc"
+                        android:visibility="gone"
+                        android:maxHeight="50dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_future_3"
+                        android:contentDescription="@string/app_cdesc"
+                        android:visibility="gone"
+                        android:maxHeight="50dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_future_4"
+                        android:contentDescription="@string/app_cdesc"
+                        android:visibility="gone"
+                        android:maxHeight="50dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/entry"
+                android:padding="7dp"
+                android:layout_margin="8dp"
+                android:id="@+id/ll_activity_future_schedule">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_schedule"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ll_activity_future_schedule_list"
+                    android:padding="7dp"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
+
 </com.ivalentin.margolariak.CustomScrollView>
