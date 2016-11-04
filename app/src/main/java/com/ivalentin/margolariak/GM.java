@@ -826,7 +826,7 @@ final class GM {
 			/**
 			 * Path to the API.
 			 */
-			static final String PATH = "/API/v1/sync.php";
+			static final String PATH = "/API/v1/notifications.php";
 
 			/**
 			 * Keys fotr the API parameters.
