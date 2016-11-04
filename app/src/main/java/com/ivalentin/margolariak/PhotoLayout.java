@@ -204,7 +204,7 @@ public class PhotoLayout extends Fragment {
 		}
 		else {
 			//If not,  set placeholder image, create directories and download asynchronously
-			imageView.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/pinpoint_gm", null, null));
+			imageView.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/photo_placeholder", null, null));
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/");
 			fpath.mkdirs();

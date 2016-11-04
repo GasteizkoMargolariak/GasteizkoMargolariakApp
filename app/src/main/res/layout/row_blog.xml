@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,7 +20,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/tv_row_blog_hidden"
         android:visibility="gone" />
 
@@ -64,7 +64,9 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="-40dp"
                 android:background="@drawable/gradient_v_white"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/empty"
+                tools:ignore="InefficientWeight"/>
 
         </LinearLayout>
 
@@ -82,7 +84,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
         android:alpha="0.5"
-        android:adjustViewBounds="false"/>
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/empty"/>
 
     <LinearLayout
         android:orientation="horizontal"
