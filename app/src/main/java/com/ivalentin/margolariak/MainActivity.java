@@ -554,6 +554,8 @@ public class MainActivity extends Activity {
 					lp.dimAmount = 0.4f;
 					dialog.getWindow().setAttributes(lp);
 
+					dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 					//Show dialog
 					dialog.show();
 				}
