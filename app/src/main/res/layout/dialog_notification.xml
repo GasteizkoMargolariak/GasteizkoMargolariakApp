@@ -1,24 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/section"
-    android:orientation="vertical"
-    android:padding="7dp" >
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/section"
+              android:orientation="vertical"
+              android:layout_margin="20dp">
 
     <TextView
         android:id="@+id/tv_dialog_notification_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:textStyle="bold"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        android:background="@drawable/section_title"
+        android:paddingBottom="4dp"
+        android:paddingEnd="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:paddingStart="20dp"
+        android:paddingTop="4dp"
+        android:textColor="@color/section_title"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/entry">
+        android:background="@drawable/entry"
+        android:layout_margin="8dp"
+        android:padding="7dp">
 
         <TextView
             android:id="@+id/tv_dialog_notification_text"
