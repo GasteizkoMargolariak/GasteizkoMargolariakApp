@@ -23,7 +23,15 @@ final class GM {
 	 */
 	final class DB {
 
+		/**
+		 * Name of the database.
+		 */
 		static final String NAME = "gm";
+
+		/**
+		 * Initial version of the database.
+		 */
+		static final int INITIAL_VERSION = 0;
 
 		/**
 		 * Column types
@@ -605,9 +613,19 @@ final class GM {
 			static final String PREVIOUS_APP_VERSION = "previous_app_version";
 
 			/**
-			 * Key of the data to store if ther is a festival season..
+			 * Key of the data to store if ther is a festival season.
 			 */
 			static final String LABLANCA = "lablanca";
+
+			/**
+			 * Key that indicates if comments can be posted.
+			 */
+			static final String COMMENTS = "comments";
+
+			/**
+			 * Key that indicates if photos can be uploaded.
+			 */
+			static final String PHOTOS = "photos";
 		}
 
 		/**
@@ -630,6 +648,16 @@ final class GM {
 			 * Default value for the data that indicates if it's festival season.
 			 */
 			static final boolean LABLANCA = false;
+
+			/**
+			 * Default value for the key that indicates if comments can be posted.
+			 */
+			static final boolean COMMENTS = false;
+
+			/**
+			 * Default value for the key that indicates if photos can be uploaded.
+			 */
+			static final boolean PHOTOS = false;
 		}
 	}
 

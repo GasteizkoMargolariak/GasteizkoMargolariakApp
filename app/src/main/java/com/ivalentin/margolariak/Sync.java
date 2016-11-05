@@ -19,11 +19,15 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -88,7 +92,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			doProgress = true;
 
 		}
-		Log.d("Sync", "Starting full sync");
+		Log.d("SYNC", "Starting full sync");
 	}
 	
 	/**
@@ -114,7 +118,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			//Check db version again
 			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()){
-				Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
+				Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
 				return;
 			}
 
@@ -128,7 +132,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.close();
 
 			//If the database is on it's initial version (i.e: There is no data, new or old)
-			if (true){ //TODO dbVersion == GM.DATA.DEFAULT.DEFAULT_PREF_DB_VERSION){
+			if (dbVersion == GM.DB.INITIAL_VERSION){
 
 				Log.e("SYNC", "Full sync failed");
 
@@ -149,7 +153,17 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					activity.finish();
 					}
 				});
-				
+
+				//Set dialog parameters
+				WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+				//noinspection ConstantConditions
+				lp.copyFrom(dial.getWindow().getAttributes());
+				lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+				lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+				lp.gravity = Gravity.CENTER;
+				dial.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+				dial.getWindow().setAttributes(lp);
+
 				//Show the dialog
 				dial.show();
 			}
@@ -269,6 +283,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 *
 	 * @return False if there were errors, true otherwise.
 	 */
+	@SuppressWarnings("unused")
 	private boolean recreateDb(SQLiteDatabase db) {
 		boolean result = true;
 		try {
@@ -455,6 +470,65 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		return result;
 	}
 
+	/**
+	 * When the table "settings cames up, dont make a table, but store required
+	 * values as data.
+	 *
+	 * @param settings JSON string with the contents of the "settings" table.
+	 * @return true if values could be saved, false otherwise.
+	 */
+	private boolean saveSettings(String settings){
+
+		SharedPreferences sharedData = myContextRef.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedData.edit();
+		try{
+			String value;
+			if (settings.contains("\"name\":\"comments\",\"value\":\"")){
+				value = settings.substring(settings.indexOf("\"name\":\"comments\",\"value\":\"") + 27, settings.indexOf("\"name\":\"comments\",\"value\":\"") + 28);
+				if ("0".equals(value) || "1".equals(value)){
+					Log.d("SYNC", "Setting found: comments = " + value);
+					if ("0".equals(value)) {
+						editor.putBoolean(GM.DATA.KEY.COMMENTS, false);
+					}
+					else {
+						editor.putBoolean(GM.DATA.KEY.COMMENTS, true);
+					}
+				}
+			}
+			if (settings.contains("\"name\":\"festivals\",\"value\":\"")){
+				value = settings.substring(settings.indexOf("\"name\":\"festivals\",\"value\":\"") + 28, settings.indexOf("\"name\":\"festivals\",\"value\":\"") + 29);
+				if ("0".equals(value) || "1".equals(value)){
+					Log.d("SYNC", "Setting found: lablanca = " + value);
+					if ("0".equals(value)) {
+						editor.putBoolean(GM.DATA.KEY.LABLANCA, false);
+					}
+					else {
+						editor.putBoolean(GM.DATA.KEY.LABLANCA, true);
+					}
+				}
+			}
+			if (settings.contains("\"name\":\"photos\",\"value\":\"")){
+				value = settings.substring(settings.indexOf("\"name\":\"photos\",\"value\":\"") + 25, settings.indexOf("\"name\":\"photos\",\"value\":\"") + 26);
+				if ("0".equals(value) || "1".equals(value)){
+					Log.d("SYNC" ,"Setting found: photos = " + value);
+					if ("0".equals(value)) {
+						editor.putBoolean(GM.DATA.KEY.PHOTOS, false);
+					}
+					else {
+						editor.putBoolean(GM.DATA.KEY.PHOTOS, true);
+					}
+				}
+			}
+
+			editor.apply();
+			return true;
+		}
+		catch (Exception ex){
+			editor.apply();
+			Log.e("SYNC", "Unable to save settings: " + ex.toString());
+			return false;
+		}
+	}
 
 
 
@@ -468,6 +542,12 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @return False if there were errors, true otherwise.
 	 */
 	private boolean saveTable(SQLiteDatabase db, String table, String data) {
+
+		//If settings table, do something else
+		if ("settings".equals(table)){
+			return saveSettings(data);
+		}
+
 		int type, i;
 		JSONObject jsonObj;
 		String[] values = new String[99];
