@@ -626,7 +626,7 @@ public class MainActivity extends Activity {
 	/**
 	 * Performs a full sync against the remote database.
 	 */
-	private void sync() {
+	public void sync() {
 		ProgressBar pbSync = (ProgressBar) findViewById(R.id.pb_sync);
 		ImageView ivSync = (ImageView) findViewById(R.id.iv_logo);
 		new Sync(this, pbSync, ivSync).execute();

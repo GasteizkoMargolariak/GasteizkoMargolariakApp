@@ -1,6 +1,7 @@
 package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -40,7 +40,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
     private int code = 404;
 
-    public PostComment(String type, String user, String text, String language, int id, LinearLayout form, LinearLayout list, Context context) {
+    PostComment(String type, String user, String text, String language, int id, LinearLayout form, LinearLayout list, Context context) {
         super();
         this.type = type;
         this.user = user;
@@ -123,10 +123,10 @@ class PostComment extends AsyncTask<String, String, Integer> {
                     Log.e("COMMENT", "The server returned a 403 code (Client Error: Forbidden) for the url \"" + uri + "\"");
 					return(-403);
                 case 200:    //Success: OK
-                    Log.d("COMMENT", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now syncing...");
+                    Log.d("COMMENT", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\".");
 					break;
 				default:
-					Log.e("COMMENT", "The server returned a " + code + " code for the url \"" + uri + "\". Stopping sync process...");
+					Log.e("COMMENT", "The server returned a " + code + " code for the url \"" + uri + "\".");
 					return(-6);
             }
 
@@ -172,7 +172,11 @@ class PostComment extends AsyncTask<String, String, Integer> {
             formText.setText("");
 
             //TODO: Update counter
-			//TODO: insert in database
+
+			//Perform a sync
+			((MainActivity) context).sync();
+
+
             //Insert comment in list
             LayoutInflater factory = LayoutInflater.from(context);
             LinearLayout entry = (LinearLayout) factory.inflate(R.layout.row_comment, null);

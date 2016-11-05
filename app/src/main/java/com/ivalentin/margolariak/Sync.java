@@ -88,7 +88,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			doProgress = true;
 
 		}
-		Log.d("Sync", "Starting full sync");
+		Log.d("SYNC", "Starting full sync");
 	}
 	
 	/**
