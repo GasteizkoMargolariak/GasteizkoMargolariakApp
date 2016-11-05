@@ -360,7 +360,7 @@ public class MainActivity extends Activity {
 		});
 
 		//Get preferences
-		SharedPreferences sharedData = getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
+		SharedPreferences sharedData = getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 		SharedPreferences.Editor dataEditor = sharedData.edit();
 
 		//If the user code is not set, generate one
