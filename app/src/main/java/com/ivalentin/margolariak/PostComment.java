@@ -174,7 +174,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
             //TODO: Update counter
 
 			//Perform a sync
-			((MainActivity) context).sync();
+			((MainActivity) context).bgSync();
 
 
             //Insert comment in list
