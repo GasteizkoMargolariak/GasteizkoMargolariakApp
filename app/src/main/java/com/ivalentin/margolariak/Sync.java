@@ -411,7 +411,9 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				db.execSQL(GM.DB.QUERY.CREATE.VERSION);
 				db.execSQL(GM.DB.QUERY.EMPTY.VERSION);
 				for (int i = 0; i < totalVersions; i ++){
-					db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
+					if (!"all".equals(keys[i])) {
+						db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
+					}
 				}
 			}
 			else{
