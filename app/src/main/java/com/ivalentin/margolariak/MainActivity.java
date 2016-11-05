@@ -633,6 +633,14 @@ public class MainActivity extends Activity {
 	}
 
 	/**
+	 * Asks the activity to performa a sync.
+	 * Intended to be called from any screen.
+	 */
+	public void bgSync(){
+		new Sync(this).execute();
+	}
+
+	/**
 	 * Perform an initial sync before the app can be used.
 	 * A dialog will block the UI.
 	 * It is intended to be used only when the database is empty.

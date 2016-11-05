@@ -893,6 +893,55 @@ final class GM {
 				static final String FORMAT = "json";
 			}
 		}
+
+		/**
+		 * Utilities for the COMMENT V1 API.
+		 */
+		static final class COMMENT {
+
+			/**
+			 * Path to the API.
+			 */
+			static final String PATH = "/API/v1/comment.php";
+
+			/**
+			 * Keys fotr the API parameters.
+			 */
+			static final class KEY {
+
+				/**
+				 * Key for the client identifier.
+				 */
+				static final String CLIENT = "client";
+
+				/**
+				 * Key for the user identifier.
+				 */
+				static final String USER = "user";
+
+				/**
+				 * Key for the action to perform with the API ("sync" or "version").
+				 */
+				static final String TARGET = "target";
+
+				/**
+				 * Key to indicate the format of the data for the API to send.
+				 */
+				static final String ID = "id";
+
+				/**
+				 * Key to indicate the comment's username.
+				 */
+				static final String USERNAME = "username";
+
+				/**
+				 * Key to indicate the text.
+				 */
+				static final String TEXT = "text";
+
+			}
+		}
+
 	}
 
 	/**

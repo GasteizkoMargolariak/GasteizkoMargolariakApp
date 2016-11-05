@@ -634,11 +634,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 			}
 			catch (JSONException e) {
-				Log.e("SYNC", "Error parsing table '" + table + "': " + e.toString());
+				Log.e("SYNC", "Error parsing table '" + table + "' (JSONException): " + e.toString());
 				return false;
 			}
 			catch (Exception ex) {
-				Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
+				Log.e("SYNC", "Error parsing table '" + table + "': " + ex.toString());
 				return false;
 			}
 
@@ -653,7 +653,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				db.execSQL(queries.get(i));
 			}
 		} catch (Exception ex) {
-			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString().substring(18 * ex.toString().length() / 20));
+			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
 
 			//I don't put a 'return false;' here because I dont want to loose the whole table for just one row.
 		}
