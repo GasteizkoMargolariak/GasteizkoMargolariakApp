@@ -105,18 +105,18 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 		//Get schedule type
 		Bundle bundle = this.getArguments();
-		schedule = bundle.getInt(GM.SCHEDULE, GM.SECTION_LABLANCA_SCHEDULE);
+		schedule = bundle.getInt(GM.SCHEDULE.KEY, GM.SCHEDULE.CITY);
 		
 		//Set the title
-		if (schedule == GM.SECTION_LABLANCA_SCHEDULE)
+		if (schedule == GM.SCHEDULE.CITY)
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_schedule));
 		else
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_gm_schedule));
 
 		//Populate the dates array
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor;
-		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
+		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
 			cursor = db.rawQuery("SELECT DISTINCT date(start) FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 1;", null);
 		}
 		else{
@@ -224,7 +224,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			Log.e("Datetime error", ex.toString());
 		}
 
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 
 		String lang = GM.getLang();
 
@@ -252,7 +252,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 				tvDayMonth.setText(getString(R.string.schedule_month_august));
 				break;
 		}
-		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
+		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
 			Cursor cursorDay = db.rawQuery("SELECT name_" + lang + " FROM festival_day WHERE date(date) = '" + dates[selected] + "';", null);
 			if (cursorDay.getCount() > 0) {
 				cursorDay.moveToFirst();
@@ -278,7 +278,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 		String query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' AND ";
 
-		if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
+		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
 			query = query + "gm = 1 ";
 		} else {
 			query = query + "gm = 0 ";
@@ -327,7 +327,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			}
 
 			//Set icon
-			if (schedule == GM.SECTION_LABLANCA_GM_SCHEDULE) {
+			if (schedule == GM.SCHEDULE.MARGOLARIAK) {
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_schedule_pinpoint);
 				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/pinpoint_gm", null, null));
 			}
@@ -399,7 +399,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
 		
 		//Get info about the event
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		String lang = GM.getLang();
 		Cursor cursor = db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host FROM festival_event, place WHERE place = place.id AND festival_event.id = " + id + ";", null);
 		if (cursor.getCount() > 0){

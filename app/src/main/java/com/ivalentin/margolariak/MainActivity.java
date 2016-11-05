@@ -2,9 +2,6 @@ package com.ivalentin.margolariak;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -15,11 +12,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -44,7 +44,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
- * The main Activity of the app. It's actually the only activity, and it loads other fragments.
+ * The main Activity of the app. It's actually the only content activity, and it loads other fragments.
  *
  * @author Iñigo Valentin
  */
@@ -53,62 +53,51 @@ public class MainActivity extends Activity {
 	//Alarm to get location and notifications.
 	private AlarmReceiver notificationAlarm;
 
-	//The menu entries
-	private RelativeLayout menuItem[];
 	private TextView menuText[];
 	private ImageView menuImage[];
 
 	//Handler to periodically check for location updates
 	private final Handler locationHandler = new Handler();
 	// Code to check for location updates
+	private MainActivity activity = this;
 	private final Runnable checkForLocation = new Runnable() {
 		@Override
 		public void run() {
 
-			//Get location page and parse it
-			boolean result = false;
-			FetchURL fu = new FetchURL();
-			//TODO: This needs a simple API too
-			fu.Run(GM.SERVER + "/app/location.php");
-			String lat = "", lon = "";
-			String o = fu.getOutput().toString();
-			Log.d("Location", "Fetched location page");
-			if (o.contains("<location>none</location>"))
-				result = false;
-			if (o.contains("<lat>") && o.contains("<lon>")) {
-				lat = o.substring(o.indexOf("<lat>") + 5, o.indexOf("</lat>"));
-				lon = o.substring(o.indexOf("<lon>") + 5, o.indexOf("</lon>"));
-				result = true;
-			}
-
-			SharedPreferences settings = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = settings.edit();
-			if (result) {
-				editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(Double.parseDouble(lat)));
-				editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(Double.parseDouble(lon)));
-				editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
-
-				//Show menu entry
-				if (menuItem[1] != null) {
-					menuItem[1].setVisibility(View.VISIBLE);
-				}
-			} else {
-				editor.putString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION);
-				if (menuItem[1] != null) {
-					menuItem[1].setVisibility(View.GONE);
-				}
-			}
-			editor.apply();
+			new ReceiveLocation(activity).execute();
 
 			//Repeat this the same runnable code block again another th specified interval
-			locationHandler.postDelayed(checkForLocation, GM.INTERVAL_LOCATION);
+			locationHandler.postDelayed(checkForLocation, GM.LOCATION.INTERVAL);
 		}
 	};
+
 	/**
 	 * ATTENTION: This was auto-generated to implement the App Indexing API.
 	 * See https://g.co/AppIndexing/AndroidStudio for more information.
 	 */
 	private GoogleApiClient client;
+
+	/**
+	 * Enables o disables the location section.
+	 *
+	 * Shows or hiddes the menu entry and the home fragment,
+	 *
+	 * @param report True to show, false to hide.
+	 */
+	public void gotLocation(boolean report){
+		if (report) {
+			findViewById(R.id.rl_menu_location).setVisibility(View.VISIBLE);
+			if (findViewById(R.id.ll_home_section_location) != null){
+				findViewById(R.id.ll_home_section_location).setVisibility(View.VISIBLE);
+			}
+		}
+		else {
+			findViewById(R.id.rl_menu_location).setVisibility(View.GONE);
+			if (findViewById(R.id.ll_home_section_location) != null) {
+				findViewById(R.id.ll_home_section_location).setVisibility(View.GONE);
+			}
+		}
+	}
 
 	//Not referenced in code.
 	public void showMenu(View v) {
@@ -159,78 +148,83 @@ public class MainActivity extends Activity {
 		String title = "";
 		Bundle bundle = new Bundle();
 
+		//Get measures in dp
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		int dp7 = (int) (8 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+		int dp3 = (int) (4 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+
 		//Reset all tabs to it's original state
 		for (int i = 0; i < 6; i++) {
 			menuText[i].setTypeface(null, Typeface.NORMAL);
 			menuImage[i].requestLayout();
-			menuImage[i].getLayoutParams().height = 2;
+			menuImage[i].getLayoutParams().height = dp3;
 		}
 
 		switch (section) {
-			case GM.SECTION_HOME:
+			case GM.SECTION.HOME:
 				fragment = new HomeLayout();
 				title = getString(R.string.menu_home);
 				menuText[0].setTypeface(null, Typeface.BOLD);
-				menuImage[0].getLayoutParams().height = 8;
+				menuImage[0].getLayoutParams().height = dp7;
 				break;
 
-			case GM.SECTION_LOCATION:
+			case GM.SECTION.LOCATION:
 				fragment = new LocationLayout();
 				title = getString(R.string.menu_location);
 				menuText[1].setTypeface(null, Typeface.BOLD);
-				menuImage[1].getLayoutParams().height = 8;
+				menuImage[1].getLayoutParams().height = dp7;
 				break;
 
-			case GM.SECTION_LABLANCA:
+			case GM.SECTION.LABLANCA:
 				//Get settings
-				SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-				if (preferences.getInt(GM.PREF_DB_FESTIVALS, 0) == 1) {
+				SharedPreferences sharedData = getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+				if (sharedData.getBoolean(GM.DATA.KEY.LABLANCA, GM.DATA.DEFAULT.LABLANCA)) {
 					fragment = new LablancaLayout();
 				} else {
 					fragment = new LablancaNoFestivalsLayout();
 				}
 				title = getString(R.string.menu_lablanca);
 				menuText[2].setTypeface(null, Typeface.BOLD);
-				menuImage[2].getLayoutParams().height = 8;
+				menuImage[2].getLayoutParams().height = dp7;
 				break;
 
-			case GM.SECTION_LABLANCA_SCHEDULE:
+			case GM.SECTION.SCHEDULE:
 				fragment = new ScheduleLayout();
-				bundle.putInt(GM.SCHEDULE, GM.SECTION_LABLANCA_SCHEDULE);
+				bundle.putInt(GM.SCHEDULE.KEY, GM.SCHEDULE.MARGOLARIAK);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_schedule);
 				menuText[2].setTypeface(null, Typeface.BOLD);
-				menuImage[2].getLayoutParams().height = 8;
+				menuImage[2].getLayoutParams().height = dp7;
 				break;
 
-			case GM.SECTION_LABLANCA_GM_SCHEDULE:
+			case GM.SECTION.GM_SCHEDULE:
 				fragment = new ScheduleLayout();
-				bundle.putInt(GM.SCHEDULE, GM.SECTION_LABLANCA_GM_SCHEDULE);
+				bundle.putInt(GM.SCHEDULE.KEY, GM.SCHEDULE.MARGOLARIAK);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_gm_schedule);
 				menuText[2].setTypeface(null, Typeface.BOLD);
-				menuImage[2].getLayoutParams().height = 8;
+				menuImage[2].getLayoutParams().height = dp7;
 				break;
 
-			case GM.SECTION_ACTIVITIES:
+			case GM.SECTION.ACTIVITIES:
 				fragment = new ActivityLayout();
 				title = getString(R.string.menu_activities);
 				menuText[3].setTypeface(null, Typeface.BOLD);
-				menuImage[3].getLayoutParams().height = 8;
+				menuImage[3].getLayoutParams().height = dp7;
 				break;
 
-			case GM.SECTION_BLOG:
+			case GM.SECTION.BLOG:
 				fragment = new BlogLayout();
 				title = getString(R.string.menu_blog);
 				menuText[4].setTypeface(null, Typeface.BOLD);
-				menuImage[4].getLayoutParams().height = 8;
+				menuImage[4].getLayoutParams().height = dp7;
 				break;
 
-			case GM.SECTION_GALLERY:
+			case GM.SECTION.GALLERY:
 				fragment = new GalleryLayout();
 				title = getString(R.string.menu_blog);
 				menuText[5].setTypeface(null, Typeface.BOLD);
-				menuImage[5].getLayoutParams().height = 8;
+				menuImage[5].getLayoutParams().height = dp7;
 				break;
 		}
 
@@ -262,9 +256,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		//Get intent extras
-		String action = getIntent().getStringExtra(GM.EXTRA_ACTION);
-		String actionText = getIntent().getStringExtra(GM.EXTRA_TEXT);
-		String actionTitle = getIntent().getStringExtra(GM.EXTRA_TITLE);
+		String action = getIntent().getStringExtra(GM.EXTRA.ACTION);
+		String actionText = getIntent().getStringExtra(GM.EXTRA.TEXT);
+		String actionTitle = getIntent().getStringExtra(GM.EXTRA.TITLE);
 
 		//Set an alarm for notifications..
 		//Wait a little
@@ -301,7 +295,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		//Assign menu items
-		menuItem = new RelativeLayout[6];
+		RelativeLayout[] menuItem = new RelativeLayout[6];
 		menuItem[0] = (RelativeLayout) findViewById(R.id.rl_menu_home);
 		menuItem[1] = (RelativeLayout) findViewById(R.id.rl_menu_location);
 		menuItem[2] = (RelativeLayout) findViewById(R.id.rl_menu_lablanca);
@@ -331,253 +325,245 @@ public class MainActivity extends Activity {
 		menuItem[0].setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadSection(GM.SECTION_HOME);
+				loadSection(GM.SECTION.HOME);
 			}
 		});
 		menuItem[1].setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadSection(GM.SECTION_LOCATION);
+				loadSection(GM.SECTION.LOCATION);
 			}
 		});
 		menuItem[2].setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadSection(GM.SECTION_LABLANCA);
+				loadSection(GM.SECTION.LABLANCA);
 			}
 		});
 		menuItem[3].setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadSection(GM.SECTION_ACTIVITIES);
+				loadSection(GM.SECTION.ACTIVITIES);
 			}
 		});
 		menuItem[4].setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadSection(GM.SECTION_BLOG);
+				loadSection(GM.SECTION.BLOG);
 			}
 		});
 		menuItem[5].setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadSection(GM.SECTION_GALLERY);
+				loadSection(GM.SECTION.GALLERY);
 			}
 		});
 
 		//Get preferences
-		SharedPreferences preferences = getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preferences.edit();
-
-		//TODO: Read preferences. If there is a recent location, show the menu entry
+		SharedPreferences sharedData = getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
+		SharedPreferences.Editor dataEditor = sharedData.edit();
 
 		//If the user code is not set, generate one
-		if (preferences.getString(GM.USER_CODE, "").length() == 0) {
+		if (sharedData.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER).length() == GM.DATA.DEFAULT.USER.length()) {
 			SecureRandom random = new SecureRandom();
 			String newCode = new BigInteger(130, random).toString(32).substring(0, 16);
-			editor.putString(GM.USER_CODE, newCode);
-			editor.apply();
+			dataEditor.putString(GM.DATA.KEY.USER, newCode);
+			dataEditor.apply();
 		}
 
 		//Cerate database if it's not already created
 		createDatabase();
 
 		//If the database has just been updated, recreate the database
-		if (preferences.getInt(GM.PREF_PREVIOUS_VERSION, 0) < BuildConfig.VERSION_CODE) {
-			Log.d("UPDATE", "App updated from version " + preferences.getInt(GM.PREF_PREVIOUS_VERSION, 0) + " to " + BuildConfig.VERSION_CODE + ". Forcing a new sync...");
+		if (sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) < BuildConfig.VERSION_CODE) {
+			Log.d("UPDATE", "App updated from version " + sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) + " to " + BuildConfig.VERSION_CODE + ". Forcing a new sync...");
 			deleteDatabase();
-			editor.putInt(GM.PREF_PREVIOUS_VERSION, BuildConfig.VERSION_CODE);
-			editor.putInt(GM.PREF_DB_VERSION, 0);
-			editor.apply();
+			dataEditor.putInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, BuildConfig.VERSION_CODE);
+			dataEditor.apply();
 			createDatabase();
 			initialSync();
 		}
 		else {
+			//Sync db
+			sync();
 
-			//If its the first time
-			if (preferences.getInt(GM.PREF_DB_VERSION, GM.DEFAULT_PREF_DB_VERSION) == GM.DEFAULT_PREF_DB_VERSION) {
-				initialSync();
-			}
-			//If t's not the first time
-			else {
-				//Sync db
-				sync();
+			//Load initial section
+			loadSection(GM.SECTION.HOME);
 
-				//Load initial section
-				loadSection(GM.SECTION_HOME);
+			//If the intent had extras (from notifications), do something
+			if (actionText != null) {
+				TextView tvDialogTitle, tvDialogText;
+				Button btDialogClose, btDialogAction;
+				Drawable dialogIcon;
+				if (actionTitle != null) {
 
-				//If the intent had extras (from notifications), do something
-				if (actionText != null) {
-					TextView tvDialogTitle, tvDialogText;
-					Button btDialogClose, btDialogAction;
-					Drawable dialogIcon;
-					if (actionTitle != null) {
+					//Create a dialog
+					final Dialog dialog = new Dialog(this);
 
-						//Create a dialog
-						final Dialog dialog = new Dialog(this);
+					//Set up dialog window
+					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+					dialog.setContentView(R.layout.dialog_notification);
 
-						//Set up dialog window
-						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-						dialog.setContentView(R.layout.dialog_notification);
+					//Set title
+					tvDialogTitle = (TextView) dialog.findViewById(R.id.tv_dialog_notification_title);
+					tvDialogTitle.setText(actionTitle);
 
-						//Set title
-						tvDialogTitle = (TextView) dialog.findViewById(R.id.tv_dialog_notification_title);
-						tvDialogTitle.setText(actionTitle);
+					//Set text
+					tvDialogText = (TextView) dialog.findViewById(R.id.tv_dialog_notification_text);
+					tvDialogText.setText(actionText);
 
-						//Set text
-						tvDialogText = (TextView) dialog.findViewById(R.id.tv_dialog_notification_text);
-						tvDialogText.setText(actionText);
-
-						//Set close button
-						btDialogClose = (Button) dialog.findViewById(R.id.bt_dialog_notification_close);
-						btDialogClose.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								dialog.dismiss();
-							}
-						});
-
-						//Set the icon
-						dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
-						if (dialogIcon != null) {
-							dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
+					//Set close button
+					btDialogClose = (Button) dialog.findViewById(R.id.bt_dialog_notification_close);
+					btDialogClose.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
 						}
-						tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
-						tvDialogTitle.setCompoundDrawablePadding(20);
+					});
 
-						//Get preferences
-						int festivals = preferences.getInt(GM.PREF_DB_FESTIVALS, 0);
-
-						//Set the action button
-						btDialogAction = (Button) dialog.findViewById(R.id.bt_dialog_notification_action);
-						if (action != null) {
-							switch (action) {
-
-								case GM.EXTRA_ACTION_LABLANCA:
-
-									//Set up the action button
-									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_lablanca));
-									btDialogAction.setOnClickListener(new OnClickListener() {
-										@Override
-										public void onClick(View v) {
-											dialog.dismiss();
-											loadSection(GM.SECTION_LABLANCA);
-										}
-									});
-									break;
-
-								case GM.EXTRA_ACTION_LOCATION:
-
-									if (!preferences.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
-										//Set up the action button if location is reported
-										btDialogAction.setVisibility(View.VISIBLE);
-										btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
-										btDialogAction.setOnClickListener(new OnClickListener() {
-											@Override
-											public void onClick(View v) {
-												dialog.dismiss();
-												loadSection(GM.SECTION_LOCATION);
-											}
-										});
-
-									}
-									break;
-
-								case GM.EXTRA_ACTION_BLOG:
-
-									//Set up the action button
-									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_blog));
-									btDialogAction.setOnClickListener(new OnClickListener() {
-										@Override
-										public void onClick(View v) {
-											dialog.dismiss();
-											loadSection(GM.SECTION_BLOG);
-										}
-									});
-									break;
-
-								case GM.EXTRA_ACTION_ACTIVITIES:
-
-									//Set up the action button
-									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_activities));
-									btDialogAction.setOnClickListener(new OnClickListener() {
-										@Override
-										public void onClick(View v) {
-											dialog.dismiss();
-											loadSection(GM.SECTION_ACTIVITIES);
-										}
-									});
-									break;
-
-								case GM.EXTRA_ACTION_GALLERY:
-
-									//Set up the action button
-									btDialogAction.setVisibility(View.VISIBLE);
-									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gallery));
-									btDialogAction.setOnClickListener(new OnClickListener() {
-										@Override
-										public void onClick(View v) {
-											dialog.dismiss();
-											loadSection(GM.SECTION_GALLERY);
-										}
-									});
-									break;
-
-								case GM.EXTRA_ACTION_GMSCHEDULE:
-
-									if (festivals == 1) {
-										//Set up the action button
-										btDialogAction.setVisibility(View.VISIBLE);
-										btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gmschedule));
-										btDialogAction.setOnClickListener(new OnClickListener() {
-											@Override
-											public void onClick(View v) {
-												dialog.dismiss();
-												loadSection(GM.SECTION_LABLANCA_GM_SCHEDULE);
-											}
-										});
-									}
-									break;
-
-								case GM.EXTRA_ACTION_CITYSCHEDULE:
-									if (festivals == 1) {
-										//Set up the action button
-										btDialogAction.setVisibility(View.VISIBLE);
-										btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_cityschedule));
-										btDialogAction.setOnClickListener(new OnClickListener() {
-											@Override
-											public void onClick(View v) {
-												dialog.dismiss();
-												loadSection(GM.SECTION_LABLANCA_SCHEDULE);
-											}
-										});
-									}
-									break;
-
-								//If the notification is just text
-								default:
-									//Hide action button
-									btDialogAction.setVisibility(View.GONE);
-							}
-						} else {
-							btDialogAction.setVisibility(View.GONE);
-						}
-
-						//Set dialog parameters
-						WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-						lp.copyFrom(dialog.getWindow().getAttributes());
-						lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-						lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-						lp.gravity = Gravity.CENTER;
-						lp.dimAmount = 0.4f;
-						dialog.getWindow().setAttributes(lp);
-
-						//Show dialog
-						dialog.show();
+					//Set the icon
+					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
+					if (dialogIcon != null) {
+						dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 					}
+					tvDialogTitle.setCompoundDrawables(dialogIcon, null, null, null);
+					tvDialogTitle.setCompoundDrawablePadding(20);
+
+					//Get preferences
+					boolean festivals = sharedData.getBoolean(GM.DATA.KEY.LABLANCA, GM.DATA.DEFAULT.LABLANCA);
+
+					//Set the action button
+					btDialogAction = (Button) dialog.findViewById(R.id.bt_dialog_notification_action);
+					if (action != null) {
+						switch (action) {
+
+							case GM.EXTRA.SECTION.LABLANCA:
+
+								//Set up the action button
+								btDialogAction.setVisibility(View.VISIBLE);
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_lablanca));
+								btDialogAction.setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										dialog.dismiss();
+										loadSection(GM.SECTION.LABLANCA);
+									}
+								});
+								break;
+
+							case GM.EXTRA.SECTION.LOCATION:
+
+								//TODO: Read from database
+								/*if (!sharedData.getString(GM.PREF_GM_LOCATION, GM.DEFAULT_PREF_GM_LOCATION).equals(GM.DEFAULT_PREF_GM_LOCATION)) {
+									//Set up the action button if location is reported
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_location));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION_LOCATION);
+										}
+									});
+
+								}*/
+								break;
+
+							case GM.EXTRA.SECTION.BLOG:
+
+								//Set up the action button
+								btDialogAction.setVisibility(View.VISIBLE);
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_blog));
+								btDialogAction.setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										dialog.dismiss();
+										loadSection(GM.SECTION.BLOG);
+									}
+								});
+								break;
+
+							case GM.EXTRA.SECTION.ACTIVITIES:
+
+								//Set up the action button
+								btDialogAction.setVisibility(View.VISIBLE);
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_activities));
+								btDialogAction.setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										dialog.dismiss();
+										loadSection(GM.SECTION.ACTIVITIES);
+									}
+								});
+								break;
+
+							case GM.EXTRA.SECTION.GALLERY:
+
+								//Set up the action button
+								btDialogAction.setVisibility(View.VISIBLE);
+								btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gallery));
+								btDialogAction.setOnClickListener(new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										dialog.dismiss();
+										loadSection(GM.SECTION.GALLERY);
+									}
+								});
+								break;
+
+							case GM.EXTRA.SECTION.GMSCHEDULE:
+
+								if (festivals) {
+									//Set up the action button
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_gmschedule));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION.GM_SCHEDULE);
+										}
+									});
+								}
+								break;
+
+							case GM.EXTRA.SECTION.SCHEDULE:
+								if (festivals) {
+									//Set up the action button
+									btDialogAction.setVisibility(View.VISIBLE);
+									btDialogAction.setText(this.getApplicationContext().getString(R.string.notification_action_cityschedule));
+									btDialogAction.setOnClickListener(new OnClickListener() {
+										@Override
+										public void onClick(View v) {
+											dialog.dismiss();
+											loadSection(GM.SECTION.SCHEDULE);
+										}
+									});
+								}
+								break;
+
+							//If the notification is just text
+							default:
+								//Hide action button
+								btDialogAction.setVisibility(View.GONE);
+						}
+					} else {
+						btDialogAction.setVisibility(View.GONE);
+					}
+
+					//Set dialog parameters
+					WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+					lp.copyFrom(dialog.getWindow().getAttributes());
+					lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+					lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+					lp.gravity = Gravity.CENTER;
+					lp.dimAmount = 0.4f;
+					dialog.getWindow().setAttributes(lp);
+
+					dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+					//Show dialog
+					dialog.show();
 				}
 			}
 		}
@@ -594,7 +580,7 @@ public class MainActivity extends Activity {
 		SQLiteDatabase db;
 		try {
 			//Create database
-			db = openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
+			db = openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
@@ -617,7 +603,7 @@ public class MainActivity extends Activity {
 			db.execSQL(GM.DB.QUERY.CREATE.POST_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.POST_IMAGE);
 			db.execSQL(GM.DB.QUERY.CREATE.POST_TAG);
-			db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
+			//db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
 			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
 			db.close();
@@ -630,9 +616,8 @@ public class MainActivity extends Activity {
 	 * Creates the app database and fills it with the hard coded, default data.
 	 */
 	private void deleteDatabase() {
-		SQLiteDatabase db;
 		try {
-			deleteDatabase(GM.DB_NAME);
+			getApplicationContext().deleteDatabase(GM.DB.NAME);
 		} catch (Exception ex) {
 			Log.e("Error deleting database", ex.toString());
 		}
@@ -668,7 +653,7 @@ public class MainActivity extends Activity {
 		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp.gravity = Gravity.CENTER;
-		lp.dimAmount = 0.4f;
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		dialog.getWindow().setAttributes(lp);
 
 		//Sync
@@ -695,7 +680,6 @@ public class MainActivity extends Activity {
 			}
 		} catch (Exception ex) {
 			Log.e("Error going back", "Finishing activity: " + ex.toString());
-			Log.e("RUNNABLE", "Finishing callback for location");
 			locationHandler.removeCallbacks(checkForLocation);
 			finish();
 			//super.onBackPressed();
@@ -718,18 +702,36 @@ public class MainActivity extends Activity {
 		return super.onKeyUp(keyCode, event);
 	}
 
+	/**
+	 * Overrides onResume().
+	 * Resumes the location handler to check for location regularly.
+	 *
+	 * @see Activity#onResume()
+	 */
 	@Override
 	public void onResume() {
 		locationHandler.post(checkForLocation);
 		super.onResume();
 	}
 
+	/**
+	 * Overrides onPause().
+	 * Stops the location handler to check for location regularly.
+	 *
+	 * @see Activity#onPause()
+	 */
 	@Override
 	public void onPause() {
 		locationHandler.removeCallbacks(checkForLocation);
 		super.onPause();
 	}
 
+	/**
+	 * Overrides onDestroy().
+	 * Stops the location handler to check for location regularly.
+	 *
+	 * @see Activity#onDestroy()
+	 */
 	@Override
 	public void onDestroy() {
 		locationHandler.removeCallbacks(checkForLocation);

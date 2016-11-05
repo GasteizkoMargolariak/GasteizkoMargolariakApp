@@ -3,66 +3,80 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/scrollView3"
-    android:background="@color/background_app"
-    android:padding="7dp"
-    tools:ignore="Overdraw">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:background="@drawable/section"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/section_title_blog"
-            android:textStyle="bold"
-            android:layout_marginBottom="10dp"
-            android:layout_margin="5dp" />
+        android:layout_marginBottom="10dp"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/ll_blog_list"/>
+            android:layout_height="fill_parent"
+            android:background="@drawable/section"
+            android:layout_margin="10dp">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/blog_pager_previous"
-                android:id="@+id/bt_blog_previous"
-                android:background="@drawable/button_selector"
+                android:text="@string/section_title_blog"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
-                android:textColor="@color/input_button_color"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"
-                android:layout_margin="5dp"
-                tools:ignore="ButtonStyle"/>
+                tools:layout_width="match_parent"
+                android:background="@drawable/section_title"
+                android:paddingBottom="4dp"
+                android:paddingEnd="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingStart="20dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/section_title"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/blog_pager_next"
-                android:id="@+id/bt_blog_next"
-                android:background="@drawable/button_selector"
-                android:textStyle="bold"
-                android:textColor="@color/input_button_color"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ll_blog_list"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
-                tools:ignore="ButtonStyle"/>
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/blog_pager_previous"
+                    android:id="@+id/bt_blog_previous"
+                    android:background="@drawable/button_selector"
+                    android:textStyle="bold"
+                    android:textColor="@color/input_button_color"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone"
+                    android:layout_margin="5dp"
+                    tools:ignore="ButtonStyle"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/blog_pager_next"
+                    android:id="@+id/bt_blog_next"
+                    android:background="@drawable/button_selector"
+                    android:textStyle="bold"
+                    android:textColor="@color/input_button_color"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="5dp"
+                    tools:ignore="ButtonStyle"/>
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </LinearLayout>
+
 </com.ivalentin.margolariak.CustomScrollView>

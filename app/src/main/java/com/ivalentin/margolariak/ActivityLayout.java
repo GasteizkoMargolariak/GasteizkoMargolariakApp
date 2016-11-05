@@ -72,7 +72,7 @@ public class ActivityLayout extends Fragment{
         //An inflater
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
         String lang = GM.getLang();
 
@@ -87,9 +87,10 @@ public class ActivityLayout extends Fragment{
                 //Create a new row
                 entry = (LinearLayout) factory.inflate(R.layout.row_activity_future, null);
 
-                //Set margins
+                //Set margins TODO: I dont know why it doesnt read margins from the xml
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(10, 10, 10, 25);
+                int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+                layoutParams.setMargins(margin, margin, margin, margin);
                 entry.setLayoutParams(layoutParams);
 
                 //Set title
@@ -106,9 +107,6 @@ public class ActivityLayout extends Fragment{
 
                 //Set text
                 String text = Html.fromHtml(cursor.getString(4)).toString();
-                if (text.length() > 180) {
-                    text = text.substring(0, 180) + "...";
-                }
                 TextView tvText = (TextView) entry.findViewById(R.id.tv_row_activity_future_text);
                 tvText.setText(text);
 
@@ -139,7 +137,7 @@ public class ActivityLayout extends Fragment{
                         File fpath;
                         fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                         fpath.mkdirs();
-                        new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
+                        new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
                     }
                 }
                 cursorImage.close();
@@ -181,9 +179,10 @@ public class ActivityLayout extends Fragment{
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_activity_past, null);
 
-            //Set margins
+            //Set margins TODO: I dont know why it doesnt read margins from the xml
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(10, 10, 10, 25);
+            int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+            layoutParams.setMargins(margin, margin, margin, margin);
             entry.setLayoutParams(layoutParams);
 
             //Set title
@@ -201,9 +200,6 @@ public class ActivityLayout extends Fragment{
                 } else {
                     text = Html.fromHtml(cursorPast.getString(5)).toString();
                 }
-            }
-            if (text.length() > 130) {
-                text = text.substring(0, 130) + "...";
             }
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_activity_past_text);
             tvText.setText(text);
@@ -235,7 +231,7 @@ public class ActivityLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
+                    new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
                 }
             }
             cursorImage.close();

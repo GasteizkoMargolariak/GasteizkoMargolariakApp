@@ -9,7 +9,7 @@
 	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:background="@drawable/titlebar"
+		android:background="@color/background_menu"
 		android:gravity="center_vertical"
 		android:orientation="horizontal"
 		android:padding="2dp">
@@ -18,22 +18,23 @@
 
 		<ImageView
 			android:contentDescription="@string/app_name"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
 			android:id="@+id/iv_logo"
 			android:src="@drawable/ic_launcher"
 			android:adjustViewBounds="true"
 			android:layout_weight=".2"
+			android:padding="1dp"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
 			android:maxHeight="45dp"
 			android:maxWidth="45dp"
-			android:padding="1dp"/>
+			android:layout_gravity="center_vertical"/>
 
 		<!-- Layout with the app title and current section -->
 
 		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center"
+			android:layout_gravity="center_vertical|center"
 			android:layout_weight=".8"
 			android:gravity="center"
 			android:orientation="vertical" >
@@ -46,7 +47,8 @@
 				android:gravity="center"
 				android:text="@string/app_name"
 				android:textSize="18sp"
-				android:textStyle="bold" />
+				android:textStyle="bold"
+				android:textColor="@color/menu_entry"/>
 
 			<!-- Section title -->
 
@@ -56,12 +58,13 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text="@string/menu_home"
-				android:textSize="20sp" />
+				android:textSize="20sp"
+				android:textColor="@color/menu_entry"/>
 
 		</LinearLayout>
 
 		<ImageButton
-			android:layout_width="40dp"
+			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:src="@drawable/ic_expand"
 			android:contentDescription="@string/tutorial_menu"
@@ -69,7 +72,9 @@
 			android:layout_weight=".2"
 			android:id="@+id/bt_menu"
 			app:srcCompat="@drawable/ic_expand"
-			android:background="#00000000"/>
+			android:background="#00000000"
+			android:adjustViewBounds="false"
+			android:cropToPadding="false"/>
 
 		<ProgressBar
 			android:id="@+id/pb_sync"
@@ -86,19 +91,19 @@
 
 	<HorizontalScrollView
 		android:layout_width="wrap_content"
-		android:layout_height="50dp"
+		android:layout_height="55dp"
 		android:id="@+id/sv_menu"
 		android:scrollIndicators="none"
 		android:requiresFadingEdge="horizontal"
-		android:fadingEdgeLength="125dp"
-		android:background="@color/background_bar_gradient"
+		android:fadingEdgeLength="80dp"
+		android:background="@color/background_menu"
 		tools:ignore="UnusedAttribute">
 
 		<LinearLayout
 			android:orientation="horizontal"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
-			>
+			android:layout_marginBottom="1dp">
 
 			<RelativeLayout
 				android:orientation="vertical"
@@ -117,11 +122,11 @@
 					android:textSize="15sp"
 					android:layout_centerInParent="true"
 					android:textStyle="bold"
-					android:id="@+id/tv_menu_home"/>
+					android:id="@+id/tv_menu_home"
+					android:textColor="@color/menu_entry"/>
 
 				<ImageView
 					android:layout_width="match_parent"
-					android:layout_height="8dp"
 					android:id="@+id/iv_menu_home"
 					android:background="@color/menu_selected"
 					android:alpha="1"
@@ -131,7 +136,8 @@
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
 					android:layout_alignParentBottom="true"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription"
+					android:layout_height="7dp"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -150,11 +156,11 @@
 					android:layout_gravity="top"
 					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_location"/>
+					android:id="@+id/tv_menu_location"
+					android:textColor="@color/menu_entry"/>
 
 				<ImageView
 					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_location"
 					android:background="@color/menu_selected"
 					android:alpha="1"
@@ -164,7 +170,8 @@
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
 					android:layout_alignParentBottom="true"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription"
+					android:layout_height="3dp"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -183,11 +190,11 @@
 					android:layout_gravity="top"
 					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_lablanca"/>
+					android:id="@+id/tv_menu_lablanca"
+					android:textColor="@color/menu_entry"/>
 
 				<ImageView
 					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_lablanca"
 					android:background="@color/menu_selected"
 					android:alpha="1"
@@ -197,7 +204,8 @@
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
 					android:layout_alignParentBottom="true"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription"
+					android:layout_height="3dp"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -216,11 +224,11 @@
 					android:layout_gravity="top"
 					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_activities"/>
+					android:id="@+id/tv_menu_activities"
+					android:textColor="@color/menu_entry"/>
 
 				<ImageView
 					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_activities"
 					android:background="@color/menu_selected"
 					android:alpha="1"
@@ -230,7 +238,8 @@
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
 					android:layout_alignParentBottom="true"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription"
+					android:layout_height="3dp"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -249,11 +258,11 @@
 					android:layout_gravity="top"
 					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_blog"/>
+					android:id="@+id/tv_menu_blog"
+					android:textColor="@color/menu_entry"/>
 
 				<ImageView
 					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_blog"
 					android:background="@color/menu_selected"
 					android:alpha="1"
@@ -263,7 +272,8 @@
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
 					android:layout_alignParentBottom="true"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription"
+					android:layout_height="3dp"/>
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -282,11 +292,11 @@
 					android:layout_gravity="top"
 					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_gallery"/>
+					android:id="@+id/tv_menu_gallery"
+					android:textColor="@color/menu_entry"/>
 
 				<ImageView
 					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_gallery"
 					android:background="@color/menu_selected"
 					android:alpha="1"
@@ -296,25 +306,21 @@
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
 					android:layout_alignParentBottom="true"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription"
+					android:layout_height="3dp"/>
 			</RelativeLayout>
 
 		</LinearLayout>
 	</HorizontalScrollView>
 
-	<ScrollView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/sv_main_content">
+	<FrameLayout
+		android:id="@+id/activity_main_content_fragment"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:ignore="ScrollViewSize"
+		android:background="@color/background_app">
 
-		<FrameLayout
-			android:id="@+id/activity_main_content_fragment"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			tools:ignore="ScrollViewSize">
-
-		</FrameLayout>
-	</ScrollView>
+	</FrameLayout>
 
 </LinearLayout>
 

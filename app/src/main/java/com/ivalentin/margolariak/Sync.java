@@ -86,6 +86,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			int idx = (int) (Math.random() * 9);
 			tv.setText(strings[idx]);
 			doProgress = true;
+
 		}
 		Log.d("Sync", "Starting full sync");
 	}
@@ -111,7 +112,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			dialog.dismiss();
 
 			//Check db version again
-			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
+			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()){
 				Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
 				return;
@@ -127,7 +128,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.close();
 
 			//If the database is on it's initial version (i.e: There is no data, new or old)
-			if (dbVersion == GM.DEFAULT_PREF_DB_VERSION){
+			if (true){ //TODO dbVersion == GM.DATA.DEFAULT.DEFAULT_PREF_DB_VERSION){
 
 				Log.e("SYNC", "Full sync failed");
 
@@ -154,7 +155,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			}
 			else{
 				Log.d("SYNC", "Full sync finished");
-				activity.loadSection(GM.SECTION_HOME);
+				activity.loadSection(GM.SECTION.HOME);
 			}
 		}
 
@@ -244,15 +245,15 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	private String buildUrl(String user, int version, int foreground, String lang){
 		String url = "";
 		try {
-			url = GM.SERVER + GM.SERVER_SYNC + "?" +
-					GM.SERVER_SYNC_KEY_CLIENT + "=" + URLEncoder.encode(GM.CLIENT, "UTF-8") + "&" +
-					GM.SERVER_SYNC_KEY_USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
-					GM.SERVER_SYNC_KEY_ACTION + "=" + URLEncoder.encode(GM.SERVER_SYNC_VALUE_ACTION, "UTF-8") + "&" +
-					GM.SERVER_SYNC_KEY_SECTION + "=" + URLEncoder.encode(GM.SERVER_SYNC_VALUE_SECTION, "UTF-8") + "&" +
-					GM.SERVER_SYNC_KEY_VERSION + "=" + version + "&" +
-					GM.SERVER_SYNC_KEY_FOREGROUND + "=" + foreground + "&" +
-					GM.SERVER_SYNC_KEY_FORMAT + "=" + URLEncoder.encode(GM.SERVER_SYNC_VALUE_FORMAT, "UTF-8") + "&" +
-					GM.SERVER_SYNC_KEY_LANG + "=" + URLEncoder.encode(lang, "UTF-8");
+			url = GM.API.SERVER + GM.API.SYNC.PATH + "?" +
+					GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.ACTION + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.ACTION, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.SECTION + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.SECTION, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.VERSION + "=" + version + "&" +
+					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground + "&" +
+					GM.API.SYNC.KEY.FORMAT + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.FORMAT, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.LANG + "=" + URLEncoder.encode(lang, "UTF-8");
 		}
 		catch (java.io.UnsupportedEncodingException ex){
 			Log.e("UTF-8", "Error encoding url for sync \"" + url + "\" - " + ex.toString());
@@ -585,13 +586,13 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	protected Void doInBackground(Void... params) {
 
 		//Get preferences
-		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 
 		//Get useful data for the uri
-		String userCode = preferences.getString(GM.USER_CODE, "");
+		String userCode = preferences.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER);
 
 		//Get database. Stop if it's locked
-		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB_NAME, Activity.MODE_PRIVATE, null);
+		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 		if (db.isReadOnly()){
 			Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
 			return null;
@@ -667,6 +668,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				default:
 					Log.e("SYNC", "The server returned an unexpected code (" + httpCode + ") for the url \"" + uri + "\"");
 			}
+
 			urlConnection.disconnect();
 			return null;
 

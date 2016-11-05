@@ -60,7 +60,7 @@ public class BlogLayout extends Fragment{
         ((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_blog));
 
         //Get total posts
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         Cursor cursor = db.rawQuery("SELECT id FROM post;", null);
         totalPost = cursor.getCount();
         cursor.close();
@@ -142,7 +142,7 @@ public class BlogLayout extends Fragment{
         //An inflater
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
         String lang = GM.getLang();
 
@@ -158,9 +158,10 @@ public class BlogLayout extends Fragment{
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_blog, null);
 
-            //Set margins
+            //Set margins TODO: I dont know why it doesnt read margins from the xml
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(10, 10, 10, 25);
+            int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+            layoutParams.setMargins(margin, margin, margin, margin);
             entry.setLayoutParams(layoutParams);
 
             //Set title
@@ -169,9 +170,6 @@ public class BlogLayout extends Fragment{
 
             //Set text
             String text = Html.fromHtml(cursor.getString(2)).toString();
-            if (text.length() > 180){
-                text = text.substring(0, 180) + "...";
-            }
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_blog_text);
             tvText.setText(text);
 
@@ -203,8 +201,11 @@ public class BlogLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG_MINIATURE).execute();
+                    new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
                 }
+            }
+            else{
+                iv.setVisibility(View.GONE);
             }
             cursorImage.close();
 

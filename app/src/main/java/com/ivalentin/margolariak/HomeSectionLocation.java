@@ -50,7 +50,7 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 		try {
 
 			FetchURL fu = new FetchURL();
-			fu.Run(GM.SERVER + "/app/location.php");
+			fu.Run(GM.API.SERVER + "/app/location.php");
 			//All the info
 			o = fu.getOutput().toString();
 
@@ -77,12 +77,13 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 	protected void onPostExecute(Void v) {
 		if (isLocationReported){
 
-			SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
+			//TODO: Do this on a db table
+			/*SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(coord.latitude));
 			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(coord.longitude));
 			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
-			editor.apply();
+			editor.apply();*/
 
 			//Show menu entry
 			//LinearLayout menuEntry = (LinearLayout) activity.findViewById(R.id.rl_menu_location);
@@ -94,7 +95,7 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 			section.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					((MainActivity) v.getContext()).loadSection(GM.SECTION_LOCATION);
+					((MainActivity) v.getContext()).loadSection(GM.SECTION.LOCATION);
 				}
 			});
 

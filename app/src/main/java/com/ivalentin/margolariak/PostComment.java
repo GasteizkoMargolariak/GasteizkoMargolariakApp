@@ -61,8 +61,8 @@ class PostComment extends AsyncTask<String, String, Integer> {
         pb.setVisibility(View.VISIBLE);
 
         //Get user code
-        SharedPreferences preferences = context.getSharedPreferences(GM.PREF, Context.MODE_PRIVATE);
-        userCode = preferences.getString(GM.USER_CODE, "");
+        SharedPreferences sharedData = context.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+        userCode = sharedData.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER);
     }
 
     /**
@@ -103,7 +103,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
             urlParams = urlParams + "&from=app&code=" + userCode;
             byte[] postData       = urlParams.getBytes("UTF-8");
             int    postDataLength = postData.length;
-            String request        = GM.SERVER + "/" + type + "/comment.php";
+            String request        = GM.API.SERVER + "/" + type + "/comment.php";
             url            = new URL( request );
             HttpURLConnection conn= (HttpURLConnection) url.openConnection();
             conn.setDoOutput( true );
@@ -122,7 +122,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
             if (code == 200){
                 //Insert into local db
-                SQLiteDatabase db = SQLiteDatabase.openDatabase(context.getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+                SQLiteDatabase db = SQLiteDatabase.openDatabase(context.getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
                 String table = "";
                 String item = "";
                 switch (type){

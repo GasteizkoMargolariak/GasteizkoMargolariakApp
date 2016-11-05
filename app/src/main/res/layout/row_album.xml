@@ -13,15 +13,19 @@
         android:layout_height="wrap_content"
         android:layout_weight=".5"
         android:background="@drawable/entry"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        android:id="@+id/ll_row_album_left">
+        android:padding="7dp"
+        android:id="@+id/ll_row_album_left"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/tv_row_album_hidden_left"
             android:visibility="gone" />
 
@@ -40,6 +44,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/entry_title"
+            android:textStyle="bold"
             android:id="@+id/tv_row_album_title_left"
             android:gravity="center_horizontal" />
 
@@ -59,10 +65,10 @@
                 android:layout_gravity="center_vertical" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
                 android:src="@drawable/comment"
-                android:contentDescription="@string/app_cdesc"
+                android:contentDescription="@string/empty"
                 android:layout_marginStart="5dp"
                 android:layout_gravity="center_vertical" />
         </LinearLayout>
@@ -75,16 +81,20 @@
         android:layout_height="wrap_content"
         android:layout_weight=".5"
         android:background="@drawable/entry"
-        android:layout_margin="5dp"
-        android:padding="5dp"
+        android:padding="7dp"
         android:id="@+id/ll_row_album_right"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
         android:visibility="invisible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/tv_row_album_hidden_right"
             android:visibility="gone" />
 
@@ -103,7 +113,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:textColor="@color/entry_title"
+            android:textStyle="bold"
             android:id="@+id/tv_row_album_title_right"
             android:gravity="center_horizontal" />
 
@@ -124,10 +135,10 @@
                 android:layout_gravity="center_vertical" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
                 android:src="@drawable/comment"
-                android:contentDescription="@string/app_cdesc"
+                android:contentDescription="@string/empty"
                 android:layout_marginStart="5dp"
                 android:layout_gravity="center_vertical" />
         </LinearLayout>

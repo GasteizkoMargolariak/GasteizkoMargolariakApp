@@ -12,19 +12,22 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:background="@drawable/section"
-		android:layout_marginTop="2dp"
-		android:layout_marginBottom="4dp"
-		android:paddingTop="5dp">
+		android:layout_margin="10dp">
 
 		<TextView
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textAppearance="@android:style/TextAppearance.Large"
 			android:text="@string/menu_location"
-			android:id="@+id/textView2"
+			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textStyle="bold"
-			android:layout_marginLeft="10dp"
-			android:layout_marginStart="10dp"
+			tools:layout_width="match_parent"
+			android:background="@drawable/section_title"
+			android:paddingBottom="4dp"
+			android:paddingEnd="10dp"
+			android:paddingLeft="20dp"
+			android:paddingRight="10dp"
+			android:paddingStart="20dp"
+			android:paddingTop="4dp"
 			android:textColor="@color/section_title"/>
 
 		<LinearLayout
@@ -32,15 +35,16 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:background="@drawable/entry"
-			android:padding="7dp">
+			android:padding="7dp"
+			android:layout_margin="8dp">
 
 			<TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
                 android:text="@string/home_section_location_text_0"
-                android:id="@+id/textView3"
-				/>
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textColor="@color/entry_title"
+				android:textStyle="bold"/>
 
 			<TextView
 				android:layout_width="wrap_content"

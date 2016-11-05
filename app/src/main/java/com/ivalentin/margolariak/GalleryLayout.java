@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.Random;
 
 /**
  * Fragment of the gallery section.
@@ -71,7 +72,7 @@ public class GalleryLayout extends Fragment{
         //An inflater
         LayoutInflater factory = LayoutInflater.from(getActivity());
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB_NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
 		String lang = GM.getLang();
 
@@ -84,9 +85,10 @@ public class GalleryLayout extends Fragment{
             //Create a new row
             entry = (LinearLayout) factory.inflate(R.layout.row_gallery, null);
 
-            //Set margins
+            //Set margins TODO: I dont know why it doesnt read margins from the xml
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(10, 10, 10, 25);
+			int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+            layoutParams.setMargins(margin, margin, margin, margin);
             entry.setLayoutParams(layoutParams);
 
             //Set title
@@ -109,6 +111,7 @@ public class GalleryLayout extends Fragment{
 
             //Loop
             int i = 0;
+            Random r;
             while (cursorImage.moveToNext()){
                 String image = cursorImage.getString(1);
 
@@ -125,8 +128,14 @@ public class GalleryLayout extends Fragment{
                     File fpath;
                     fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
                     fpath.mkdirs();
-                    new DownloadImage(GM.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG_MINIATURE).execute();
+                    new DownloadImage(GM.API.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG.SIZE.MINIATURE).execute();
                 }
+
+                //Rotate the image
+                r = new Random();
+                int rot = r.nextInt(31) - 15;
+                preview[i].setRotation(rot);
+
                 i ++;
             }
 

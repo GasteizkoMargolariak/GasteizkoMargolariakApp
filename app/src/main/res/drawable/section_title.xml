@@ -7,11 +7,9 @@
         android:color="@color/section_border" />
 
     <solid
-        android:color="@color/section_background" />
+        android:color="@color/section_title_background" />
 
     <corners
-        android:bottomRightRadius="5dp"
-        android:bottomLeftRadius="5dp"
         android:topLeftRadius="8dp"
         android:topRightRadius="8dp"/>
 
