@@ -68,7 +68,7 @@ public class AlbumLayout extends Fragment {
 
         tvTitle.setText(cursor.getString(1));
 		final String albumName = cursor.getString(1);
-        if (cursor.getString(2).length() < 1){
+        if (cursor.getString(2) == null || cursor.getString(2).length() < 1){
             tvDescription.setVisibility(View.GONE);
         }
         else {

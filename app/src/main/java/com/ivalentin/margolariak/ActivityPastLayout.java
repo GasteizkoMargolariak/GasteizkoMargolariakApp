@@ -75,15 +75,10 @@ public class ActivityPastLayout extends Fragment {
         //Set fields
         tvTitle.setText(cursor.getString(1));
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
-        if (cursor.getString(5) != null) {
-            if (cursor.getString(5).length() < 1) {
-                wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
-            } else {
-                wvText.loadDataWithBaseURL(null, cursor.getString(5), "text/html", "utf-8", null);
-            }
-        }
-        else{
+        if (cursor.getString(5) == null || cursor.getString(5).length() < 1) {
             wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
+        } else {
+            wvText.loadDataWithBaseURL(null, cursor.getString(5), "text/html", "utf-8", null);
         }
         tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
         tvCity.setText(cursor.getString(4));

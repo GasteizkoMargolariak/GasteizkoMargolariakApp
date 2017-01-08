@@ -291,7 +291,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 
             //Set time
             try{
-                if (cursor.getString(5).length() == 0) {
+                if (cursor.getString(5) == null || cursor.getString(5).length() == 0) {
                     tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))));
                 }
                 else {

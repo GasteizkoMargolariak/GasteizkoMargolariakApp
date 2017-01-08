@@ -308,7 +308,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 			//Set description
 			tvRowDesc = (TextView) entry.findViewById(R.id.tv_row_schedule_description);
-			if (cursor.getString(2).length() <= 0 || cursor.getString(2).equals(cursor.getString(1))) {
+			if (cursor.getString(2) == null || cursor.getString(2).length() <= 0 || cursor.getString(2).equals(cursor.getString(1))) {
 				tvRowDesc.setVisibility(View.GONE);
 			} else {
 				tvRowDesc.setText(cursor.getString(2));
@@ -320,7 +320,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 			//Set address
 			tvRowAddress = (TextView) entry.findViewById(R.id.tv_row_schedule_address);
-			if (cursor.getString(7).length() <= 0 || cursor.getString(7).equals(cursor.getString(6))) {
+			if (cursor.getString(7) == null || cursor.getString(7).length() <= 0 || cursor.getString(7).equals(cursor.getString(6))) {
 				tvRowAddress.setVisibility(View.GONE);
 			} else {
 				tvRowAddress.setText(cursor.getString(7));
@@ -410,7 +410,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			markerName = cursor.getString(1);
 			
 			//Set description
-			if (cursor.getString(2).length() > 0) {
+			if (cursor.getString(2) != null && cursor.getString(2).length() > 0) {
 				tvDescription.setText(cursor.getString(2));
 			}
 			else{
@@ -477,7 +477,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			
 			//Set time
 			try{
-				if (cursor.getString(5).length() == 0) {
+				if (cursor.getString(5) == null || cursor.getString(5).length() == 0) {
 					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))));
 				}
 				else {
