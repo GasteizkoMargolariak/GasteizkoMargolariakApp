@@ -77,6 +77,19 @@ public class MainActivity extends Activity {
 	 */
 	private GoogleApiClient client;
 
+	// Shareable URL
+	private String shareURL = GM.SHARE.HOME;
+	private String shareTitle = "";
+
+	public void setShareLink(String title, String url){
+		shareTitle = title;
+		shareURL = url;
+	}
+
+	public String[] getShareLink(){
+		return(new String[]{shareTitle, shareURL});
+	}
+
 	/**
 	 * Enables o disables the location section.
 	 *
@@ -108,13 +121,25 @@ public class MainActivity extends Activity {
 		popup.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
+				Intent sendIntent = new Intent();
+				sendIntent.setAction(Intent.ACTION_SEND);
+				sendIntent.putExtra(Intent.EXTRA_TEXT, getShareLink()[0] + " - " + getShareLink()[1]);
+				sendIntent.setType("text/plain");
+				startActivity(sendIntent);
+				return true;
+			}
+		});
+
+		popup.getMenu().getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(MainActivity.this, AboutActivity.class);
 				startActivity(intent);
 				return true;
 			}
 		});
 
-		popup.getMenu().getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+		popup.getMenu().getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(MainActivity.this, SponsorActivity.class);
@@ -123,7 +148,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		popup.getMenu().getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+		popup.getMenu().getItem(3).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -259,6 +284,9 @@ public class MainActivity extends Activity {
 		String action = getIntent().getStringExtra(GM.EXTRA.ACTION);
 		String actionText = getIntent().getStringExtra(GM.EXTRA.TEXT);
 		String actionTitle = getIntent().getStringExtra(GM.EXTRA.TITLE);
+
+		//Set the shareable url
+		setShareLink(getString(R.string.share_home), GM.SHARE.HOME);
 
 		//Set an alarm for notifications..
 		//Wait a little

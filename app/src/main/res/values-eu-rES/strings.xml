@@ -166,7 +166,8 @@
 	<string name="settings_notification_off">No recibir notificaciones</string>
 	<string name="settings_notification_on">Recibir notificaciones</string>
 	<string name="home_section_location_text_calculating">Calculando distancia…</string>
-	<string name="pop_menu_about">About us</string>
+	<string name="pop_menu_share">Bitarte</string>
+	<string name="pop_menu_about">Gu</string>
 	<string name="pop_menu_settings">Ajustes</string>
 	<string name="pop_menu_sponsors">-</string>
 	<string name="preferences_info">Informazioa</string>
@@ -186,5 +187,14 @@
 	<string name="preferences_sync_sync">Sincronización en segundo plano</string>
 	<string name="preferences_sync_sync_off">Sincronización desactivada</string>
 	<string name="changelog">Changelog</string>
+
+	<!-- Share menu -->
+	<string name="share">Share</string>
+	<string name="share_home">Gasteizko Margolariak</string>
+	<string name="share_lablanca">Andre Zuria - Gasteizko Margolariak</string>
+	<string name="share_activities">Aktibitateak - Gasteizko Margolariak</string>
+	<string name="share_blog">La Blanca - Gasteizko Margolariak</string>
+	<string name="share_gallery">Galeria - Gasteizko Margolariak</string>
+	<string name="share_with_title">%s - Gasteizko Margolariak</string>
 
 </resources>

@@ -161,6 +161,7 @@
 	<string name="dialog_sync_failed_close">Close</string>
 	<string name="lablanca_nofestivals">Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas.</string>
 	<string name="home_section_location_text_calculating">Calculating distance…</string>
+	<string name="pop_menu_share">Share</string>
 	<string name="pop_menu_about">About us</string>
 	<string name="pop_menu_settings">Settings</string>
 	<string name="pop_menu_sponsors">-</string>
@@ -181,5 +182,14 @@
 	<string name="preferences_sync_sync">Background Sync</string>
 	<string name="preferences_sync_sync_off">Background sync is disabled</string>
 	<string name="changelog">Changelog</string>
+
+	<!-- Share menu -->
+	<string name="share">Share</string>
+	<string name="share_home">Gasteizko Margolariak</string>
+	<string name="share_lablanca">La Blanca - Gasteizko Margolariak</string>
+	<string name="share_activities">Activities - Gasteizko Margolariak</string>
+	<string name="share_blog">Blog - Gasteizko Margolariak</string>
+	<string name="share_gallery">Gallery - Gasteizko Margolariak</string>
+	<string name="share_with_title">%s - Gasteizko Margolariak</string>
 
 </resources>
