@@ -202,7 +202,8 @@
 	<string name="preferences_info_feedback_summary">Enviar información anónima al desarrollador</string>
 
 	<!-- Share menu -->
-	<string name="share">Share</string>
+	<string name="share">Comartir</string>
+	<string name="share_with">Enviar con…</string>
 	<string name="share_home">Gasteizko Margolariak</string>
 	<string name="share_lablanca">La Blanca - Gasteizko Margolariak</string>
 	<string name="share_activities">Actividades - Gasteizko Margolariak</string>
@@ -217,6 +218,6 @@
 	<string name="pop_menu_about">Sobre nosotros</string>
 	<string name="preferences_info_source">Código fuente</string>
 	<string name="changelog">Changelog</string>
-	<string name="empty" translatable="false"></string>
+	<string name="empty" translatable="false"> </string>
 
 </resources>

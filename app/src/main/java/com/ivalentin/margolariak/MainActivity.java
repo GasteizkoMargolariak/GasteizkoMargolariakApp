@@ -81,11 +81,26 @@ public class MainActivity extends Activity {
 	private String shareURL = GM.SHARE.HOME;
 	private String shareTitle = "";
 
+	/**
+	 * Sets the displayed section url and localized title.
+	 * Thy can be retrieved later with getShareLink() to share the URL.
+	 *
+	 * @param title The title of the displayed section.
+	 * @param url The URL of the current section.
+	 *
+	 * @see MainActivity#getShareLink();
+	 */
 	public void setShareLink(String title, String url){
 		shareTitle = title;
 		shareURL = url;
 	}
 
+	/**
+	 * Returns the url of the current sections and a title.
+	 * To be used with the share option.
+	 *
+	 * @return String array. Index 0 has the title of the section. Index 1 has the URL.
+	 */
 	public String[] getShareLink(){
 		return(new String[]{shareTitle, shareURL});
 	}
@@ -112,7 +127,12 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	//Not referenced in code.
+	/**
+	 * Opens and closes the app menu.
+	 * Not referenced in code.
+	 *
+	 * @param v Menu view.
+	 */
 	public void showMenu(View v) {
 		PopupMenu popup = new PopupMenu(this, v);
 		MenuInflater inflater = popup.getMenuInflater();
@@ -123,9 +143,9 @@ public class MainActivity extends Activity {
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent sendIntent = new Intent();
 				sendIntent.setAction(Intent.ACTION_SEND);
-				sendIntent.putExtra(Intent.EXTRA_TEXT, getShareLink()[0] + " - " + getShareLink()[1]);
+				sendIntent.putExtra(Intent.EXTRA_TEXT, getShareLink()[0] + "\n\n" + getShareLink()[1] + "\n\n");
 				sendIntent.setType("text/plain");
-				startActivity(sendIntent);
+				startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_with)));
 				return true;
 			}
 		});
@@ -171,6 +191,8 @@ public class MainActivity extends Activity {
 		FragmentTransaction ft = fm.beginTransaction();
 		Fragment fragment = null;
 		String title = "";
+		String shareURL = GM.SHARE.HOME;
+		String shareTitle = getString(R.string.share_home);
 		Bundle bundle = new Bundle();
 
 		//Get measures in dp
@@ -189,6 +211,8 @@ public class MainActivity extends Activity {
 			case GM.SECTION.HOME:
 				fragment = new HomeLayout();
 				title = getString(R.string.menu_home);
+				shareURL = GM.SHARE.HOME;
+				shareTitle = getString(R.string.share_home);
 				menuText[0].setTypeface(null, Typeface.BOLD);
 				menuImage[0].getLayoutParams().height = dp7;
 				break;
@@ -196,6 +220,8 @@ public class MainActivity extends Activity {
 			case GM.SECTION.LOCATION:
 				fragment = new LocationLayout();
 				title = getString(R.string.menu_location);
+				shareURL = GM.SHARE.HOME;
+				shareTitle = getString(R.string.share_home);
 				menuText[1].setTypeface(null, Typeface.BOLD);
 				menuImage[1].getLayoutParams().height = dp7;
 				break;
@@ -209,6 +235,8 @@ public class MainActivity extends Activity {
 					fragment = new LablancaNoFestivalsLayout();
 				}
 				title = getString(R.string.menu_lablanca);
+				shareURL = GM.SHARE.LABLANCA;
+				shareTitle = getString(R.string.share_lablanca);
 				menuText[2].setTypeface(null, Typeface.BOLD);
 				menuImage[2].getLayoutParams().height = dp7;
 				break;
@@ -218,6 +246,8 @@ public class MainActivity extends Activity {
 				bundle.putInt(GM.SCHEDULE.KEY, GM.SCHEDULE.MARGOLARIAK);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_schedule);
+				shareURL = GM.SHARE.LABLANCA;
+				shareTitle = getString(R.string.share_lablanca);
 				menuText[2].setTypeface(null, Typeface.BOLD);
 				menuImage[2].getLayoutParams().height = dp7;
 				break;
@@ -227,6 +257,8 @@ public class MainActivity extends Activity {
 				bundle.putInt(GM.SCHEDULE.KEY, GM.SCHEDULE.MARGOLARIAK);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_gm_schedule);
+				shareURL = GM.SHARE.LABLANCA;
+				shareTitle = getString(R.string.share_lablanca);
 				menuText[2].setTypeface(null, Typeface.BOLD);
 				menuImage[2].getLayoutParams().height = dp7;
 				break;
@@ -234,6 +266,8 @@ public class MainActivity extends Activity {
 			case GM.SECTION.ACTIVITIES:
 				fragment = new ActivityLayout();
 				title = getString(R.string.menu_activities);
+				shareURL = GM.SHARE.ACTIVITIES;
+				shareTitle = getString(R.string.share_activities);
 				menuText[3].setTypeface(null, Typeface.BOLD);
 				menuImage[3].getLayoutParams().height = dp7;
 				break;
@@ -241,6 +275,8 @@ public class MainActivity extends Activity {
 			case GM.SECTION.BLOG:
 				fragment = new BlogLayout();
 				title = getString(R.string.menu_blog);
+				shareURL = GM.SHARE.BLOG;
+				shareTitle = getString(R.string.share_blog);
 				menuText[4].setTypeface(null, Typeface.BOLD);
 				menuImage[4].getLayoutParams().height = dp7;
 				break;
@@ -248,6 +284,8 @@ public class MainActivity extends Activity {
 			case GM.SECTION.GALLERY:
 				fragment = new GalleryLayout();
 				title = getString(R.string.menu_blog);
+				shareURL = GM.SHARE.GALLERY;
+				shareTitle = getString(R.string.share_gallery);
 				menuText[5].setTypeface(null, Typeface.BOLD);
 				menuImage[5].getLayoutParams().height = dp7;
 				break;
@@ -258,6 +296,8 @@ public class MainActivity extends Activity {
 		//ft.addToBackStack(title);
 		ft.commit();
 		setSectionTitle(title);
+		//Set the shareable url
+		setShareLink(shareTitle, shareURL);
 	}
 
 	/**
@@ -284,9 +324,6 @@ public class MainActivity extends Activity {
 		String action = getIntent().getStringExtra(GM.EXTRA.ACTION);
 		String actionText = getIntent().getStringExtra(GM.EXTRA.TEXT);
 		String actionTitle = getIntent().getStringExtra(GM.EXTRA.TITLE);
-
-		//Set the shareable url
-		setShareLink(getString(R.string.share_home), GM.SHARE.HOME);
 
 		//Set an alarm for notifications..
 		//Wait a little

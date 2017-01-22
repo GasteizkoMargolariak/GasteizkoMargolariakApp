@@ -1177,7 +1177,7 @@ final class GM {
 	 * URLs to be shared.
 	 */
 	static final class SHARE {
-		static final String HOME = "http://www.gasteizkomargolariak.com";
+		static final String HOME = "http://www.margolariak.com";
 		static final String LABLANCA = HOME + "/lablanca/";
 		static final String ACTIVITIES = HOME + "/actividades/";
 		static final String BLOG = HOME + "/blog/";

@@ -37,6 +37,7 @@ public class PhotoLayout extends Fragment {
 	private View view;
 
 	private String albumName;
+	private String albumPerm;
 
 	private Integer photos[];
 	private int position;
@@ -54,6 +55,7 @@ public class PhotoLayout extends Fragment {
 		//Get bundled id
 		Bundle bundle = this.getArguments();
 		albumName = bundle.getString("albumName", "");
+		albumPerm = bundle.getString("albumPerm", "");
 		int id = bundle.getInt("photo", -1);
 		if (id == -1) {
 			Log.e("Photo error", "No such photo: " + id);
@@ -84,6 +86,9 @@ public class PhotoLayout extends Fragment {
 				}
 			}
 		});
+
+		//Set title and share link
+		((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), albumName), GM.SHARE.GALLERY + albumPerm);
 
 		populate(id, view);
 
@@ -123,9 +128,8 @@ public class PhotoLayout extends Fragment {
 	 */
 	private Integer[] loadPhotos(int id){
 
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
-
 		//Get album id for the photo
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cAlbum = db.rawQuery("SELECT album FROM photo_album WHERE photo = " + id + ";", null);
 		cAlbum.moveToFirst();
 		int album = cAlbum.getInt(0);
