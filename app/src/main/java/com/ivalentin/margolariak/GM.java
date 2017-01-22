@@ -1174,6 +1174,17 @@ final class GM {
 	}
 
 	/**
+	 * URLs to be shared.
+	 */
+	static final class SHARE {
+		static final String HOME = "http://www.margolariak.com";
+		static final String LABLANCA = HOME + "/lablanca/";
+		static final String ACTIVITIES = HOME + "/actividades/";
+		static final String BLOG = HOME + "/blog/";
+		static final String GALLERY = HOME + "/galeria/";
+	}
+
+	/**
 	 * Gets the language code for sql queries.
 	 * Only three values can be returned: es, eu, en.
 	 * Defaults to es.

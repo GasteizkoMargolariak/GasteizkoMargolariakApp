@@ -112,6 +112,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_schedule));
 		else
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_gm_schedule));
+		((MainActivity) getActivity()).setShareLink(getString(R.string.share_lablanca), GM.SHARE.LABLANCA);
 
 		//Populate the dates array
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);

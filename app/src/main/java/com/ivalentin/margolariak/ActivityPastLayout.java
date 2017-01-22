@@ -50,7 +50,7 @@ public class ActivityPastLayout extends Fragment {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
         String lang = GM.getLang();
-        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, date, city, after_" + lang + " AS after FROM activity WHERE id = " + id + ";", null);
+        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, date, city, after_" + lang + " AS after, permalink FROM activity WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Get display elements
@@ -75,6 +75,7 @@ public class ActivityPastLayout extends Fragment {
         //Set fields
         tvTitle.setText(cursor.getString(1));
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
+        ((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), cursor.getString(1)), GM.SHARE.ACTIVITIES + cursor.getString(6));
         if (cursor.getString(5) == null || cursor.getString(5).length() < 1) {
             wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
         } else {

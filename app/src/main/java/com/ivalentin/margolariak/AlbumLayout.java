@@ -52,7 +52,7 @@ public class AlbumLayout extends Fragment {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
 		String lang = GM.getLang();
-        cursor = db.rawQuery("SELECT id, title_" + lang + " AS title, description_" + lang + " AS description FROM album WHERE id = " + id + ";", null);
+        cursor = db.rawQuery("SELECT id, title_" + lang + " AS title, description_" + lang + " AS description, permalink FROM album WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Set album elements
@@ -67,7 +67,11 @@ public class AlbumLayout extends Fragment {
 		}
 
         tvTitle.setText(cursor.getString(1));
+		((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
+		((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), cursor.getString(1)), GM.SHARE.GALLERY + cursor.getString(3));
+
 		final String albumName = cursor.getString(1);
+		final String albumPerm = cursor.getString(3);
         if (cursor.getString(2) == null || cursor.getString(2).length() < 1){
             tvDescription.setVisibility(View.GONE);
         }
@@ -95,6 +99,7 @@ public class AlbumLayout extends Fragment {
 
             //Set title
             TextView tvTitleLeft = (TextView) entry.findViewById(R.id.tv_row_album_title_left);
+
 			if (imageCursor.getString(1) != null && imageCursor.getString(1).length() > 0) {
 				tvTitleLeft.setText(imageCursor.getString(1));
 			}
@@ -148,6 +153,7 @@ public class AlbumLayout extends Fragment {
 				int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_album_hidden_left)).getText().toString());
 				bundle.putInt("photo", id);
 				bundle.putString("albumName", albumName);
+				bundle.putString("albumPerm", albumPerm);
 				fragment.setArguments(bundle);
 
 				FragmentManager fm = AlbumLayout.this.getActivity().getFragmentManager();
