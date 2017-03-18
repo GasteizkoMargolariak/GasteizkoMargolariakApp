@@ -2,9 +2,9 @@
     android:shape="rectangle" >
 
     <stroke
-        android:width="5dp"
+        android:width="3dp"
         android:color="@color/input_border" />
-    <solid android:color="@color/input_background" />
+    <solid android:color="@color/input_button_background" />
     <corners android:bottomRightRadius="7dp" android:bottomLeftRadius="7dp"
         android:topLeftRadius="7dp" android:topRightRadius="7dp"/>
     <padding android:left="5dp"
