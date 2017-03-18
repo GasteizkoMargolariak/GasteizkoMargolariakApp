@@ -717,7 +717,7 @@ final class GM {
 		/**
 		 * URL of the server.
 		 */
-		static final String SERVER = "http://margolariak.com";
+		static final String SERVER = "https://margolariak.com";
 	}
 
 	/**

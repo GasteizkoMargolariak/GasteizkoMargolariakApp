@@ -523,6 +523,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			}
 
 			editor.apply();
+			Log.d("SYNC", "Settings saved.");
 			return true;
 		}
 		catch (Exception ex){
@@ -547,6 +548,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 		//If settings table, do something else
 		if ("settings".equals(table)){
+			Log.d("SYNC", "Got the settings table. Special treatment...");
 			return saveSettings(data);
 		}
 
