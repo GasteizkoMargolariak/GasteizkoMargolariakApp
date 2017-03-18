@@ -186,6 +186,9 @@
 	<string name="pop_menu_sponsors">Patrocinadores</string>
 	<string name="pop_menu_about">Sobre nosotros</string>
 
+	<!-- Sponsors -->
+	<string name="sponsors_url">Sitio web</string>
+
 	<!--Preferences screen-->
 	<string name="preferences">Preferencias</string>
 	<string name="preferences_sync">Sincronización</string>
