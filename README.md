@@ -12,12 +12,13 @@ This features wil be only available during the city festivals.
 * Check out the festival schedule, showing events all around the city, and indicating their location.
 * Check out the schedule for the members of Gasteizko Margolariak, indicating the location of every event and activity...
 * ... but, since we are not known for our puntuality, check out the location of Gasteizko Margolariak in real time.
+* Approximate distanc eto important event around the city.
 
 
 ### Features for the rest of the year ###
 
 * Check out and be notified of all activities organized by gasteizzko margolariak.
-* View nd comment our blog.
+* View and comment our blog.
 * View and comment our gallery.
 
 

@@ -201,12 +201,23 @@
 	<string name="preferences_info_feedback">Feedback</string>
 	<string name="preferences_info_feedback_summary">Enviar información anónima al desarrollador</string>
 
+	<!-- Share menu -->
+	<string name="share">Comartir</string>
+	<string name="share_with">Enviar con…</string>
+	<string name="share_home">Gasteizko Margolariak</string>
+	<string name="share_lablanca">La Blanca - Gasteizko Margolariak</string>
+	<string name="share_activities">Actividades - Gasteizko Margolariak</string>
+	<string name="share_blog">Blog - Gasteizko Margolariak</string>
+	<string name="share_gallery">Galería - Gasteizko Margolariak</string>
+	<string name="share_with_title">%s - Gasteizko Margolariak</string>
+
 	<string name="eur" translatable="false">€</string>
 	<string name="Kb" translatable="false"> Kb</string>
 	<string name="Mb" translatable="false"> Mb</string>
+	<string name="pop_menu_share">Compartir</string>
 	<string name="pop_menu_about">Sobre nosotros</string>
 	<string name="preferences_info_source">Código fuente</string>
 	<string name="changelog">Changelog</string>
-	<string name="empty" translatable="false"></string>
+	<string name="empty" translatable="false"> </string>
 
 </resources>

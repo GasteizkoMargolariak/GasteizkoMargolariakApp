@@ -195,7 +195,7 @@ public class ActivityLayout extends Fragment{
                 text = Html.fromHtml(cursorPast.getString(4)).toString();
             }
             else {
-                if (cursorPast.getString(5).length() < 1) {
+                if (cursorPast.getString(5) == null || cursorPast.getString(5).length() < 1) {
                     text = Html.fromHtml(cursorPast.getString(4)).toString();
                 } else {
                     text = Html.fromHtml(cursorPast.getString(5)).toString();

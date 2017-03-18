@@ -77,7 +77,7 @@ public class LablancaLayout extends Fragment {
 		//Set image
 		ImageView headerImage = (ImageView) view.findViewById(R.id.iv_lablanca_header);
 		String image = cursor.getString(1);
-		if (image.length() > 0){
+		if (image != null && image.length() > 0){
 
 			//Check if image exists
 			File f;

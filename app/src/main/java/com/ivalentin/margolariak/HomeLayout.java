@@ -433,7 +433,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set image
 				String image = cursor.getString(1);
-				if (image.length() > 0){
+				if (image != null && image.length() > 0){
 
 					//Check if image exists
 					File f;
@@ -655,7 +655,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set text
 			String text;
-			if (cursor.getString(6).length() < 1) {
+			if (cursor.getString(6) == null || cursor.getString(6).length() < 1) {
 				text = Html.fromHtml(cursor.getString(4)).toString();
 			} else {
 				text = Html.fromHtml(cursor.getString(6)).toString();

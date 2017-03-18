@@ -60,7 +60,7 @@ public class PostLayout extends Fragment {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
         final Cursor cursor;
         String lang = GM.getLang();
-        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, dtime FROM post WHERE id = " + id + ";", null);
+        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, dtime, permalink FROM post WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Get display elements
@@ -88,6 +88,7 @@ public class PostLayout extends Fragment {
         //Set fields
         tvTitle.setText(cursor.getString(1));
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
+        ((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), cursor.getString(1)), GM.SHARE.BLOG + cursor.getString(4));
         wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
         tvDate.setText(GM.formatDate(cursor.getString(3), lang, true));
 
