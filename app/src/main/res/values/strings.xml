@@ -182,7 +182,12 @@
 
 	<!-- Pop-up menu entry strings -->
 	<string name="pop_menu_settings">Ajustes</string>
-	<string name="pop_menu_sponsors">Sponsors</string>
+	<string name="pop_menu_share">Compartir</string>
+	<string name="pop_menu_sponsors">Patrocinadores</string>
+	<string name="pop_menu_about">Sobre nosotros</string>
+
+	<!-- Sponsors -->
+	<string name="sponsors_url">Sitio web</string>
 
 	<!--Preferences screen-->
 	<string name="preferences">Preferencias</string>
@@ -214,8 +219,6 @@
 	<string name="eur" translatable="false">€</string>
 	<string name="Kb" translatable="false"> Kb</string>
 	<string name="Mb" translatable="false"> Mb</string>
-	<string name="pop_menu_share">Compartir</string>
-	<string name="pop_menu_about">Sobre nosotros</string>
 	<string name="preferences_info_source">Código fuente</string>
 	<string name="changelog">Changelog</string>
 	<string name="empty" translatable="false"> </string>

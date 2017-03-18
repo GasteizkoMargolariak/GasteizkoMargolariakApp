@@ -169,7 +169,8 @@
 	<string name="pop_menu_share">Bitarte</string>
 	<string name="pop_menu_about">Gu</string>
 	<string name="pop_menu_settings">Ajustes</string>
-	<string name="pop_menu_sponsors">-</string>
+	<string name="pop_menu_sponsors">Patrocinadores</string>
+	<string name="sponsors_url">Web horria</string>
 	<string name="preferences_info">Informazioa</string>
 	<string name="preferences_info_feedback_summary">Send anonymous feedback to the developer</string>
 	<string name="preferences_info_source">Codigo fuente</string>
