@@ -448,7 +448,7 @@
 				android:id="@+id/ll_home_section_gallery_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="8dp"
+				android:layout_margin="10dp"
 				android:orientation="vertical"
 				android:background="@drawable/entry"
 				android:padding="7dp">
@@ -606,7 +606,8 @@
 				android:id="@+id/ll_home_section_activities_past_content"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical">
+				android:orientation="vertical"
+				android:layout_margin="8dp">
 
 			</LinearLayout>
 
