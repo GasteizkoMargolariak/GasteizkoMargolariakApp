@@ -153,7 +153,7 @@ public class MainActivity extends Activity {
 		popup.getMenu().getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+				Intent intent = new Intent(MainActivity.this, UsActivity.class);
 				startActivity(intent);
 				return true;
 			}

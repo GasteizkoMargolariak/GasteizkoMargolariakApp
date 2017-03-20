@@ -44,7 +44,7 @@
 	<!-- Day strings -->
 	<string name="today">Hoy</string>
 	<string name="tomorrow">Mañana</string>
-	
+
 	<!-- Blog section strings -->
 	<string name="blog_pager_previous" translatable="false">&lt;</string>
 	<string name="blog_pager_next" translatable="false">&gt;</string>
@@ -57,7 +57,7 @@
 	<string name="home_section_location_text_0">¡Gasteizko Margolariak está cerca!</string>
 	<string name="home_section_social">Síguenos</string>
 
-	
+
 	<!-- Prices dialog strings -->
 
 
@@ -67,7 +67,7 @@
 	<string name="settings_notification_on">Recibir notificaciones</string>
 	<string name="settings_notification_off">No recibir notificaciones</string>
 
-	
+
 	<!-- Social networks strings -->
 
 	<string name="social_phone" translatable="false">Phone</string>
@@ -92,11 +92,11 @@
 
 
 	<!-- Notification dialog strings -->
-	
+
 	<string name="notification_close">Cerrar</string>
 
 	<!-- Sync dialog strings -->
-	
+
 	<string name="dialog_sync_title">Sincronizando</string>
 	<string name="dialog_sync_failed_title">Error de sincronización</string>
 	<string name="dialog_sync_failed_text">No se pudierdon descargar los contenidos\n\nAsegúrate de que dispones de conexión a internet e inténtalo de nuevo.</string>
@@ -188,6 +188,17 @@
 
 	<!-- Sponsors -->
 	<string name="sponsors_url">Sitio web</string>
+
+	<!-- Us -->
+	<string name="us_title">Nosotros</string>
+	<string name="us_association">La asociación</string>
+	<string name="us_association_content">La Asociación Cultural Gasteizko Margolariak nace en el año 2013 con la idea de estimular la participación ciudadana y fortalecer la cultura y las tradiciones de Vitoria-Gasteiz.\n\nEn nuestro nombre se refleja un barrio en el que las calles nos recuerdan a grandes pintores: el barrio de San Martín. Estamos representados en los barrios, y creemos que son la esencia de esta ciudad.</string>
+	<string name="us_cuadrilla">La cuadrilla</string>
+	<string name="us_cuadrilla_content">Nos convertimos en Cuadrilla de Blusas y Neskas en 2013, y en ese mismo año, miembros de la Comisión de Blusas y Neskas.\n\nDesde entonces no hemos hecho mas que crecer junto con todos los que han decidido, año tras año, apostar por nosotros.</string>
+	<string name="us_activities">Lo que hacemos</string>
+	<string name="us_activities_content">Excursiones, partidos, causas benéficas... No solo se nos ve en fiestas.\n\nCreemos que, como Cuadrilla de Blusas y Neskas, existimos por y para la ciudad, y por eso organizamos actividades durante todo el año, para todo aquel que quiera acompañarnos.</string>
+	<string name="us_transparency">Transparencia</string>
+	<string name="us_transparency_content">¿Te preocupa saber dónde va tu dinero? En Gasteizko Margolariak queremos que estés tranquilo.\n\nMuchas de nuestras actividades son gratuitas. Otras, como las fiestas de La Blanca, tienen una cuota de inscripción. Gasteizko Margolariak no es una empresa, es una Asociación Cultural, y como tal, no tenemos beneficios.\n\nQueremos ser transparentes, y por eso, empezando en 2017, pondremos a tu disposición nuestras cuentas de manera online, para que sepas que cada euro se reinvierte en ti.</string>
 
 	<!--Preferences screen-->
 	<string name="preferences">Preferencias</string>
