@@ -33,12 +33,13 @@
         >
 
         <ImageView
+            android:id="@+id/iv_dialog_us_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/photo_placeholder_thumb"
-            android:id="@+id/iv_dialog_us_image"
+            android:adjustViewBounds="true"
             android:maxHeight="140dp"
-            android:adjustViewBounds="true"/>
+            android:minHeight="100dp"
+            app:srcCompat="@drawable/photo_placeholder_thumb"/>
 
         <TextView
             android:id="@+id/tv_dialog_us_text"

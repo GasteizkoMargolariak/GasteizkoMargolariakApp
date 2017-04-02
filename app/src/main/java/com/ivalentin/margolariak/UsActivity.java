@@ -105,7 +105,7 @@ public class UsActivity extends Activity {
 		tvText.setText(text);
 
 		//Set image
-		//TODO
+		ivImage.setImageDrawable(img);
 
 		//Set close button
 		btClose.setOnClickListener(new View.OnClickListener() {
