@@ -124,7 +124,8 @@ public class LablancaLayout extends Fragment {
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_festival_price_day_date);
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+			tvDate.setText(GM.formatDate(cursorDays.getString(0) + " 00:00:00", lang, false, false, false));
+			/*DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 			Date date;
 			try {
 				date = format.parse(cursorDays.getString(0));
@@ -143,7 +144,7 @@ public class LablancaLayout extends Fragment {
 			}
 			catch(Exception ex){
 				Log.e("Date format error", ex.toString());
-			}
+			}*/
 
 			list.addView(entry);
 		}

@@ -111,7 +111,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 		}
 		wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
 		//wvText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
+        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, true, false, false));
         tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
         tvCity.setText(cursor.getString(4));
 

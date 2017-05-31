@@ -17,17 +17,17 @@
 		<!-- Button to open slider menu -->
 
 		<ImageView
-			android:contentDescription="@string/app_name"
 			android:id="@+id/iv_logo"
-			android:src="@drawable/ic_launcher"
-			android:adjustViewBounds="true"
-			android:layout_weight=".2"
-			android:padding="1dp"
-			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_weight=".2"
+			android:adjustViewBounds="true"
+			android:contentDescription="@string/app_name"
 			android:maxHeight="45dp"
 			android:maxWidth="45dp"
-			android:layout_gravity="center_vertical"/>
+			android:padding="1dp"
+			android:src="@drawable/ic_launcher"/>
 
 		<!-- Layout with the app title and current section -->
 
@@ -37,7 +37,7 @@
 			android:layout_gravity="center_vertical|center"
 			android:layout_weight=".8"
 			android:gravity="center"
-			android:orientation="vertical" >
+			android:orientation="vertical">
 
 			<!-- App name. Remains unchanged -->
 
@@ -46,9 +46,9 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text="@string/app_name"
+				android:textColor="@color/menu_entry"
 				android:textSize="18sp"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"/>
+				android:textStyle="bold"/>
 
 			<!-- Section title -->
 
@@ -58,32 +58,32 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text="@string/menu_home"
-				android:textSize="20sp"
-				android:textColor="@color/menu_entry"/>
+				android:textColor="@color/menu_entry"
+				android:textSize="20sp"/>
 
 		</LinearLayout>
 
 		<ImageButton
+			android:id="@+id/bt_menu"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
-			android:src="@drawable/ic_expand"
-			android:contentDescription="@string/tutorial_menu"
-			android:onClick="showMenu"
 			android:layout_weight=".2"
-			android:id="@+id/bt_menu"
-			app:srcCompat="@drawable/ic_expand"
-			android:background="#00000000"
 			android:adjustViewBounds="false"
-			android:cropToPadding="false"/>
+			android:background="#00000000"
+			android:contentDescription="@string/tutorial_menu"
+			android:cropToPadding="false"
+			android:onClick="showMenu"
+			android:src="@drawable/ic_expand"
+			app:srcCompat="@drawable/ic_expand"/>
 
 		<ProgressBar
 			android:id="@+id/pb_sync"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
 			android:layout_weight=".2"
-			android:visibility="gone"
 			android:maxHeight="40dp"
-			android:maxWidth="40dp"/>
+			android:maxWidth="40dp"
+			android:visibility="gone"/>
 
 	</LinearLayout>
 

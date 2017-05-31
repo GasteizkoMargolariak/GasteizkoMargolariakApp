@@ -15,17 +15,14 @@
         android:paddingBottom="5dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/section">
+            android:background="@drawable/section"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
-                tools:layout_width="match_parent"
                 android:background="@drawable/section_title"
                 android:paddingBottom="4dp"
                 android:paddingEnd="10dp"
@@ -33,33 +30,37 @@
                 android:paddingRight="10dp"
                 android:paddingStart="20dp"
                 android:paddingTop="4dp"
+                android:text="@string/lablanca_title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/section_title"
-                android:text="@string/lablanca_title"/>
+                android:textStyle="bold"
+                tools:layout_width="match_parent"/>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:background="@drawable/entry"
+                android:orientation="vertical"
                 android:padding="7dp">
 
                 <ImageView
+                    android:id="@+id/iv_lablanca_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/iv_lablanca_header"
-                    android:contentDescription="@string/app_cdesc"
+                    android:layout_gravity="center_horizontal"
                     android:layout_margin="3dp"
                     android:adjustViewBounds="true"
-                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/app_cdesc"
                     android:maxHeight="130dp"/>
 
                 <WebView
+                    android:id="@+id/wv_lablanca_header"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/wv_lablanca_header"
-                    android:padding="7dp"
                     android:layout_marginBottom="7dp"
+                    android:padding="7dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     />
             </LinearLayout>
 
@@ -89,34 +90,35 @@
                 android:text="@string/lablanca_schedule"/>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:background="@drawable/entry"
+                android:orientation="horizontal"
                 android:padding="7dp">
 
                 <Button
+                    android:id="@+id/bt_lablanca_schedule_city"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="@string/lablanca_schedule_city"
-                    android:id="@+id/bt_lablanca_schedule_city"
-                    android:background="@drawable/button_selector"
-                    android:textColor="@color/input_button_color"
-                    android:textStyle="bold"
                     android:layout_margin="6dp"
                     android:layout_weight=".5"
+                    android:background="@drawable/button_selector"
+                    android:text="@string/lablanca_schedule_city"
+                    android:textColor="@color/input_button_color"
+                    android:textStyle="bold"
                     tools:ignore="ButtonStyle"/>
 
                 <Button
+                    android:id="@+id/bt_lablanca_schedule_gm"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="@string/lablanca_schedule_gm"
-                    android:id="@+id/bt_lablanca_schedule_gm"
-                    android:background="@drawable/button_selector"
-                    android:textColor="@color/input_button_color"
-                    android:textStyle="bold"
                     android:layout_margin="6dp"
                     android:layout_weight=".5"
+                    android:background="@drawable/button_selector"
+                    android:text="@string/lablanca_schedule_gm"
+                    android:textColor="@color/input_button_color"
+                    android:textStyle="bold"
                     tools:ignore="ButtonStyle"/>
             </LinearLayout>
 
@@ -147,49 +149,51 @@
                 android:textColor="@color/section_title"/>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:background="@drawable/entry"
+                android:orientation="vertical"
                 android:padding="7dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_marginBottom="15dp"
                     android:text="@string/lablanca_prices_days"
-                    android:layout_marginBottom="15dp"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/ll_lablanca_prices_days_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/ll_lablanca_prices_days_list">
+                    android:orientation="vertical">
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:background="@drawable/entry"
-                android:padding="7dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:orientation="vertical"
+                android:padding="7dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/lablanca_prices_pack"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/entry_title"
-                    android:textStyle="bold"
-                    android:text="@string/lablanca_prices_pack"/>
+                    android:textStyle="bold"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/ll_lablanca_prices_packs_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/ll_lablanca_prices_packs_list"
+                    android:orientation="vertical"
                     />
             </LinearLayout>
 
