@@ -293,7 +293,7 @@ public class MainActivity extends Activity {
 
 		//Replace the fragment.
 		ft.replace(R.id.activity_main_content_fragment, fragment);
-		//ft.addToBackStack(title);
+		ft.addToBackStack(title);
 		ft.commit();
 		setSectionTitle(title);
 		//Set the shareable url
@@ -745,6 +745,7 @@ public class MainActivity extends Activity {
 	public void onBackPressed() {
 		try {
 			FragmentManager fm = getFragmentManager();
+			Log.d("BACK", "StackEntryCount " + fm.getBackStackEntryCount());
 			if (fm.getBackStackEntryCount() > 1) {
 				fm.popBackStack();
 			} else {
