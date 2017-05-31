@@ -193,7 +193,7 @@ public class PhotoLayout extends Fragment {
 		else{
 			tvDescription.setVisibility(View.GONE);
 		}
-		tvDate.setText(GM.formatDate(cursor.getString(4), lang, true));
+		tvDate.setText(GM.formatDate(cursor.getString(4), lang, true, true, false));
 
 		//Get image
 		String image = cursor.getString(1);
@@ -248,7 +248,7 @@ public class PhotoLayout extends Fragment {
 			TextView tvUser = (TextView) entry.findViewById(R.id.tv_row_comment_user);
 			tvUser.setText(commentCursor.getString(2));
 			TextView tvCDate = (TextView) entry.findViewById(R.id.tv_row_comment_date);
-			tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true));
+			tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true, true, true));
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_comment_text);
 			tvText.setText(commentCursor.getString(0));
 

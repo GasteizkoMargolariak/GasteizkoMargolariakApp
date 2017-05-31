@@ -112,7 +112,7 @@ public class ActivityLayout extends Fragment{
 
                 //Set date
                 TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_activity_future_date);
-                tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
+                tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, true, false, false));
 
                 //Set hidden id
                 TextView tvId = (TextView) entry.findViewById(R.id.tv_row_activity_future_hidden);
@@ -206,7 +206,7 @@ public class ActivityLayout extends Fragment{
 
             //Set date
             TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_activity_past_date);
-            tvDate.setText(GM.formatDate(cursorPast.getString(1) + " 00:00:00", lang, false));
+            tvDate.setText(GM.formatDate(cursorPast.getString(1) + " 00:00:00", lang, true, true, false));
 
             //Set hidden id
             TextView tvId = (TextView) entry.findViewById(R.id.tv_row_activity_past_hidden);

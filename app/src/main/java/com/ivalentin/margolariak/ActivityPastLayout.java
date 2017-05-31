@@ -81,7 +81,7 @@ public class ActivityPastLayout extends Fragment {
         } else {
             wvText.loadDataWithBaseURL(null, cursor.getString(5), "text/html", "utf-8", null);
         }
-        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
+        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, true, true, false));
         tvCity.setText(cursor.getString(4));
 
         //Get images

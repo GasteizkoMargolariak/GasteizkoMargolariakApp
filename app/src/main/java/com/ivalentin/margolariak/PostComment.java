@@ -187,7 +187,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
             Date d = new Date();
             String date = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime()).toString();
             TextView tvCDate = (TextView) entry.findViewById(R.id.tv_row_comment_date);
-            tvCDate.setText(GM.formatDate(date, language, true));
+            tvCDate.setText(GM.formatDate(date, language, true, true, true));
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_comment_text);
             tvText.setText(text);
 

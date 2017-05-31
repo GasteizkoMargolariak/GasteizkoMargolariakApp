@@ -666,7 +666,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, true, true, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -797,7 +797,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set date
 				TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
+				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, true, false, false));
 
 				//Set hidden id
 				TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -916,7 +916,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_blog_date);
-			tvDate.setText(GM.formatDate(cursor.getString(3), lang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(3), lang, true, true, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_blog_hidden);

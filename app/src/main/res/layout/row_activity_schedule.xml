@@ -9,10 +9,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/entry_title"
+        android:textStyle="bold"
         android:id="@+id/tv_row_activity_itinerary_time"
         android:layout_weight=".8"
-        android:textStyle="bold"
         android:gravity="end" />
 
     <TextView
@@ -56,7 +57,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/entry_title"
+            android:textStyle="bold"
             android:id="@+id/tv_row_activity_itinerary_title" />
 
         <TextView

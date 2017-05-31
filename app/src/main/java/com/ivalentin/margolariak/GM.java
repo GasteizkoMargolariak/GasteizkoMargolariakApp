@@ -1209,15 +1209,17 @@ final class GM {
 	/**
 	 * Formats a datetime format strings and returns a human readable date, depending on the language
 	 *
-	 * @param dateString String in a datetime format
-	 * @param lang Language (es, en, eu)
-	 * @param includeTime Also returns the hour and minutes
+	 * @param dateString String in a datetime format.
+	 * @param lang Language (es, en, eu).
+	 * @param includeDay Also returns the weekday.
+	 * @param includeYear Also returns the year.
+	 * @param includeTime Also returns the hour and minute.
 	 *
 	 * @return The fragment view
 	 *
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
-	static String formatDate(String dateString, String lang, boolean includeTime){
+	static String formatDate(String dateString, String lang, boolean includeDay, boolean includeYear, boolean includeTime){
 
 		String output = "";
 
@@ -1252,7 +1254,14 @@ final class GM {
 				case "es":
 					dayName = dayNameEs[dayNumber];
 					monthName = monthNameEs[monthNumber];
-					output = dayName + ", " + day + " de " + monthName + " de " + year;
+					output = "";
+					if (includeDay){
+						output = dayName + ", ";
+					}
+					output = output + day + " de " + monthName;
+					if (includeYear){
+						output = output + " de " + year;
+					}
 					if (includeTime){
 						output = output + " a las " + time;
 					}
@@ -1260,7 +1269,14 @@ final class GM {
 				case "eu":
 					dayName = dayNameEu[dayNumber];
 					monthName = monthNameEu[monthNumber];
-					output = year + "ko" + monthName + " " + day + "an, " + dayName;
+					output = "";
+					if (includeYear){
+						output = year + "ko";
+					}
+					output = output + monthName + " " + day + "an";
+					if (includeDay){
+						output = output + ", " + dayName;
+					}
 					if (includeTime){
 						output = output + " " + time + "etan";
 					}
@@ -1268,7 +1284,14 @@ final class GM {
 				default:
 					dayName = dayNameEn[dayNumber];
 					monthName = monthNameEn[monthNumber];
-					output = dayName + ", " + monthName + " " + day + ", " + year;
+					output = "";
+					if (includeDay){
+						output = dayName + ", ";
+					}
+					output = output + monthName + " " + day;
+					if (includeYear){
+						output = output + ", " + year;
+					}
 					if (includeTime){
 						output = output + " " + time;
 					}

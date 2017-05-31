@@ -90,7 +90,7 @@ public class PostLayout extends Fragment {
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
         ((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), cursor.getString(1)), GM.SHARE.BLOG + cursor.getString(4));
         wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
-        tvDate.setText(GM.formatDate(cursor.getString(3), lang, true));
+        tvDate.setText(GM.formatDate(cursor.getString(3), lang, true, true, true));
 
         //Get images
         Cursor imageCursor = db.rawQuery("SELECT image, idx FROM post_image WHERE post = " + id + " ORDER BY idx LIMIT 5;", null);
@@ -132,7 +132,7 @@ public class PostLayout extends Fragment {
             TextView tvUser = (TextView) entry.findViewById(R.id.tv_row_comment_user);
             tvUser.setText(commentCursor.getString(2));
             TextView tvCDate = (TextView) entry.findViewById(R.id.tv_row_comment_date);
-            tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true));
+            tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true, true, true));
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_comment_text);
             tvText.setText(commentCursor.getString(0));
 
