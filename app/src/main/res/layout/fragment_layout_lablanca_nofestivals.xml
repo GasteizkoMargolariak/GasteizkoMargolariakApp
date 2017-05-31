@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.ivalentin.margolariak.CustomScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -8,38 +9,435 @@
     tools:ignore="Overdraw">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/section"
-        android:layout_margin="10dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lablanca_title"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            tools:layout_width="match_parent"
-            android:background="@drawable/section_title"
-            android:paddingBottom="4dp"
-            android:paddingEnd="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="10dp"
-            android:paddingStart="20dp"
-            android:paddingTop="4dp"
-            android:textColor="@color/section_title"/>
+            android:background="@drawable/section"
+            android:orientation="vertical"
+            >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="@string/lablanca_nofestivals"
-            android:id="@+id/textView11"
-            android:background="@drawable/entry"
-            android:padding="7dp"
-            android:layout_margin="8dp"/>
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/section_title"
+                android:paddingBottom="4dp"
+                android:paddingEnd="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingStart="20dp"
+                android:paddingTop="4dp"
+                android:text="@string/lablanca_title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/section_title"
+                android:textStyle="bold"
+                tools:layout_width="match_parent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/entry"
+                android:orientation="vertical"
+                android:padding="7dp">
+
+                <TextView
+                    android:id="@+id/tv_lablanca_nofestivals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/lablanca_nofestivals"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="true"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_1_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_1"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_2_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_2"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_3_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_3"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_4_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_4"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_5_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_5"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_6_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_6"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_7_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_7"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="false"
+                        android:baselineAlignBottom="false"
+                        android:minHeight="15dp"
+                        android:minWidth="15dp"
+                        android:src="@drawable/ul"
+                        app:srcCompat="@drawable/ul"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lablanca_nofestivals_8_title"
+                            android:textColor="#001133"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/lablanca_nofestivals_8"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
+
+
 
 
 </com.ivalentin.margolariak.CustomScrollView>
