@@ -49,7 +49,9 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@id/schedule_timeline"
             android:layout_toStartOf="@id/schedule_timeline"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/entry_title"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
@@ -65,7 +67,9 @@
             android:id="@+id/tv_row_schedule_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Large" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/entry_title"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_row_schedule_description"
