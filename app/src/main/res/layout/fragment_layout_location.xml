@@ -2,25 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			  xmlns:tools="http://schemas.android.com/tools"
 			  android:layout_width="fill_parent"
-			  android:orientation="vertical"
 			  android:layout_height="fill_parent"
 			  android:background="@color/background_app"
+			  android:orientation="vertical"
 			  tools:ignore="Overdraw">
 
 	<LinearLayout
-		android:orientation="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_margin="10dp"
 		android:background="@drawable/section"
-		android:layout_margin="10dp">
+		android:orientation="vertical">
 
 		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/menu_location"
-			android:textAppearance="?android:attr/textAppearanceLarge"
-			android:textStyle="bold"
-			tools:layout_width="match_parent"
 			android:background="@drawable/section_title"
 			android:paddingBottom="4dp"
 			android:paddingEnd="10dp"
@@ -28,38 +24,42 @@
 			android:paddingRight="10dp"
 			android:paddingStart="20dp"
 			android:paddingTop="4dp"
-			android:textColor="@color/section_title"/>
+			android:text="@string/menu_location"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:textColor="@color/section_title"
+			android:textStyle="bold"
+			tools:layout_width="match_parent"/>
 
 		<LinearLayout
-			android:orientation="vertical"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:layout_margin="8dp"
 			android:background="@drawable/entry"
-			android:padding="7dp"
-			android:layout_margin="8dp">
+			android:orientation="vertical"
+			android:padding="7dp">
 
 			<TextView
-                android:text="@string/home_section_location_text_0"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:text="@string/home_section_location_text_0"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:textColor="@color/entry_title"
 				android:textStyle="bold"/>
 
 			<TextView
+				android:id="@+id/tv_location_distance"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:id="@+id/tv_location_distance"
+				android:layout_margin="10dp"
 				android:text="@string/home_section_location_text_calculating"
-				android:layout_margin="10dp"/>
+				android:textAppearance="?android:attr/textAppearanceSmall"/>
 
 			<com.google.android.gms.maps.MapView
 				android:id="@+id/mapview"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
-				android:minHeight="150dp"
-				android:layout_margin="7dp"/>
+				android:layout_margin="7dp"
+				android:minHeight="150dp"/>
 		</LinearLayout>
 
 	</LinearLayout>

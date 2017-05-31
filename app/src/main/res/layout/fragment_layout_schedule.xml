@@ -16,84 +16,115 @@
         android:background="@drawable/section"
         android:layout_margin="7dp">
 
-        <LinearLayout
-            android:id="@+id/ll_schedule_date"
-            android:layout_width="fill_parent"
+        <TextView
+            android:text="@string/lablanca_schedule_gm"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp" >
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            tools:layout_width="match_parent"
+            android:background="@drawable/section_title"
+            android:paddingBottom="4dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingStart="20dp"
+            android:paddingTop="4dp"
+            android:textColor="@color/section_title"/>
 
-            <Button
-                android:id="@+id/bt_schedule_l"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight=".8"
-                android:background="@drawable/button_selector"
-                android:text="@string/arrow_left"
-                android:textColor="@color/input_button_color"
-                android:textStyle="bold"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="7dp"
+            android:background="@drawable/entry"
+            android:orientation="vertical"
+            android:padding="7dp">
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".3"
-                android:gravity="center"
-                android:orientation="horizontal" >
+                android:id="@+id/ll_schedule_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/tv_schedule_day_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="40sp" />
+                <Button
+                    android:id="@+id/bt_schedule_l"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight=".8"
+                    android:background="@drawable/button_selector"
+                    android:text="@string/arrow_left"
+                    android:textColor="@color/input_button_color"
+                    android:textStyle="bold"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_schedule_day_title"
+                        android:id="@+id/tv_schedule_day_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="0dp"
-                        android:paddingLeft="13dp"
-                        android:paddingRight="0dp"
-                        android:paddingStart="13dp"
-                        android:textSize="20sp"
-                        android:textStyle="italic" />
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="40sp"/>
 
-                    <TextView
-                        android:id="@+id/tv_schedule_day_month"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_schedule_day_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingEnd="0dp"
+                            android:paddingLeft="13dp"
+                            android:paddingRight="0dp"
+                            android:paddingStart="13dp"
+                            android:textSize="20sp"
+                            android:textStyle="italic"/>
+
+                        <TextView
+                            android:id="@+id/tv_schedule_day_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    </LinearLayout>
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/bt_schedule_r"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="end"
+                    android:layout_weight=".8"
+                    android:background="@drawable/button_selector"
+                    android:text="@string/arrow_right"
+                    android:textColor="@color/input_button_color"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/bt_schedule_r"
+            <EditText
+                android:id="@+id/et_schedule_filter"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="end"
-                android:layout_weight=".8"
-                android:background="@drawable/button_selector"
-                android:text="@string/arrow_right"
-                android:textStyle="bold"
-                android:textColor="@color/input_button_color"/>
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/input"
+                android:ems="10"
+                android:hint="@string/schedule_filter"
+                android:textColor="@color/input_text_color"
+                android:textColorHint="@color/input_hint_color">
+
+                <requestFocus/>
+            </EditText>
+
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/et_schedule_filter"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/schedule_filter"
-            android:background="@drawable/input"
-            android:textColor="@color/input_text_color"
-            android:textColorHint="@color/input_hint_color">
-
-            <requestFocus />
-        </EditText>
 
         <com.ivalentin.margolariak.CustomScrollView
             android:id="@+id/sv_schedule"
