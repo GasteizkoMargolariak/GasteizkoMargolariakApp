@@ -141,37 +141,38 @@
 			</RelativeLayout>
 
 			<RelativeLayout
-				android:orientation="vertical"
+				android:id="@+id/rl_menu_location"
 				android:layout_width="100dp"
 				android:layout_height="match_parent"
-				android:id="@+id/rl_menu_location"
 				android:layout_marginLeft="1dp"
-				android:layout_marginRight="1dp">
+				android:layout_marginRight="1dp"
+				android:orientation="vertical"
+				android:visibility="gone">
 
 				<TextView
+					android:id="@+id/tv_menu_location"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_location"
-					android:layout_gravity="top"
-					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_location"
-					android:textColor="@color/menu_entry"/>
+					android:layout_gravity="top"
+					android:text="@string/menu_location"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:textSize="15sp"/>
 
 				<ImageView
-					android:layout_width="match_parent"
 					android:id="@+id/iv_menu_location"
-					android:background="@color/menu_selected"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
+					android:layout_width="match_parent"
+					android:layout_height="3dp"
+					android:layout_alignParentBottom="true"
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"
-					tools:ignore="ContentDescription"
-					android:layout_height="3dp"/>
+					android:layout_alignParentStart="false"
+					android:layout_gravity="bottom"
+					android:alpha="1"
+					android:background="@color/menu_selected"
+					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
