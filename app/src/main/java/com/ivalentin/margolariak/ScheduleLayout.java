@@ -87,8 +87,6 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		String year = Integer.toString(calendar.get(Calendar.YEAR));
 
 
-
-
 		//Set bundle for the map
 		bund = savedInstanceState;
 		
@@ -104,14 +102,19 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		});
 
 		//Get schedule type
+		TextView title = (TextView) view.findViewById(R.id.tv_schedule_type);
 		Bundle bundle = this.getArguments();
 		schedule = bundle.getInt(GM.SCHEDULE.KEY, GM.SCHEDULE.CITY);
 		
 		//Set the title
-		if (schedule == GM.SCHEDULE.CITY)
+		if (schedule == GM.SCHEDULE.CITY) {
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_schedule));
-		else
+			title.setText(R.string.menu_lablanca_schedule);
+		}
+		else{
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_gm_schedule));
+			title.setText(R.string.menu_lablanca_gm_schedule);
+		}
 		((MainActivity) getActivity()).setShareLink(getString(R.string.share_lablanca), GM.SHARE.LABLANCA);
 
 		//Populate the dates array

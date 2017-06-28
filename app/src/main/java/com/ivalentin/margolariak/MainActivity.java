@@ -243,7 +243,7 @@ public class MainActivity extends Activity {
 
 			case GM.SECTION.SCHEDULE:
 				fragment = new ScheduleLayout();
-				bundle.putInt(GM.SCHEDULE.KEY, GM.SCHEDULE.MARGOLARIAK);
+				bundle.putInt(GM.SCHEDULE.KEY, GM.SCHEDULE.CITY);
 				fragment.setArguments(bundle);
 				title = getString(R.string.menu_lablanca_schedule);
 				shareURL = GM.SHARE.LABLANCA;
