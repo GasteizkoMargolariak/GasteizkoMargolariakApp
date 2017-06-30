@@ -175,7 +175,7 @@ public class BlogLayout extends Fragment{
 
             //Set date
             TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_blog_date);
-            tvDate.setText(GM.formatDate(cursor.getString(3), lang, false));
+            tvDate.setText(GM.formatDate(cursor.getString(3), lang, true, true, false));
 
             //Set hidden id
             TextView tvId = (TextView) entry.findViewById(R.id.tv_row_blog_hidden);

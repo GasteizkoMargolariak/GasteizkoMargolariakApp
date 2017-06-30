@@ -433,7 +433,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set image
 				String image = cursor.getString(1);
-				if (image.length() > 0){
+				if (image != null && image.length() > 0){
 
 					//Check if image exists
 					File f;
@@ -655,7 +655,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set text
 			String text;
-			if (cursor.getString(6).length() < 1) {
+			if (cursor.getString(6) == null || cursor.getString(6).length() < 1) {
 				text = Html.fromHtml(cursor.getString(4)).toString();
 			} else {
 				text = Html.fromHtml(cursor.getString(6)).toString();
@@ -666,7 +666,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, true, true, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -797,7 +797,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set date
 				TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
+				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, true, false, false));
 
 				//Set hidden id
 				TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -916,7 +916,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_blog_date);
-			tvDate.setText(GM.formatDate(cursor.getString(3), lang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(3), lang, true, true, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_blog_hidden);

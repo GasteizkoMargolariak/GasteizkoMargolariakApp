@@ -82,7 +82,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         final Cursor cursor;
 		String lang = GM.getLang();
 
-        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, date, city, price FROM activity WHERE id = " + id + ";", null);
+        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, date, city, price, permalink FROM activity WHERE id = " + id + ";", null);
         cursor.moveToFirst();
 
         //Get display elements
@@ -102,6 +102,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
         //Set fields
         tvTitle.setText(cursor.getString(1));
         ((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
+		((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), cursor.getString(1)), GM.SHARE.ACTIVITIES + cursor.getString(6));
 		if (Build.VERSION.SDK_INT >= 19) {
 			wvText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		}
@@ -110,7 +111,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 		}
 		wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
 		//wvText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, false));
+        tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, true, false, false));
         tvPrice.setText(String.format(getString(R.string.price), cursor.getInt(5)));
         tvCity.setText(cursor.getString(4));
 
@@ -291,7 +292,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 
             //Set time
             try{
-                if (cursor.getString(5).length() == 0) {
+                if (cursor.getString(5) == null || cursor.getString(5).length() == 0) {
                     tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))));
                 }
                 else {

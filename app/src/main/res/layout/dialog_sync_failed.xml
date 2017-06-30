@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:background="@drawable/section"
     android:orientation="vertical"
-    android:layout_margin="20dp">
+    android:layout_margin="20dp"
+    android:minHeight="250dp"
+    android:minWidth="200dp">
 
     <TextView
         android:layout_width="match_parent"

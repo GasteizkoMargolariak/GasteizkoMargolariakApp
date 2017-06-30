@@ -2,7 +2,7 @@
     android:shape="rectangle" >
 
     <stroke
-        android:width="5dp"
+        android:width="3dp"
         android:color="@color/input_border" />
     <solid android:color="@color/input_background" />
     <corners android:bottomRightRadius="7dp" android:bottomLeftRadius="7dp"
