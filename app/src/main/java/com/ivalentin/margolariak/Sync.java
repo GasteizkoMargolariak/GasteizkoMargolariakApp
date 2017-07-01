@@ -75,7 +75,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 			//Show the dialog and assign the elements on it
 			dialog.show();
-			strings = new String[10];
+			strings = new String[15];
 			strings[0] = myContextRef.getString(R.string.dialog_sync_text_0);
 			strings[1] = myContextRef.getString(R.string.dialog_sync_text_1);
 			strings[2] = myContextRef.getString(R.string.dialog_sync_text_2);
@@ -85,9 +85,14 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			strings[6] = myContextRef.getString(R.string.dialog_sync_text_6);
 			strings[7] = myContextRef.getString(R.string.dialog_sync_text_7);
 			strings[8] = myContextRef.getString(R.string.dialog_sync_text_8);
-			strings[9] = myContextRef.getString(R.string.dialog_sync_text_8); //In case I get a 9;
+			strings[9] = myContextRef.getString(R.string.dialog_sync_text_9);
+			strings[10] = myContextRef.getString(R.string.dialog_sync_text_10);
+			strings[11] = myContextRef.getString(R.string.dialog_sync_text_11);
+			strings[12] = myContextRef.getString(R.string.dialog_sync_text_12);
+			strings[13] = myContextRef.getString(R.string.dialog_sync_text_13);
+			strings[14] = myContextRef.getString(R.string.dialog_sync_text_0); //In case I get a 13;
 			tv = (TextView) dialog.findViewById(R.id.tv_dialog_sync_text);
-			int idx = (int) (Math.random() * 9);
+			int idx = (int) (Math.random() * 13);
 			tv.setText(strings[idx]);
 			doProgress = true;
 
@@ -238,9 +243,9 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	protected void onProgressUpdate(Void...progress) {
 		if (doProgress){
-			if (millis + 600 < System.currentTimeMillis()) {
+			if (millis + 900 < System.currentTimeMillis()) {
 				millis = System.currentTimeMillis();
-				int idx = (int) (Math.random() * ((4) + 1));
+				int idx = (int) (Math.random() * 13);
 				tv.setText(strings[idx]);
 			}
 		}
@@ -287,6 +292,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	private boolean recreateDb(SQLiteDatabase db) {
 		boolean result = true;
 		try {
+			db.beginTransaction();
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_IMAGE);
@@ -310,8 +316,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.DROP.SETTINGS);
 			db.execSQL(GM.DB.QUERY.DROP.SPONSOR);
 			db.execSQL(GM.DB.QUERY.DROP.VERSION);
-			//TODO: Is this really necessary?
-			Thread.sleep(1000);
+			db.setTransactionSuccessful();
+			db.endTransaction();
+			publishProgress();
+			db.beginTransaction();
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
@@ -335,10 +343,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
 			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
-			//TODO: Is this really necessary?
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			Log.e("SYNC", "Couldn't wait for the database to be recreated: " + e.toString());
+			db.setTransactionSuccessful();
+			db.endTransaction();
 		}
 		catch (Exception ex) {
 			result = false;
@@ -406,6 +412,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				keys[totalVersions] = key;
 				values[totalVersions] = value;
 				totalVersions ++;
+				publishProgress();
 			}
 			if (totalVersions > 0 && totalVersions < 99){
 				db.execSQL(GM.DB.QUERY.CREATE.VERSION);
@@ -462,6 +469,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					Log.d("SYNC", "End of data string:" + ex.toString());
 					str = "";
 				}
+				publishProgress();
 			}
 		}
 		catch (Exception ex){
@@ -523,6 +531,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			}
 
 			editor.apply();
+			publishProgress();
 			Log.d("SYNC", "Settings saved.");
 			return true;
 		}
@@ -595,7 +604,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				//Loop trough values
 				for (int j = 0; j < i; j++) {
 
-					//If the value is empty, I dont care what tipe is it, it will be 'null'.
+					//If the value is empty, I don't care what type is it, it will be 'null'.
 					if (values[j].length() == 0) {
 						val = "null";
 						q = q + val + ", ";
@@ -646,6 +655,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 			//Process str for the next loop pass.
 			str = str.substring(str.indexOf("\"}") + 2);
+
+			publishProgress();
 		}
 
 		//If I get to this point, there were no errors, and I can safely execute the queries
@@ -682,13 +693,20 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			return null;
 		}
 
+		publishProgress();
+
 		//Get database version
 		Cursor cursor;
-		int dbVersion;
-		cursor = db.rawQuery("SELECT sum(version) AS v FROM version;", null);
-		cursor.moveToFirst();
-		dbVersion = cursor.getInt(0);
-		cursor.close();
+		int dbVersion = 0;
+		try{
+			cursor = db.rawQuery("SELECT sum(version) AS v FROM version;", null);
+			cursor.moveToFirst();
+			dbVersion = cursor.getInt(0);
+			cursor.close();
+		}
+		catch (Exception e){
+			Log.e("SYNC", "Unable to read from table 'version': " + e.toString());
+		}
 
 		URL url;
 		String uri = buildUrl(userCode, dbVersion, fg, GM.getLang());
@@ -716,6 +734,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					while ((o = br.readLine()) != null)
 						sb.append(o);
 
+					publishProgress();
+
 					//Get the string with the sync json. (The whole page)
 					String strSync = sb.toString();
 					strSync = strSync.replace(":null", ":\"\"");
@@ -733,11 +753,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					String strData = strSync.substring(1, strSync.length() - 1);
 					strData = strData.substring(strData.indexOf("{\"data\":"));
 
+					publishProgress();
+
 					//If the data is correctly parsed and stored, commit changes to the database.
 					db.beginTransaction();
 
-					//TODO: for save version apps, this is not needed, but I have to check it after an app update.
-					//recreateDb(db);
 
 					if (saveVersions(db, strVersion) && saveData(db, strData)){
 						db.setTransactionSuccessful();
@@ -753,6 +773,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					Log.e("SYNC", "The server returned an unexpected code (" + httpCode + ") for the url \"" + uri + "\"");
 			}
 
+			publishProgress();
 			urlConnection.disconnect();
 			return null;
 
