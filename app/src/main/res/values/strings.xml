@@ -126,6 +126,11 @@
 	<string name="dialog_sync_text_6">Ari ari ari!</string>
 	<string name="dialog_sync_text_7">Llegando tarde…</string>
 	<string name="dialog_sync_text_8">¿Cabe más gente en el Foro Margolari?</string>
+	<string name="dialog_sync_text_9">Arreglando el tirador de cerveza...</string>
+	<string name="dialog_sync_text_10">Descorchando botellas...</string>
+	<string name="dialog_sync_text_11">Repartiendo pulseras...</string>
+	<string name="dialog_sync_text_12">Pintando las fiestas...</string>
+	<string name="dialog_sync_text_13">Desplegando pancarta...</string>
 	<string name="gallery_albums">Albums</string>
 	<string name="gallery_upload">Subir fotos</string>
 	<string name="gallery_upload_button">Subir</string>

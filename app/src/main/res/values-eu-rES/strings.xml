@@ -161,6 +161,11 @@
 	<string name="dialog_sync_text_6">Ari ari ari!</string>
 	<string name="dialog_sync_text_7">Llegando tarde…</string>
 	<string name="dialog_sync_text_8">¿Cabe más gente en el Foro Margolari?</string>
+	<string name="dialog_sync_text_9">Arreglando el tirador de cerveza...</string>
+	<string name="dialog_sync_text_10">Descorchando botellas...</string>
+	<string name="dialog_sync_text_11">Repartiendo pulseras...</string>
+	<string name="dialog_sync_text_12">Pintando las fiestas...</string>
+	<string name="dialog_sync_text_13">Desplegando pancarta...</string>
 	<string name="dialog_sync_failed_text">No se pudierdon descargar los contenidos\n\nAsegúrate de que dispones de conexión a internet e inténtalo de nuevo.</string>
 	<string name="lablanca_nofestivals"><![CDATA[Las Fiestas de La Blanca. Esos días, del 4 al 9 de agosto, en los que Vitoria-Gasteiz se transforma. Se llena de color y alegría, y en cada esquina puedes encontrar actividades y espectáculos. Todos las estamos esperando.\n\nPor desgracia, aún hay que esperar más.\n\nNosotros ya estamos trabajando en ello. Tan pronto como vayamos sabiendo más, aquí iremos publicando nuestro programa y otra información sobre las fiestas. Para ir abriendo boca, dejanos contarte algunas de las claves del plan Margolari de fiestas:]]></string>
 	<string name="lablanca_nofestivals_1_title">Planes que se adaptan a tí:</string>
