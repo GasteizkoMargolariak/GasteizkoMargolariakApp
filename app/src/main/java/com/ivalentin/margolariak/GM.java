@@ -23,7 +23,15 @@ final class GM {
 	 */
 	final class DB {
 
+		/**
+		 * Name of the database.
+		 */
 		static final String NAME = "gm";
+
+		/**
+		 * Initial version of the database.
+		 */
+		static final int INITIAL_VERSION = 0;
 
 		/**
 		 * Column types
@@ -605,9 +613,19 @@ final class GM {
 			static final String PREVIOUS_APP_VERSION = "previous_app_version";
 
 			/**
-			 * Key of the data to store if ther is a festival season..
+			 * Key of the data to store if ther is a festival season.
 			 */
 			static final String LABLANCA = "lablanca";
+
+			/**
+			 * Key that indicates if comments can be posted.
+			 */
+			static final String COMMENTS = "comments";
+
+			/**
+			 * Key that indicates if photos can be uploaded.
+			 */
+			static final String PHOTOS = "photos";
 		}
 
 		/**
@@ -630,6 +648,16 @@ final class GM {
 			 * Default value for the data that indicates if it's festival season.
 			 */
 			static final boolean LABLANCA = false;
+
+			/**
+			 * Default value for the key that indicates if comments can be posted.
+			 */
+			static final boolean COMMENTS = false;
+
+			/**
+			 * Default value for the key that indicates if photos can be uploaded.
+			 */
+			static final boolean PHOTOS = false;
 		}
 	}
 
@@ -689,7 +717,7 @@ final class GM {
 		/**
 		 * URL of the server.
 		 */
-		static final String SERVER = "http://margolariak.com";
+		static final String SERVER = "https://margolariak.com";
 	}
 
 	/**
@@ -865,6 +893,55 @@ final class GM {
 				static final String FORMAT = "json";
 			}
 		}
+
+		/**
+		 * Utilities for the COMMENT V1 API.
+		 */
+		static final class COMMENT {
+
+			/**
+			 * Path to the API.
+			 */
+			static final String PATH = "/API/v1/comment.php";
+
+			/**
+			 * Keys fotr the API parameters.
+			 */
+			static final class KEY {
+
+				/**
+				 * Key for the client identifier.
+				 */
+				static final String CLIENT = "client";
+
+				/**
+				 * Key for the user identifier.
+				 */
+				static final String USER = "user";
+
+				/**
+				 * Key for the action to perform with the API ("sync" or "version").
+				 */
+				static final String TARGET = "target";
+
+				/**
+				 * Key to indicate the format of the data for the API to send.
+				 */
+				static final String ID = "id";
+
+				/**
+				 * Key to indicate the comment's username.
+				 */
+				static final String USERNAME = "username";
+
+				/**
+				 * Key to indicate the text.
+				 */
+				static final String TEXT = "text";
+
+			}
+		}
+
 	}
 
 	/**
@@ -1097,6 +1174,17 @@ final class GM {
 	}
 
 	/**
+	 * URLs to be shared.
+	 */
+	static final class SHARE {
+		static final String HOME = "https://www.margolariak.com";
+		static final String LABLANCA = HOME + "/lablanca/";
+		static final String ACTIVITIES = HOME + "/actividades/";
+		static final String BLOG = HOME + "/blog/";
+		static final String GALLERY = HOME + "/galeria/";
+	}
+
+	/**
 	 * Gets the language code for sql queries.
 	 * Only three values can be returned: es, eu, en.
 	 * Defaults to es.
@@ -1121,15 +1209,17 @@ final class GM {
 	/**
 	 * Formats a datetime format strings and returns a human readable date, depending on the language
 	 *
-	 * @param dateString String in a datetime format
-	 * @param lang Language (es, en, eu)
-	 * @param includeTime Also returns the hour and minutes
+	 * @param dateString String in a datetime format.
+	 * @param lang Language (es, en, eu).
+	 * @param includeDay Also returns the weekday.
+	 * @param includeYear Also returns the year.
+	 * @param includeTime Also returns the hour and minute.
 	 *
 	 * @return The fragment view
 	 *
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
-	static String formatDate(String dateString, String lang, boolean includeTime){
+	static String formatDate(String dateString, String lang, boolean includeDay, boolean includeYear, boolean includeTime){
 
 		String output = "";
 
@@ -1164,7 +1254,14 @@ final class GM {
 				case "es":
 					dayName = dayNameEs[dayNumber];
 					monthName = monthNameEs[monthNumber];
-					output = dayName + ", " + day + " de " + monthName + " de " + year;
+					output = "";
+					if (includeDay){
+						output = dayName + ", ";
+					}
+					output = output + day + " de " + monthName;
+					if (includeYear){
+						output = output + " de " + year;
+					}
 					if (includeTime){
 						output = output + " a las " + time;
 					}
@@ -1172,7 +1269,14 @@ final class GM {
 				case "eu":
 					dayName = dayNameEu[dayNumber];
 					monthName = monthNameEu[monthNumber];
-					output = year + "ko" + monthName + " " + day + "an, " + dayName;
+					output = "";
+					if (includeYear){
+						output = year + "ko";
+					}
+					output = output + monthName + " " + day + "an";
+					if (includeDay){
+						output = output + ", " + dayName;
+					}
 					if (includeTime){
 						output = output + " " + time + "etan";
 					}
@@ -1180,7 +1284,14 @@ final class GM {
 				default:
 					dayName = dayNameEn[dayNumber];
 					monthName = monthNameEn[monthNumber];
-					output = dayName + ", " + monthName + " " + day + ", " + year;
+					output = "";
+					if (includeDay){
+						output = dayName + ", ";
+					}
+					output = output + monthName + " " + day;
+					if (includeYear){
+						output = output + ", " + year;
+					}
 					if (includeTime){
 						output = output + " " + time;
 					}

@@ -37,6 +37,7 @@ public class PhotoLayout extends Fragment {
 	private View view;
 
 	private String albumName;
+	private String albumPerm;
 
 	private Integer photos[];
 	private int position;
@@ -54,6 +55,7 @@ public class PhotoLayout extends Fragment {
 		//Get bundled id
 		Bundle bundle = this.getArguments();
 		albumName = bundle.getString("albumName", "");
+		albumPerm = bundle.getString("albumPerm", "");
 		int id = bundle.getInt("photo", -1);
 		if (id == -1) {
 			Log.e("Photo error", "No such photo: " + id);
@@ -84,6 +86,9 @@ public class PhotoLayout extends Fragment {
 				}
 			}
 		});
+
+		//Set title and share link
+		((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), albumName), GM.SHARE.GALLERY + albumPerm);
 
 		populate(id, view);
 
@@ -123,9 +128,8 @@ public class PhotoLayout extends Fragment {
 	 */
 	private Integer[] loadPhotos(int id){
 
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
-
 		//Get album id for the photo
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cAlbum = db.rawQuery("SELECT album FROM photo_album WHERE photo = " + id + ";", null);
 		cAlbum.moveToFirst();
 		int album = cAlbum.getInt(0);
@@ -189,7 +193,7 @@ public class PhotoLayout extends Fragment {
 		else{
 			tvDescription.setVisibility(View.GONE);
 		}
-		tvDate.setText(GM.formatDate(cursor.getString(4), lang, true));
+		tvDate.setText(GM.formatDate(cursor.getString(4), lang, true, true, false));
 
 		//Get image
 		String image = cursor.getString(1);
@@ -204,7 +208,7 @@ public class PhotoLayout extends Fragment {
 		}
 		else {
 			//If not,  set placeholder image, create directories and download asynchronously
-			imageView.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/pinpoint_gm", null, null));
+			imageView.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/photo_placeholder", null, null));
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/");
 			fpath.mkdirs();
@@ -244,7 +248,7 @@ public class PhotoLayout extends Fragment {
 			TextView tvUser = (TextView) entry.findViewById(R.id.tv_row_comment_user);
 			tvUser.setText(commentCursor.getString(2));
 			TextView tvCDate = (TextView) entry.findViewById(R.id.tv_row_comment_date);
-			tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true));
+			tvCDate.setText(GM.formatDate(commentCursor.getString(1), lang, true, true, true));
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_comment_text);
 			tvText.setText(commentCursor.getString(0));
 

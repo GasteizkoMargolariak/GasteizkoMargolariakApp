@@ -17,26 +17,27 @@
 		<!-- Button to open slider menu -->
 
 		<ImageView
-			android:contentDescription="@string/app_name"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
 			android:id="@+id/iv_logo"
-			android:src="@drawable/ic_launcher"
-			android:adjustViewBounds="true"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
 			android:layout_weight=".2"
+			android:adjustViewBounds="true"
+			android:contentDescription="@string/app_name"
 			android:maxHeight="45dp"
 			android:maxWidth="45dp"
-			android:padding="1dp"/>
+			android:padding="1dp"
+			android:src="@drawable/ic_launcher"/>
 
 		<!-- Layout with the app title and current section -->
 
 		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center"
+			android:layout_gravity="center_vertical|center"
 			android:layout_weight=".8"
 			android:gravity="center"
-			android:orientation="vertical" >
+			android:orientation="vertical">
 
 			<!-- App name. Remains unchanged -->
 
@@ -45,9 +46,9 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text="@string/app_name"
+				android:textColor="@color/menu_entry"
 				android:textSize="18sp"
-				android:textStyle="bold"
-				android:textColor="@color/menu_entry"/>
+				android:textStyle="bold"/>
 
 			<!-- Section title -->
 
@@ -57,253 +58,255 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text="@string/menu_home"
-				android:textSize="20sp"
-				android:textColor="@color/menu_entry"/>
+				android:textColor="@color/menu_entry"
+				android:textSize="20sp"/>
 
 		</LinearLayout>
 
 		<ImageButton
-			android:layout_width="40dp"
-			android:layout_height="match_parent"
-			android:src="@drawable/ic_expand"
-			android:contentDescription="@string/tutorial_menu"
-			android:onClick="showMenu"
-			android:layout_weight=".2"
 			android:id="@+id/bt_menu"
-			app:srcCompat="@drawable/ic_expand"
-			android:background="#00000000"/>
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_weight=".2"
+			android:adjustViewBounds="false"
+			android:background="#00000000"
+			android:contentDescription="@string/tutorial_menu"
+			android:cropToPadding="false"
+			android:onClick="showMenu"
+			android:src="@drawable/ic_expand"
+			app:srcCompat="@drawable/ic_expand"/>
 
 		<ProgressBar
 			android:id="@+id/pb_sync"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
 			android:layout_weight=".2"
-			android:visibility="gone"
 			android:maxHeight="40dp"
-			android:maxWidth="40dp"/>
+			android:maxWidth="40dp"
+			android:visibility="gone"/>
 
 	</LinearLayout>
 
 	<!-- The part where the fragments will be loaded -->
 
 	<HorizontalScrollView
-		android:layout_width="wrap_content"
-		android:layout_height="50dp"
 		android:id="@+id/sv_menu"
-		android:scrollIndicators="none"
-		android:requiresFadingEdge="horizontal"
-		android:fadingEdgeLength="125dp"
+		android:layout_width="match_parent"
+		android:layout_height="55dp"
 		android:background="@color/background_menu"
+		android:fadingEdgeLength="80dp"
+		android:requiresFadingEdge="horizontal"
+		android:scrollIndicators="none"
 		tools:ignore="UnusedAttribute">
 
 		<LinearLayout
-			android:orientation="horizontal"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
-			>
+			android:layout_marginBottom="1dp"
+			android:orientation="horizontal">
 
 			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="match_parent"
 				android:id="@+id/rl_menu_home"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="0.5dp"
 				android:layout_marginRight="0.5dp"
-				android:layout_marginLeft="0.5dp">
+				android:orientation="vertical">
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_home"
-					android:layout_gravity="top"
-					android:textSize="15sp"
-					android:layout_centerInParent="true"
-					android:textStyle="bold"
 					android:id="@+id/tv_menu_home"
-					android:textColor="@color/menu_entry"/>
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerInParent="true"
+					android:layout_gravity="top"
+					android:text="@string/menu_home"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:textSize="15sp"
+					android:textStyle="bold"/>
 
 				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="8dp"
 					android:id="@+id/iv_menu_home"
-					android:background="@color/menu_selected"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
+					android:layout_width="match_parent"
+					android:layout_height="7dp"
+					android:layout_alignParentBottom="true"
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"
+					android:layout_alignParentStart="false"
+					android:layout_gravity="bottom"
+					android:alpha="1"
+					android:background="@color/menu_selected"
 					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="match_parent"
 				android:id="@+id/rl_menu_location"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
 				android:layout_marginLeft="1dp"
-				android:layout_marginRight="1dp">
+				android:layout_marginRight="1dp"
+				android:orientation="vertical">
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_location"
-					android:layout_gravity="top"
-					android:textSize="15sp"
-					android:layout_centerInParent="true"
 					android:id="@+id/tv_menu_location"
-					android:textColor="@color/menu_entry"/>
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerInParent="true"
+					android:layout_gravity="top"
+					android:text="@string/menu_location"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:textSize="15sp"/>
 
 				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_location"
-					android:background="@color/menu_selected"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
+					android:layout_width="match_parent"
+					android:layout_height="3dp"
+					android:layout_alignParentBottom="true"
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"
+					android:layout_alignParentStart="false"
+					android:layout_gravity="bottom"
+					android:alpha="1"
+					android:background="@color/menu_selected"
 					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="match_parent"
 				android:id="@+id/rl_menu_lablanca"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
 				android:layout_marginLeft="1dp"
-				android:layout_marginRight="1dp">
+				android:layout_marginRight="1dp"
+				android:orientation="vertical">
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_lablanca"
-					android:layout_gravity="top"
-					android:textSize="15sp"
-					android:layout_centerInParent="true"
 					android:id="@+id/tv_menu_lablanca"
-					android:textColor="@color/menu_entry"/>
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerInParent="true"
+					android:layout_gravity="top"
+					android:text="@string/menu_lablanca"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:textSize="15sp"/>
 
 				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_lablanca"
-					android:background="@color/menu_selected"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
+					android:layout_width="match_parent"
+					android:layout_height="3dp"
+					android:layout_alignParentBottom="true"
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"
+					android:layout_alignParentStart="false"
+					android:layout_gravity="bottom"
+					android:alpha="1"
+					android:background="@color/menu_selected"
 					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="match_parent"
 				android:id="@+id/rl_menu_activities"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
 				android:layout_marginLeft="1dp"
-				android:layout_marginRight="1dp">
+				android:layout_marginRight="1dp"
+				android:orientation="vertical">
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_activities"
-					android:layout_gravity="top"
-					android:textSize="15sp"
-					android:layout_centerInParent="true"
 					android:id="@+id/tv_menu_activities"
-					android:textColor="@color/menu_entry"/>
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerInParent="true"
+					android:layout_gravity="top"
+					android:text="@string/menu_activities"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:textSize="15sp"/>
 
 				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_activities"
-					android:background="@color/menu_selected"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
+					android:layout_width="match_parent"
+					android:layout_height="3dp"
+					android:layout_alignParentBottom="true"
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"
+					android:layout_alignParentStart="false"
+					android:layout_gravity="bottom"
+					android:alpha="1"
+					android:background="@color/menu_selected"
 					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
-				android:orientation="vertical"
-				android:layout_width="100dp"
-				android:layout_height="match_parent"
 				android:id="@+id/rl_menu_blog"
+				android:layout_width="100dp"
+				android:layout_height="match_parent"
 				android:layout_marginLeft="1dp"
-				android:layout_marginRight="1dp">
+				android:layout_marginRight="1dp"
+				android:orientation="vertical">
 
 				<TextView
+					android:id="@+id/tv_menu_blog"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_blog"
-					android:layout_gravity="top"
-					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_blog"
-					android:textColor="@color/menu_entry"/>
+					android:layout_gravity="top"
+					android:text="@string/menu_blog"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:textSize="15sp"/>
 
 				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_blog"
-					android:background="@color/menu_selected"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
+					android:layout_width="match_parent"
+					android:layout_height="3dp"
+					android:layout_alignParentBottom="true"
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"
+					android:layout_alignParentStart="false"
+					android:layout_gravity="bottom"
+					android:alpha="1"
+					android:background="@color/menu_selected"
 					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 
 			<RelativeLayout
-				android:orientation="vertical"
+				android:id="@+id/rl_menu_gallery"
 				android:layout_width="100dp"
 				android:layout_height="match_parent"
-				android:id="@+id/rl_menu_gallery"
 				android:layout_marginLeft="1dp"
-				android:layout_marginRight="1dp">
+				android:layout_marginRight="1dp"
+				android:orientation="vertical">
 
 				<TextView
+					android:id="@+id/tv_menu_gallery"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:text="@string/menu_gallery"
-					android:layout_gravity="top"
-					android:textSize="15sp"
 					android:layout_centerInParent="true"
-					android:id="@+id/tv_menu_gallery"
-					android:textColor="@color/menu_entry"/>
+					android:layout_gravity="top"
+					android:text="@string/menu_gallery"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="@color/menu_entry"
+					android:textSize="15sp"/>
 
 				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="2dp"
 					android:id="@+id/iv_menu_gallery"
-					android:background="@color/menu_selected"
-					android:alpha="1"
-					android:layout_gravity="bottom"
-					android:layout_alignParentStart="false"
+					android:layout_width="match_parent"
+					android:layout_height="3dp"
+					android:layout_alignParentBottom="true"
 					android:layout_alignParentEnd="false"
 					android:layout_alignParentLeft="false"
 					android:layout_alignParentRight="false"
-					android:layout_alignParentBottom="true"
+					android:layout_alignParentStart="false"
+					android:layout_gravity="bottom"
+					android:alpha="1"
+					android:background="@color/menu_selected"
 					tools:ignore="ContentDescription"/>
 			</RelativeLayout>
 

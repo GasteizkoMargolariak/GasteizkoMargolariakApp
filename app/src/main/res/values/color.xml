@@ -30,12 +30,13 @@
     <color name="menu_selected">#ccccff</color>
 
     <!--Color for input fields-->
-    <color name="input_background">#223344</color>
-    <color name="input_background_pressed">#446688</color>
-    <color name="input_border">#9cd3d9</color>
-    <color name="input_text_color">#cccccc</color>
-    <color name="input_hint_color">#999999</color>
+    <color name="input_background">#ccddff</color>
+    <color name="input_border">#0078ff</color>
+    <color name="input_text_color">#0078ff</color>
+    <color name="input_hint_color">#888888</color>
+    <color name="input_button_background">#124567</color>
     <color name="input_button_color">#cccccc</color>
+    <color name="input_button_background_pressed">#446688</color>
 
 
     <color name="album_border">#111111</color>

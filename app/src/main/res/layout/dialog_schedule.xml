@@ -3,16 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_marginBottom="0dp"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="0dp"
     android:background="@drawable/section"
     android:orientation="vertical"
-    android:padding="7dp">
+    >
 
     <LinearLayout
         android:id="@+id/ll_dialog_schedule_buttons"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/bt_schedule_close"
@@ -39,21 +45,57 @@
         android:layout_above="@id/ll_dialog_schedule_buttons"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:paddingBottom="15dp">
 
         <TextView
             android:id="@+id/tv_dialog_schedule_title"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Large"
+            android:background="@drawable/section_title"
+            android:paddingBottom="4dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingStart="20dp"
+            android:paddingTop="4dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/section_title"
             android:textStyle="bold"/>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:background="@drawable/entry"
+            android:orientation="vertical"
             android:padding="7dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/tv_dialog_schedule_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:capitalize="sentences"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold"
+                    tools:ignore="Deprecated,TextViewEdits"/>
+
+                <TextView
+                    android:id="@+id/tv_dialog_schedule_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_dialog_schedule_description"
@@ -66,40 +108,17 @@
                 android:id="@+id/tv_dialog_schedule_host"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textStyle="italic"
-                android:visibility="gone"
-                android:textAppearance="@android:style/TextAppearance.Small"/>
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" >
-
-                <TextView
-                    android:id="@+id/tv_dialog_schedule_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:capitalize="sentences"
-                    tools:ignore="Deprecated,TextViewEdits"/>
-
-                <TextView
-                    android:id="@+id/tv_dialog_schedule_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal" >
+                android:layout_margin="15dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imageView1"
@@ -110,12 +129,14 @@
                     android:maxHeight="50dp"
                     android:maxWidth="50dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/pinpoint" />
+                    android:src="@drawable/pinpoint"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_dialog_schedule_place"
@@ -127,8 +148,8 @@
                         android:id="@+id/tv_dialog_schedule_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="italic"
-                        android:textAppearance="@android:style/TextAppearance.Small"/>
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:textStyle="italic"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -137,12 +158,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="20dp"
-                android:padding="3dp" >
+                android:padding="3dp">
 
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/mv_dialog_schedule_map"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_height="fill_parent"
+                    android:background="@android:color/black"
+                    android:padding="1dp">
                 </com.google.android.gms.maps.MapView>
             </LinearLayout>
         </LinearLayout>

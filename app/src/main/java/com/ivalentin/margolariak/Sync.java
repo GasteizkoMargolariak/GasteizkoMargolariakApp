@@ -19,11 +19,15 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -71,7 +75,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 			//Show the dialog and assign the elements on it
 			dialog.show();
-			strings = new String[10];
+			strings = new String[15];
 			strings[0] = myContextRef.getString(R.string.dialog_sync_text_0);
 			strings[1] = myContextRef.getString(R.string.dialog_sync_text_1);
 			strings[2] = myContextRef.getString(R.string.dialog_sync_text_2);
@@ -81,14 +85,19 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			strings[6] = myContextRef.getString(R.string.dialog_sync_text_6);
 			strings[7] = myContextRef.getString(R.string.dialog_sync_text_7);
 			strings[8] = myContextRef.getString(R.string.dialog_sync_text_8);
-			strings[9] = myContextRef.getString(R.string.dialog_sync_text_8); //In case I get a 9;
+			strings[9] = myContextRef.getString(R.string.dialog_sync_text_9);
+			strings[10] = myContextRef.getString(R.string.dialog_sync_text_10);
+			strings[11] = myContextRef.getString(R.string.dialog_sync_text_11);
+			strings[12] = myContextRef.getString(R.string.dialog_sync_text_12);
+			strings[13] = myContextRef.getString(R.string.dialog_sync_text_13);
+			strings[14] = myContextRef.getString(R.string.dialog_sync_text_0); //In case I get a 13;
 			tv = (TextView) dialog.findViewById(R.id.tv_dialog_sync_text);
-			int idx = (int) (Math.random() * 9);
+			int idx = (int) (Math.random() * 13);
 			tv.setText(strings[idx]);
 			doProgress = true;
 
 		}
-		Log.d("Sync", "Starting full sync");
+		Log.d("SYNC", "Starting full sync");
 	}
 	
 	/**
@@ -114,7 +123,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			//Check db version again
 			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()){
-				Log.e("Db ro", "Database is locked and in read only mode. Skipping sync.");
+				Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
 				return;
 			}
 
@@ -128,7 +137,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.close();
 
 			//If the database is on it's initial version (i.e: There is no data, new or old)
-			if (true){ //TODO dbVersion == GM.DATA.DEFAULT.DEFAULT_PREF_DB_VERSION){
+			if (dbVersion == GM.DB.INITIAL_VERSION){
 
 				Log.e("SYNC", "Full sync failed");
 
@@ -149,7 +158,17 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					activity.finish();
 					}
 				});
-				
+
+				//Set dialog parameters
+				WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+				//noinspection ConstantConditions
+				lp.copyFrom(dial.getWindow().getAttributes());
+				lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+				lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+				lp.gravity = Gravity.CENTER;
+				dial.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+				dial.getWindow().setAttributes(lp);
+
 				//Show the dialog
 				dial.show();
 			}
@@ -224,9 +243,9 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	protected void onProgressUpdate(Void...progress) {
 		if (doProgress){
-			if (millis + 600 < System.currentTimeMillis()) {
+			if (millis + 900 < System.currentTimeMillis()) {
 				millis = System.currentTimeMillis();
-				int idx = (int) (Math.random() * ((4) + 1));
+				int idx = (int) (Math.random() * 13);
 				tv.setText(strings[idx]);
 			}
 		}
@@ -269,9 +288,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 *
 	 * @return False if there were errors, true otherwise.
 	 */
+	@SuppressWarnings("unused")
 	private boolean recreateDb(SQLiteDatabase db) {
 		boolean result = true;
 		try {
+			db.beginTransaction();
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_IMAGE);
@@ -295,8 +316,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.DROP.SETTINGS);
 			db.execSQL(GM.DB.QUERY.DROP.SPONSOR);
 			db.execSQL(GM.DB.QUERY.DROP.VERSION);
-			//TODO: Is this really necessary?
-			Thread.sleep(1000);
+			db.setTransactionSuccessful();
+			db.endTransaction();
+			publishProgress();
+			db.beginTransaction();
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
@@ -320,10 +343,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
 			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
-			//TODO: Is this really necessary?
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			Log.e("SYNC", "Couldn't wait for the database to be recreated: " + e.toString());
+			db.setTransactionSuccessful();
+			db.endTransaction();
 		}
 		catch (Exception ex) {
 			result = false;
@@ -391,12 +412,15 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				keys[totalVersions] = key;
 				values[totalVersions] = value;
 				totalVersions ++;
+				publishProgress();
 			}
 			if (totalVersions > 0 && totalVersions < 99){
 				db.execSQL(GM.DB.QUERY.CREATE.VERSION);
 				db.execSQL(GM.DB.QUERY.EMPTY.VERSION);
 				for (int i = 0; i < totalVersions; i ++){
-					db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
+					if (!"all".equals(keys[i])) {
+						db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
+					}
 				}
 			}
 			else{
@@ -445,6 +469,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					Log.d("SYNC", "End of data string:" + ex.toString());
 					str = "";
 				}
+				publishProgress();
 			}
 		}
 		catch (Exception ex){
@@ -455,6 +480,67 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		return result;
 	}
 
+	/**
+	 * When the table "settings cames up, dont make a table, but store required
+	 * values as data.
+	 *
+	 * @param settings JSON string with the contents of the "settings" table.
+	 * @return true if values could be saved, false otherwise.
+	 */
+	private boolean saveSettings(String settings){
+
+		SharedPreferences sharedData = myContextRef.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedData.edit();
+		try{
+			String value;
+			if (settings.contains("\"name\":\"comments\",\"value\":\"")){
+				value = settings.substring(settings.indexOf("\"name\":\"comments\",\"value\":\"") + 27, settings.indexOf("\"name\":\"comments\",\"value\":\"") + 28);
+				if ("0".equals(value) || "1".equals(value)){
+					Log.d("SYNC", "Setting found: comments = " + value);
+					if ("0".equals(value)) {
+						editor.putBoolean(GM.DATA.KEY.COMMENTS, false);
+					}
+					else {
+						editor.putBoolean(GM.DATA.KEY.COMMENTS, true);
+					}
+				}
+			}
+			if (settings.contains("\"name\":\"festivals\",\"value\":\"")){
+				value = settings.substring(settings.indexOf("\"name\":\"festivals\",\"value\":\"") + 28, settings.indexOf("\"name\":\"festivals\",\"value\":\"") + 29);
+				if ("0".equals(value) || "1".equals(value)){
+					Log.d("SYNC", "Setting found: lablanca = " + value);
+					if ("0".equals(value)) {
+						editor.putBoolean(GM.DATA.KEY.LABLANCA, false);
+					}
+					else {
+						editor.putBoolean(GM.DATA.KEY.LABLANCA, true);
+					}
+				}
+			}
+			if (settings.contains("\"name\":\"photos\",\"value\":\"")){
+				value = settings.substring(settings.indexOf("\"name\":\"photos\",\"value\":\"") + 25, settings.indexOf("\"name\":\"photos\",\"value\":\"") + 26);
+				if ("0".equals(value) || "1".equals(value)){
+					Log.d("SYNC" ,"Setting found: photos = " + value);
+					if ("0".equals(value)) {
+						editor.putBoolean(GM.DATA.KEY.PHOTOS, false);
+					}
+					else {
+						editor.putBoolean(GM.DATA.KEY.PHOTOS, true);
+					}
+				}
+			}
+
+			editor.apply();
+			publishProgress();
+			Log.d("SYNC", "Settings saved.");
+			return true;
+		}
+		catch (Exception ex){
+			editor.apply();
+			Log.e("SYNC", "Unable to save settings: " + ex.toString());
+			return false;
+		}
+	}
 
 
 
@@ -468,6 +554,13 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @return False if there were errors, true otherwise.
 	 */
 	private boolean saveTable(SQLiteDatabase db, String table, String data) {
+
+		//If settings table, do something else
+		if ("settings".equals(table)){
+			Log.d("SYNC", "Got the settings table. Special treatment...");
+			return saveSettings(data);
+		}
+
 		int type, i;
 		JSONObject jsonObj;
 		String[] values = new String[99];
@@ -511,7 +604,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				//Loop trough values
 				for (int j = 0; j < i; j++) {
 
-					//If the value is empty, I dont care what tipe is it, it will be 'null'.
+					//If the value is empty, I don't care what type is it, it will be 'null'.
 					if (values[j].length() == 0) {
 						val = "null";
 						q = q + val + ", ";
@@ -552,16 +645,18 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 			}
 			catch (JSONException e) {
-				Log.e("SYNC", "Error parsing table '" + table + "': " + e.toString());
+				Log.e("SYNC", "Error parsing table '" + table + "' (JSONException): " + e.toString());
 				return false;
 			}
 			catch (Exception ex) {
-				Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
+				Log.e("SYNC", "Error parsing table '" + table + "': " + ex.toString());
 				return false;
 			}
 
 			//Process str for the next loop pass.
 			str = str.substring(str.indexOf("\"}") + 2);
+
+			publishProgress();
 		}
 
 		//If I get to this point, there were no errors, and I can safely execute the queries
@@ -571,7 +666,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				db.execSQL(queries.get(i));
 			}
 		} catch (Exception ex) {
-			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString().substring(18 * ex.toString().length() / 20));
+			Log.e("SYNC", "Error inserting data from remote table " + table + " into the local db: " + ex.toString());
 
 			//I don't put a 'return false;' here because I dont want to loose the whole table for just one row.
 		}
@@ -598,13 +693,20 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			return null;
 		}
 
+		publishProgress();
+
 		//Get database version
 		Cursor cursor;
-		int dbVersion;
-		cursor = db.rawQuery("SELECT sum(version) AS v FROM version;", null);
-		cursor.moveToFirst();
-		dbVersion = cursor.getInt(0);
-		cursor.close();
+		int dbVersion = 0;
+		try{
+			cursor = db.rawQuery("SELECT sum(version) AS v FROM version;", null);
+			cursor.moveToFirst();
+			dbVersion = cursor.getInt(0);
+			cursor.close();
+		}
+		catch (Exception e){
+			Log.e("SYNC", "Unable to read from table 'version': " + e.toString());
+		}
 
 		URL url;
 		String uri = buildUrl(userCode, dbVersion, fg, GM.getLang());
@@ -632,6 +734,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					while ((o = br.readLine()) != null)
 						sb.append(o);
 
+					publishProgress();
+
 					//Get the string with the sync json. (The whole page)
 					String strSync = sb.toString();
 					strSync = strSync.replace(":null", ":\"\"");
@@ -649,11 +753,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					String strData = strSync.substring(1, strSync.length() - 1);
 					strData = strData.substring(strData.indexOf("{\"data\":"));
 
+					publishProgress();
+
 					//If the data is correctly parsed and stored, commit changes to the database.
 					db.beginTransaction();
 
-					//TODO: for save version apps, this is not needed, but I have to check it after an app update.
-					//recreateDb(db);
 
 					if (saveVersions(db, strVersion) && saveData(db, strData)){
 						db.setTransactionSuccessful();
@@ -669,6 +773,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					Log.e("SYNC", "The server returned an unexpected code (" + httpCode + ") for the url \"" + uri + "\"");
 			}
 
+			publishProgress();
 			urlConnection.disconnect();
 			return null;
 

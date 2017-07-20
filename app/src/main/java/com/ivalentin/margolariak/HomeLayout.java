@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -150,6 +151,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 		//Views in each row
 		TextView tvRowTitle, tvRowTime, tvRowPlace, tvRowId;
+		Button btSchedule;
 
 		//Assign layouts
 		LinearLayout section, listNow, listNext, now, next, entry;
@@ -159,6 +161,13 @@ public class HomeLayout extends Fragment implements LocationListener {
 			listNext = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_later_list);
 			now = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_now_content);
 			next = (LinearLayout) view.findViewById(R.id.ll_home_section_gmschedule_later_content);
+			btSchedule = (Button) view.findViewById(R.id.bt_home_gm);
+			btSchedule.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					((MainActivity) getActivity()).loadSection(GM.SECTION.GM_SCHEDULE);
+				}
+			});
 
 		} else {
 			section = (LinearLayout) view.findViewById(R.id.ll_home_section_cityschedule);
@@ -433,7 +442,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set image
 				String image = cursor.getString(1);
-				if (image.length() > 0){
+				if (image != null && image.length() > 0){
 
 					//Check if image exists
 					File f;
@@ -655,7 +664,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set text
 			String text;
-			if (cursor.getString(6).length() < 1) {
+			if (cursor.getString(6) == null || cursor.getString(6).length() < 1) {
 				text = Html.fromHtml(cursor.getString(4)).toString();
 			} else {
 				text = Html.fromHtml(cursor.getString(6)).toString();
@@ -666,7 +675,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, true, true, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -797,7 +806,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 				//Set date
 				TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_activity_date);
-				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, false));
+				tvDate.setText(GM.formatDate(cursor.getString(1) + " 00:00:00", lang, true, false, false));
 
 				//Set hidden id
 				TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_activity_hidden);
@@ -916,7 +925,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set date
 			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_home_blog_date);
-			tvDate.setText(GM.formatDate(cursor.getString(3), lang, false));
+			tvDate.setText(GM.formatDate(cursor.getString(3), lang, true, true, false));
 
 			//Set hidden id
 			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_home_blog_hidden);

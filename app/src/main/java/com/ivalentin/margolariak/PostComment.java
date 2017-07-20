@@ -1,6 +1,7 @@
 package com.ivalentin.margolariak;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,8 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -36,7 +40,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
     private int code = 404;
 
-    public PostComment(String type, String user, String text, String language, int id, LinearLayout form, LinearLayout list, Context context) {
+    PostComment(String type, String user, String text, String language, int id, LinearLayout form, LinearLayout list, Context context) {
         super();
         this.type = type;
         this.user = user;
@@ -75,22 +79,23 @@ class PostComment extends AsyncTask<String, String, Integer> {
         String urlParams;
         try {
 
-            urlParams = "user=" + URLEncoder.encode(user) + "&text=" + URLEncoder.encode(text);
-            switch (type){
+            urlParams = "username=" + URLEncoder.encode(user) + "&text=" + URLEncoder.encode(text);
+            urlParams = urlParams + "&id=" + id;
+            switch (type) {
                 case "blog":
-                    urlParams = urlParams + "&post=" + id;
+                    urlParams = urlParams + "&target=post";
                     break;
                 case "galeria":
-                    urlParams = urlParams + "&photo=" + id;
+                    urlParams = urlParams + "&target=photo";
                     break;
                 case "actividades":
-                    urlParams = urlParams + "&activity=" + id;
+                    urlParams = urlParams + "&target=activity";
                     break;
                 default:
                     Log.e("Comment error", "Unknown section: " + type);
                     return -1;
             }
-            switch (language){
+            switch (language) {
                 case "es":
                     urlParams = urlParams + "&lang=es";
                     break;
@@ -100,53 +105,54 @@ class PostComment extends AsyncTask<String, String, Integer> {
                 default:
                     urlParams = urlParams + "&lang=en";
             }
-            urlParams = urlParams + "&from=app&code=" + userCode;
-            byte[] postData       = urlParams.getBytes("UTF-8");
-            int    postDataLength = postData.length;
-            String request        = GM.API.SERVER + "/" + type + "/comment.php";
-            url            = new URL( request );
-            HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-            conn.setDoOutput( true );
-            conn.setInstanceFollowRedirects( false );
-            conn.setRequestMethod( "POST" );
-            conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
-            conn.setRequestProperty( "charset", "utf-8");
-            conn.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
-            conn.setUseCaches( false );
-            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-            wr.write(postData);
-            conn.connect();
+            urlParams = urlParams + "&client=" + GM.API.CLIENT + "&user=" + userCode;
 
-            code = conn.getResponseCode();
-            Log.d("Comment status", "" + code);
+            String uri = GM.API.SERVER + GM.API.COMMENT.PATH + "?" + urlParams;
+            url = new URL(uri);
+			Log.e("URI", uri);
 
-            if (code == 200){
-                //Insert into local db
-                SQLiteDatabase db = SQLiteDatabase.openDatabase(context.getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-                String table = "";
-                String item = "";
-                switch (type){
-                    case "blog":
-                        table = "post_comment";
-                        item = "post";
-                        break;
-                    case "galeria":
-                        table = "photo_comment";
-                        item = "photo";
-                        break;
-                    case "actividades":
-                        table = "activity_comment";
-                        item = "activity";
-                        break;
-                }
-                db.execSQL("INSERT INTO " + table + " (" + item + ", text, username, lang, dtime) VALUES (" + id + ", '" + text + "', '" + user + "', '" + language + "', datetime('NOW'));");
-                db.close();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+            code = urlConnection.getResponseCode();
+
+            switch (code) {
+                case 400:    //Client error: Bad request
+                    Log.e("COMMENT", "The server returned a 400 code (Client Error: Bad request) for the url \"" + uri + "\"");
+					return(-400);
+                case 403:    //Client error: Forbidden
+                    Log.e("COMMENT", "The server returned a 403 code (Client Error: Forbidden) for the url \"" + uri + "\"");
+					return(-403);
+                case 200:    //Success: OK
+                    Log.d("COMMENT", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\".");
+					break;
+				default:
+					Log.e("COMMENT", "The server returned a " + code + " code for the url \"" + uri + "\".");
+					return(-6);
             }
 
-        } catch (Exception e) {
-            Log.e("Error posting: ", e.getMessage());
         }
-        return code;
+		catch (UnsupportedEncodingException e) {
+            Log.e("COMMENT", "Unable to post comment (UnsupportedEncodingException): " + e.toString());
+			return -2;
+        }
+		catch (ProtocolException e) {
+            Log.e("COMMENT", "Unable to post comment (ProtocolException): " + e.toString());
+			return -3;
+        }
+		catch (MalformedURLException e) {
+            Log.e("COMMENT", "Unable to post comment (MalformedURLException): " + e.toString());
+			return -4;
+        }
+		catch (IOException e) {
+            Log.e("COMMENT", "Unable to post comment (IOException): " + e.toString());
+			return -5;
+        }
+		catch (Exception e) {
+            Log.e("COMMENT", "Unable to post comment: " + e.toString());
+			return -1;
+        }
+
+		return 0;
     }
 
 
@@ -167,6 +173,10 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
             //TODO: Update counter
 
+			//Perform a sync
+			((MainActivity) context).bgSync();
+
+
             //Insert comment in list
             LayoutInflater factory = LayoutInflater.from(context);
             LinearLayout entry = (LinearLayout) factory.inflate(R.layout.row_comment, null);
@@ -177,7 +187,7 @@ class PostComment extends AsyncTask<String, String, Integer> {
             Date d = new Date();
             String date = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime()).toString();
             TextView tvCDate = (TextView) entry.findViewById(R.id.tv_row_comment_date);
-            tvCDate.setText(GM.formatDate(date, language, true));
+            tvCDate.setText(GM.formatDate(date, language, true, true, true));
             TextView tvText = (TextView) entry.findViewById(R.id.tv_row_comment_text);
             tvText.setText(text);
 

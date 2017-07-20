@@ -4,117 +4,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView3"
-    android:background="@color/background_app"
-    android:padding="7dp"
-    tools:ignore="Overdraw">
+    android:background="@color/background_app">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/section"
-        android:layout_margin="7dp"
-        android:padding="7dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/tv_activity_past_title"
-            android:textStyle="bold"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:orientation="vertical"
-            android:transitionGroup="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/entry"
-            android:padding="7dp">
+            android:layout_height="wrap_content"
+            android:background="@drawable/section"
+            android:layout_margin="10dp"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_activity_past_title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                tools:layout_width="match_parent"
+                android:background="@drawable/section_title"
+                android:paddingBottom="4dp"
+                android:paddingEnd="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingStart="20dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/section_title"/>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="7dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/tv_activity_past_city"
-                    android:layout_margin="5dp" />
+                android:background="@drawable/entry"
+                android:padding="7dp"
+                android:layout_margin="8dp">
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/tv_activity_past_date"
-                    android:layout_margin="5dp"
-                    android:gravity="end" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold"/>
 
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/iv_activity_past_0"
-                android:contentDescription="@string/app_cdesc"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"
-                android:maxHeight="70dp" />
-
-            <WebView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/wv_activity_past_text"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_activity_past_city"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/entry_title"
+                    android:textStyle="bold"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_past_1"
-                    android:contentDescription="@string/app_cdesc"
-                    android:visibility="gone"
+                    android:id="@+id/iv_activity_past_0"
                     android:layout_gravity="center_horizontal"
-                    android:maxHeight="50dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_past_2"
-                    android:contentDescription="@string/app_cdesc"
+                    android:contentDescription="@string/empty"
                     android:visibility="gone"
-                    android:maxHeight="50dp" />
+                    android:maxHeight="90dp"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <WebView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_past_3"
-                    android:contentDescription="@string/app_cdesc"
-                    android:visibility="gone"
-                    android:maxHeight="50dp" />
+                    android:id="@+id/wv_activity_past_text"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iv_activity_past_4"
-                    android:contentDescription="@string/app_cdesc"
-                    android:visibility="gone"
-                    android:maxHeight="50dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_past_1"
+                        android:contentDescription="@string/app_cdesc"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:maxHeight="50dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_past_2"
+                        android:contentDescription="@string/empty"
+                        android:visibility="gone"
+                        android:maxHeight="50dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_past_3"
+                        android:contentDescription="@string/app_cdesc"
+                        android:visibility="gone"
+                        android:maxHeight="50dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_activity_past_4"
+                        android:contentDescription="@string/empty"
+                        android:visibility="gone"
+                        android:maxHeight="50dp" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
 </com.ivalentin.margolariak.CustomScrollView>
