@@ -214,8 +214,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			//Set time
 			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_home_schedule_time);
-			String tm = cursorNow.getString(4).substring(cursorNow.getString(4).length() - 8, cursorNow.getString(4).length() - 3);
-			tvRowTime.setText(tm);
+			tvRowTime.setVisibility(View.GONE);
 
 			//Add the view
 			listNow.addView(entry);
