@@ -55,7 +55,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 	private Bundle bund;
 
-	private final String dates[] = new String[20];
+	private final String dates[] = new String[40];
 	private int dateCount = 0;
 	private int selected = 0;
 
@@ -135,10 +135,11 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 		//Log.e("Cur Date", curDate);
 		while (cursor.moveToNext()){
-			dates[dateCount] = cursor.getString(0);
-			//TODO: Check if some date is of today, and set selected
-			if (curDate.equals(cursor.getString(0))){
-				selected = dateCount;
+			if (dateCount < 40) {
+				dates[dateCount] = cursor.getString(0);
+				if (curDate.equals(cursor.getString(0))) {
+					selected = dateCount;
+				}
 			}
 			dateCount ++;
 		}

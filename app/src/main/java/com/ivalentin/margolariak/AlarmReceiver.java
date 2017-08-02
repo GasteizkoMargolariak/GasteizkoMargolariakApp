@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
@@ -59,11 +60,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 				String o = fu.getOutput().toString();
 
 				//Open database
-				SQLiteDatabase db = context.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
-				if (db.isReadOnly()){
-					Log.e("NOTIFICATIONS", "Database is locked and in read only mode.");
+				SQLiteDatabase db;
+				try {
+					db = context.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+					if (db.isReadOnly()) {
+						Log.e("NOTIFICATIONS", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
+						new Sync(context).execute(); // Sync before exiting.
+						return;
+					}
+				}
+				catch(SQLiteDatabaseLockedException ex){
+					Log.e("NOTIFICATIONS", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
+					new Sync(context).execute(); // Sync before exiting.
 					return;
 				}
+
 				Cursor cursor;
 
 				//Variables for parsing
@@ -82,12 +93,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 					//Extract data
 					id = Integer.valueOf(not.substring(not.indexOf("\"id\":") + 6, not.indexOf("\",")));
-					title_es = not.substring(not.indexOf("\"title_es\":") + 12, not.indexOf("\"", not.indexOf("\"title_es\":") + 13));
-					title_en = not.substring(not.indexOf("\"title_en\":") + 12, not.indexOf("\"", not.indexOf("\"title_en\":") + 13));
-					title_eu = not.substring(not.indexOf("\"title_eu\":") + 12, not.indexOf("\"", not.indexOf("\"title_eu\":") + 13));
-					text_es = not.substring(not.indexOf("\"text_es\":") + 11, not.indexOf("\"", not.indexOf("\"text_es\":") + 12));
-					text_en = not.substring(not.indexOf("\"text_en\":") + 11, not.indexOf("\"", not.indexOf("\"text_en\":") + 12));
-					text_eu = not.substring(not.indexOf("\"text_eu\":") + 11, not.indexOf("\"", not.indexOf("\"text_eu\":") + 12));
+					title_es = decode(not.substring(not.indexOf("\"title_es\":") + 12, not.indexOf("\"", not.indexOf("\"title_es\":") + 13)));
+					title_en = decode(not.substring(not.indexOf("\"title_en\":") + 12, not.indexOf("\"", not.indexOf("\"title_en\":") + 13)));
+					title_eu = decode(not.substring(not.indexOf("\"title_eu\":") + 12, not.indexOf("\"", not.indexOf("\"title_eu\":") + 13)));
+					text_es = decode(not.substring(not.indexOf("\"text_es\":") + 11, not.indexOf("\"", not.indexOf("\"text_es\":") + 12)));
+					text_en = decode(not.substring(not.indexOf("\"text_en\":") + 11, not.indexOf("\"", not.indexOf("\"text_en\":") + 12)));
+					text_eu = decode(not.substring(not.indexOf("\"text_eu\":") + 11, not.indexOf("\"", not.indexOf("\"text_eu\":") + 12)));
 					dtime = not.substring(not.indexOf("\"dtime\":") + 9, not.indexOf("\"", not.indexOf("\"dtime\":") + 10));
 					action = not.substring(not.indexOf("\"action\":") + 10, not.indexOf("\"", not.indexOf("\"action\":") + 11));
 					gm = Integer.valueOf(not.substring(not.indexOf("\"gm\":") + 6, not.indexOf("\"", not.indexOf("\"gm\":") + 7)));
@@ -115,6 +126,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 								text = text_es;
 								break;
 						}
+
+						title = decode(title);
+						text = decode(text);
 
 						//Get the notification manager ready
 						NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -165,83 +179,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 				}
 				db.close();
 
-
-
-
-				//Parse info
-				/*String o = fu.getOutput().toString();
-				while (o.contains("<notification>")){
-					//Get non-language-dependant fields
-					String notification = o.substring(o.indexOf("<notification>") + 14, o.indexOf("</notification>"));
-					String id = notification.substring(notification.indexOf("<id>") + 4, notification.indexOf("</id>"));
-					String action = notification.substring(notification.indexOf("<action>") + 8, notification.indexOf("</action>"));
-
-					//Is the notification seen already?
-					//TODO: Create a db table for this
-
-					//Get data from database
-					SQLiteDatabase db = SQLiteDatabase.openDatabase(context.getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
-					final Cursor cursor;
-					cursor = db.rawQuery("SELECT id, seen FROM notification WHERE id = " + id + ";", null);
-					if (cursor.getCount() == 0){
-
-					}
-					else {
-
-						if (cursor.getInt(1) == 0) {
-
-
-							String lang = GM.getLang();
-							String title = notification.substring(notification.indexOf("<title_" + lang + ">") + 10, notification.indexOf("</title_" + lang + ">"));
-							String text = notification.substring(notification.indexOf("<text_" + lang + ">") + 9, notification.indexOf("</text_" + lang + ">"));
-
-
-							//Get the notification manager ready
-							NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-							//Variables to create intents for each notification
-							Intent resultIntent;
-							TaskStackBuilder stackBuilder;
-
-							//Send the notification.
-							NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-									.setSmallIcon(R.drawable.ic_notification)
-									.setContentTitle(title)
-									.setAutoCancel(true)
-									.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
-									.setVibrate((new long[]{400, 400, 400}))
-									.setColor(context.getResources().getColor(R.color.background_notification))
-									.setSubText(context.getString(R.string.app_name))
-									.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-									.setContentText(text);
-
-							// Creates an intent for an Activity to be launched from the notification.
-							resultIntent = new Intent(context, MainActivity.class);
-							resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-							//Set extras depending on type.
-							resultIntent.putExtra(GM.EXTRA.TEXT, text);
-							resultIntent.putExtra(GM.EXTRA.TITLE, title);
-							resultIntent.putExtra(GM.EXTRA.ACTION, action);
-
-							//Add the intent to the notification.
-							stackBuilder = TaskStackBuilder.create(context);
-							stackBuilder.addParentStack(MainActivity.class);
-
-							// Adds the Intent that starts the Activity to the top of the stack.
-							stackBuilder.addNextIntent(resultIntent);
-							PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-							mBuilder.setContentIntent(resultPendingIntent);
-
-							//Actually send the notification.
-							mNotificationManager.notify(Integer.parseInt(id), mBuilder.build());
-
-							//Mark as notified
-							db.execSQL("UPDATE notification SET seen = 1 WHERE id = " + id);
-						}
-					}
-				o = o.substring(o.indexOf("</notification>") + 15);
-				}*/
 			}
 			catch(NumberFormatException ex) {
 				Log.e("NOTIFICATION", "Error parsing remote file: " + ex.toString());
@@ -254,6 +191,31 @@ public class AlarmReceiver extends BroadcastReceiver {
 		//Perform a background sync
 		new Sync(context).execute();
     }
+
+		/**
+		 * Decodes unicode characters from a string.
+		 * Useful for JSON encoded strings.
+		 * @param in String to be decoded.
+		 * @return Decoded string.
+		 */
+		static final String decode(final String in){
+			String working = in;
+			int index = working.indexOf("\\u");
+			while(index > -1){
+				int length = working.length();
+					if(index > (length-6))
+						break;
+				int numStart = index + 2;
+				int numFinish = numStart + 4;
+				String substring = working.substring(numStart, numFinish);
+				int number = Integer.parseInt(substring,16);
+				String stringStart = working.substring(0, index);
+				String stringEnd   = working.substring(numFinish);
+				working = stringStart + ((char)number) + stringEnd;
+				index = working.indexOf("\\u");
+			}
+			return working;
+		}
 
     /**
      * Sets a repeating alarm. 

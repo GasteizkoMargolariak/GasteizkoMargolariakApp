@@ -19,6 +19,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -292,7 +293,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	private boolean recreateDb(SQLiteDatabase db) {
 		boolean result = true;
 		try {
-			db.beginTransaction();
+			db.beginTransactionNonExclusive();
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_IMAGE);
@@ -319,7 +320,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.setTransactionSuccessful();
 			db.endTransaction();
 			publishProgress();
-			db.beginTransaction();
+			db.beginTransactionNonExclusive();
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
@@ -687,8 +688,15 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		String userCode = preferences.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER);
 
 		//Get database. Stop if it's locked
-		SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
-		if (db.isReadOnly()){
+		SQLiteDatabase db;
+		try {
+			db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+			if (db.isReadOnly()) {
+				Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
+				return null;
+			}
+		}
+		catch(SQLiteDatabaseLockedException ex){
 			Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
 			return null;
 		}
@@ -756,7 +764,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					publishProgress();
 
 					//If the data is correctly parsed and stored, commit changes to the database.
-					db.beginTransaction();
+					db.beginTransactionNonExclusive();
 
 
 					if (saveVersions(db, strVersion) && saveData(db, strData)){
