@@ -146,7 +146,8 @@
 				android:layout_height="match_parent"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
-				android:orientation="vertical">
+				android:orientation="vertical"
+				android:visibility="gone">
 
 				<TextView
 					android:id="@+id/tv_menu_location"
