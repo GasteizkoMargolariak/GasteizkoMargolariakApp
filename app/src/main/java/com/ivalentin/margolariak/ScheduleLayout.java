@@ -121,10 +121,10 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor;
 		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
-			cursor = db.rawQuery("SELECT DISTINCT date(start) FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 1;", null);
+			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 1 ORDER BY daydate;", null);
 		}
 		else{
-			cursor = db.rawQuery("SELECT DISTINCT date(start) FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 0;", null);
+			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 0 ORDER BY daydate;", null);
 		}
 
 
@@ -133,7 +133,6 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		Date today = Calendar.getInstance().getTime();
 		String curDate = df.format(today);
 
-		//Log.e("Cur Date", curDate);
 		while (cursor.moveToNext()){
 			if (dateCount < 40) {
 				dates[dateCount] = cursor.getString(0);
@@ -599,8 +598,13 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			}
 		}
 		if (mapView != null){
-			mapView.onResume();
-			mapView.onDestroy();
+			try{
+				mapView.onResume();
+				mapView.onDestroy();
+			}
+			catch(Exception e){
+				Log.e("Error destroying mapview: ", e.toString());
+			}
 		}
 	}
 	
@@ -615,11 +619,21 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		super.onDestroy();
 		if (map != null) {
 			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-				map.setMyLocationEnabled(false);
+				try{
+					map.setMyLocationEnabled(false);
+				}
+				catch(Exception e){
+					Log.e("Error pausing map: ", e.toString());
+				}
 			}
 		}
 		if (mapView != null){
-			mapView.onPause();
+			try{
+				mapView.onPause();
+			}
+			catch(Exception e){
+				Log.e("Error pausing mapview: ", e.toString());
+			}
 		}
 	}
 
@@ -659,7 +673,8 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			MapsInitializer.initialize(this.getActivity());
 			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 14);
 			map.animateCamera(cameraUpdate);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			Log.e("Error initializing maps", e.toString());
 		}
 		//Set GM marker
