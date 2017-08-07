@@ -73,8 +73,8 @@
 			android:contentDescription="@string/tutorial_menu"
 			android:cropToPadding="false"
 			android:onClick="showMenu"
-			android:src="@drawable/ic_expand"
-			app:srcCompat="@drawable/ic_expand"/>
+			android:src="@drawable/ic_group_expand_00"
+			app:srcCompat="@drawable/ic_group_expand_00"/>
 
 		<ProgressBar
 			android:id="@+id/pb_sync"

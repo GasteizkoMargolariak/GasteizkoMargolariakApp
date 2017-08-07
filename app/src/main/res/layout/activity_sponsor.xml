@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:src="@android:drawable/ic_menu_revert"
             android:onClick="finish"
-            android:contentDescription="@string/accept"
+            android:contentDescription="@android:string/yes"
             android:layout_weight=".2"
             android:id="@+id/bt_back"
             app:srcCompat="@android:drawable/ic_menu_revert"

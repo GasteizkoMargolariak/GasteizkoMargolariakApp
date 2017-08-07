@@ -228,4 +228,6 @@
 	<string name="share_gallery">Gallery - Gasteizko Margolariak</string>
 	<string name="share_with_title">%s - Gasteizko Margolariak</string>
 
+	<string name="accept">Accept</string>
+
 </resources>

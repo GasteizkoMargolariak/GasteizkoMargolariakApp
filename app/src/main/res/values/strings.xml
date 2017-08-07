@@ -254,5 +254,6 @@
 	<string name="preferences_info_source">Código fuente</string>
 	<string name="changelog">Changelog</string>
 	<string name="empty" translatable="false"> </string>
+	<string name="accept">Aceptar</string>
 
 </resources>

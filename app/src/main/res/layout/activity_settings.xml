@@ -56,15 +56,15 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/bt_back"
             android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:src="@android:drawable/ic_menu_revert"
-            android:onClick="finish"
-            android:contentDescription="@string/accept"
             android:layout_weight=".2"
-            android:id="@+id/bt_back"
-            app:srcCompat="@android:drawable/ic_menu_revert"
-            android:background="#00000000"/>
+            android:background="#00000000"
+            android:contentDescription="@android:string/yes"
+            android:onClick="finish"
+            android:src="@android:drawable/ic_menu_revert"
+            app:srcCompat="@android:drawable/ic_menu_revert"/>
 
     </LinearLayout>
 
