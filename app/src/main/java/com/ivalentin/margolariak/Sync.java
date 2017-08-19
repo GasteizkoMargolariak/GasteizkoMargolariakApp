@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -256,24 +257,46 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * Creates the URL required to performa a sync. Uses static data and data passed as arguments.
 	 *
 	 * @param user A unique user identifier.
-	 * @param version The db version of the client.
 	 * @param foreground 1 if the sync is done while the app is running, 0 otherwise.
-	 * @param lang Two letter language identifier.
 	 *
 	 * @return The URL that will be used for syncing.
 	 */
-	private String buildUrl(String user, int version, int foreground, String lang){
+	private String buildUrl(String user, int foreground){
 		String url = "";
 		try {
+
+			// Common parameters
 			url = GM.API.SERVER + GM.API.SYNC.PATH + "?" +
 					GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
 					GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
-					GM.API.SYNC.KEY.ACTION + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.ACTION, "UTF-8") + "&" +
-					GM.API.SYNC.KEY.SECTION + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.SECTION, "UTF-8") + "&" +
-					GM.API.SYNC.KEY.VERSION + "=" + version + "&" +
-					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground + "&" +
-					GM.API.SYNC.KEY.FORMAT + "=" + URLEncoder.encode(GM.API.SYNC.VALUE.FORMAT, "UTF-8") + "&" +
-					GM.API.SYNC.KEY.LANG + "=" + URLEncoder.encode(lang, "UTF-8");
+					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground + "&";
+
+			// Versions of the tables
+			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+			Cursor cursor;
+
+			// Check if the table "versions" exists.
+			cursor = db.rawQuery("SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name = '" + GM.DB.TABLE.VERSION + "'", null);
+			if(cursor.getCount() > 0) {
+				cursor = db.rawQuery("SELECT section, version FROM version;", null);
+
+				// Get table list
+				String tables[] = {GM.DB.TABLE.ACTIVITY,             GM.DB.TABLE.ACTIVITY_COMMENT,    GM.DB.TABLE.ACTIVITY_IMAGE,
+						           GM.DB.TABLE.ACTIVITY_ITINERARY,   GM.DB.TABLE.ACTIVITY_TAG,        GM.DB.TABLE.ALBUM,
+						           GM.DB.TABLE.ALBUM,                GM.DB.TABLE.FESTIVAL,            GM.DB.TABLE.FESTIVAL_DAY,
+						           GM.DB.TABLE.FESTIVAL_DAY,         GM.DB.TABLE.FESTIVAL_EVENT_CITY, GM.DB.TABLE.FESTIVAL_EVENT_GM,
+						           GM.DB.TABLE.FESTIVAL_EVENT_IMAGE, GM.DB.TABLE.FESTIVAL_OFFER,      GM.DB.TABLE.PEOPLE,
+						           GM.DB.TABLE.PHOTO,                GM.DB.TABLE.PHOTO_ALBUM,         GM.DB.TABLE.PHOTO_COMMENT,
+						           GM.DB.TABLE.PLACE,                GM.DB.TABLE.POST,                GM.DB.TABLE.POST_COMMENT,
+						           GM.DB.TABLE.POST_IMAGE,           GM.DB.TABLE.POST_TAG,            GM.DB.TABLE.ROUTE,
+						           GM.DB.TABLE.ROUTE_POINT,          GM.DB.TABLE.SETTINGS,            GM.DB.TABLE.SPONSOR};
+				List<String> tableList = Arrays.asList(tables);
+				while (cursor.moveToNext()) {
+					if(tableList.contains(cursor.getString(0))){
+						url = url + "&" + cursor.getString(0) + "=" + cursor.getString(1);
+					}
+				}
+			}
 		}
 		catch (java.io.UnsupportedEncodingException ex){
 			Log.e("UTF-8", "Error encoding url for sync \"" + url + "\" - " + ex.toString());
@@ -302,7 +325,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.DROP.ALBUM);
 			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL);
 			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_DAY);
-			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT);
+			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT_CITY);
+			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT_GM);
 			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT_IMAGE);
 			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_OFFER);
 			db.execSQL(GM.DB.QUERY.DROP.PEOPLE);
@@ -329,7 +353,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.CREATE.ALBUM);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_DAY);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_CITY);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_GM);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_IMAGE);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_OFFER);
 			db.execSQL(GM.DB.QUERY.CREATE.PEOPLE);
@@ -446,24 +471,28 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @return False if there were errors, true otherwise.
 	 */
 	private boolean saveData(SQLiteDatabase db, String data){
-		String str;
-		String key;
-		String value;
+
+		String str = data;
+		String name;
+		String content;
 		boolean result = true;
 		try{
-			str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
+			//str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("}") > 0){
 				try {
-					key = str.substring(str.indexOf("\"") + 1, str.indexOf("\"", str.indexOf(":") - 1));
-					value = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
-					str = str.substring(str.indexOf("]") + 1);
+					name = "DUMMY";
+					content = str.substring(str.indexOf("[{"), str.indexOf("}]") + 2);
+					Log.e("SYNC3", "Saving data key " + name + " string: " + str);
 
-					if (!saveTable(db, key, value)){
+					//value = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
+					//str = str.substring(str.indexOf("]") + 1);
+
+					if (!saveTable(db, name, content)){
 						//Finish the loop if there is an error
 						return false;
 					}
 
-					str = str.substring(str.indexOf("}") + 1);
+					str = str.substring(str.indexOf("}]") + 2);
 				}
 				catch (Exception ex){
 					//End of string
@@ -556,6 +585,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	private boolean saveTable(SQLiteDatabase db, String table, String data) {
 
+		Log.d("SYNC3", "Saving table " + table + " with data: " + data);
 		//If settings table, do something else
 		if ("settings".equals(table)){
 			Log.d("SYNC", "Got the settings table. Special treatment...");
@@ -717,7 +747,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		}
 
 		URL url;
-		String uri = buildUrl(userCode, dbVersion, fg, GM.getLang());
+		String uri = buildUrl(userCode, fg);
 		try {
 			url = new URL(uri);
 
@@ -746,20 +776,22 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					//Get the string with the sync json. (The whole page)
 					String strSync = sb.toString();
-					strSync = strSync.replace(":null", ":\"\"");
+					saveData(db, strSync);
+					//strSync = strSync.replace(":null", ":\"\"");
 
 					//Get the JSON object from the string.
-					JSONObject jsonSync = new JSONObject(strSync);
-					jsonSync = new JSONObject(jsonSync.get("sync").toString().substring(1, jsonSync.get("sync").toString().length() - 1));
-
+					//Log.d("SYNC", "Converting string to JSON...");
+					//JSONObject jsonSync = new JSONObject(strSync);
+					//jsonSync = new JSONObject(jsonSync.get("sync").toString().substring(1, jsonSync.get("sync").toString().length() - 1));
+					//Log.d("SYNC", "String converted to  JSON");
 					//Get the string wit the versions in JSON format.
-					String strVersion = jsonSync.get("version").toString();
+					//String strVersion = jsonSync.get("version").toString();
 
 					//Handmade parser, because with:
 					//String strData = jsonSync.get("data").toString();
 					//I get an error: "No value for data"
-					String strData = strSync.substring(1, strSync.length() - 1);
-					strData = strData.substring(strData.indexOf("{\"data\":"));
+					//String strData = strSync.substring(1, strSync.length() - 1);
+					//strData = strData.substring(strData.indexOf("{\"data\":"));
 
 					publishProgress();
 
@@ -767,13 +799,13 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					db.beginTransactionNonExclusive();
 
 
-					if (saveVersions(db, strVersion) && saveData(db, strData)){
-						db.setTransactionSuccessful();
-						Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
-					}
-					else{
-						Log.e("SYNC", "The sync process did not finish correctly. Any changes made to the database will be reverted");
-					}
+					//if (saveVersions(db, strVersion) && saveData(db, strData)){
+					//	db.setTransactionSuccessful();
+					//	Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
+					//}
+					//else{
+					//	Log.e("SYNC", "The sync process did not finish correctly. Any changes made to the database will be reverted");
+					//}
 					db.endTransaction();
 
 					break;
@@ -794,10 +826,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			Log.e("SYNC", "IOException for URL (" + uri + "): " + e.toString());
 			e.printStackTrace();
 		}
-		catch (org.json.JSONException e) {
-			Log.e("SYNC", "JSONException for URL (" + uri + "): " + e.toString());
-			e.printStackTrace();
-		}
+		//catch (org.json.JSONException e) {
+		//	Log.e("SYNC", "JSONException for URL (" + uri + "): " + e.toString());
+		//	e.printStackTrace();
+		//}
 
 		db.close();
 		return null;
