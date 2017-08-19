@@ -182,7 +182,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 		calendarEnd = calendar;
 		calendarEnd.add(Calendar.MINUTE, -40);
 		endString = dateFormat.format(calendarEnd.getTime());
-		query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND ((start <= '" + nowString + "' AND end > '" + nowString + "') OR (start > '" + endString + "' AND start < '" + nowString + "')) AND gm = " + gm + " ORDER BY start LIMIT 2";
+		if (gm == 1) {
+			query = "SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_gm, place WHERE place = place.id AND ((start <= '" + nowString + "' AND end > '" + nowString + "') OR (start > '" + endString + "' AND start < '" + nowString + "')) ORDER BY start LIMIT 2";
+		}
+		else{
+			query = "SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_city, place WHERE place = place.id AND ((start <= '" + nowString + "' AND end > '" + nowString + "') OR (start > '" + endString + "' AND start < '" + nowString + "')) ORDER BY start LIMIT 2";
+		}
 
 		//Execute query and loop
 		Cursor cursorNow = db.rawQuery(query, null);
@@ -221,11 +226,16 @@ public class HomeLayout extends Fragment implements LocationListener {
 		}
 		cursorNow.close();
 
-		//Prepare query for upcaming events
+		//Prepare query for upcoming events
 		calendarEnd = calendar;
 		calendarEnd.add(Calendar.MINUTE, 320);
 		endString = dateFormat.format(calendarEnd.getTime());
-		query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND start > '" + nowString + "' AND start < '" + endString + "' AND gm = " + gm + " ORDER BY start LIMIT 2";
+		if (gm == 1) {
+			query = "SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_gm, place WHERE place = place.id AND start > '" + nowString + "' AND start < '" + endString + "' ORDER BY start LIMIT 2";
+		}
+		else{
+			query = "SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_city, place WHERE place = place.id AND start > '" + nowString + "' AND start < '" + endString + "' ORDER BY start LIMIT 2";
+		}
 
 		//Execute query and loop
 		Cursor cursorNext = db.rawQuery(query, null);

@@ -248,7 +248,7 @@ final class GM {
 				/**
 				 * Creates the table "festival_day" on the database.
 				 */
-				static final String FESTIVAL_DAY = "CREATE TABLE IF NOT EXISTS festival_day (id INT, date DATETIME, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, price INT);";
+				static final String FESTIVAL_DAY = "CREATE TABLE IF NOT EXISTS festival_day (id INT, date DATETIME, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, price INT, people INT, max_people INT);";
 
 				/**
 				 * Creates the table "festival_event_city" on the database.
@@ -258,7 +258,7 @@ final class GM {
 				/**
 				 * Creates the table "festival_event_gm" on the database.
 				 */
-				static final String FESTIVAL_EVENT_GM = "CREATE TABLE IF NOT EXISTS festival_event_gm (id INT, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, host INT, place INT, start DATETIME, end DATETIME, interest INT);";
+				static final String FESTIVAL_EVENT_GM = "CREATE TABLE IF NOT EXISTS festival_event_gm (id INT, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, host INT, sponsor INT, place INT, route INT, start DATETIME, end DATETIME, interest INT);";
 
 				/**
 				 * Creates the table "festival_event_image" on the database.

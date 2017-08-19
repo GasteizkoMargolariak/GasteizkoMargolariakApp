@@ -125,7 +125,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			//Check db version again
 			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()){
-				Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
+				Log.e("SYNC", "Database is in read only mode. Skipping sync.");
 				return;
 			}
 
@@ -239,9 +239,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
     }
 
 	@Override
-	/**
-	 * Called when the AsyncTask is updated.
-	 * Used to change text in the sync window.
+	/*
+	  Called when the AsyncTask is updated.
+	  Used to change text in the sync window.
+	  @param progress Unused.
 	 */
 	protected void onProgressUpdate(Void...progress) {
 		if (doProgress){
@@ -261,7 +262,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 *
 	 * @return The URL that will be used for syncing.
 	 */
-	private String buildUrl(String user, int foreground){
+	private String buildUrl(SQLiteDatabase db, String user, int foreground){
 		String url = "";
 		try {
 
@@ -272,7 +273,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground + "&";
 
 			// Versions of the tables
-			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			Cursor cursor;
 
 			// Check if the table "versions" exists.
@@ -297,6 +297,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					}
 				}
 			}
+			cursor.close();
 		}
 		catch (java.io.UnsupportedEncodingException ex){
 			Log.e("UTF-8", "Error encoding url for sync \"" + url + "\" - " + ex.toString());
@@ -338,6 +339,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.DROP.POST_COMMENT);
 			db.execSQL(GM.DB.QUERY.DROP.POST_IMAGE);
 			db.execSQL(GM.DB.QUERY.DROP.POST_TAG);
+			db.execSQL(GM.DB.QUERY.DROP.ROUTE);
+			db.execSQL(GM.DB.QUERY.DROP.ROUTE_POINT);
 			db.execSQL(GM.DB.QUERY.DROP.SETTINGS);
 			db.execSQL(GM.DB.QUERY.DROP.SPONSOR);
 			db.execSQL(GM.DB.QUERY.DROP.VERSION);
@@ -366,6 +369,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			db.execSQL(GM.DB.QUERY.CREATE.POST_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.POST_IMAGE);
 			db.execSQL(GM.DB.QUERY.CREATE.POST_TAG);
+			db.execSQL(GM.DB.QUERY.CREATE.ROUTE);
+			db.execSQL(GM.DB.QUERY.CREATE.ROUTE_POINT);
 			db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
 			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
@@ -415,58 +420,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * Uses a custom JSON parser.
 	 *
 	 * @param db Database store the data.
-	 * @param versions List of strings with data about the versions.
-	 *
-	 * @return False if there were errors, true otherwise.
-	 */
-	private boolean saveVersions(SQLiteDatabase db, String versions){
-		String str = versions;
-		String key;
-		boolean result = true;
-		int value;
-		int totalVersions = 0;
-
-		//If I ever have a database with more than 99 public sections (not tables), I'll have to change this. Also, ask for a raise.
-		int[] values = new int[99];
-		String[] keys = new String[99];
-		try {
-			while (str.indexOf("{") > 0){
-				key = str.substring(str.indexOf("{\"") + 2, str.indexOf("\":"));
-				str = str.substring(str.indexOf("\":\"") + 3);
-				value = Integer.parseInt(str.substring(0, str.indexOf("\"")));
-				str = str.substring(str.indexOf("}") + 1);
-				keys[totalVersions] = key;
-				values[totalVersions] = value;
-				totalVersions ++;
-				publishProgress();
-			}
-			if (totalVersions > 0 && totalVersions < 99){
-				db.execSQL(GM.DB.QUERY.CREATE.VERSION);
-				db.execSQL(GM.DB.QUERY.EMPTY.VERSION);
-				for (int i = 0; i < totalVersions; i ++){
-					if (!"all".equals(keys[i])) {
-						db.execSQL("INSERT INTO version VALUES ('" + keys[i] + "', " + values[i] + ");");
-					}
-				}
-			}
-			else{
-				result = false;
-			}
-
-		}
-		catch (Exception ex){
-			result = false;
-			Log.e("SYNC", "Error saving the remote db versions: " + ex.toString());
-		}
-		return result;
-	}
-
-	/**
-	 * Stores version data for each section in the database.
-	 * Uses a custom JSON parser.
-	 *
-	 * @param db Database store the data.
-	 * @param data List of strings in json format with the tables.
+	 * @param data JSON formated string with the information for the database.
 	 *
 	 * @return False if there were errors, true otherwise.
 	 */
@@ -477,15 +431,12 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		String content;
 		boolean result = true;
 		try{
-			//str = data.substring(data.indexOf("[") + 1, data.lastIndexOf("]"));
 			while (str.indexOf("}") > 0){
 				try {
-					name = "DUMMY";
+					name = str.substring(str.indexOf("\"") + 1, str.indexOf(":") -1);
 					content = str.substring(str.indexOf("[{"), str.indexOf("}]") + 2);
 					Log.e("SYNC3", "Saving data key " + name + " string: " + str);
 
-					//value = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
-					//str = str.substring(str.indexOf("]") + 1);
 
 					if (!saveTable(db, name, content)){
 						//Finish the loop if there is an error
@@ -573,6 +524,69 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	}
 
 
+	/**
+	 * Stores the new contents of the table 'version' into the database.
+	 * Uses a custom JSON parser.
+	 *
+	 * @param db Database to store the data.
+	 * @param data String in JSON format with the data of the table.
+	 * @return False if there were errors, true otherwise.
+	 */
+	private boolean saveTableVersion(SQLiteDatabase db, String data) {
+
+		Log.e("SYNC3", "UPDATING versions WITH content: " + data);
+
+		JSONObject jsonObj;
+		String section, row, version;
+		String str = data;
+		Cursor cursor;
+		List<String> queries = new ArrayList<>();
+
+		//Process each row
+		while (str.contains("{\"") && str.contains("\"}")) {
+			row = str.substring(str.indexOf("{\""), str.indexOf("\"}") + 2);
+			Log.e("SYNC3", "ROW: " + row);
+			try {
+
+				section = row.substring(row.indexOf("\"section\"") + 11, row.indexOf(",") + -1);
+				version = row.substring(row.indexOf("\"version\"") + 11, row.lastIndexOf("\""));
+				// Check if the value already exists in the database.
+				cursor = db.rawQuery("SELECT section FROM version WHERE version = '" + section + "';", null);
+				if (cursor.getCount() == 0) {
+					Log.e("SYNC3", "INSERT INTO version (section, version) VALUES ('" + section + "', " + version + ");");
+					queries.add("INSERT INTO version (section, version) VALUES ('" + section + "', " + version + ");");
+				} else {
+					Log.e("SYNC3", "UPDATE version SET version = " + version + " WHERE section  ='" + section + "';");
+					queries.add("UPDATE version SET version = " + version + " WHERE section  ='" + section + "';");
+				}
+				cursor.close();
+			}
+			catch (Exception ex) {
+				Log.e("SYNC", "Error parsing special table 'version': " + ex.toString());
+				return false;
+			}
+
+			//Process str for the next loop pass.
+			str = str.substring(str.indexOf("\"}") + 2);
+
+			publishProgress();
+		}
+
+		//If I get to this point, there were no errors, and I can safely execute the queries
+		try {
+			int totalQueries = queries.size();
+			for (int i = 0; i < totalQueries; i++) {
+				db.execSQL(queries.get(i));
+			}
+		} catch (Exception ex) {
+			Log.e("SYNC", "Error inserting data from special table 'version' into the local db: " + ex.toString());
+
+			//I don't put a 'return false;' here because I dont want to loose the whole table for just one row.
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * Stores a table data into the database.
@@ -586,10 +600,15 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	private boolean saveTable(SQLiteDatabase db, String table, String data) {
 
 		Log.d("SYNC3", "Saving table " + table + " with data: " + data);
-		//If settings table, do something else
-		if ("settings".equals(table)){
+		//If table, do something else
+		if (GM.DB.TABLE.SETTINGS.equals(table)){
 			Log.d("SYNC", "Got the settings table. Special treatment...");
 			return saveSettings(data);
+		}
+
+		if (GM.DB.TABLE.VERSION.equals(table)){
+			Log.d("SYNC", "Got the settings table. Special treatment...");
+			return saveTableVersion(db, data);
 		}
 
 		int type, i;
@@ -649,7 +668,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 							case GM.DB.COLUMN.INT:
 
 								//Check that is really a number to prevent injection.
-								if (Pattern.matches("\\-?\\d+", values[j]))
+								if (Pattern.matches("-?\\d+", values[j]))
 									q = q + values[j] + ", ";
 								else{
 									//If its not and actually number, just insert null to avoid problems.
@@ -722,32 +741,19 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		try {
 			db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()) {
-				Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
+				Log.e("SYNC", "Database is in read only mode. Skipping sync.");
 				return null;
 			}
 		}
 		catch(SQLiteDatabaseLockedException ex){
-			Log.e("SYNC", "Database is locked and in read only mode. Skipping sync.");
+			Log.e("SYNC", "Database is locked . Skipping sync: " + ex.toString());
 			return null;
 		}
 
 		publishProgress();
 
-		//Get database version
-		Cursor cursor;
-		int dbVersion = 0;
-		try{
-			cursor = db.rawQuery("SELECT sum(version) AS v FROM version;", null);
-			cursor.moveToFirst();
-			dbVersion = cursor.getInt(0);
-			cursor.close();
-		}
-		catch (Exception e){
-			Log.e("SYNC", "Unable to read from table 'version': " + e.toString());
-		}
-
 		URL url;
-		String uri = buildUrl(userCode, fg);
+		String uri = buildUrl(db, userCode, fg);
 		try {
 			url = new URL(uri);
 
@@ -776,36 +782,19 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 					//Get the string with the sync json. (The whole page)
 					String strSync = sb.toString();
-					saveData(db, strSync);
-					//strSync = strSync.replace(":null", ":\"\"");
-
-					//Get the JSON object from the string.
-					//Log.d("SYNC", "Converting string to JSON...");
-					//JSONObject jsonSync = new JSONObject(strSync);
-					//jsonSync = new JSONObject(jsonSync.get("sync").toString().substring(1, jsonSync.get("sync").toString().length() - 1));
-					//Log.d("SYNC", "String converted to  JSON");
-					//Get the string wit the versions in JSON format.
-					//String strVersion = jsonSync.get("version").toString();
-
-					//Handmade parser, because with:
-					//String strData = jsonSync.get("data").toString();
-					//I get an error: "No value for data"
-					//String strData = strSync.substring(1, strSync.length() - 1);
-					//strData = strData.substring(strData.indexOf("{\"data\":"));
-
 					publishProgress();
 
 					//If the data is correctly parsed and stored, commit changes to the database.
 					db.beginTransactionNonExclusive();
 
 
-					//if (saveVersions(db, strVersion) && saveData(db, strData)){
-					//	db.setTransactionSuccessful();
-					//	Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
-					//}
-					//else{
-					//	Log.e("SYNC", "The sync process did not finish correctly. Any changes made to the database will be reverted");
-					//}
+					if (saveData(db, strSync)){
+						db.setTransactionSuccessful();
+						Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
+					}
+					else{
+						Log.e("SYNC", "The sync process did not finish correctly. Any changes made to the database will be reverted");
+					}
 					db.endTransaction();
 
 					break;
@@ -826,10 +815,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			Log.e("SYNC", "IOException for URL (" + uri + "): " + e.toString());
 			e.printStackTrace();
 		}
-		//catch (org.json.JSONException e) {
-		//	Log.e("SYNC", "JSONException for URL (" + uri + "): " + e.toString());
-		//	e.printStackTrace();
-		//}
 
 		db.close();
 		return null;
