@@ -435,8 +435,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				try {
 					name = str.substring(str.indexOf("\"") + 1, str.indexOf(":") -1);
 					content = str.substring(str.indexOf("[{"), str.indexOf("}]") + 2);
-					Log.e("SYNC3", "Saving data key " + name + " string: " + str);
-
 
 					if (!saveTable(db, name, content)){
 						//Finish the loop if there is an error
@@ -534,8 +532,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	private boolean saveTableVersion(SQLiteDatabase db, String data) {
 
-		Log.e("SYNC3", "UPDATING versions WITH content: " + data);
-
 		JSONObject jsonObj;
 		String section, row, version;
 		String str = data;
@@ -545,7 +541,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		//Process each row
 		while (str.contains("{\"") && str.contains("\"}")) {
 			row = str.substring(str.indexOf("{\""), str.indexOf("\"}") + 2);
-			Log.e("SYNC3", "ROW: " + row);
 			try {
 
 				section = row.substring(row.indexOf("\"section\"") + 11, row.indexOf(",") + -1);
@@ -553,10 +548,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				// Check if the value already exists in the database.
 				cursor = db.rawQuery("SELECT section FROM version WHERE version = '" + section + "';", null);
 				if (cursor.getCount() == 0) {
-					Log.e("SYNC3", "INSERT INTO version (section, version) VALUES ('" + section + "', " + version + ");");
 					queries.add("INSERT INTO version (section, version) VALUES ('" + section + "', " + version + ");");
 				} else {
-					Log.e("SYNC3", "UPDATE version SET version = " + version + " WHERE section  ='" + section + "';");
 					queries.add("UPDATE version SET version = " + version + " WHERE section  ='" + section + "';");
 				}
 				cursor.close();
@@ -599,7 +592,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	private boolean saveTable(SQLiteDatabase db, String table, String data) {
 
-		Log.d("SYNC3", "Saving table " + table + " with data: " + data);
 		//If table, do something else
 		if (GM.DB.TABLE.SETTINGS.equals(table)){
 			Log.d("SYNC", "Got the settings table. Special treatment...");
@@ -623,8 +615,16 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		queries.add("DELETE FROM " + table + ";");
 
 		//Process each row
-		while (str.contains("{\"") && str.contains("\"}")) {
-			row = str.substring(str.indexOf("{\""), str.indexOf("\"}") + 2);
+		str = str.replace(":null", ":\"null\"");
+
+		while (str.contains("{\"") && (str.contains("\"}") || str.contains("null}"))) {
+			if (str.contains("\"}")) {
+				row = str.substring(str.indexOf("{\""), str.indexOf("\"}") + 2);
+			}
+			else{
+				row = str.substring(str.indexOf("{\""), str.indexOf("null}") + 5);
+			}
+
 			i = 0;
 
 			try {
@@ -654,8 +654,8 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				//Loop trough values
 				for (int j = 0; j < i; j++) {
 
-					//If the value is empty, I don't care what type is it, it will be 'null'.
-					if (values[j].length() == 0) {
+					//If the value is empty or null, I don't care what type is it, it will be 'null'.
+					if (values[j].length() == 0 || "null".equalsIgnoreCase(values[j])) {
 						val = "null";
 						q = q + val + ", ";
 					}
@@ -785,17 +785,21 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					publishProgress();
 
 					//If the data is correctly parsed and stored, commit changes to the database.
-					db.beginTransactionNonExclusive();
+					try {
+						db.beginTransactionNonExclusive();
 
 
-					if (saveData(db, strSync)){
-						db.setTransactionSuccessful();
-						Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
+						if (saveData(db, strSync)) {
+							db.setTransactionSuccessful();
+							Log.d("SYNC", "The sync process finished correctly. Changes to the database will be commited");
+						} else {
+							Log.e("SYNC", "The sync process did not finish correctly. Any changes made to the database will be reverted");
+						}
+						db.endTransaction();
 					}
-					else{
-						Log.e("SYNC", "The sync process did not finish correctly. Any changes made to the database will be reverted");
+					catch(SQLiteDatabaseLockedException ex){
+						Log.e("SYNC", "Database is locked . Ending sync now: " + ex.toString());
 					}
-					db.endTransaction();
 
 					break;
 				default:

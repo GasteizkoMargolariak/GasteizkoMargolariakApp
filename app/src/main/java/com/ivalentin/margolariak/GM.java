@@ -26,7 +26,7 @@ final class GM {
 		/**
 		 * Name of the database.
 		 */
-		static final String NAME = "gm";
+		static final String NAME = "gmv3";
 
 		/**
 		 * Initial version of the database.
@@ -968,56 +968,11 @@ final class GM {
 				static final String USER = "user";
 
 				/**
-				 * Key for the action to perform with the API ("sync" or "version").
-				 */
-				static final String ACTION = "action";
-
-				/**
-				 * Key for the section to sync.
-				 */
-				static final String SECTION = "section";
-
-				/**
-				 * Key for the current version of the database to send to the API.
-				 */
-				static final String VERSION = "version";
-
-				/**
 				 * Key to indicate to the API if the sync is being performed on the foreground.
 				 */
 				static final String FOREGROUND = "foreground";
 
-				/**
-				 * Key to indicate the format of the data for the API to send.
-				 */
-				static final String FORMAT = "format";
-
-				/**
-				 * Key to indicate the language to the API.
-				 */
-				static final String LANG = "lang";
 			}
-
-			/**
-			 * Values for the parameters.
-			 */
-			 static final class VALUE {
-
-				/**
-				 * Value for the ACTION key.
-				 */
-				static final String ACTION = "sync";
-
-				/**
-				 * Value for the SECTION key,
-				 */
-				 static final String SECTION = "all";
-
-				/**
-				 * Value for the FORMAT key.
-				 */
-				static final String FORMAT = "json";
-			 }
 		}
 
 		/**
@@ -1029,28 +984,6 @@ final class GM {
 			 * Path to the API.
 			 */
 			static final String PATH = "/API/v3/location.php";
-
-			/**
-			 * Keys fotr the API parameters.
-			 */
-			static final class KEY {
-
-				/**
-				 * Key to indicate the format of the data for the API to send.
-				 */
-				static final String FORMAT = "format";
-			}
-
-			/**
-			 * Values for the parameters.
-			 */
-			static final class VALUE {
-
-				/**
-				 * Value for the FORMAT key.
-				 */
-				static final String FORMAT = "json";
-			}
 		}
 
 		/**
@@ -1082,22 +1015,6 @@ final class GM {
 				 * Key for the action to perform with the API ("sync" or "version").
 				 */
 				static final String TARGET = "target";
-
-				/**
-				 * Key to indicate the format of the data for the API to send.
-				 */
-				static final String FORMAT = "format";
-			}
-
-			/**
-			 * Values for the parameters.
-			 */
-			static final class VALUE {
-
-				/**
-				 * Value for the FORMAT key.
-				 */
-				static final String FORMAT = "json";
 			}
 		}
 
