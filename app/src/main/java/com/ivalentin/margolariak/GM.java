@@ -950,7 +950,18 @@ final class GM {
 			/**
 			 * Path to the API.
 			 */
-			static final String PATH = "/API/v3/sync.php";
+			static final class PATH {
+
+				/**
+				 * Path to the fast sync API.
+				 */
+				static final String FAST= "/API/v3/fastsync.php";
+
+				/**
+				 * Path to the regular sync API.
+				 */
+				static final String COMPLETE= "/API/v3/sync.php";
+			}
 
 			/**
 			 * Keys fotr the API parameters.

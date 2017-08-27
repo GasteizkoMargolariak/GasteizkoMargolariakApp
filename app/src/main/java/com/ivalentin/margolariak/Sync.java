@@ -267,7 +267,14 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		try {
 
 			// Common parameters
-			url = GM.API.SERVER + GM.API.SYNC.PATH + "?" +
+			url = GM.API.SERVER;
+			if (pbSync != null) { // First sync
+				url = url + GM.API.SYNC.PATH.FAST;
+			}
+			else{ // Regular sync
+				url = url + GM.API.SYNC.PATH.COMPLETE;
+			}
+			url = url + "?" +
 					GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
 					GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
 					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground + "&";
@@ -282,14 +289,14 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 				// Get table list
 				String tables[] = {GM.DB.TABLE.ACTIVITY,             GM.DB.TABLE.ACTIVITY_COMMENT,    GM.DB.TABLE.ACTIVITY_IMAGE,
-						           GM.DB.TABLE.ACTIVITY_ITINERARY,   GM.DB.TABLE.ACTIVITY_TAG,        GM.DB.TABLE.ALBUM,
-						           GM.DB.TABLE.ALBUM,                GM.DB.TABLE.FESTIVAL,            GM.DB.TABLE.FESTIVAL_DAY,
-						           GM.DB.TABLE.FESTIVAL_DAY,         GM.DB.TABLE.FESTIVAL_EVENT_CITY, GM.DB.TABLE.FESTIVAL_EVENT_GM,
-						           GM.DB.TABLE.FESTIVAL_EVENT_IMAGE, GM.DB.TABLE.FESTIVAL_OFFER,      GM.DB.TABLE.PEOPLE,
-						           GM.DB.TABLE.PHOTO,                GM.DB.TABLE.PHOTO_ALBUM,         GM.DB.TABLE.PHOTO_COMMENT,
-						           GM.DB.TABLE.PLACE,                GM.DB.TABLE.POST,                GM.DB.TABLE.POST_COMMENT,
-						           GM.DB.TABLE.POST_IMAGE,           GM.DB.TABLE.POST_TAG,            GM.DB.TABLE.ROUTE,
-						           GM.DB.TABLE.ROUTE_POINT,          GM.DB.TABLE.SETTINGS,            GM.DB.TABLE.SPONSOR};
+				                   GM.DB.TABLE.ACTIVITY_ITINERARY,   GM.DB.TABLE.ACTIVITY_TAG,        GM.DB.TABLE.ALBUM,
+				                   GM.DB.TABLE.ALBUM,                GM.DB.TABLE.FESTIVAL,            GM.DB.TABLE.FESTIVAL_DAY,
+				                   GM.DB.TABLE.FESTIVAL_DAY,         GM.DB.TABLE.FESTIVAL_EVENT_CITY, GM.DB.TABLE.FESTIVAL_EVENT_GM,
+				                   GM.DB.TABLE.FESTIVAL_EVENT_IMAGE, GM.DB.TABLE.FESTIVAL_OFFER,      GM.DB.TABLE.PEOPLE,
+				                   GM.DB.TABLE.PHOTO,                GM.DB.TABLE.PHOTO_ALBUM,         GM.DB.TABLE.PHOTO_COMMENT,
+				                   GM.DB.TABLE.PLACE,                GM.DB.TABLE.POST,                GM.DB.TABLE.POST_COMMENT,
+				                   GM.DB.TABLE.POST_IMAGE,           GM.DB.TABLE.POST_TAG,            GM.DB.TABLE.ROUTE,
+				                   GM.DB.TABLE.ROUTE_POINT,          GM.DB.TABLE.SETTINGS,            GM.DB.TABLE.SPONSOR};
 				List<String> tableList = Arrays.asList(tables);
 				while (cursor.moveToNext()) {
 					if(tableList.contains(cursor.getString(0))){
