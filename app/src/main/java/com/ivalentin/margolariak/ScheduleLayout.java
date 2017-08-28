@@ -3,6 +3,7 @@ package com.ivalentin.margolariak;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -15,6 +16,7 @@ import android.content.DialogInterface.OnShowListener;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.preference.PreferenceManager;
@@ -40,6 +42,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 
 /**
  * Fragment to be inflated showing the festivals schedule.
@@ -500,9 +504,6 @@ public class ScheduleLayout extends Fragment{
 
 			//Set up map
 			// TODO if route...
-			//location = new LatLng(Double.parseDouble(cursor.getString(8)), Double.parseDouble(cursor.getString(9)));
-			//mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
-			//mapView.onCreate(bund);
 
 			mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
 
@@ -511,6 +512,24 @@ public class ScheduleLayout extends Fragment{
 			mapController.setZoom(15);
 			GeoPoint center = new GeoPoint(cursor.getDouble(9), cursor.getDouble(10));
 			mapController.setCenter(center);
+
+			OverlayItem locationOverlayItem = new OverlayItem(cursor.getString(1), cursor.getString(7), center);
+			Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint_map);
+			locationOverlayItem.setMarker(locationMarker);
+
+			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+			items.add(locationOverlayItem);
+
+			ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+			  new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+			    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+			    	return true;
+			    }
+			    public boolean onItemLongPress(final int index, final OverlayItem item) {
+			    	return true;
+			    }
+			  }, getContext());
+			this.mapView.getOverlays().add(locationOverlay);
 
 			//Close the db connection
 			cursor.close();
@@ -528,15 +547,6 @@ public class ScheduleLayout extends Fragment{
 			dialog.setOnCancelListener(new OnCancelListener(){
 				@Override
 				public void onCancel(DialogInterface dialog) {
-				/*	if (map != null) {
-						if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-							map.setMyLocationEnabled(false);
-						}
-					}
-					if (mapView != null){
-    						mapView.onResume();
-    						mapView.onDestroy();
-    					}*/
 				}
 			});
 
@@ -552,46 +562,9 @@ public class ScheduleLayout extends Fragment{
 			//Show dialog
 			dialog.show();
 
-			//Start the map
-			//startMap();
-			//mapView.onResume();
-			dialog.setOnShowListener(new OnShowListener(){
-
-				@Override
-				public void onShow(DialogInterface dialog) {
-					//startMap();
-
-				}
-			});
-
 		}
 	}
 
-	/**
-	 * Starts the map in the dialog.
-	 */
-	private void startMap(){
-		//mapView.getMapAsync(this);
-	}
-
-
-
-
-
-	/**
-	 * Called in a situation of low memory.
-	 * Lets the map handle this situation.
-	 *
-	 * @see android.app.Fragment#onLowMemory()
-	 */
-	/*@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		if (mapView != null){
-			mapView.onResume();
-			mapView.onLowMemory();
-		}
-	}*/
 
 	/**
 	 * Called when the activity is resumed.
@@ -604,7 +577,6 @@ public class ScheduleLayout extends Fragment{
 		Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
 		super.onResume();
 	}
-
 
 
 	/**
