@@ -7,15 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -26,7 +17,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.ActivityCompat;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -44,6 +35,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+
 /**
  * Fragment to be inflated showing the festivals schedule.
  * Contains a date selector and a ScrollView with all the activities for the day.
@@ -51,7 +48,7 @@ import android.widget.TextView;
  * @author Inigo Valentin
  *
  */
-public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
+public class ScheduleLayout extends Fragment{
 
 	private Bundle bund;
 
@@ -61,9 +58,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 	//Map stuff for the dialog
 	private MapView mapView;
-	private GoogleMap map;
-	private LatLng location;
-        private int route;
+	private int route;
 	private View view;
 	private String markerName = "";
 
@@ -75,7 +70,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * @param container The container View
 	 * @param savedInstanceState Bundle containing the state
 	 *
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 * @see Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
@@ -410,7 +405,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			cursor = db.rawQuery("SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM festival_event_gm, place WHERE place = place.id AND festival_event_gm.id = " + id + ";", null);
 		}
 		else{
-			cursor = db.rawQuery("SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host FROM, sponsor festival_event_city, place WHERE place = place.id AND festival_event_city.id = " + id + ";", null);
+			cursor = db.rawQuery("SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM, sponsor festival_event_city, place WHERE place = place.id AND festival_event_city.id = " + id + ";", null);
 		}
 		if (cursor.getCount() > 0){
 			cursor.moveToNext();
@@ -487,11 +482,11 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 			//Set time
 			try{
-				if (cursor.getString(5) == null || cursor.getString(5).length() == 0) {
-					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))));
+				if (cursor.getString(6) == null || cursor.getString(6).length() == 0) {
+					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(5))));
 				}
 				else {
-					String time = timeFormat.format(dateFormat.parse(cursor.getString(4))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(5)));
+					String time = timeFormat.format(dateFormat.parse(cursor.getString(5))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(6)));
 					tvTime.setText(time);
 				}
 			}
@@ -500,14 +495,22 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			}
 
 			//Set the place
-			tvPlace.setText(cursor.getString(6));
-			tvAddress.setText(cursor.getString(7));
+			tvPlace.setText(cursor.getString(7));
+			tvAddress.setText(cursor.getString(8));
 
 			//Set up map
 			// TODO if route...
-			location = new LatLng(Double.parseDouble(cursor.getString(8)), Double.parseDouble(cursor.getString(9)));
+			//location = new LatLng(Double.parseDouble(cursor.getString(8)), Double.parseDouble(cursor.getString(9)));
+			//mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
+			//mapView.onCreate(bund);
+
 			mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
-			mapView.onCreate(bund);
+
+			mapView.setMultiTouchControls(true);
+			IMapController mapController = mapView.getController();
+			mapController.setZoom(15);
+			GeoPoint center = new GeoPoint(cursor.getDouble(9), cursor.getDouble(10));
+			mapController.setCenter(center);
 
 			//Close the db connection
 			cursor.close();
@@ -525,7 +528,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			dialog.setOnCancelListener(new OnCancelListener(){
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					if (map != null) {
+				/*	if (map != null) {
 						if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 							map.setMyLocationEnabled(false);
 						}
@@ -533,7 +536,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 					if (mapView != null){
     						mapView.onResume();
     						mapView.onDestroy();
-    					}
+    					}*/
 				}
 			});
 
@@ -550,14 +553,13 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			dialog.show();
 
 			//Start the map
-			startMap();
-			mapView.onResume();
+			//startMap();
+			//mapView.onResume();
 			dialog.setOnShowListener(new OnShowListener(){
 
 				@Override
 				public void onShow(DialogInterface dialog) {
-					// Gets to GoogleMap from the MapView and does initialization stuff
-					startMap();
+					//startMap();
 
 				}
 			});
@@ -569,80 +571,12 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 * Starts the map in the dialog.
 	 */
 	private void startMap(){
-		mapView.getMapAsync(this);
+		//mapView.getMapAsync(this);
 	}
 
-	/**
-	 * Called when the fragment is brought back into the foreground.
-	 * Resumes the map and the location manager.
-	 *
-	 * @see android.app.Fragment#onResume()
-	 */
-	@Override
-	public void onResume() {
-		if (mapView != null)
-			mapView.onResume();
-		if (map != null) {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-				map.setMyLocationEnabled(true);
-			}
-		}
-		super.onResume();
-	}
 
-	/**
-	 * Called when the fragment is destroyed.
-	 * Finishes the map.
-	 *
-	 * @see android.app.Fragment#onDestroy()
-	 */
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (map != null) {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-				map.setMyLocationEnabled(false);
-			}
-		}
-		if (mapView != null){
-			try{
-				mapView.onResume();
-				mapView.onDestroy();
-			}
-			catch(Exception e){
-				Log.e("Error destroying mapview: ", e.toString());
-			}
-		}
-	}
 
-	/**
-	 * Called when the fragment is paused.
-	 * Finishes the map.
-	 *
-	 * @see android.app.Fragment#onPause()
-	 */
-	@Override
-	public void onPause() {
-		super.onDestroy();
-		if (map != null) {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-				try{
-					map.setMyLocationEnabled(false);
-				}
-				catch(Exception e){
-					Log.e("Error pausing map: ", e.toString());
-				}
-			}
-		}
-		if (mapView != null){
-			try{
-				mapView.onPause();
-			}
-			catch(Exception e){
-				Log.e("Error pausing mapview: ", e.toString());
-			}
-		}
-	}
+
 
 	/**
 	 * Called in a situation of low memory.
@@ -650,46 +584,34 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	 *
 	 * @see android.app.Fragment#onLowMemory()
 	 */
-	@Override
+	/*@Override
 	public void onLowMemory() {
 		super.onLowMemory();
 		if (mapView != null){
 			mapView.onResume();
 			mapView.onLowMemory();
 		}
-	}
+	}*/
 
 	/**
-	 * Called when the map is ready to be displayed.
-	 * Sets the map options and a marker for the map.
+	 * Called when the activity is resumed.
+	 * Lets the map handle this situation.
 	 *
-	 * @param googleMap The map to be shown
-	 *
-	 * @see com.google.android.gms.maps.OnMapReadyCallback#onMapReady(com.google.android.gms.maps.GoogleMap)
+	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
-	public void onMapReady(GoogleMap googleMap) {
-		this.map = googleMap;
-
-		map.getUiSettings().setMyLocationButtonEnabled(false);
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			map.setMyLocationEnabled(true);
-		}
-		// Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-		try {
-			MapsInitializer.initialize(this.getActivity());
-			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 14);
-			map.animateCamera(cameraUpdate);
-		}
-		catch (Exception e) {
-			Log.e("Error initializing maps", e.toString());
-		}
-		//Set GM marker
-		MarkerOptions mo = new MarkerOptions();
-		mo.title(markerName);
-		mo.position(location);
-		map.addMarker(mo);
-
+	public void onResume() {
+		Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+		super.onResume();
 	}
 
+
+
+	/**
+	 * Checks app permission to access the user location.
+	 * @return true if the permission has been granted, false otherwise.
+	 */
+	private boolean checkLocationPermission(){
+		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+	}
 }

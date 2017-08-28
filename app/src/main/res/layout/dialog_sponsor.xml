@@ -35,7 +35,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/photo_placeholder_thumb"
+            android:src="@drawable/photo_placeholder_thumb"
             android:id="@+id/iv_dialog_sponsor_image"
             android:maxHeight="140dp"
             android:adjustViewBounds="true"/>

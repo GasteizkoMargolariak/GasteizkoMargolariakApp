@@ -2,8 +2,10 @@ package com.ivalentin.margolariak;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +16,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.util.Log;
 
@@ -138,7 +138,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 						TaskStackBuilder stackBuilder;
 
 						//Send the notification.
-						NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+						Notification.Builder mBuilder = new Notification.Builder(context)
 								.setSmallIcon(R.drawable.ic_notification)
 								.setContentTitle(title)
 								.setAutoCancel(true)
@@ -218,7 +218,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 		}
 
     /**
-     * Sets a repeating alarm. 
+     * Sets a repeating alarm. o
+
      * When the alarm fires, the app broadcasts an Intent to this WakefulBroadcastReceiver.
      * @param context The context of the app
      */

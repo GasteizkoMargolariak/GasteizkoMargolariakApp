@@ -160,13 +160,12 @@
                 android:layout_margin="20dp"
                 android:padding="3dp">
 
-                <com.google.android.gms.maps.MapView
+                <org.osmdroid.views.MapView
                     android:id="@+id/mv_dialog_schedule_map"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="@android:color/black"
-                    android:padding="1dp">
-                </com.google.android.gms.maps.MapView>
+                    android:padding="1dp"/>
             </LinearLayout>
         </LinearLayout>
 

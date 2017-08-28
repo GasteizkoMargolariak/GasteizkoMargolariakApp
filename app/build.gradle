@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.ivalentin.margolariak"
-        minSdkVersion 14
+        minSdkVersion 23
         targetSdkVersion 23
         multiDexEnabled true
     }
@@ -27,6 +27,6 @@ android {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    compile 'com.google.android.gms:play-services:+'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'org.osmdroid:osmdroid-android:5.6.5@aar'
 }

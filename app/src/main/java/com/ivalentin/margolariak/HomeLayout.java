@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,13 +81,13 @@ public class HomeLayout extends Fragment implements LocationListener {
 		view = inflater.inflate(R.layout.fragment_layout_home, null);
 
 		//Request location permissions if not set
-		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
+		if (!checkLocationPermission()) {
+			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
 		}
 
 		//Set Location manager
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		}
@@ -1061,7 +1060,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onPause() {
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.removeUpdates(this);
 		}
 		super.onPause();
@@ -1075,7 +1074,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 	@Override
 	public void onDestroy() {
 		try {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+			if (checkLocationPermission()) {
 				locationManager.removeUpdates(this);
 			}
 		}
@@ -1093,9 +1092,17 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onResume(){
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		}
 		super.onResume();
+	}
+
+	/**
+	 * Checks app permission to access the user location.
+	 * @return true if the permission has been granted, false otherwise.
+	 */
+	private boolean checkLocationPermission(){
+		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 	}
 }
