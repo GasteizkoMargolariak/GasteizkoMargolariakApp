@@ -589,11 +589,11 @@ public class ScheduleLayout extends Fragment{
 					tvAddress.setText(placeCursor.getString(1));
 
 					// Configure map marker
-					mapController.setZoom(15);
+					mapController.setZoom(17);
 					GeoPoint center = new GeoPoint(placeCursor.getDouble(2), placeCursor.getDouble(3));
 					mapController.setCenter(center);
 					OverlayItem locationOverlayItem = new OverlayItem(title, placeCursor.getString(0), center);
-					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint_map);
+					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint);
 					locationOverlayItem.setMarker(locationMarker);
 					final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
 					items.add(locationOverlayItem);
