@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,12 +41,18 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.PathOverlay;
+import org.osmdroid.views.overlay.Polyline;
 
 /**
  * Fragment to be inflated showing the festivals schedule.
@@ -562,23 +569,26 @@ public class ScheduleLayout extends Fragment{
 					GeoPoint center = new GeoPoint(routeCursor.getDouble(1), routeCursor.getDouble(2));
 					mapController.setCenter(center);
 
-					// TODO: Read from route_point and draw the route on the map.
-					OverlayItem locationOverlayItem = new OverlayItem(title, "", center);
-					/*Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint_map);
-					locationOverlayItem.setMarker(locationMarker);
-					final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-					items.add(locationOverlayItem);
-					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
-							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-									return true;
-								}
-								public boolean onItemLongPress(final int index, final OverlayItem item) {
-									return true;
-								}
-							}, getContext());
-					this.mapView.getOverlays().add(locationOverlay);
-					*/
+					// Read from route_point and draw the route on the map.
+					Cursor pointCursor = db.rawQuery("SELECT lat_o, lon_o, lat_d, lon_d FROM route_point WHERE route = " + routeId + " ORDER BY part;", null);
+					final ArrayList<GeoPoint> points = new ArrayList<GeoPoint>();
+					GeoPoint lastPoint = new GeoPoint(0.0, 0.0);
+					while (pointCursor.moveToNext()){
+
+						points.add(new GeoPoint(pointCursor.getDouble(0), pointCursor.getDouble(1)));
+						lastPoint = new GeoPoint(pointCursor.getDouble(2), pointCursor.getDouble(3));
+					}
+					// For the last one, also take destination
+					points.add(lastPoint);
+
+					pointCursor.close();
+
+					//Create path
+					Polyline line = new Polyline();
+					line.setPoints(points);
+					line.setColor(getResources().getColor(R.color.background_menu));
+					this.mapView.getOverlays().add(line);
+
 				}
 
 			}

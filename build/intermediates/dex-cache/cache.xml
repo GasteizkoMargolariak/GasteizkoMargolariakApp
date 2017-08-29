@@ -30,11 +30,20 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/seavenois/.android/build-cache/a1bd43f1ef67a94e0ac1315675bace24d61cfa65/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="167477d501a2b35bfac717958d20701e3c3f855f">
+        <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_751582ea688ec08a7d2d54b3405d32238eacf297/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="3d1e8de1d8c690a371b334e965399f466f180738">
+        sha1="8c6c81ed286c468f8041ef12410a060168e00e77">
         <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a321d4fbe81ae9628438e81e6dd58311e68d4265/classes.dex" />
     </item>
 
