@@ -27,7 +27,6 @@ android {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    compile project(':osmbonuspack_6.4')
     compile 'com.android.support:multidex:1.0.1'
     compile 'org.osmdroid:osmdroid-android:5.6.5@aar'
 }
