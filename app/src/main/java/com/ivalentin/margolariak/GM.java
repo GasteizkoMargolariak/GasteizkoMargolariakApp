@@ -333,7 +333,7 @@ final class GM {
 				/**
 				 * Creates the table "route_point" on the database.
 				 */
-				static final String ROUTE_POINT = "CREATE TABLE IF NOT EXISTS route_point (id INT, route INT, part INT, place_o INT, lat_o DOUBLE, lon_o DOUBLE, place_d INT, lat_d DOUBLE, lon_d DOUBLE, mins INT, visible INT);";
+				static final String ROUTE_POINT = "CREATE TABLE IF NOT EXISTS route_point (id INT, route INT, part INT, lat_o DOUBLE, lon_o DOUBLE, lat_d DOUBLE, lon_d DOUBLE, mins INT, visible INT);";
 
 				/**
 				 * Creates the table "settings" on the database.
