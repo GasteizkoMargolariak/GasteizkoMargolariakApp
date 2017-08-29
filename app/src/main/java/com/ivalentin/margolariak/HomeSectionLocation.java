@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -24,7 +22,7 @@ import java.util.Locale;
 class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 
 	private boolean isLocationReported;
-	private LatLng coord;
+	//private LatLng coord;
 	private final View view;
 
 	/**
@@ -62,7 +60,7 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 			isLocationReported = true;
 			String latString = o.substring(o.indexOf("<lat>") + 5, o.indexOf("</lat>"));
 			String lonString = o.substring(o.indexOf("<lon>") + 5, o.indexOf("</lon>"));
-			coord = new LatLng(Double.parseDouble(latString), Double.parseDouble(lonString));
+			//coord = new LatLng(Double.parseDouble(latString), Double.parseDouble(lonString));
 		}
 
 		return null;
@@ -76,18 +74,6 @@ class HomeSectionLocation extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected void onPostExecute(Void v) {
 		if (isLocationReported){
-
-			//TODO: Do this on a db table
-			/*SharedPreferences preferences = view.getContext().getSharedPreferences(GM.PREFERENCES.PREFERNCES, Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = preferences.edit();
-			editor.putLong(GM.PREF_GM_LATITUDE, Double.doubleToLongBits(coord.latitude));
-			editor.putLong(GM.PREF_GM_LONGITUDE, Double.doubleToLongBits(coord.longitude));
-			editor.putString(GM.PREF_GM_LOCATION, new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Calendar.getInstance().getTime()));
-			editor.apply();*/
-
-			//Show menu entry
-			//LinearLayout menuEntry = (LinearLayout) activity.findViewById(R.id.rl_menu_location);
-			//menuEntry.setVisibility(View.VISIBLE);
 
 			//Set up home view section
 			LinearLayout section = (LinearLayout) view.findViewById(R.id.ll_home_section_location);

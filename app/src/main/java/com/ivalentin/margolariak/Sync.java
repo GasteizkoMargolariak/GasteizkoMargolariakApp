@@ -452,7 +452,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				}
 				catch (Exception ex){
 					//End of string
-					Log.d("SYNC", "End of data string:" + ex.toString());
 					str = "";
 				}
 				publishProgress();
@@ -482,7 +481,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			if (settings.contains("\"name\":\"comments\",\"value\":\"")){
 				value = settings.substring(settings.indexOf("\"name\":\"comments\",\"value\":\"") + 27, settings.indexOf("\"name\":\"comments\",\"value\":\"") + 28);
 				if ("0".equals(value) || "1".equals(value)){
-					Log.d("SYNC", "Setting found: comments = " + value);
 					if ("0".equals(value)) {
 						editor.putBoolean(GM.DATA.KEY.COMMENTS, false);
 					}
@@ -494,7 +492,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			if (settings.contains("\"name\":\"festivals\",\"value\":\"")){
 				value = settings.substring(settings.indexOf("\"name\":\"festivals\",\"value\":\"") + 28, settings.indexOf("\"name\":\"festivals\",\"value\":\"") + 29);
 				if ("0".equals(value) || "1".equals(value)){
-					Log.d("SYNC", "Setting found: lablanca = " + value);
 					if ("0".equals(value)) {
 						editor.putBoolean(GM.DATA.KEY.LABLANCA, false);
 					}
@@ -506,7 +503,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			if (settings.contains("\"name\":\"photos\",\"value\":\"")){
 				value = settings.substring(settings.indexOf("\"name\":\"photos\",\"value\":\"") + 25, settings.indexOf("\"name\":\"photos\",\"value\":\"") + 26);
 				if ("0".equals(value) || "1".equals(value)){
-					Log.d("SYNC" ,"Setting found: photos = " + value);
 					if ("0".equals(value)) {
 						editor.putBoolean(GM.DATA.KEY.PHOTOS, false);
 					}
@@ -539,7 +535,6 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	private boolean saveTableVersion(SQLiteDatabase db, String data) {
 
-		JSONObject jsonObj;
 		String section, row, version;
 		String str = data;
 		Cursor cursor;
@@ -606,7 +601,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		}
 
 		if (GM.DB.TABLE.VERSION.equals(table)){
-			Log.d("SYNC", "Got the settings table. Special treatment...");
+			Log.d("SYNC", "Got the version table. Special treatment...");
 			return saveTableVersion(db, data);
 		}
 

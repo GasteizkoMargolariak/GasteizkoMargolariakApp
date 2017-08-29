@@ -228,7 +228,7 @@ final class GM {
 				/**
 				 * Creates the table "activity_itinerary" on the database.
 				 */
-				static final String ACTIVITY_ITINERARY = "CREATE TABLE IF NOT EXISTS activity_itinerary (id INT, activity INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, start DATETIME, end DATETIME, place INT);";
+				static final String ACTIVITY_ITINERARY = "CREATE TABLE IF NOT EXISTS activity_itinerary (id INT, activity INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, start DATETIME, end DATETIME, place INT, route INT);";
 
 				/**
 				 * Creates the table "activity_tag" on the database.
@@ -328,12 +328,12 @@ final class GM {
 				/**
 				 * Creates the table "route" on the database.
 				 */
-				static final String ROUTE = "CREATE TABLE IF NOT EXISTS route (id INT, name VARCHAR, mins INT);";
+				static final String ROUTE = "CREATE TABLE IF NOT EXISTS route (id INT, name VARCHAR, mins INT, c_lat DOUBLE, c_lon DOUBLE, zoom INT);";
 
 				/**
 				 * Creates the table "route_point" on the database.
 				 */
-				static final String ROUTE_POINT = "CREATE TABLE IF NOT EXISTS route_point (id INT, route INT, part INT, place_o INT, lat_o DOUBLE, lon_o DOUBLE, place_d INT, lat_d DOUBLE, lon_d DOUBLE, mins INT, visible INT);";
+				static final String ROUTE_POINT = "CREATE TABLE IF NOT EXISTS route_point (id INT, route INT, part INT, lat_o DOUBLE, lon_o DOUBLE, lat_d DOUBLE, lon_d DOUBLE, mins INT, visible INT);";
 
 				/**
 				 * Creates the table "settings" on the database.
@@ -919,6 +919,11 @@ final class GM {
 		 * URL of the project on GitHub.
 		 */
 		static final String GITHUB = "https://github.com/GasteizkoMargolariak/GasteizkoMargolariakApp";
+
+		/**
+		 * URL of the Open Street Maps copyright.
+		 */
+		static final String OSM_COPYRIGHT = "https://www.openstreetmap.org/copyright";
 
 		/**
 		 * URL of the server.

@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,15 +23,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.text.ParseException;
@@ -51,12 +41,12 @@ import java.util.Locale;
  * @see Fragment
  *
  */
-public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback {
+public class ActivityFutureLayout extends Fragment {
 
 	//Map stuff for the dialog
-	private MapView mapView;
-	private GoogleMap map;
-	private LatLng location;
+	//private MapView mapView;
+	//private GoogleMap map;
+	//private LatLng location;
 	private String markerName = "";
 	private final Bundle bund = null;
 	private View v;
@@ -309,9 +299,9 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
             tvAddress.setText(cursor.getString(7));
 
             //Set up map
-            location = new LatLng(Double.parseDouble(cursor.getString(8)), Double.parseDouble(cursor.getString(9)));
-            mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
-            mapView.onCreate(bund);
+            //location = new LatLng(Double.parseDouble(cursor.getString(8)), Double.parseDouble(cursor.getString(9)));
+            //mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
+            //mapView.onCreate(bund);
 
             //Close the db connection
             cursor.close();
@@ -329,7 +319,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener(){
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    if (map != null) {
+                    /*if (map != null) {
 						if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 							map.setMyLocationEnabled(false);
 						}
@@ -337,7 +327,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
                     if (mapView != null){
                         mapView.onResume();
                         mapView.onDestroy();
-                    }
+                    }*/
                 }
             });
 
@@ -355,7 +345,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 
             //Start the map
             startMap();
-            mapView.onResume();
+            //mapView.onResume();
             dialog.setOnShowListener(new DialogInterface.OnShowListener(){
 
                 @Override
@@ -373,7 +363,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	 * Starts the map in the dialog.
 	 */
 	private void startMap(){
-		mapView.getMapAsync(this);
+		//mapView.getMapAsync(this);
 	}
 
 	/**
@@ -382,7 +372,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	 *
 	 * @see android.app.Fragment#onResume()
 	 */
-	@Override
+	/*@Override
 	public void onResume() {
 		if (mapView != null)
 			mapView.onResume();
@@ -392,7 +382,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 			}
 		}
 		super.onResume();
-	}
+	}*/
 
 	/**
 	 * Called when the fragment is destroyed.
@@ -400,7 +390,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	 *
 	 * @see android.app.Fragment#onDestroy()
 	 */
-	@Override
+	/*@Override
 	public void onDestroy() {
 		super.onDestroy();
 		if (map != null) {
@@ -412,7 +402,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 			mapView.onResume();
 			mapView.onDestroy();
 		}
-	}
+	}*/
 
 	/**
 	 * Called when the fragment is paused.
@@ -420,7 +410,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	 *
 	 * @see android.app.Fragment#onPause()
 	 */
-	@Override
+	/*@Override
 	public void onPause() {
 		super.onDestroy();
 		if (map != null) {
@@ -431,7 +421,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 		if (mapView != null){
 			mapView.onPause();
 		}
-	}
+	}*/
 
 	/**
 	 * Called in a situation of low memory.
@@ -439,7 +429,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	 *
 	 * @see android.app.Fragment#onLowMemory()
 	 */
-	@Override
+	/*@Override
 	public void onLowMemory() {
 		super.onLowMemory();
 		if (mapView != null){
@@ -448,7 +438,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 			}
 			mapView.onLowMemory();
 		}
-	}
+	}*/
 
 	/**
 	 * Called when the map is ready to be displayed.
@@ -458,7 +448,7 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 	 *
 	 * @see com.google.android.gms.maps.OnMapReadyCallback#onMapReady(com.google.android.gms.maps.GoogleMap)
 	 */
-	@Override
+	/*@Override
 	public void onMapReady(GoogleMap googleMap) {
 		this.map = googleMap;
 
@@ -480,5 +470,5 @@ public class ActivityFutureLayout extends Fragment implements OnMapReadyCallback
 		mo.position(location);
 		map.addMarker(mo);
 
-	}
+	}*/
 }

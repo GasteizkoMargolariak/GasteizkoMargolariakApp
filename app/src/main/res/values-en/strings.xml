@@ -28,7 +28,7 @@
 	<string name="schedule_filter">Search&#8230;</string>
 	<string name="schedule_close">Close</string>
 	<string name="schedule_host">Host: %1$s</string>
-
+        <string name="schedule_osm">® OpenStreetMap contributors</string>
 
 
 	<!-- Day strings -->
@@ -229,5 +229,6 @@
 	<string name="share_with_title">%s - Gasteizko Margolariak</string>
 
 	<string name="accept">Accept</string>
+	<string name="schedule_sponsor">Sponsor: %1$s</string>
 
 </resources>
