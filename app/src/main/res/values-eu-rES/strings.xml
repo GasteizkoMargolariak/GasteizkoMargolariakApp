@@ -35,6 +35,7 @@
 	<string name="schedule_filter">Bilatu…</string>
 	<string name="schedule_close">Itzali</string>
 	<string name="schedule_host">Antolatu: %1$s</string>
+        <string name="schedule_osm">® Colaboradores OpenStreetMap</string>
 
 
 	<!-- Day strings -->
@@ -234,5 +235,6 @@
 	<string name="share_with_title">%s - Gasteizko Margolariak</string>
 
 	<string name="accept">Aceptar</string>
+    <string name="schedule_sponsor">Patrocina %1$s</string>
 
 </resources>

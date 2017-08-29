@@ -328,7 +328,7 @@ final class GM {
 				/**
 				 * Creates the table "route" on the database.
 				 */
-				static final String ROUTE = "CREATE TABLE IF NOT EXISTS route (id INT, name VARCHAR, mins INT);";
+				static final String ROUTE = "CREATE TABLE IF NOT EXISTS route (id INT, name VARCHAR, mins INT, c_lat DOUBLE, c_lon DOUBLE, zoom INT);";
 
 				/**
 				 * Creates the table "route_point" on the database.
@@ -919,6 +919,11 @@ final class GM {
 		 * URL of the project on GitHub.
 		 */
 		static final String GITHUB = "https://github.com/GasteizkoMargolariak/GasteizkoMargolariakApp";
+
+		/**
+		 * URL of the Open Street Maps copyright.
+		 */
+		static final String OSM_COPYRIGHT = "https://www.openstreetmap.org/copyright";
 
 		/**
 		 * URL of the server.

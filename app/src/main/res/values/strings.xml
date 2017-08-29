@@ -39,6 +39,8 @@
 	<string name="schedule_filter">Buscar&#8230;</string>
 	<string name="schedule_close">Cerrar</string>
 	<string name="schedule_host">Organiza %1$s</string>
+	<string name="schedule_sponsor">Patrocina %1$s</string>
+	<string name="schedule_osm">® Colaboradores OpenStreetMap</string>
 
 
 	<!-- Day strings -->

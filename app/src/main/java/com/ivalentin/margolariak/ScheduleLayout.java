@@ -13,10 +13,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.preference.PreferenceManager;
@@ -395,70 +397,114 @@ public class ScheduleLayout extends Fragment{
 		TextView tvTitle = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_title);
 		TextView tvDescription = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_description);
 		TextView tvHost = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_host);
+		TextView tvSponsor = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_sponsor);
 		TextView tvDate = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_date);
 		TextView tvTime = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_time);
+		LinearLayout llPlace = (LinearLayout) dialog.findViewById(R.id.ll_dialog_schedule_place);
 		TextView tvPlace = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_place);
 		TextView tvAddress = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_address);
 		Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
+		TextView tvOsm = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_osm);
 
 		//Get info about the event
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		String lang = GM.getLang();
 		Cursor cursor;
 		if (schedule == GM.SCHEDULE.MARGOLARIAK){
-			cursor = db.rawQuery("SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM festival_event_gm, place WHERE place = place.id AND festival_event_gm.id = " + id + ";", null);
+			//cursor = db.rawQuery("SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM festival_event_gm, place WHERE place = place.id AND festival_event_gm.id = " + id + ";", null);
+			cursor = db.rawQuery("SELECT id, title_" + lang + ", description_" + lang + ", place, route, start, end, host, sponsor FROM festival_event_gm WHERE id = " + id + ";", null);
 		}
 		else{
-			cursor = db.rawQuery("SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM, sponsor festival_event_city, place WHERE place = place.id AND festival_event_city.id = " + id + ";", null);
+			//cursor = db.rawQuery("SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM, sponsor festival_event_city, place WHERE place = place.id AND festival_event_city.id = " + id + ";", null);
+			cursor = db.rawQuery("SELECT id, title_" + lang + ", description_" + lang + ", place, route, start, end, host, sponsor FROM festival_event_city WHERE id = " + id + ";", null);
 		}
 		if (cursor.getCount() > 0){
 			cursor.moveToNext();
 
+			String title = cursor.getString(1);
+			String description = "";
+			if (!cursor.isNull(2)){
+				description = cursor.getString(2);
+			}
+			String strStart = cursor.getString(5);
+			String strEnd = "";
+			if (!cursor.isNull(6)){
+				strEnd = cursor.getString(6);
+			}
+			int placeId = 0;
+			if (!cursor.isNull(3)){
+				placeId = cursor.getInt(3);
+			}
+			int routeId = 0;
+			if (!cursor.isNull(4)){
+				routeId = cursor.getInt(4);
+			}
+			int hostId = 0;
+			if (!cursor.isNull(7)){
+				hostId = cursor.getInt(7);
+			}
+			int sponsorId = 0;
+			if (!cursor.isNull(8)){
+				sponsorId = cursor.getInt(8);
+			}
+
 			//Set title
-			tvTitle.setText(cursor.getString(1));
-			markerName = cursor.getString(1);
+			tvTitle.setText(title);
 
 			//Set description
-			if (cursor.getString(2) != null && cursor.getString(2).length() > 0) {
-				tvDescription.setText(cursor.getString(2));
+			if (description.length() > 0) {
+				tvDescription.setText(description);
 			}
 			else{
 				tvDescription.setVisibility(View.GONE);
 			}
 
 			//Set host
-			if (cursor.getString(10) != null){
-				Cursor hostCursor = db.rawQuery("SELECT name_" + lang + " FROM people WHERE id = " + cursor.getString(10) + ";", null);
+			if (hostId != 0){
+				Cursor hostCursor = db.rawQuery("SELECT name_" + lang + " FROM people WHERE id = " + hostId + ";", null);
 				if (hostCursor.moveToNext()){
 					tvHost.setVisibility(View.VISIBLE);
 					tvHost.setText(String.format(getString(R.string.schedule_host), hostCursor.getString(0)));
 				}
 				hostCursor.close();
-				// TODO. Add sponsor.
 			}
 			else{
 				tvHost.setVisibility(View.GONE);
 			}
 
+			//Set sponsor
+			if (sponsorId != 0){
+				Cursor sponsorCursor = db.rawQuery("SELECT name_" + lang + " FROM people WHERE id = " + sponsorId + ";", null);
+				if (sponsorCursor.moveToNext()){
+					tvSponsor.setVisibility(View.VISIBLE);
+					tvSponsor.setText(String.format(getString(R.string.schedule_sponsor), sponsorCursor.getString(0)));
+				}
+				sponsorCursor.close();
+			}
+			else{
+					tvSponsor.setVisibility(View.GONE);
+			}
+
+
 			//Set date
 			try{
-				Date day = dateFormat.parse(cursor.getString(4));
+				Date day = dateFormat.parse(strStart);
 				Date date = new Date();
 				//If the event is today, show "Today" instead of the date
 				if (dayFormat.format(day).equals(dayFormat.format(date)))
 					tvDate.setText(dialog.getContext().getString(R.string.today));
 				else{
 					Calendar cal = Calendar.getInstance();
-				    cal.setTime(date);
-				    cal.add(Calendar.HOUR_OF_DAY, 24);
+					cal.setTime(date);
+					cal.add(Calendar.HOUR_OF_DAY, 24);
 
-				    //If the event is tomorrow, show "Tomorrow" instead of the date
-				    if (dayFormat.format(cal.getTime()).equals(dayFormat.format(date))){
-				    	tvDate.setText(dialog.getContext().getString(R.string.tomorrow));
-				    }
+					//If the event is tomorrow, show "Tomorrow" instead of the date
+					if (dayFormat.format(cal.getTime()).equals(dayFormat.format(date))){
+						tvDate.setText(dialog.getContext().getString(R.string.tomorrow));
+					}
 
-				    //Else, show the date
-				    else{
+					//Else, show the date
+					else{
 						SimpleDateFormat printFormat;
 						switch (lang){
 							case "en":
@@ -486,11 +532,11 @@ public class ScheduleLayout extends Fragment{
 
 			//Set time
 			try{
-				if (cursor.getString(6) == null || cursor.getString(6).length() == 0) {
-					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(5))));
+				if (strEnd.length() == 0) {
+					tvTime.setText(timeFormat.format(dateFormat.parse(strStart)));
 				}
 				else {
-					String time = timeFormat.format(dateFormat.parse(cursor.getString(5))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(6)));
+					String time = timeFormat.format(dateFormat.parse(strStart)) + " - " + timeFormat.format(dateFormat.parse(strEnd));
 					tvTime.setText(time);
 				}
 			}
@@ -498,38 +544,83 @@ public class ScheduleLayout extends Fragment{
 				Log.e("Error parsing time", ex.toString());
 			}
 
-			//Set the place
-			tvPlace.setText(cursor.getString(7));
-			tvAddress.setText(cursor.getString(8));
-
 			//Set up map
-			// TODO if route...
 
 			mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
-
 			mapView.setMultiTouchControls(true);
 			IMapController mapController = mapView.getController();
-			mapController.setZoom(15);
-			GeoPoint center = new GeoPoint(cursor.getDouble(9), cursor.getDouble(10));
-			mapController.setCenter(center);
 
-			OverlayItem locationOverlayItem = new OverlayItem(cursor.getString(1), cursor.getString(7), center);
-			Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint_map);
-			locationOverlayItem.setMarker(locationMarker);
 
-			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-			items.add(locationOverlayItem);
+			//Set the place
+			if (routeId != 0){
+				llPlace.setVisibility(View.GONE);
+				Cursor routeCursor = db.rawQuery("SELECT id, c_lat, c_lon, zoom FROM route WHERE id = " + routeId + ";", null);
+				if (routeCursor.moveToNext()) {
 
-			ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
-			  new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-			    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-			    	return true;
-			    }
-			    public boolean onItemLongPress(final int index, final OverlayItem item) {
-			    	return true;
-			    }
-			  }, getContext());
-			this.mapView.getOverlays().add(locationOverlay);
+					// Configure map route
+					mapController.setZoom(routeCursor.getInt(3));
+					GeoPoint center = new GeoPoint(routeCursor.getDouble(1), routeCursor.getDouble(2));
+					mapController.setCenter(center);
+
+					// TODO: Read from route_point and draw the route on the map.
+					OverlayItem locationOverlayItem = new OverlayItem(title, "", center);
+					/*Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint_map);
+					locationOverlayItem.setMarker(locationMarker);
+					final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+					items.add(locationOverlayItem);
+					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+									return true;
+								}
+								public boolean onItemLongPress(final int index, final OverlayItem item) {
+									return true;
+								}
+							}, getContext());
+					this.mapView.getOverlays().add(locationOverlay);
+					*/
+				}
+
+			}
+			else{
+				Cursor placeCursor = db.rawQuery("SELECT name_" + lang + ", address_" + lang + ", lat, lon FROM place WHERE id = " + placeId + ";", null);
+				if (placeCursor.moveToNext()){
+					tvPlace.setText(placeCursor.getString(0));
+					tvAddress.setText(placeCursor.getString(1));
+
+					// Configure map marker
+					mapController.setZoom(15);
+					GeoPoint center = new GeoPoint(placeCursor.getDouble(2), placeCursor.getDouble(3));
+					mapController.setCenter(center);
+					OverlayItem locationOverlayItem = new OverlayItem(title, placeCursor.getString(0), center);
+					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint_map);
+					locationOverlayItem.setMarker(locationMarker);
+					final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+					items.add(locationOverlayItem);
+					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+									return true;
+								}
+								public boolean onItemLongPress(final int index, final OverlayItem item) {
+									return true;
+								}
+							}, getContext());
+					this.mapView.getOverlays().add(locationOverlay);
+				}
+				placeCursor.close();
+			}
+
+			//Set up OpenStreetMap attribution
+			tvOsm.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData(Uri.parse(GM.URL.OSM_COPYRIGHT));
+					startActivity(i);
+				}
+			});
+
 
 			//Close the db connection
 			cursor.close();
