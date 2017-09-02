@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import android.graphics.drawable.Drawable;
 
 import org.osmdroid.api.IMapController;
-import org.osmdroid.config.Configuration;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -42,8 +40,6 @@ public class LocationLayout extends Fragment implements LocationListener {
 
 	//The map view stuff
 	private MapView mapView;
-	private IMapController mapController;
-	private OverlayItem locationOverlayItem;
 	private Drawable locationMarker;
 
 	// The location manager
@@ -65,11 +61,11 @@ public class LocationLayout extends Fragment implements LocationListener {
 				if (refreshLocation()) {
 					
 					//mapController.setCenter(self.gmLocation);
-					locationOverlayItem = new OverlayItem("Gasteizko Margolariak", "", gmLocation);
+					OverlayItem locationOverlayItem = new OverlayItem("Gasteizko Margolariak", "", gmLocation);
 					locationOverlayItem.setMarker(locationMarker);
-					final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+					final ArrayList<OverlayItem> items = new ArrayList<>();
 					items.add(locationOverlayItem);
-					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<>(items,
 							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 									return true;
@@ -104,6 +100,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 		//Set up
 		locationManager = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
 		if (checkLocationPermission()){
+			locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 		}
 
@@ -119,13 +116,15 @@ public class LocationLayout extends Fragment implements LocationListener {
 		// Set up the map
 		this.mapView = (MapView) v.findViewById(R.id.mapview);
 		this.mapView.setMultiTouchControls(true);
-		this.mapController = mapView.getController();
-		this.mapController.setZoom(17);
-		this.locationMarker = this.getResources().getDrawable(R.drawable.pinpoint);
+		IMapController mapController = mapView.getController();
+		mapController.setZoom(17);
+		mapController.setCenter(gmLocation);
+		this.locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
 
 		//Return the view
 		return v;
 	}
+
 
 	/**
 	 * Called when the fragment is bought back to the foreground. 
@@ -141,6 +140,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 		super.onResume();
 		markerHandler.post(resetMarker);
 	}
+
 
 	/**
 	 * Called when the fragment is paused.
@@ -194,13 +194,13 @@ public class LocationLayout extends Fragment implements LocationListener {
 		}
 		else {
 			cursor.moveToFirst();
-			gmLocation = new GeoPoint(cursor.getDouble(0), cursor.getDouble(2));
+			gmLocation = new GeoPoint(cursor.getDouble(0), cursor.getDouble(1));
 			cursor.close();
 			db.close();
 			return true;
 		}
-
 	}
+
 
 	/**
 	 * Recalculates the distance between the user and Gasteizko Margolariak.
@@ -210,7 +210,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 *
 	 * @see android.location.LocationListener#onLocationChanged(android.location.Location)
 	 */
-	private void calCulateDistance(Location userLocation){
+	private void calculateDistance(Location userLocation){
 		TextView text = (TextView) v.findViewById(R.id.tv_location_distance);
 		if (userLocation != null){
 			try {
@@ -223,12 +223,12 @@ public class LocationLayout extends Fragment implements LocationListener {
 				}
 			}
 			catch(Exception ex){
-				Log.e("Distance error", ex.toString());
+				Log.e("LOCATION_LAYOUT", "Distance error: " + ex.toString());
 				text.setText("");
 			}
-			text.setText("");
 		}
 	}
+
 
 	/**
 	 * Called when the user location changes.
@@ -241,7 +241,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		calCulateDistance(location);
+		calculateDistance(location);
 	}
 
 
@@ -255,9 +255,10 @@ public class LocationLayout extends Fragment implements LocationListener {
 		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 	}
 
+
 	/**
 	 * Called when the location provider changes it's state.
-   * Does nothing.
+	 * Does nothing.
 	 *
 	 * @param provider The name of the provider
 	 * @param status Status code of the provider
@@ -265,12 +266,12 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 *
 	 * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
 	 */
-  @Override
-  public void onStatusChanged(String provider, int status, Bundle extras) {
-  }
+	@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
 
 
-  /**
+	/**
 	 * Called when a location provider is enabled.
 	 * Does nothing.
 	 *
@@ -278,11 +279,12 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 *
 	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
 	 */
-  @Override
-  public void onProviderEnabled(String provider) {
-  }
+	@Override
+		public void onProviderEnabled(String provider) {
+	}
 
-  /**
+
+	/**
 	 * Called when a location provider is disabled.
 	 * Does nothing.
 	 *
@@ -290,7 +292,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 *
 	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
 	 */
-  @Override
-  public void onProviderDisabled(String provider) {
-  }
+	@Override
+	public void onProviderDisabled(String provider) {
+	}
 }
