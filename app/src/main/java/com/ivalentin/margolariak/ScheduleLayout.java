@@ -63,12 +63,8 @@ public class ScheduleLayout extends Fragment{
 	private final String dates[] = new String[40];
 	private int dateCount = 0;
 	private int selected = 0;
-
-	//Map stuff for the dialog
-	private MapView mapView;
-	private int route;
+	
 	private View view;
-	private String markerName = "";
 
 	/**
 	 * Run when the fragment is inflated.
@@ -87,17 +83,12 @@ public class ScheduleLayout extends Fragment{
 		Calendar calendar = Calendar.getInstance();
 		String year = Integer.toString(calendar.get(Calendar.YEAR));
 
-
-		//Set bundle for the map
-		bund = savedInstanceState;
-
 		//Load the layout
 		view = inflater.inflate(R.layout.fragment_layout_schedule, null);
 		view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 			@Override
 			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 				CustomScrollView sv = (CustomScrollView) v.findViewById(R.id.sv_schedule);
-				Log.d("SV", "INVALIDATED");
 				sv.invalidate();
 			}
 		});
@@ -407,6 +398,11 @@ public class ScheduleLayout extends Fragment{
 		TextView tvAddress = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_address);
 		Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
 		TextView tvOsm = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_osm);
+		MapView mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
+		
+		// Basic map configuration
+		mapView.setMultiTouchControls(true);
+		IMapController mapController = mapView.getController();
 
 		//Get info about the event
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
@@ -546,11 +542,7 @@ public class ScheduleLayout extends Fragment{
 				Log.e("Error parsing time", ex.toString());
 			}
 
-			//Set up map
 
-			mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
-			mapView.setMultiTouchControls(true);
-			IMapController mapController = mapView.getController();
 
 
 			//Set the place
@@ -582,7 +574,7 @@ public class ScheduleLayout extends Fragment{
 					Polyline line = new Polyline();
 					line.setPoints(points);
 					line.setColor(getResources().getColor(R.color.background_menu));
-					this.mapView.getOverlays().add(line);
+					mapView.getOverlays().add(line);
 
 				}
 
@@ -611,7 +603,7 @@ public class ScheduleLayout extends Fragment{
 									return true;
 								}
 							}, getContext());
-					this.mapView.getOverlays().add(locationOverlay);
+					mapView.getOverlays().add(locationOverlay);
 				}
 				placeCursor.close();
 			}
