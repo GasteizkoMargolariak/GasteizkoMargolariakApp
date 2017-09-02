@@ -54,12 +54,19 @@
 				android:text="@string/home_section_location_text_calculating"
 				android:textAppearance="?android:attr/textAppearanceSmall"/>
 
-			<com.google.android.gms.maps.MapView
-				android:id="@+id/mapview"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_margin="7dp"
-				android:minHeight="150dp"/>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_weight=".95"
+				android:background="@drawable/map"
+				android:padding="3dp">
+
+				<org.osmdroid.views.MapView
+					android:id="@+id/mapview"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"/>
+
+			</LinearLayout>
 		</LinearLayout>
 
 	</LinearLayout>

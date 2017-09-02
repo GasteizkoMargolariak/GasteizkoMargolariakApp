@@ -1,13 +1,13 @@
 package com.ivalentin.margolariak;
 
 import java.util.Locale;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,11 +19,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.graphics.drawable.Drawable;
+
+import org.osmdroid.api.IMapController;
+
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 
 /**
  * Section that shows a map with the location of Gasteizko Margolariak.
- * If no recent report location, it will explain that and will show the
- * next scheduled activity.
  *
  * @author Iñigo Valentin
  *
@@ -32,42 +38,45 @@ import android.widget.TextView;
  */
 public class LocationLayout extends Fragment implements LocationListener {
 
-	//The map view
-	//private MapView mapView;
-	//GoogleMap gMap;
+	//The map view stuff
+	private MapView mapView;
+	private Drawable locationMarker;
 
+	// The location manager
 	private LocationManager locationManager;
 
 	//Locations for the user and Gasteizko Margolariak
-	//private LatLng gmLocation;
+	private GeoPoint gmLocation;
 
 	//The main View
 	private View v;
 
-	private double lat, lon;
-
-	//Map marker
-	//Marker gmMarker;
-	//MarkerOptions moGm = new MarkerOptions();
-
+	// Handler to refresh the location.
 	private final Handler markerHandler = new Handler();
-
 	private final Runnable resetMarker = new Runnable() {
 		@Override
 		public void run() {
 
-			/*if (gmMarker != null) {
-				gmMarker.remove();
+			if (mapView != null) {
 				if (refreshLocation()) {
-					gmMarker.setPosition(new LatLng(lat, lon));
-					gmLocation = new LatLng(lat, lon);
-					//moGm = new MarkerOptions();
-					moGm.title(v.getContext().getString(R.string.app_name));
-					moGm.position(gmLocation);
-					moGm.icon(BitmapDescriptorFactory.fromResource(R.drawable.pinpoint_gm));
-					gmMarker = gMap.addMarker(moGm);
+					
+					//mapController.setCenter(self.gmLocation);
+					OverlayItem locationOverlayItem = new OverlayItem("Gasteizko Margolariak", "", gmLocation);
+					locationOverlayItem.setMarker(locationMarker);
+					final ArrayList<OverlayItem> items = new ArrayList<>();
+					items.add(locationOverlayItem);
+					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<>(items,
+							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+									return true;
+								}
+								public boolean onItemLongPress(final int index, final OverlayItem item) {
+									return true;
+								}
+							}, getContext());
+					mapView.getOverlays().add(locationOverlay);
 				}
-			}*/
+			}
 			markerHandler.postDelayed(resetMarker, GM.LOCATION.INTERVAL);
 		}
 	};
@@ -91,6 +100,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 		//Set up
 		locationManager = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
 		if (checkLocationPermission()){
+			locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 		}
 
@@ -101,17 +111,20 @@ public class LocationLayout extends Fragment implements LocationListener {
 		refreshLocation();
 
 		//Periodically check map
-		//markerHandler.post(resetMarker);
+		markerHandler.post(resetMarker);
 
-		//mapView = (MapView) v.findViewById(R.id.mapview);
-		//mapView.onCreate(savedInstanceState);
-
-		// Gets to GoogleMap from the MapView and does initialization stuff
-		//mapView.getMapAsync(this);
+		// Set up the map
+		this.mapView = (MapView) v.findViewById(R.id.mapview);
+		this.mapView.setMultiTouchControls(true);
+		IMapController mapController = mapView.getController();
+		mapController.setZoom(17);
+		mapController.setCenter(gmLocation);
+		this.locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
 
 		//Return the view
 		return v;
 	}
+
 
 	/**
 	 * Called when the fragment is bought back to the foreground. 
@@ -119,72 +132,51 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 *
 	 * @see android.app.Fragment#onResume()
 	 */
-	/*@Override
+	@Override
 	public void onResume() {
-		if (mapView != null) {
-			mapView.onResume();
-		}
-		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
+		if (checkLocationPermission()){
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 		}
 		super.onResume();
-
 		markerHandler.post(resetMarker);
-	}*/
+	}
+
 
 	/**
 	 * Called when the fragment is paused.
 	 * Stops the location manager
 	 * @see android.app.Fragment#onPause()
 	 */
-	/*@Override
+	@Override
 	public void onPause(){
-		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.removeUpdates(this);
 		}
 		super.onPause();
 
 		markerHandler.removeCallbacks(resetMarker);
-	}*/
+	}
+
 
 	/**
 	 * Called when the fragment is destroyed. 
 	 * Ensures that the map is destroyed then.
 	 * 
-	 * @see android.support.v4.app.Fragment#onDestroy()
+	 * @see Fragment#onDestroy()
 	 */
-	/*@Override
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.removeUpdates(this);
 		}
 
-		if (mapView != null){
-			mapView.onResume();
-			mapView.onDestroy();
-		}
-
 		markerHandler.removeCallbacks(resetMarker);
-	}*/
+	}
+
 
 	/**
-	 * Called in a situation of low memory. 
-	 * It let's the mapView handle the situation.
-	 * 
-	 * @see android.support.v4.app.Fragment#onLowMemory()
-	 */
-	/*@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		if (mapView != null){
-			mapView.onResume();
-			mapView.onLowMemory();
-		}
-	}*/
-
-	/**
-	 * Refresh the global variables "lat" and "lon".
+	 * Refresh the location of Gasteizko Margolariak, by updating the class attribute gmLocation.
 	 *
 	 * Uses the most recent data in the database, if they are not older than 10 minutes.
 	 *
@@ -202,74 +194,41 @@ public class LocationLayout extends Fragment implements LocationListener {
 		}
 		else {
 			cursor.moveToFirst();
-			lat = cursor.getDouble(0);
-			lon = cursor.getDouble(1);
+			gmLocation = new GeoPoint(cursor.getDouble(0), cursor.getDouble(1));
 			cursor.close();
 			db.close();
 			return true;
 		}
-
 	}
+
 
 	/**
-	 * Called when the map is ready to be used. 
-	 * Initializes it and sets the Gasteizko Margolariak marker.
-	 * 
+	 * Recalculates the distance between the user and Gasteizko Margolariak.
+	 * Prints the distance to a TextView.
 	 *
+	 * @param userLocation The new user location.
+	 *
+	 * @see android.location.LocationListener#onLocationChanged(android.location.Location)
 	 */
-	/*@Override
-	public void onMapReady(GoogleMap googleMap) {
-
-		gMap = googleMap;
-
-		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			googleMap.setMyLocationEnabled(true);
-		}
-		
-		googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-		// Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-		try {
-			MapsInitializer.initialize(this.getActivity());
-		} catch (Exception e) {
-			Log.e("Error initializing maps", e.toString());
-		}
-
-		//If there is a location, set it
-		if (refreshLocation()) {
-
-			//Set the marker
-			gmLocation = new LatLng(lat, lon);
-			moGm.title(v.getContext().getString(R.string.app_name));
-			moGm.position(gmLocation);
-			moGm.icon(BitmapDescriptorFactory.fromResource(R.drawable.pinpoint_gm));
-			gmMarker = googleMap.addMarker(moGm);
-			googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 14.0f));
-		}
-
-		//Start device location requests
-		if (!(ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
-			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
-		}
-	}*/
-
-
-	private void calCulateDistance(Location userLocation){
+	private void calculateDistance(Location userLocation){
 		TextView text = (TextView) v.findViewById(R.id.tv_location_distance);
-		try {
-			Double distance = Distance.calculateDistance(userLocation.getLatitude(), userLocation.getLongitude(), lat, lon);
-			if (distance <= 2) {
-				distance = 1000 * distance;
-				text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
-			} else {
-				text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
+		if (userLocation != null){
+			try {
+				Double distance = Distance.calculateDistance(userLocation.getLatitude(), userLocation.getLongitude(), gmLocation.getLatitude(), gmLocation.getLongitude());
+				if (distance <= 2) {
+					distance = 1000 * distance;
+					text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
+				} else {
+					text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
+				}
+			}
+			catch(Exception ex){
+				Log.e("LOCATION_LAYOUT", "Distance error: " + ex.toString());
+				text.setText("");
 			}
 		}
-		catch(Exception ex){
-			Log.e("Distance error", ex.toString());
-			text.setText("");
-		}
 	}
+
 
 	/**
 	 * Called when the user location changes.
@@ -282,49 +241,9 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		calCulateDistance(location);
+		calculateDistance(location);
 	}
 
-	/**
-	 * Called when the location provider changes it's state.
-	 *
-	 * @param provider The name of the provider
-	 * @param status Status code of the provider
-	 * @param extras Extras passed
-	 *
-	 * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
-	 */
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		//populateAround();
-	}
-
-
-	/**
-	 * Called when a location provider is enabled.
-	 * Recalculates the list of events.
-	 *
-	 * @param provider The name of the provider
-	 *
-	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderEnabled(String provider) {
-		//populateAround();
-	}
-
-	/**
-	 * Called when a location provider is disabled.
-	 * Recalculates the list of events.
-	 *
-	 * @param provider The name of the provider
-	 *
-	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderDisabled(String provider) {
-		//populateAround();
-	}
 
 	/**
 	 * Checks app permission to access the user location.
@@ -333,5 +252,47 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 * @see android.app.Fragment#onResume()
 	 */
 	private boolean checkLocationPermission(){
-		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;	}
+		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+	}
+
+
+	/**
+	 * Called when the location provider changes it's state.
+	 * Does nothing.
+	 *
+	 * @param provider The name of the provider
+	 * @param status Status code of the provider
+	 * @param extras Extras passed
+	 *
+	 * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+	 */
+	@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
+
+
+	/**
+	 * Called when a location provider is enabled.
+	 * Does nothing.
+	 *
+	 * @param provider The name of the provider
+	 *
+	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+	 */
+	@Override
+		public void onProviderEnabled(String provider) {
+	}
+
+
+	/**
+	 * Called when a location provider is disabled.
+	 * Does nothing.
+	 *
+	 * @param provider The name of the provider
+	 *
+	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+	 */
+	@Override
+	public void onProviderDisabled(String provider) {
+	}
 }
