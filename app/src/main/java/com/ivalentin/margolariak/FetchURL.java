@@ -17,24 +17,26 @@ class FetchURL {
 	//List of strings that will contain the output, line by line
 	private List<String> output;
 	private String url;
-  
+
+
 	/**
 	 * Constructor.
 	 */
-	public FetchURL(){
+	FetchURL(){
 		output = new ArrayList<>();
 	}
-  
+
+
 	/**
 	 * Returns the content of the fetched page.
 	 * 
 	 * @return A List of strings containing the lines of the web page.
 	 */
-	public List<String> getOutput(){
+	List<String> getOutput(){
 		return output;
 	}
-  
-		
+
+
 	/**
 	 * Actually fetches the web page.
 	 * 

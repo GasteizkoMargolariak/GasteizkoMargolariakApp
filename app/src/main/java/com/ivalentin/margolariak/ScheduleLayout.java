@@ -8,16 +8,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,8 +54,6 @@ import org.osmdroid.views.overlay.Polyline;
  */
 public class ScheduleLayout extends Fragment{
 
-	private Bundle bund;
-
 	private final String dates[] = new String[40];
 	private int dateCount = 0;
 	private int selected = 0;
@@ -76,7 +70,6 @@ public class ScheduleLayout extends Fragment{
 	 *
 	 * @see Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -84,7 +77,7 @@ public class ScheduleLayout extends Fragment{
 		String year = Integer.toString(calendar.get(Calendar.YEAR));
 
 		//Load the layout
-		view = inflater.inflate(R.layout.fragment_layout_schedule, null);
+		view = inflater.inflate(R.layout.fragment_layout_schedule, container, false);
 		view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 			@Override
 			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -184,7 +177,6 @@ public class ScheduleLayout extends Fragment{
 	 *
 	 * @param schedule GM.SCHEDULE.GM or GM.SCHEDULE.CITY
 	 */
-	@SuppressLint({"InflateParams", "SwitchIntDef"})
 	//Views are added from a loop: I can't specify the parent when inflating.
 	private int populateSchedule(final int schedule) {
 
@@ -240,13 +232,14 @@ public class ScheduleLayout extends Fragment{
 
 
 		tvDayNumber.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-		switch (calendar.get(Calendar.MONTH)) {
-			case 6:
-				tvDayMonth.setText(getString(R.string.schedule_month_july));
-				break;
-			case 7:
-				tvDayMonth.setText(getString(R.string.schedule_month_august));
-				break;
+		int i = calendar.get(Calendar.MONTH);
+		if (i == Calendar.JULY) {
+			tvDayMonth.setText(getString(R.string.schedule_month_july));
+
+		}
+		else if (i == Calendar.AUGUST) {
+			tvDayMonth.setText(getString(R.string.schedule_month_august));
+
 		}
 		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
 			Cursor cursorDay = db.rawQuery("SELECT name_" + lang + " FROM festival_day WHERE date(date) = '" + dates[selected] + "';", null);
@@ -272,7 +265,7 @@ public class ScheduleLayout extends Fragment{
 		c.add(Calendar.DATE, 1);  // number of days to add
 		String endDate = sdf.format(c.getTime());
 
-		String query = "";;
+		String query;
 
 		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
 			query = "SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_gm, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59'";
@@ -293,7 +286,7 @@ public class ScheduleLayout extends Fragment{
 		while (cursor.moveToNext()) {
 			eventCount++;
 
-			entry = (LinearLayout) factory.inflate(R.layout.row_schedule, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_schedule, list, false);
 
 			//Set id
 			tvRowId = (TextView) entry.findViewById(R.id.tv_row_schedule_id);
@@ -558,7 +551,7 @@ public class ScheduleLayout extends Fragment{
 
 					// Read from route_point and draw the route on the map.
 					Cursor pointCursor = db.rawQuery("SELECT lat_o, lon_o, lat_d, lon_d FROM route_point WHERE route = " + routeId + " ORDER BY part;", null);
-					final ArrayList<GeoPoint> points = new ArrayList<GeoPoint>();
+					final ArrayList<GeoPoint> points = new ArrayList<>();
 					GeoPoint lastPoint = new GeoPoint(0.0, 0.0);
 					while (pointCursor.moveToNext()){
 
@@ -573,10 +566,11 @@ public class ScheduleLayout extends Fragment{
 					//Create path
 					Polyline line = new Polyline();
 					line.setPoints(points);
-					line.setColor(getResources().getColor(R.color.background_menu));
+					line.setColor(getResources().getColor(R.color.background_menu, null));
 					mapView.getOverlays().add(line);
 
 				}
+				routeCursor.close();
 
 			}
 			else{
@@ -590,11 +584,11 @@ public class ScheduleLayout extends Fragment{
 					GeoPoint center = new GeoPoint(placeCursor.getDouble(2), placeCursor.getDouble(3));
 					mapController.setCenter(center);
 					OverlayItem locationOverlayItem = new OverlayItem(title, placeCursor.getString(0), center);
-					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint);
+					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
 					locationOverlayItem.setMarker(locationMarker);
-					final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+					final ArrayList<OverlayItem> items = new ArrayList<>();
 					items.add(locationOverlayItem);
-					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<>(items,
 							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 									return true;
@@ -666,12 +660,4 @@ public class ScheduleLayout extends Fragment{
 		super.onResume();
 	}
 
-
-	/**
-	 * Checks app permission to access the user location.
-	 * @return true if the permission has been granted, false otherwise.
-	 */
-	private boolean checkLocationPermission(){
-		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-	}
 }

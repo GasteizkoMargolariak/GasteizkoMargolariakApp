@@ -1,13 +1,10 @@
 package com.ivalentin.margolariak;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**
  * Fragment openen for La Blanca sections while the festivals are not close.
@@ -26,14 +23,13 @@ public class LablancaNoFestivalsLayout extends Fragment {
 	 * @param container          The container View
 	 * @param savedInstanceState Bundle containing the state
 	 * @return The fragment view
-	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 * @see Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	@SuppressLint("InflateParams")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout
-		View view = inflater.inflate(R.layout.fragment_layout_lablanca_nofestivals, null);
+		View view = inflater.inflate(R.layout.fragment_layout_lablanca_nofestivals, container, false);
 
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca));

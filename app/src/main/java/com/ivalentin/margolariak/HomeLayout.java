@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -48,7 +47,6 @@ import android.widget.Toast;
  * @see Fragment
  *
  */
-@SuppressWarnings("UnusedReturnValue")
 public class HomeLayout extends Fragment implements LocationListener {
 
 	//The location manager
@@ -73,12 +71,11 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
 	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout.
-		view = inflater.inflate(R.layout.fragment_layout_home, null);
+		view = inflater.inflate(R.layout.fragment_layout_home, container, false);
 
 		//Request location permissions if not set
 		if (!checkLocationPermission()) {
@@ -108,10 +105,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Set up the gallery section
 		setUpGallery(view);
 
-		//Asynchronously set up location section
-		//This will trigger onLocationChanged, that will trigger setUpLocation
-		new HomeSectionLocation(view).execute();
-
 		//Set up schedule sections
 		setUpSchedule(1, view);
 		setUpSchedule(0, view);
@@ -128,7 +121,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return The number of entries shown.
 	 */
-	@SuppressLint("InflateParams")
 	private int setUpSchedule(int gm, View view) {
 		int count = 0;
 
@@ -196,7 +188,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		while (cursorNow.moveToNext()) {
 			count++;
 
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, listNow, false);
 
 			//Set id
 			tvRowId = (TextView) entry.findViewById(R.id.tv_row_home_schedule_id);
@@ -220,7 +212,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_home_schedule_time);
 			tvRowTime.setVisibility(View.GONE);
 
-			//Add the view
 			listNow.addView(entry);
 		}
 		cursorNow.close();
@@ -244,7 +235,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		while (cursorNext.moveToNext()) {
 			count++;
 
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, listNext, false);
 
 			//Set id
 			tvRowId = (TextView) entry.findViewById(R.id.tv_row_home_schedule_id);
@@ -270,7 +261,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 			String tm = cursorNext.getString(4).substring(cursorNext.getString(4).length() - 8, cursorNext.getString(4).length() - 3);
 			tvRowTime.setText(tm);
 
-			//Add the view
 			listNext.addView(entry);
 		}
 		cursorNext.close();
@@ -405,7 +395,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return True if the section has been shown, false otherwise.
 	 */
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private boolean setUpLablanca(View view) {
 		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 		Boolean set = false;
@@ -430,10 +419,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 			if (cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				llSection.setVisibility(View.VISIBLE);
-
-				//Enable menu entries
-				//this.getActivity().findViewById(R.id.menu_lablanca_gm_schedule).setVisibility(View.VISIBLE);
-				//this.getActivity().findViewById(R.id.menu_lablanca_schedule).setVisibility(View.VISIBLE);
 
 				//Set text
 				String text = Html.fromHtml(cursor.getString(0)).toString();
@@ -463,8 +448,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 						//If not, create directories and download asynchronously
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
-						fpath.mkdirs();
-						new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG.SIZE.PREVIEW).execute();
+						if (fpath.mkdirs()) {
+							new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG.SIZE.PREVIEW).execute();
+						}
 					}
 				}
 				else {
@@ -530,7 +516,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpGallery(View view) {
 		int counter = 0;
 
@@ -574,8 +559,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 				//If not, create directories and download asynchronously
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-				fpath.mkdirs();
-				new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG.SIZE.PREVIEW).execute();
+				if (fpath.mkdirs()){
+					new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG.SIZE.PREVIEW).execute();
+				}
 			}
 
 			//Set listeners for images
@@ -615,12 +601,10 @@ public class HomeLayout extends Fragment implements LocationListener {
 	/**
 	 * Populates the Past Activities section of the home screen.
 	 * Makes the section visible and adds two rows with the two last activities.
-	 * Tapping them takes to the post, tapping anywhere else, to the blog section.
+	 * Tapping them takes to the activity, tapping anywhere else, to the activities section.
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpPastActivities(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
@@ -650,7 +634,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Print rows
 		while (cursor.moveToNext()) {
 			//Create a new row
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, llList, false);
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -707,8 +691,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-					fpath.mkdirs();
-					new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
+					if (fpath.mkdirs()) {
+						new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
+					}
 				}
 			}
 			cursorImage.close();
@@ -734,7 +719,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 				}
 			});
 
-			//Add to the list
 			llList.addView(entry);
 			counter++;
 		}
@@ -750,12 +734,10 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * Populates the Future activities section of the home screen.
 	 * If there are future activities, makes the section visible.
 	 * Adds two rows with the two next activities.
-	 * Tapping them takes to the post, tapping anywhere else, to the blog section.
+	 * Tapping them takes to the activity, tapping anywhere else, to the activities section.
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpFutureActivities(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
@@ -788,7 +770,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			//Print rows
 			while (cursor.moveToNext()) {
 				//Create a new row
-				entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, null);
+				entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, llList, false);
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -838,8 +820,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 						//If not, create directories and download asynchronously
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-						fpath.mkdirs();
-						new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
+						if (fpath.mkdirs()) {
+							new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
+						}
 					}
 				}
 
@@ -865,7 +848,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 					}
 				});
 
-				//Add to the list
 				llList.addView(entry);
 				counter++;
 			}
@@ -884,8 +866,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpBlog(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
@@ -915,7 +895,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		while (cursor.moveToNext()) {
 
 			//Create a new row
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_blog, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_blog, llList, false);
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -957,8 +937,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
-					fpath.mkdirs();
-					new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
+					if (fpath.mkdirs()) {
+						new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
+					}
 				}
 			}
 
@@ -984,7 +965,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 				}
 			});
 
-			//Add to the list
 			llList.addView(entry);
 
 			counter++;

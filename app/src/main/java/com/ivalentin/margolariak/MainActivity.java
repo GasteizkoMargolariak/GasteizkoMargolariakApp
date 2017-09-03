@@ -16,9 +16,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -53,6 +51,7 @@ public class MainActivity extends Activity {
 
 	//Handler to periodically check for location updates
 	private final Handler locationHandler = new Handler();
+
 	// Code to check for location updates
 	private MainActivity activity = this;
 	private final Runnable checkForLocation = new Runnable() {
@@ -70,6 +69,7 @@ public class MainActivity extends Activity {
 	private String shareURL = GM.SHARE.HOME;
 	private String shareTitle = "";
 
+
 	/**
 	 * Sets the displayed section url and localized title.
 	 * Thy can be retrieved later with getShareLink() to share the URL.
@@ -84,6 +84,7 @@ public class MainActivity extends Activity {
 		shareURL = url;
 	}
 
+
 	/**
 	 * Returns the url of the current sections and a title.
 	 * To be used with the share option.
@@ -93,6 +94,7 @@ public class MainActivity extends Activity {
 	public String[] getShareLink(){
 		return(new String[]{shareTitle, shareURL});
 	}
+
 
 	/**
 	 * Enables o disables the location section.
@@ -115,6 +117,7 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+
 
 	/**
 	 * Opens and closes the app menu.
@@ -285,9 +288,11 @@ public class MainActivity extends Activity {
 		ft.addToBackStack(title);
 		ft.commit();
 		setSectionTitle(title);
+
 		//Set the shareable url
 		setShareLink(shareTitle, shareURL);
 	}
+
 
 	/**
 	 * Sets the title of the current section.
@@ -299,13 +304,13 @@ public class MainActivity extends Activity {
 		tvTitle.setText(title);
 	}
 
+
 	/**
 	 * Runs when the activity is created.
 	 *
 	 * @param savedInstanceState Saved state of the activity.
 	 * @see Activity#onCreate(Bundle)
 	 */
-	@SuppressWarnings("deprecation, ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -334,7 +339,7 @@ public class MainActivity extends Activity {
 						}
 					});
 				} catch (InterruptedException e) {
-					Log.e("Sleep interrupted", e.toString());
+					Log.e("MAIN_ACTIVITY", "Sleep interrupted: " +  e.toString());
 				}
 			}
 		};
@@ -430,7 +435,7 @@ public class MainActivity extends Activity {
 
 		//If the database has just been updated, recreate the database
 		if (sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) < BuildConfig.VERSION_CODE) {
-			Log.d("UPDATE", "App updated from version " + sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) + " to " + BuildConfig.VERSION_CODE + ". Forcing a new sync...");
+			Log.d("MAIN_ACTIVITY", "App updated from version " + sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) + " to " + BuildConfig.VERSION_CODE + ". Forcing a new sync...");
 			deleteDatabase();
 			dataEditor.putInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, BuildConfig.VERSION_CODE);
 			dataEditor.apply();
@@ -476,7 +481,7 @@ public class MainActivity extends Activity {
 					});
 
 					//Set the icon
-					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
+					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher, null);
 					if (dialogIcon != null) {
 						dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 					}
@@ -607,7 +612,13 @@ public class MainActivity extends Activity {
 
 					//Set dialog parameters
 					WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-					lp.copyFrom(dialog.getWindow().getAttributes());
+					try {
+						//noinspection ConstantConditions
+						lp.copyFrom(dialog.getWindow().getAttributes());
+					}
+					catch (NullPointerException e){
+						Log.e("MAIN_ACTIVITY", "Error setting dialog parameters: " + e.toString());
+					}
 					lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 					lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 					lp.gravity = Gravity.CENTER;
@@ -622,6 +633,7 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+
 
 	/**
 	 * Creates the app database and fills it with the hard coded, default data.
@@ -656,7 +668,6 @@ public class MainActivity extends Activity {
 			db.execSQL(GM.DB.QUERY.CREATE.POST_TAG);
 			db.execSQL(GM.DB.QUERY.CREATE.ROUTE);
 			db.execSQL(GM.DB.QUERY.CREATE.ROUTE_POINT);
-			//db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
 			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
 			db.close();
@@ -664,6 +675,7 @@ public class MainActivity extends Activity {
 			Log.e("Error creating database", ex.toString());
 		}
 	}
+
 
 	/**
 	 * Creates the app database and fills it with the hard coded, default data.
@@ -676,6 +688,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
+
 	/**
 	 * Performs a full sync against the remote database.
 	 */
@@ -685,6 +698,7 @@ public class MainActivity extends Activity {
 		new Sync(this, pbSync, ivSync).execute();
 	}
 
+
 	/**
 	 * Asks the activity to performa a sync.
 	 * Intended to be called from any screen.
@@ -693,12 +707,12 @@ public class MainActivity extends Activity {
 		new Sync(this).execute();
 	}
 
+
 	/**
 	 * Perform an initial sync before the app can be used.
 	 * A dialog will block the UI.
 	 * It is intended to be used only when the database is empty.
 	 */
-	@SuppressWarnings("ConstantConditions")
 	private void initialSync() {
 		//Create a dialog
 		Dialog dialog = new Dialog(this);
@@ -710,8 +724,13 @@ public class MainActivity extends Activity {
 
 		//Set dialog parameters
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-		lp.copyFrom(dialog.getWindow().getAttributes());
-		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+		try {
+			//noinspection ConstantConditions
+			lp.copyFrom(dialog.getWindow().getAttributes());
+		}
+		catch (NullPointerException e){
+			Log.e("MAIN_ACTIVITY", "Error setting dialog parameters: " + e.toString());
+		}		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp.gravity = Gravity.CENTER;
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -723,17 +742,17 @@ public class MainActivity extends Activity {
 		new Sync(this, pbSync, ivSync, dialog, this).execute();
 	}
 
+
 	/**
 	 * Overrides onBackPressed().
 	 * Used to show the previous fragment instead of finishing the app.
 	 *
-	 * @see AppCompatActivity#onBackPressed()
+	 * @see Activity#onBackPressed()
 	 */
 	@Override
 	public void onBackPressed() {
 		try {
 			FragmentManager fm = getFragmentManager();
-			Log.d("BACK", "StackEntryCount " + fm.getBackStackEntryCount());
 			if (fm.getBackStackEntryCount() > 1) {
 				fm.popBackStack();
 			} else {
@@ -741,17 +760,17 @@ public class MainActivity extends Activity {
 				super.onBackPressed();
 			}
 		} catch (Exception ex) {
-			Log.e("Error going back", "Finishing activity: " + ex.toString());
+			Log.e("MAIN_ACTIVITY", "Error going back. Finishing activity: " + ex.toString());
 			locationHandler.removeCallbacks(checkForLocation);
 			finish();
-			//super.onBackPressed();
 		}
 
 	}
 
+
 	/**
 	 * Overrides onKeyUp().
-	 * Used to toggle the menu whent the key is pressed.
+	 * Used to toggle the menu when the key is pressed.
 	 *
 	 * @see Activity#onKeyUp(int, KeyEvent)
 	 */
@@ -763,6 +782,7 @@ public class MainActivity extends Activity {
 		}
 		return super.onKeyUp(keyCode, event);
 	}
+
 
 	/**
 	 * Overrides onResume().
@@ -776,6 +796,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 	}
 
+
 	/**
 	 * Overrides onPause().
 	 * Stops the location handler to check for location regularly.
@@ -787,6 +808,7 @@ public class MainActivity extends Activity {
 		locationHandler.removeCallbacks(checkForLocation);
 		super.onPause();
 	}
+
 
 	/**
 	 * Overrides onDestroy().

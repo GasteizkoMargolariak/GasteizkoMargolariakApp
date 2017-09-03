@@ -1035,7 +1035,7 @@ final class GM {
 		}
 
 		/**
-		 * Utilities for the COMMENT V3 API.
+		 * Utilities for posting comment
 		 */
 		static final class COMMENT {
 
@@ -1045,7 +1045,28 @@ final class GM {
 			static final String PATH = "/API/v3/comment.php";
 
 			/**
-			 * Keys fotr the API parameters.
+			 * Sections where comments can be posted
+			 */
+			static final class TYPE {
+
+				/**
+				 * Comment in a blog post.
+				 */
+				static final String BLOG = "post";
+
+				/**
+				 * Comment in an activity.
+				 */
+				static final String ACTIVITIES = "activity";
+
+				/**
+				 * Comment in a photo.
+				 */
+				static final String GALLERY = "photo";
+			}
+
+			/**
+			 * Keys for the API parameters.
 			 */
 			static final class KEY {
 
@@ -1060,12 +1081,12 @@ final class GM {
 				static final String USER = "user";
 
 				/**
-				 * Key for the action to perform with the API ("sync" or "version").
+				 * Key to indicate the section.
 				 */
-				static final String TARGET = "target";
+				static final String TYPE = "target";
 
 				/**
-				 * Key to indicate the format of the data for the API to send.
+				 * Key to indicate the entry ID.
 				 */
 				static final String ID = "id";
 
@@ -1078,6 +1099,11 @@ final class GM {
 				 * Key to indicate the text.
 				 */
 				static final String TEXT = "text";
+
+				/**
+				 * Key to indicate the text language.
+				 */
+				static final String LANGUAGE = "lang";
 
 			}
 		}
@@ -1325,6 +1351,32 @@ final class GM {
 	}
 
 	/**
+	 * Text encoding.
+	 */
+	static final String ENCODING = "UTF-8";
+
+	/**
+	 * Valid languages.
+	 */
+	static final class LANGUAGE{
+
+		/**
+		 * Spanish
+		 */
+		static final String ES = "es";
+
+		/**
+		 * English
+		 */
+		static final String EN = "en";
+
+		/**
+		 * Basque
+		 */
+		static final String EU = "eu";
+	}
+
+	/**
 	 * Gets the language code for sql queries.
 	 * Only three values can be returned: es, eu, en.
 	 * Defaults to es.
@@ -1355,9 +1407,8 @@ final class GM {
 	 * @param includeYear Also returns the year.
 	 * @param includeTime Also returns the hour and minute.
 	 *
-	 * @return The fragment view
+	 * @return The formatted date.
 	 *
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	static String formatDate(String dateString, String lang, boolean includeDay, boolean includeYear, boolean includeTime){
 

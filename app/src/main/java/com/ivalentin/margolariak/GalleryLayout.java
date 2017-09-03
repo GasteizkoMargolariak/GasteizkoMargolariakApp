@@ -1,7 +1,6 @@
 package com.ivalentin.margolariak;
 
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -30,152 +29,149 @@ import java.util.Random;
  */
 public class GalleryLayout extends Fragment{
 
-    /**
-     * Run when the fragment is inflated.
-     * Assigns views, gets the date and does the first call to the {@link @populate()} function.
-     *
-     * @param inflater A LayoutInflater to manage views
-     * @param container The container View
-     * @param savedInstanceState Bundle containing the state
-     *
-     * @return The fragment view
-     *
-     * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
-     */
-    @SuppressLint("InflateParams") //Throws unknown error when done properly.
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	/**
+	 * Run when the fragment is inflated.
+	 * Assigns views, gets the date and does the first call to the {@link @populate()} function.
+	 *
+	 * @param inflater A LayoutInflater to manage views
+	 * @param container The container View
+	 * @param savedInstanceState Bundle containing the state
+	 *
+	 * @return The fragment view
+	 *
+	 * @see Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //Load the layout
-        View view = inflater.inflate(R.layout.fragment_layout_gallery, null);
+		//Load the layout
+		View view = inflater.inflate(R.layout.fragment_layout_gallery, container, false);
 
-        //Set the title
-        ((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_gallery));
+		//Set the title
+		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_gallery));
 
-        populate(view);
+		populate(view);
 
-        return view;
-    }
+		return view;
+	}
 
-    /**
-     * Populates the list of activities around.
-     * It uses the default layout as parent.
-     */
-    @SuppressLint("InflateParams") //Throws unknown error when done properly.
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void populate(View view){
+	/**
+	 * Populates the list of activities around.
+	 * It uses the default layout as parent.
+	 */
+	private void populate(View view){
 
-        //Assign elements
-        LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_gallery_album_list);
-        LinearLayout entry;
+		//Assign elements
+		LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_gallery_album_list);
+		LinearLayout entry;
 
-        //An inflater
-        LayoutInflater factory = LayoutInflater.from(getActivity());
+		//An inflater
+		LayoutInflater factory = LayoutInflater.from(getActivity());
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
-        final Cursor cursor;
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		final Cursor cursor;
 		String lang = GM.getLang();
 
-        //Get data from the database
-        cursor = db.rawQuery("SELECT DISTINCT album.id AS id, album.title_" + lang + " AS name FROM photo, album, photo_album WHERE photo.id = photo AND album.id = album ORDER BY uploaded DESC;", null);
+		//Get data from the database
+		cursor = db.rawQuery("SELECT DISTINCT album.id AS id, album.title_" + lang + " AS name FROM photo, album, photo_album WHERE photo.id = photo AND album.id = album ORDER BY uploaded DESC;", null);
 
-        //Loop
-        while (cursor.moveToNext()){
+		//Loop
+		while (cursor.moveToNext()){
 
-            //Create a new row
-            entry = (LinearLayout) factory.inflate(R.layout.row_gallery, null);
+			//Create a new row
+			entry = (LinearLayout) factory.inflate(R.layout.row_gallery, llList, false);
 
-            //Set margins TODO: I dont know why it doesnt read margins from the xml
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			//Set margins
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
-            layoutParams.setMargins(margin, margin, margin, margin);
-            entry.setLayoutParams(layoutParams);
+			layoutParams.setMargins(margin, margin, margin, margin);
+			entry.setLayoutParams(layoutParams);
 
-            //Set title
-            TextView tvTitle = (TextView) entry.findViewById(R.id.tv_row_gallery_title);
-            tvTitle.setText(cursor.getString(1));
+			//Set title
+			TextView tvTitle = (TextView) entry.findViewById(R.id.tv_row_gallery_title);
+			tvTitle.setText(cursor.getString(1));
 
-            //Set hidden id
-            TextView tvId = (TextView) entry.findViewById(R.id.tv_row_gallery_hidden);
-            tvId.setText(cursor.getString(0));
+			//Set hidden id
+			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_gallery_hidden);
+			tvId.setText(cursor.getString(0));
 
-            //Get images
-            ImageView preview[] = new ImageView[4];
-            preview[0] = (ImageView) entry.findViewById(R.id.iv_row_gallery_0);
-            preview[1] = (ImageView) entry.findViewById(R.id.iv_row_gallery_1);
-            preview[2] = (ImageView) entry.findViewById(R.id.iv_row_gallery_2);
-            preview[3] = (ImageView) entry.findViewById(R.id.iv_row_gallery_3);
+			//Get images
+			ImageView preview[] = new ImageView[4];
+			preview[0] = (ImageView) entry.findViewById(R.id.iv_row_gallery_0);
+			preview[1] = (ImageView) entry.findViewById(R.id.iv_row_gallery_1);
+			preview[2] = (ImageView) entry.findViewById(R.id.iv_row_gallery_2);
+			preview[3] = (ImageView) entry.findViewById(R.id.iv_row_gallery_3);
 
-            //Get db rows
-            Cursor cursorImage = db.rawQuery("SELECT id, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + " ORDER BY random() LIMIT 4;", null);
+			//Get db rows
+			Cursor cursorImage = db.rawQuery("SELECT id, file, width, height FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + " ORDER BY random() LIMIT 4;", null);
 
-            //Loop
-            int i = 0;
-            Random r;
-            while (cursorImage.moveToNext()){
-                String image = cursorImage.getString(1);
+			//Loop
+			int i = 0;
+			Random r;
+			while (cursorImage.moveToNext()){
+				String image = cursorImage.getString(1);
 
-                //Check if image exists
-                File f;
-                f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image);
-                if (f.exists()){
-                    //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image);
-                    preview[i].setImageBitmap(myBitmap);
-                }
-                else {
-                    //If not, create directories and download asynchronously
-                    File fpath;
-                    fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
-                    fpath.mkdirs();
-                    new DownloadImage(GM.API.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG.SIZE.MINIATURE).execute();
-                }
+				//Check if image exists
+				File f;
+				f = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image);
+				if (f.exists()){
+					//If the image exists, set it.
+					Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image);
+					preview[i].setImageBitmap(myBitmap);
+				}
+				else {
+					//If not, create directories and download asynchronously
+					File fpath;
+					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
+					if (fpath.mkdirs()) {
+						new DownloadImage(GM.API.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG.SIZE.MINIATURE).execute();
+					}
+				}
 
-                //Rotate the image
-                r = new Random();
-                int rot = r.nextInt(31) - 15;
-                preview[i].setRotation(rot);
+				//Rotate the image
+				r = new Random();
+				int rot = r.nextInt(31) - 15;
+				preview[i].setRotation(rot);
 
-                i ++;
-            }
+				i ++;
+			}
 
-            //Set photo counter
+			//Set photo counter
 			Cursor cursorCounter = db.rawQuery("SELECT id FROM photo, photo_album WHERE photo = id AND album = " + cursor.getString(0) + ";", null);
-            TextView tvPhotoCounter = (TextView) entry.findViewById(R.id.tv_row_gallery_counter);
-            tvPhotoCounter.setText(getResources().getQuantityString(R.plurals.gallery_photo_count, cursorCounter.getCount(), cursorCounter.getCount()));
+			TextView tvPhotoCounter = (TextView) entry.findViewById(R.id.tv_row_gallery_counter);
+			tvPhotoCounter.setText(getResources().getQuantityString(R.plurals.gallery_photo_count, cursorCounter.getCount(), cursorCounter.getCount()));
 
 			//Close cursors
 			cursorCounter.close();
-            cursorImage.close();
+			cursorImage.close();
 
-            //Set onCLickListener
-            entry.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                Fragment fragment = new AlbumLayout();
-                Bundle bundle = new Bundle();
+			//Set onCLickListener
+			entry.setOnClickListener(new View.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+				Fragment fragment = new AlbumLayout();
+				Bundle bundle = new Bundle();
 
-                //Pass post id
-                int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_gallery_hidden)).getText().toString());
-                bundle.putInt("album", id);
-                fragment.setArguments(bundle);
+				//Pass post id
+				int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_gallery_hidden)).getText().toString());
+				bundle.putInt("album", id);
+				fragment.setArguments(bundle);
 
-                FragmentManager fm = GalleryLayout.this.getActivity().getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+				FragmentManager fm = GalleryLayout.this.getActivity().getFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
 
-                ft.replace(R.id.activity_main_content_fragment, fragment);
-                ft.addToBackStack("album_" + id);
-                ft.commit();
-                }
-            });
+				ft.replace(R.id.activity_main_content_fragment, fragment);
+				ft.addToBackStack("album_" + id);
+				ft.commit();
+				}
+			});
 
-            //Add to the list
-            llList.addView(entry);
-        }
+			llList.addView(entry);
+		}
 
-        //Close database
-        cursor.close();
-        db.close();
+		//Close database
+		cursor.close();
+		db.close();
 
-    }
+	}
 }

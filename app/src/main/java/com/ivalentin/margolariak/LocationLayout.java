@@ -60,7 +60,6 @@ public class LocationLayout extends Fragment implements LocationListener {
 			if (mapView != null) {
 				if (refreshLocation()) {
 					
-					//mapController.setCenter(self.gmLocation);
 					OverlayItem locationOverlayItem = new OverlayItem("Gasteizko Margolariak", "", gmLocation);
 					locationOverlayItem.setMarker(locationMarker);
 					final ArrayList<OverlayItem> items = new ArrayList<>();

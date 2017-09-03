@@ -1,14 +1,11 @@
 package com.ivalentin.margolariak;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Fragment opened for La Blanca sections while the festivals are not close.
@@ -45,12 +38,10 @@ public class LablancaLayout extends Fragment {
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	@SuppressLint({"InflateParams", "SwitchIntDef"})
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout
-		View view = inflater.inflate(R.layout.fragment_layout_lablanca, null);
+		View view = inflater.inflate(R.layout.fragment_layout_lablanca, container, false);
 
 		//Set the title
 		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca));
@@ -67,12 +58,7 @@ public class LablancaLayout extends Fragment {
 			//Set text
 			WebView headerText = (WebView) view.findViewById(R.id.wv_lablanca_header);
 
-			if (Build.VERSION.SDK_INT >= 19) {
-				headerText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			} else {
-				headerText.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			}
-
+			headerText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			headerText.loadDataWithBaseURL(null, cursor.getString(0), "text/html", "utf-8", null);
 
 			//Set image
@@ -91,8 +77,9 @@ public class LablancaLayout extends Fragment {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
-					fpath.mkdirs();
-					new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage, GM.IMG.SIZE.PREVIEW).execute();
+					if (fpath.mkdirs()) {
+						new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage, GM.IMG.SIZE.PREVIEW).execute();
+					}
 				}
 			} else {
 				headerImage.setVisibility(View.GONE);
@@ -106,7 +93,7 @@ public class LablancaLayout extends Fragment {
 			while (cursorDays.moveToNext()) {
 
 				//Create a new row
-				entry = (LinearLayout) factory.inflate(R.layout.row_festival_price_day, null);
+				entry = (LinearLayout) factory.inflate(R.layout.row_festival_price_day, list, false);
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -155,7 +142,7 @@ public class LablancaLayout extends Fragment {
 			while (cursorPacks.moveToNext()) {
 
 				//Create a new row
-				entry = (LinearLayout) factory.inflate(R.layout.row_festival_price_pack, null);
+				entry = (LinearLayout) factory.inflate(R.layout.row_festival_price_pack, list, false);
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

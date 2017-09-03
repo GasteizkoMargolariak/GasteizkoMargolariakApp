@@ -1,6 +1,5 @@
 package com.ivalentin.margolariak;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
+
 /**
  * Section that shows a photo of the gallery, with details and comments.
  * Contains info from almost every other section.
@@ -37,25 +37,24 @@ public class PhotoLayout extends Fragment {
 	private View view;
 
 	private String albumName;
-	private String albumPerm;
 
 	private Integer photos[];
 	private int position;
 
 	private Context context;
 
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout
-		view = inflater.inflate(R.layout.fragment_layout_photo, null);
+		view = inflater.inflate(R.layout.fragment_layout_photo, container, false);
 		context = view.getContext();
 
 		//Get bundled id
 		Bundle bundle = this.getArguments();
 		albumName = bundle.getString("albumName", "");
-		albumPerm = bundle.getString("albumPerm", "");
+		String albumPerm = bundle.getString("albumPerm", "");
 		int id = bundle.getInt("photo", -1);
 		if (id == -1) {
 			Log.e("Photo error", "No such photo: " + id);
@@ -95,6 +94,7 @@ public class PhotoLayout extends Fragment {
 		return view;
 	}
 
+
 	/**
 	 * Given a photo id array and a photo id, tells the position of the photo in the array.
 	 *
@@ -118,6 +118,7 @@ public class PhotoLayout extends Fragment {
 
 		return i;
 	}
+
 
 	/**
 	 * Given a photo, builds an ordered array with the ids of all photos in the same album.
@@ -149,12 +150,20 @@ public class PhotoLayout extends Fragment {
 		return list;
 	}
 
+	/**
+	 * Retrieves data from the database and populates the layout.
+	 * @param id Photo id.
+	 */
 	private void populate(int id){
 		populate(id, view);
 	}
 
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
-	@SuppressWarnings("ResultOfMethodCallIgnored")
+
+	/**
+	 * Retrieves data from the database and populates the layout.
+	 * @param id Photo id.
+	 * @param v Parent view.
+	 */
 	private void populate(int id, View v){
 
 		final int photoId = id;
@@ -211,8 +220,9 @@ public class PhotoLayout extends Fragment {
 			imageView.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/photo_placeholder", null, null));
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/");
-			fpath.mkdirs();
-			new DownloadImage(GM.API.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView, GM.IMG.SIZE.VIEW).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			if (fpath.mkdirs()) {
+				new DownloadImage(GM.API.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView, GM.IMG.SIZE.VIEW).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			}
 		}
 
 		//Hide or show comments, as needed
@@ -231,8 +241,6 @@ public class PhotoLayout extends Fragment {
 			btNext.setVisibility(View.VISIBLE);
 		}
 
-
-
 		//Get comments
 		Cursor commentCursor = db.rawQuery("SELECT text, dtime, username FROM photo_comment WHERE photo = " + id + ";", null);
 		tvComments.setText(String.format(getResources().getQuantityString(R.plurals.comment_comments, commentCursor.getCount()), commentCursor.getCount()));
@@ -242,7 +250,7 @@ public class PhotoLayout extends Fragment {
 		LayoutInflater factory = LayoutInflater.from(getActivity());
 		llCommentList.removeAllViews();
 		while (commentCursor.moveToNext()) {
-			entry = (LinearLayout) factory.inflate(R.layout.row_comment, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_comment, llCommentList, false);
 
 			//Set user
 			TextView tvUser = (TextView) entry.findViewById(R.id.tv_row_comment_user);

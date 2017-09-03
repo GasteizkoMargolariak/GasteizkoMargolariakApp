@@ -181,10 +181,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 			}
 			catch(NumberFormatException ex) {
-				Log.e("NOTIFICATION", "Error parsing remote file: " + ex.toString());
+				Log.e("ALARM_RECEIVER", "Notification: Error parsing remote file: " + ex.toString());
 			}
 			catch (Exception ex){
-				Log.e("NOTIFICATION", "Error fetching notifications: " + ex.toString());
+				Log.e("ALARM_RECEIVER", "Notification: Error fetching notifications: " + ex.toString());
 			}
     	}
 
@@ -198,7 +198,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		 * @param in String to be decoded.
 		 * @return Decoded string.
 		 */
-		static final String decode(final String in){
+		static String decode(final String in){
 			String working = in;
 			int index = working.indexOf("\\u");
 			while(index > -1){

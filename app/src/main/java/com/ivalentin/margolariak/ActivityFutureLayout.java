@@ -1,17 +1,13 @@
 package com.ivalentin.margolariak;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,8 +28,6 @@ import android.net.Uri;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.ArrayList;
 
@@ -58,16 +52,11 @@ import org.osmdroid.views.overlay.Polyline;
  */
 public class ActivityFutureLayout extends Fragment {
 
-	private final Bundle bund = null;
-	private View v;
-
-	@SuppressWarnings("ResultOfMethodCallIgnored")
-	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout
-		View view = inflater.inflate(R.layout.fragment_layout_activity_future, null);
+		View view = inflater.inflate(R.layout.fragment_layout_activity_future, container, false);
 
 		//Get bundled id
 		Bundle bundle = this.getArguments();
@@ -103,12 +92,8 @@ public class ActivityFutureLayout extends Fragment {
 		tvTitle.setText(cursor.getString(1));
 		((MainActivity) getActivity()).setSectionTitle(cursor.getString(1));
 		((MainActivity) getActivity()).setShareLink(String.format(getString(R.string.share_with_title), cursor.getString(1)), GM.SHARE.ACTIVITIES + cursor.getString(6));
-		if (Build.VERSION.SDK_INT >= 19) {
-			wvText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-		}
-		else {
-			wvText.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+		wvText.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
 		wvText.loadDataWithBaseURL(null, cursor.getString(2), "text/html", "utf-8", null);
 		//wvText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		tvDate.setText(GM.formatDate(cursor.getString(3) + " 00:00:00", lang, true, false, false));
@@ -154,9 +139,10 @@ public class ActivityFutureLayout extends Fragment {
 			LinearLayout list = (LinearLayout) view.findViewById(R.id.ll_activity_future_schedule_list);
 			LinearLayout entry;
 			LayoutInflater factory = LayoutInflater.from(getActivity());
+
 			while (cursorItinerary.moveToNext()) {
 				//Create a new row
-				entry = (LinearLayout) factory.inflate(R.layout.row_activity_schedule, null);
+				entry = (LinearLayout) factory.inflate(R.layout.row_activity_schedule, list, false);
 
 				//Set time
 				TextView tvSchTime = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_time);
@@ -210,7 +196,6 @@ public class ActivityFutureLayout extends Fragment {
 		cursorItinerary.close();
 		db.close();
 
-		v = view;
 		return view;
 	}
 
@@ -231,7 +216,6 @@ public class ActivityFutureLayout extends Fragment {
 
 		//Date formatters
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd-", Locale.US);
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
 
 		//Set the custom dialog components - text, image, buttons, map
@@ -316,7 +300,7 @@ public class ActivityFutureLayout extends Fragment {
 
 					// Read from route_point and draw the route on the map.
 					Cursor pointCursor = db.rawQuery("SELECT lat_o, lon_o, lat_d, lon_d FROM route_point WHERE route = " + routeId + " ORDER BY part;", null);
-					final ArrayList<GeoPoint> points = new ArrayList<GeoPoint>();
+					final ArrayList<GeoPoint> points = new ArrayList<>();
 					GeoPoint lastPoint = new GeoPoint(0.0, 0.0);
 					while (pointCursor.moveToNext()){
 
@@ -331,10 +315,11 @@ public class ActivityFutureLayout extends Fragment {
 					//Create path
 					Polyline line = new Polyline();
 					line.setPoints(points);
-					line.setColor(getResources().getColor(R.color.background_menu));
+					line.setColor(getResources().getColor(R.color.background_menu, null));
 					mapView.getOverlays().add(line);
 
 				}
+				routeCursor.close();
 
 			}
 			else{
@@ -348,11 +333,11 @@ public class ActivityFutureLayout extends Fragment {
 					GeoPoint center = new GeoPoint(placeCursor.getDouble(2), placeCursor.getDouble(3));
 					mapController.setCenter(center);
 					OverlayItem locationOverlayItem = new OverlayItem(title, placeCursor.getString(0), center);
-					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint);
+					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
 					locationOverlayItem.setMarker(locationMarker);
-					final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+					final ArrayList<OverlayItem> items = new ArrayList<>();
 					items.add(locationOverlayItem);
-					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<>(items,
 							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 									return true;
@@ -415,11 +400,4 @@ public class ActivityFutureLayout extends Fragment {
 		super.onResume();
 	}
 
-	/**
-	 * Checks app permission to access the user location.
-	 * @return true if the permission has been granted, false otherwise.
-	 */
-	private boolean checkLocationPermission(){
-		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-	}
 }

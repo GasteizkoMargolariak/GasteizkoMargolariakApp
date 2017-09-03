@@ -1,7 +1,6 @@
 package com.ivalentin.margolariak;
 
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -31,218 +30,213 @@ import java.io.File;
  */
 public class BlogLayout extends Fragment{
 
-    //Main View
-    private View view;
+	//Main View
+	private View view;
 
-    private int offset = 0;
-    private int totalPost = 0;
+	private int offset = 0;
+	private int totalPost = 0;
 
-    /**
-     * Run when the fragment is inflated.
-     * Assigns views, gets the date and does the first call to the {@link #populate} function.
-     *
-     * @param inflater A LayoutInflater to manage views
-     * @param container The container View
-     * @param savedInstanceState Bundle containing the state
-     *
-     * @return The fragment view
-     *
-     * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
-     */
-    @SuppressLint("InflateParams")
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	/**
+	 * Run when the fragment is inflated.
+	 * Assigns views, gets the date and does the first call to the {@link #populate} function.
+	 *
+	 * @param inflater A LayoutInflater to manage views
+	 * @param container The container View
+	 * @param savedInstanceState Bundle containing the state
+	 *
+	 * @return The fragment view
+	 *
+	 * @see Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //Load the layout
-        view = inflater.inflate(R.layout.fragment_layout_blog, null);
+		//Load the layout
+		view = inflater.inflate(R.layout.fragment_layout_blog, container, false);
 
-        //Set the title
-        ((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_blog));
+		//Set the title
+		((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_blog));
 
-        //Get total posts
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
-        Cursor cursor = db.rawQuery("SELECT id FROM post;", null);
-        totalPost = cursor.getCount();
-        cursor.close();
-        db.close();
+		//Get total posts
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		Cursor cursor = db.rawQuery("SELECT id FROM post;", null);
+		totalPost = cursor.getCount();
+		cursor.close();
+		db.close();
 
-        //Assign pager buttons
-        final Button btnPrevious = (Button) view.findViewById(R.id.bt_blog_previous);
-        final Button btnNext = (Button) view.findViewById(R.id.bt_blog_next);
+		//Assign pager buttons
+		final Button btnPrevious = (Button) view.findViewById(R.id.bt_blog_previous);
+		final Button btnNext = (Button) view.findViewById(R.id.bt_blog_next);
 
-        btnPrevious.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               offset -= 5;
-               btnNext.setVisibility(View.VISIBLE);
-               populate(offset);
-               if (offset == 0){
-                   v.setVisibility(View.INVISIBLE);
-               }
-           }
-        });
+		btnPrevious.setOnClickListener(new View.OnClickListener() {
+		   @Override
+		   public void onClick(View v) {
+			   offset -= 5;
+			   btnNext.setVisibility(View.VISIBLE);
+			   populate(offset);
+			   if (offset == 0){
+				   v.setVisibility(View.INVISIBLE);
+			   }
+		   }
+		});
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               offset += 5;
-               btnPrevious.setVisibility(View.VISIBLE);
-               populate(offset);
-               if (offset >= totalPost - 5){
-                   v.setVisibility(View.INVISIBLE);
-               }
-           }
-        });
+		btnNext.setOnClickListener(new View.OnClickListener() {
+		   @Override
+		   public void onClick(View v) {
+			   offset += 5;
+			   btnPrevious.setVisibility(View.VISIBLE);
+			   populate(offset);
+			   if (offset >= totalPost - 5){
+				   v.setVisibility(View.INVISIBLE);
+			   }
+		   }
+		});
 
-        populate(offset);
+		populate(offset);
 
-        return view;
-    }
+		return view;
+	}
 
-    /**
-     * Called when the fragment is brought back into the foreground.
-     * Shows or hides the pager buttons.
-     *
-     * @see android.app.Fragment#onResume()
-     */
-    @Override
-    @SuppressLint("InflateParams")
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void onResume(){
-        //Assign pager buttons
-        Button btnPrevious = (Button) view.findViewById(R.id.bt_blog_previous);
-        Button btnNext = (Button) view.findViewById(R.id.bt_blog_next);
-        if (offset == 0){
-            btnPrevious.setVisibility(View.INVISIBLE);
-        }
-        else{
-            btnPrevious.setVisibility(View.VISIBLE);
-        }
-        if (offset >= totalPost - 5){
-            btnNext.setVisibility(View.INVISIBLE);
-        }
-        else{
-            btnNext.setVisibility(View.VISIBLE);
-        }
-        super.onResume();
-    }
+	/**
+	 * Called when the fragment is brought back into the foreground.
+	 * Shows or hides the pager buttons.
+	 *
+	 * @see android.app.Fragment#onResume()
+	 */
+	@Override
+	public void onResume(){
+		//Assign pager buttons
+		Button btnPrevious = (Button) view.findViewById(R.id.bt_blog_previous);
+		Button btnNext = (Button) view.findViewById(R.id.bt_blog_next);
+		if (offset == 0){
+			btnPrevious.setVisibility(View.INVISIBLE);
+		}
+		else{
+			btnPrevious.setVisibility(View.VISIBLE);
+		}
+		if (offset >= totalPost - 5){
+			btnNext.setVisibility(View.INVISIBLE);
+		}
+		else{
+			btnNext.setVisibility(View.VISIBLE);
+		}
+		super.onResume();
+	}
 
-    /**
-     * Populates the list of activities around.
-     * It uses the default layout as parent.
-     */
-    @SuppressLint("InflateParams")
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void populate(int offset){
+	/**
+	 * Populates the list of activities around.
+	 * It uses the default layout as parent.
+	 */
+	private void populate(int offset){
 
-        //Assign elements
-        LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_blog_list);
-        LinearLayout entry;
+		//Assign elements
+		LinearLayout llList = (LinearLayout) view.findViewById(R.id.ll_blog_list);
+		LinearLayout entry;
 
-        //An inflater
-        LayoutInflater factory = LayoutInflater.from(getActivity());
+		//An inflater
+		LayoutInflater factory = LayoutInflater.from(getActivity());
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
-        final Cursor cursor;
-        String lang = GM.getLang();
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+		final Cursor cursor;
+		String lang = GM.getLang();
 
-        //Get data from the database
-        cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, dtime FROM post ORDER BY dtime DESC LIMIT 5 OFFSET " + offset + ";", null);
+		//Get data from the database
+		cursor = db.rawQuery("SELECT id, title_" + lang+ " AS title, text_" + lang + " AS text, dtime FROM post ORDER BY dtime DESC LIMIT 5 OFFSET " + offset + ";", null);
 
-        //Clear the list
-        llList.removeAllViews();
+		//Clear the list
+		llList.removeAllViews();
 
-        //Loop
-        while (cursor.moveToNext()){
+		//Loop
+		while (cursor.moveToNext()){
 
-            //Create a new row
-            entry = (LinearLayout) factory.inflate(R.layout.row_blog, null);
+			//Create a new row
+			entry = (LinearLayout) factory.inflate(R.layout.row_blog, llList, false);
 
-            //Set margins TODO: I dont know why it doesnt read margins from the xml
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
-            layoutParams.setMargins(margin, margin, margin, margin);
-            entry.setLayoutParams(layoutParams);
+			//Set margins
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			int margin = (int) (9 * getActivity().getResources().getDisplayMetrics().density);
+			layoutParams.setMargins(margin, margin, margin, margin);
+			entry.setLayoutParams(layoutParams);
 
-            //Set title
-            TextView tvTitle = (TextView) entry.findViewById(R.id.tv_row_blog_title);
-            tvTitle.setText(cursor.getString(1));
+			//Set title
+			TextView tvTitle = (TextView) entry.findViewById(R.id.tv_row_blog_title);
+			tvTitle.setText(cursor.getString(1));
 
-            //Set text
-            String text = Html.fromHtml(cursor.getString(2)).toString();
-            TextView tvText = (TextView) entry.findViewById(R.id.tv_row_blog_text);
-            tvText.setText(text);
+			//Set text
+			String text = Html.fromHtml(cursor.getString(2)).toString();
+			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_blog_text);
+			tvText.setText(text);
 
-            //Set date
-            TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_blog_date);
-            tvDate.setText(GM.formatDate(cursor.getString(3), lang, true, true, false));
+			//Set date
+			TextView tvDate = (TextView) entry.findViewById(R.id.tv_row_blog_date);
+			tvDate.setText(GM.formatDate(cursor.getString(3), lang, true, true, false));
 
-            //Set hidden id
-            TextView tvId = (TextView) entry.findViewById(R.id.tv_row_blog_hidden);
-            tvId.setText(cursor.getString(0));
+			//Set hidden id
+			TextView tvId = (TextView) entry.findViewById(R.id.tv_row_blog_hidden);
+			tvId.setText(cursor.getString(0));
 
-            //Get image
-            ImageView iv = (ImageView) entry.findViewById(R.id.iv_row_blog_image);
-            Cursor cursorImage = db.rawQuery("SELECT image FROM post_image WHERE post = " + cursor.getString(0) +" ORDER BY idx LIMIT 1;", null);
-            if (cursorImage.getCount() > 0){
-                cursorImage.moveToFirst();
-                String image = cursorImage.getString(0);
+			//Get image
+			ImageView iv = (ImageView) entry.findViewById(R.id.iv_row_blog_image);
+			Cursor cursorImage = db.rawQuery("SELECT image FROM post_image WHERE post = " + cursor.getString(0) +" ORDER BY idx LIMIT 1;", null);
+			if (cursorImage.getCount() > 0){
+				cursorImage.moveToFirst();
+				String image = cursorImage.getString(0);
 
-                //Check if image exists
-                File f;
-                f = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
-                if (f.exists()){
-                    //If the image exists, set it.
-                    Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
-                    iv.setImageBitmap(myBitmap);
-                }
-                else {
-                    //If not, create directories and download asynchronously
-                    File fpath;
-                    fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
-                    fpath.mkdirs();
-                    new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
-                }
-            }
-            else{
-                iv.setVisibility(View.GONE);
-            }
-            cursorImage.close();
+				//Check if image exists
+				File f;
+				f = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
+				if (f.exists()){
+					//If the image exists, set it.
+					Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image);
+					iv.setImageBitmap(myBitmap);
+				}
+				else {
+					//If not, create directories and download asynchronously
+					File fpath;
+					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
+					if (fpath.mkdirs()) {
+						new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
+					}
+				}
+			}
+			else{
+				iv.setVisibility(View.GONE);
+			}
+			cursorImage.close();
 
-            //Count comments
-            Cursor cursorComment = db.rawQuery("SELECT * FROM post_comment WHERE post = " + cursor.getString(0) +";", null);
-            TextView tvDetails = (TextView) entry.findViewById(R.id.tv_row_blog_details);
-            tvDetails.setText(String.valueOf(cursorComment.getCount()));
-            cursorComment.close();
+			//Count comments
+			Cursor cursorComment = db.rawQuery("SELECT * FROM post_comment WHERE post = " + cursor.getString(0) +";", null);
+			TextView tvDetails = (TextView) entry.findViewById(R.id.tv_row_blog_details);
+			tvDetails.setText(String.valueOf(cursorComment.getCount()));
+			cursorComment.close();
 
-            //Set onCLickListener
-            entry.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                //Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
-                Fragment fragment = new PostLayout();
-                Bundle bundle = new Bundle();
-                //Pass post id
-                int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_blog_hidden)).getText().toString());
-                bundle.putInt("post", id);
-                fragment.setArguments(bundle);
+			//Set onCLickListener
+			entry.setOnClickListener(new View.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+				//Toast.makeText(getActivity(), "OPENING POST", Toast.LENGTH_LONG).show();
+				Fragment fragment = new PostLayout();
+				Bundle bundle = new Bundle();
+				//Pass post id
+				int id = Integer.parseInt(((TextView) v.findViewById(R.id.tv_row_blog_hidden)).getText().toString());
+				bundle.putInt("post", id);
+				fragment.setArguments(bundle);
 
-                FragmentManager fm = BlogLayout.this.getActivity().getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+				FragmentManager fm = BlogLayout.this.getActivity().getFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
 
-                ft.replace(R.id.activity_main_content_fragment, fragment);
-                ft.addToBackStack("post_" + id);
-                ft.commit();
-                }
-            });
+				ft.replace(R.id.activity_main_content_fragment, fragment);
+				ft.addToBackStack("post_" + id);
+				ft.commit();
+				}
+			});
 
-            //Add to the list
-            llList.addView(entry);
-        }
+			llList.addView(entry);
+		}
 
-        //Close the database
-        cursor.close();
-        db.close();
+		//Close the database
+		cursor.close();
+		db.close();
 
-    }
+	}
 }

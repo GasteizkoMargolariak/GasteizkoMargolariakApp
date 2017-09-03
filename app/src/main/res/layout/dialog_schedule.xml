@@ -54,8 +54,6 @@
             android:background="@drawable/section_title"
             android:paddingBottom="4dp"
             android:paddingEnd="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="10dp"
             android:paddingStart="20dp"
             android:paddingTop="4dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -80,7 +78,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:capitalize="sentences"
-                    android:text="AAA"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/entry_title"
                     android:textStyle="bold"
@@ -90,7 +87,6 @@
                     android:id="@+id/tv_dialog_schedule_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/entry_title"
@@ -109,7 +105,6 @@
                 android:id="@+id/tv_dialog_schedule_host"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:textStyle="italic"
@@ -119,7 +114,6 @@
                 android:id="@+id/tv_dialog_schedule_sponsor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:textStyle="italic"
@@ -146,7 +140,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:orientation="vertical">
 
@@ -175,7 +168,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight=".95"
                     android:background="@drawable/map"
                     android:padding="3dp">

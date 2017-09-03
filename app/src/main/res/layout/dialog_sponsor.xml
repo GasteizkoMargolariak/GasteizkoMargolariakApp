@@ -1,6 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -16,12 +16,9 @@
         android:background="@drawable/section_title"
         android:paddingBottom="4dp"
         android:paddingEnd="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp"
         android:paddingStart="20dp"
         android:paddingTop="4dp"
-        android:textColor="@color/section_title"
-        android:layout_alignParentTop="true"/>
+        android:textColor="@color/section_title"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,8 +26,7 @@
         android:orientation="vertical"
         android:background="@drawable/entry"
         android:layout_margin="8dp"
-        android:padding="7dp"
-        >
+        android:padding="7dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -38,7 +34,8 @@
             android:src="@drawable/photo_placeholder_thumb"
             android:id="@+id/iv_dialog_sponsor_image"
             android:maxHeight="140dp"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/pop_menu_sponsors"/>
 
         <TextView
             android:id="@+id/tv_dialog_sponsor_text"
@@ -56,7 +53,8 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/ll_dialog_sponsor_url">
+                android:id="@+id/ll_dialog_sponsor_url"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -68,6 +66,7 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="20dp"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/sponsors_url"
                     android:src="@drawable/web"/>
 
                 <TextView
@@ -76,7 +75,7 @@
                     android:id="@+id/tv_dialog_sponsor_url"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:textColor="@color/background_menu"
                     android:textSize="16sp"
                     android:textStyle="normal|bold"/>
@@ -86,7 +85,8 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/ll_dialog_sponsor_address">
+                android:id="@+id/ll_dialog_sponsor_address"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -98,6 +98,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="20dp"
+                    android:contentDescription="@string/sponsors_url"
                     android:src="@drawable/pinpoint"/>
 
                 <TextView
@@ -105,7 +106,7 @@
                     android:id="@+id/tv_dialog_sponsor_address"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:textStyle="normal|bold"
                     android:textSize="16sp"
                     android:textColor="@color/background_menu"/>
@@ -122,7 +123,6 @@
         android:text="@string/notification_close"
         android:textColor="@color/input_text_color"
         android:textStyle="bold"
-        android:layout_alignParentBottom="true"
         android:layout_height="50dp"/>
 
 </LinearLayout>

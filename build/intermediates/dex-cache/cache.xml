@@ -34,7 +34,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="8c6c81ed286c468f8041ef12410a060168e00e77">
+        sha1="8c3ada7df5c2d03a27b2e5eab3562d125aa10d81">
         <dex dex="/home/seavenois/Workspace/Programming/GM_APP/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a321d4fbe81ae9628438e81e6dd58311e68d4265/classes.dex" />
     </item>
 
