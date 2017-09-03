@@ -82,7 +82,7 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
 			input.close();
 
 		} catch (Exception e) {
-			Log.e("Error downloading: ", e.getMessage());
+			Log.e("DOWNLOAD_IMAGE", "Error downloading: " + e.getMessage());
 		}
 
 		return null;
@@ -94,7 +94,6 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
 	 */
 	@Override
 	protected void onPostExecute(Void v) {
-		Log.d("File downloaded", path);
 		try {
 			File file = new File(path);
 			iv.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), size));

@@ -307,89 +307,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			cursor.close();
 		}
 		catch (java.io.UnsupportedEncodingException ex){
-			Log.e("UTF-8", "Error encoding url for sync \"" + url + "\" - " + ex.toString());
+			Log.e("SYNC", "Error encoding url for sync \"" + url + "\" - " + ex.toString());
 		}
 		return url;
 	}
 
-	/**
-	 * Recreates the database, dropping and then creating all the tables containing
-	 * data. "location" and "notification" tables are untouched.
-	 *
-	 * @param db A database connection.
-	 *
-	 * @return False if there were errors, true otherwise.
-	 */
-	@SuppressWarnings("unused")
-	private boolean recreateDb(SQLiteDatabase db) {
-		boolean result = true;
-		try {
-			db.beginTransactionNonExclusive();
-			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY);
-			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_COMMENT);
-			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_IMAGE);
-			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_ITINERARY);
-			db.execSQL(GM.DB.QUERY.DROP.ACTIVITY_TAG);
-			db.execSQL(GM.DB.QUERY.DROP.ALBUM);
-			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL);
-			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_DAY);
-			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT_CITY);
-			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT_GM);
-			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_EVENT_IMAGE);
-			db.execSQL(GM.DB.QUERY.DROP.FESTIVAL_OFFER);
-			db.execSQL(GM.DB.QUERY.DROP.PEOPLE);
-			db.execSQL(GM.DB.QUERY.DROP.PHOTO);
-			db.execSQL(GM.DB.QUERY.DROP.PHOTO_ALBUM);
-			db.execSQL(GM.DB.QUERY.DROP.PHOTO_COMMENT);
-			db.execSQL(GM.DB.QUERY.DROP.PLACE);
-			db.execSQL(GM.DB.QUERY.DROP.POST);
-			db.execSQL(GM.DB.QUERY.DROP.POST_COMMENT);
-			db.execSQL(GM.DB.QUERY.DROP.POST_IMAGE);
-			db.execSQL(GM.DB.QUERY.DROP.POST_TAG);
-			db.execSQL(GM.DB.QUERY.DROP.ROUTE);
-			db.execSQL(GM.DB.QUERY.DROP.ROUTE_POINT);
-			db.execSQL(GM.DB.QUERY.DROP.SETTINGS);
-			db.execSQL(GM.DB.QUERY.DROP.SPONSOR);
-			db.execSQL(GM.DB.QUERY.DROP.VERSION);
-			db.setTransactionSuccessful();
-			db.endTransaction();
-			publishProgress();
-			db.beginTransactionNonExclusive();
-			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY);
-			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_COMMENT);
-			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_IMAGE);
-			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_ITINERARY);
-			db.execSQL(GM.DB.QUERY.CREATE.ACTIVITY_TAG);
-			db.execSQL(GM.DB.QUERY.CREATE.ALBUM);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_DAY);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_CITY);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_GM);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_IMAGE);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_OFFER);
-			db.execSQL(GM.DB.QUERY.CREATE.PEOPLE);
-			db.execSQL(GM.DB.QUERY.CREATE.PHOTO);
-			db.execSQL(GM.DB.QUERY.CREATE.PHOTO_ALBUM);
-			db.execSQL(GM.DB.QUERY.CREATE.PHOTO_COMMENT);
-			db.execSQL(GM.DB.QUERY.CREATE.PLACE);
-			db.execSQL(GM.DB.QUERY.CREATE.POST);
-			db.execSQL(GM.DB.QUERY.CREATE.POST_COMMENT);
-			db.execSQL(GM.DB.QUERY.CREATE.POST_IMAGE);
-			db.execSQL(GM.DB.QUERY.CREATE.POST_TAG);
-			db.execSQL(GM.DB.QUERY.CREATE.ROUTE);
-			db.execSQL(GM.DB.QUERY.CREATE.ROUTE_POINT);
-			db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
-			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
-			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
-			db.setTransactionSuccessful();
-			db.endTransaction();
-		}
-		catch (Exception ex) {
-			result = false;
-			Log.e("SYNC", "Error recreating the database: " + ex.toString());
-		}
-		return result;
-	}
 
 	/**
 	 * Finds out the type of a column of a table in the database.

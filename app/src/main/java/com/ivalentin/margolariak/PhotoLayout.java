@@ -57,7 +57,7 @@ public class PhotoLayout extends Fragment {
 		String albumPerm = bundle.getString("albumPerm", "");
 		int id = bundle.getInt("photo", -1);
 		if (id == -1) {
-			Log.e("Photo error", "No such photo: " + id);
+			Log.e("PHOTO_LAYOUT", "No such photo: " + id);
 			this.getActivity().onBackPressed();
 		}
 

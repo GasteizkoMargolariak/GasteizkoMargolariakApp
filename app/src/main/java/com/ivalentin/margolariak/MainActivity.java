@@ -672,7 +672,7 @@ public class MainActivity extends Activity {
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
 			db.close();
 		} catch (Exception ex) {
-			Log.e("Error creating database", ex.toString());
+			Log.e("MAIN_ACTIVITY", "Error creating database: " + ex.toString());
 		}
 	}
 
@@ -684,7 +684,7 @@ public class MainActivity extends Activity {
 		try {
 			getApplicationContext().deleteDatabase(GM.DB.NAME);
 		} catch (Exception ex) {
-			Log.e("Error deleting database", ex.toString());
+			Log.e("MAIN_ACTIVITY", "Error deleting database: " + ex.toString());
 		}
 	}
 

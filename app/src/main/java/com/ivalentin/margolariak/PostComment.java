@@ -127,7 +127,6 @@ class PostComment extends AsyncTask<String, String, Integer> {
 
 			String uri = GM.API.SERVER + GM.API.COMMENT.PATH + "?" + urlParams;
 			url = new URL(uri);
-			Log.e("URI", uri);
 
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 

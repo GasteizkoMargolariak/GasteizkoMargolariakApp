@@ -62,7 +62,7 @@ public class ActivityFutureLayout extends Fragment {
 		Bundle bundle = this.getArguments();
 		int id = bundle.getInt("activity", -1);
 		if (id == -1){
-			Log.e("Activity error", "No such activity: " + id);
+			Log.e("ACTIVITY_FUTURE_LAYOUT", "No such activity: " + id);
 			this.getActivity().onBackPressed();
 		}
 
@@ -284,7 +284,7 @@ public class ActivityFutureLayout extends Fragment {
 				}
 			}
 			catch (ParseException ex){
-				Log.e("Error parsing time", ex.toString());
+				Log.e("ACTIVITY_FUTURE_LAYOUT", "Error parsing time: " + ex.toString());
 			}
 
 			//Set the place

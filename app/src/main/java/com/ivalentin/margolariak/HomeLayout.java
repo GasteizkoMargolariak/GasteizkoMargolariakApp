@@ -503,7 +503,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			}
 		}
 		catch (Exception ex){
-			Log.e("Location", "Couldn't set up home location section: " + ex.toString());
+			Log.e("HOME_LAYOUT", "Couldn't set up home location section: " + ex.toString());
 		}
 
 		return false;
@@ -1059,7 +1059,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			}
 		}
 		catch (Exception ex){
-			Log.e("Location manager", "Unable to stop location manager on destroy: " + ex.toString());
+			Log.e("HOME_LAYOUT", "Unable to stop location manager on destroy: " + ex.toString());
 		}
 		super.onDestroy();
 	}

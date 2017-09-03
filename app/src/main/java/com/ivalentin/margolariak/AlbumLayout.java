@@ -116,7 +116,7 @@ public class AlbumLayout extends Fragment {
 					ivLeft.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG.SIZE.PREVIEW));
 				}
 				catch (Exception ex){
-					Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
+					Log.e("ALBUM_LAYOUT", "Bitmap error. Not loading image " + image + ": " + ex.toString());
 				}
 			}
 			else {
@@ -188,7 +188,7 @@ public class AlbumLayout extends Fragment {
 						ivRight.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), GM.IMG.SIZE.PREVIEW));
 					}
 					catch (Exception ex){
-						Log.e("Bitmap error", "Not loading image " + image + ": " + ex.toString());
+						Log.e("ALBUM_LAYOUT", "Bitmap error. Not loading image " + image + ": " + ex.toString());
 					}
 				}
 				else {

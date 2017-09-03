@@ -1490,7 +1490,7 @@ final class GM {
 			}
 		}
 		catch(Exception ex){
-			Log.e("Date format error", ex.toString());
+			Log.e("GM", "Date format error: " + ex.toString());
 		}
 
 		return output;

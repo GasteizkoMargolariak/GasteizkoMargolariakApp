@@ -209,7 +209,7 @@ public class ScheduleLayout extends Fragment{
 		try {
 			calendar.setTime(dateFormat.parse(dates[selected] + " 06:00:00"));
 		} catch (Exception ex) {
-			Log.e("Datetime error", ex.toString());
+			Log.e("SCHEDULE_LAYOUT", "Datetime error: " + ex.toString());
 		}
 
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
@@ -259,7 +259,7 @@ public class ScheduleLayout extends Fragment{
 		try {
 			c.setTime(sdf.parse(dates[selected]));
 		} catch (Exception ex) {
-			Log.e("Date parsing error", ex.toString());
+			Log.e("SCHEDULE_LAYOUT", "Date parsing error: " + ex.toString());
 			return eventCount;
 		}
 		c.add(Calendar.DATE, 1);  // number of days to add
@@ -351,7 +351,7 @@ public class ScheduleLayout extends Fragment{
 			sw.scrollTo(0, 0);
 		}
 		catch(Exception ex){
-			Log.e("Schedule scroll", "Culdnt get scrollview to scroll: " + ex.toString());
+			Log.e("SCHEDULE_LAYOUT", "Culdn't get scrollview to scroll: " + ex.toString());
 		}
 
 		return eventCount;
@@ -364,7 +364,6 @@ public class ScheduleLayout extends Fragment{
 	 * @param id The event id
 	 * @param schedule GM.SCHEDULE.GM or GM.SCHEDULE.CITY
 	 */
-	@SuppressWarnings("ConstantConditions")
 	private void showDialog(final int id, final int schedule){
 
 		//Create the dialog
@@ -518,7 +517,7 @@ public class ScheduleLayout extends Fragment{
 				}
 			}
 			catch (Exception ex){
-				Log.e("Error parsing date", ex.toString());
+				Log.e("SCHEDULE_LAYOUT", "Error parsing date: " + ex.toString());
 			}
 
 			//Set time
@@ -532,7 +531,7 @@ public class ScheduleLayout extends Fragment{
 				}
 			}
 			catch (ParseException ex){
-				Log.e("Error parsing time", ex.toString());
+				Log.e("SCHEDULE_LAYOUT", "Error parsing time: " + ex.toString());
 			}
 
 
@@ -634,7 +633,13 @@ public class ScheduleLayout extends Fragment{
 
 			//Show the dialog
 			WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-			lp.copyFrom(dialog.getWindow().getAttributes());
+			try {
+				//noinspection ConstantConditions
+				lp.copyFrom(dialog.getWindow().getAttributes());
+			}
+			catch(NullPointerException e){
+				Log.e("SCHEDULE_LAYOUT", "Error setting dialog parameters: " + e.toString());
+			}
 			lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 			lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 			lp.gravity = Gravity.CENTER;

@@ -54,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			try{
 				fu = new FetchURL();
 				fu.Run(GM.API.SERVER + GM.API.NOTIFICATION.PATH);
-				Log.d("NOTIFICATIONS", "Fetched notifications");
+				Log.d("ALARM_RECEIVER", "Fetched notifications");
 
 				//Parse info
 				String o = fu.getOutput().toString();
@@ -64,13 +64,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 				try {
 					db = context.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 					if (db.isReadOnly()) {
-						Log.e("NOTIFICATIONS", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
+						Log.e("ALARM_RECEIVER", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
 						new Sync(context).execute(); // Sync before exiting.
 						return;
 					}
 				}
 				catch(SQLiteDatabaseLockedException ex){
-					Log.e("NOTIFICATIONS", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
+					Log.e("ALARM_RECEIVER", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
 					new Sync(context).execute(); // Sync before exiting.
 					return;
 				}

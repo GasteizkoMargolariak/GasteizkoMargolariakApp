@@ -48,7 +48,7 @@ public class PostLayout extends Fragment {
 		Bundle bundle = this.getArguments();
 		final int id = bundle.getInt("post", -1);
 		if (id == -1){
-			Log.e("Post error", "No such post: " + id);
+			Log.e("POST_LAYOUT", "No such post: " + id);
 			this.getActivity().onBackPressed();
 		}
 

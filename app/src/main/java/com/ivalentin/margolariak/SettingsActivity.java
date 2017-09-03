@@ -249,7 +249,6 @@ public class SettingsActivity extends Activity {
 		//Set the web view
 		WebView wv = (WebView) dialog.findViewById(R.id.wv_changelog);
 		wv.getSettings().setAllowContentAccess(true);
-		Log.e("URL", "file:///android_assets/changelog_" + GM.getLang() + ".html");
 		wv.loadUrl("file:///android_asset/changelog_" + GM.getLang() + ".html");
 
 		//Set close button
