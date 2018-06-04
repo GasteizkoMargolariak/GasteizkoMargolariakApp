@@ -268,16 +268,29 @@ public class ScheduleLayout extends Fragment{
 		String query;
 
 		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
-			query = "SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_gm, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59'";
+			query = "SELECT festival_event_gm.id AS id, title_" + lang + " AS title, description_" + lang + " AS description, place AS place_id, start, end, name_" + lang + " AS place, address_" + lang + " AS address, lat, lon, route FROM festival_event_gm, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59'";
 		}
 		else {
-			query = "SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_city, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59'";
+			query = "SELECT festival_event_city.id AS id, title_" + lang + " AS title, description_" + lang + " AS description, place AS place_id, start, end, name_" + lang + " AS place, address_" + lang + " AS address, lat, lon, route FROM festival_event_city, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59'";
 		}
 		if (filter.length() > 0) {
 			query = query + "AND (title_" + lang + " like '%" + filter + "%' OR description_" + lang + " like '%" + filter + "%' OR name_" + lang + " like '%" + filter + "%' OR address_" + lang + " like '%" + filter + "%') ";
 		}
 		query = query + " ORDER BY start;";
 		Cursor cursor = db.rawQuery(query, null);
+		/*
+		 * 0: id
+		 * 1: title
+		 * 2: description
+		 * 3: place_id
+		 * 4: start
+		 * 5: end
+		 * 6: place
+		 * 7: address
+		 * 8: lat
+		 * 9: lon
+		 * 10: route
+		 */
 
 		//Clear the list
 		list = (LinearLayout) view.findViewById(R.id.ll_schedule_list);
@@ -300,7 +313,8 @@ public class ScheduleLayout extends Fragment{
 			tvRowDesc = (TextView) entry.findViewById(R.id.tv_row_schedule_description);
 			if (cursor.getString(2) == null || cursor.getString(2).length() <= 0 || cursor.getString(2).equals(cursor.getString(1))) {
 				tvRowDesc.setVisibility(View.GONE);
-			} else {
+			}
+			else {
 				tvRowDesc.setText(cursor.getString(2));
 			}
 
@@ -312,16 +326,16 @@ public class ScheduleLayout extends Fragment{
 			tvRowAddress = (TextView) entry.findViewById(R.id.tv_row_schedule_address);
 			if (cursor.getString(7) == null || cursor.getString(7).length() <= 0 || cursor.getString(7).equals(cursor.getString(6))) {
 				tvRowAddress.setVisibility(View.GONE);
-			} else {
+			}
+			else {
 				tvRowAddress.setText(cursor.getString(7));
 			}
 
 			//Set icon
-			if (schedule == GM.SCHEDULE.MARGOLARIAK) {
+			if (cursor.getString(10) != null){
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_schedule_pinpoint);
-				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/pinpoint_gm", null, null));
+				pinPoint.setImageResource(R.drawable.pinpoint_route);
 			}
-
 
 			//Set time
 			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_schedule_time);
@@ -391,7 +405,7 @@ public class ScheduleLayout extends Fragment{
 		Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
 		TextView tvOsm = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_osm);
 		MapView mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
-		
+
 		// Basic map configuration
 		mapView.setMultiTouchControls(true);
 		IMapController mapController = mapView.getController();
@@ -543,30 +557,54 @@ public class ScheduleLayout extends Fragment{
 				Cursor routeCursor = db.rawQuery("SELECT id, c_lat, c_lon, zoom FROM route WHERE id = " + routeId + ";", null);
 				if (routeCursor.moveToNext()) {
 
-					// Configure map route
-					mapController.setZoom(routeCursor.getInt(3));
-					GeoPoint center = new GeoPoint(routeCursor.getDouble(1), routeCursor.getDouble(2));
-					mapController.setCenter(center);
-
 					// Read from route_point and draw the route on the map.
 					Cursor pointCursor = db.rawQuery("SELECT lat_o, lon_o, lat_d, lon_d FROM route_point WHERE route = " + routeId + " ORDER BY part;", null);
 					final ArrayList<GeoPoint> points = new ArrayList<>();
 					GeoPoint lastPoint = new GeoPoint(0.0, 0.0);
+					GeoPoint firstPoint = null;
 					while (pointCursor.moveToNext()){
-
 						points.add(new GeoPoint(pointCursor.getDouble(0), pointCursor.getDouble(1)));
 						lastPoint = new GeoPoint(pointCursor.getDouble(2), pointCursor.getDouble(3));
+						if (firstPoint == null){
+							firstPoint = new GeoPoint(pointCursor.getDouble(0), pointCursor.getDouble(1));
+						}
 					}
 					// For the last one, also take destination
 					points.add(lastPoint);
 
 					pointCursor.close();
 
-					//Create path
+					// Center map
+					mapController.setCenter(firstPoint);
+					mapController.setZoom(routeCursor.getInt(3));
+
+					// Create path
 					Polyline line = new Polyline();
 					line.setPoints(points);
-					line.setColor(getResources().getColor(R.color.background_menu, null));
+					line.setColor(getResources().getColor(R.color.map_route, null));
+					line.setWidth(30.0f);
 					mapView.getOverlays().add(line);
+
+					// Set markers
+					OverlayItem startOverlay = new OverlayItem(title, title, firstPoint);
+					Drawable startMarker = this.getResources().getDrawable(R.drawable.pinpoint_start, null);
+					startOverlay.setMarker(startMarker);
+					OverlayItem endOverlay = new OverlayItem(title, title, lastPoint);
+					Drawable endMarker = this.getResources().getDrawable(R.drawable.pinpoint_end, null);
+					endOverlay.setMarker(endMarker);
+					final ArrayList<OverlayItem> markers = new ArrayList<>();
+					markers.add(startOverlay);
+					markers.add(endOverlay);
+                                        ItemizedIconOverlay markersOverlay = new ItemizedIconOverlay<>(markers,
+					  new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+					  	public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+							return true;
+						}
+						public boolean onItemLongPress(final int index, final OverlayItem item) {
+							return true;
+						}
+					  }, getContext());
+					mapView.getOverlays().add(markersOverlay);
 
 				}
 				routeCursor.close();

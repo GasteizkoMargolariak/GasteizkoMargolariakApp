@@ -41,9 +41,11 @@
     <!-- Color for maps -->
     <color name="map_border">#0077ff</color>
     <color name="map_background">#ffffff</color>
+    <color name="map_route">#0022aaaa</color>
 
     <!--Colors for album covers -->
     <color name="album_border">#111111</color>
     <color name="album_background">#aaaaaa</color>
 
 </resources>
+

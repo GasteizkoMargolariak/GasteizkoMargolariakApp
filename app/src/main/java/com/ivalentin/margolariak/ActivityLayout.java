@@ -72,6 +72,14 @@ public class ActivityLayout extends Fragment{
 
 		//Get data from the database of the future activities
 		cursor = db.rawQuery("SELECT id, date, city, title_" + lang+ " AS title, text_" + lang + " AS text, price FROM activity WHERE date >= date('now') ORDER BY date DESC;", null);
+		/*
+		 * 0: id
+		 * 1: date
+		 * 3: city
+		 * 4: title
+		 * 5: text
+		 * 6: price
+		 */
 		if (cursor.getCount() > 0) {
 			TextView tvNoFuture = (TextView) view.findViewById(R.id.tv_activities_no_future);
 			tvNoFuture.setVisibility(View.GONE);
@@ -126,7 +134,8 @@ public class ActivityLayout extends Fragment{
 						//If the image exists, set it.
 						Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
 						iv.setImageBitmap(myBitmap);
-					} else {
+					}
+					else {
 						//If not, create directories and download asynchronously
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
@@ -166,7 +175,14 @@ public class ActivityLayout extends Fragment{
 
 		//Get data from the database of the past activities
 		Cursor cursorPast = db.rawQuery("SELECT id, date, city, title_" + lang + " AS title, text_" + lang + " AS text, after_" + lang + " AS after FROM activity WHERE date < date('now') ORDER BY date DESC;", null);
-
+		/*
+		 * 0: id
+		 * 1: date
+		 * 2: city
+		 * 3: title
+		 * 4: text
+		 * 5: after
+		 */
 
 		//Print rows
 		while (cursorPast.moveToNext()) {
@@ -185,15 +201,11 @@ public class ActivityLayout extends Fragment{
 
 			//Set text
 			String text;
-			if (cursorPast.getString(5) == null){
-				text = Html.fromHtml(cursorPast.getString(4)).toString();
+			if (cursorPast.getString(5) != null && cursorPast.getString(5).length() > 0){
+				text = Html.fromHtml(cursorPast.getString(5)).toString();
 			}
-			else {
-				if (cursorPast.getString(5) == null || cursorPast.getString(5).length() < 1) {
-					text = Html.fromHtml(cursorPast.getString(4)).toString();
-				} else {
-					text = Html.fromHtml(cursorPast.getString(5)).toString();
-				}
+			else{
+				text = Html.fromHtml(cursorPast.getString(4)).toString();
 			}
 			TextView tvText = (TextView) entry.findViewById(R.id.tv_row_activity_past_text);
 			tvText.setText(text);
@@ -220,7 +232,8 @@ public class ActivityLayout extends Fragment{
 					//If the image exists, set it.
 					Bitmap myBitmap = BitmapFactory.decodeFile(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image);
 					iv.setImageBitmap(myBitmap);
-				} else {
+				}
+				else {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");

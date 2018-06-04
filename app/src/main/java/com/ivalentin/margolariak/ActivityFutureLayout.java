@@ -130,7 +130,18 @@ public class ActivityFutureLayout extends Fragment {
 		cursor.close();
 
 		//Get itinerary
-		Cursor cursorItinerary = db.rawQuery("SELECT activity_itinerary.id, activity_itinerary.name_" + lang + " AS name, description_" + lang + " AS description, start, place.name_" + lang + " AS placename, address_" + lang + " AS address, lat, lon FROM activity_itinerary, place WHERE activity_itinerary.place = place.id AND activity = " + id + ";", null);
+		Cursor cursorItinerary = db.rawQuery("SELECT activity_itinerary.id AS id, activity_itinerary.name_" + lang + " AS name, description_" + lang + " AS description, start, place.name_" + lang + " AS placename, address_" + lang + " AS address, lat, lon, route FROM activity_itinerary, place WHERE activity_itinerary.place = place.id AND activity = " + id + ";", null);
+		/*
+		 * 0: id
+		 * 1: name
+		 * 2: description
+		 * 3: start
+		 * 4: place
+		 * 5: address
+		 * 6: lat
+		 * 7: lon
+		 * 8: route
+		 */
 		if (cursorItinerary.getCount() <= 0){
 			LinearLayout sch = (LinearLayout) view.findViewById(R.id.ll_activity_future_schedule);
 			sch.setVisibility(View.GONE);
@@ -158,20 +169,26 @@ public class ActivityFutureLayout extends Fragment {
 
 				//Set description
 				TextView tvSchDescription = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_description);
-				if (!cursorItinerary.getString(1).equals(cursorItinerary.getString(2))){
+				if (cursorItinerary.getString(1).equals(cursorItinerary.getString(2))){
 					tvSchDescription.setVisibility(View.GONE);
 				}
 				else {
-					tvSchTitle.setText(cursorItinerary.getString(2));
+					tvSchDescription.setText(cursorItinerary.getString(2));
 				}
 
 				//Set place
 				TextView tvSchPlace = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_place);
 				tvSchPlace.setText(cursorItinerary.getString(4));
 
+				// Set route indicator
+				if (cursorItinerary.getString(8) != null && cursorItinerary.getString(8).length() > 0){
+					ImageView ivPinpoint = (ImageView) entry.findViewById(R.id.iv_row_activity_itinerary_pinpoint);
+					ivPinpoint.setImageResource(R.drawable.pinpoint_route);
+				}
+
 				//Set address
 				TextView tvSchAddress = (TextView) entry.findViewById(R.id.tv_row_activity_itinerary_address);
-				if (!cursorItinerary.getString(4).equals(cursorItinerary.getString(5))){
+				if (cursorItinerary.getString(4).equals(cursorItinerary.getString(5))){
 					tvSchAddress.setVisibility(View.GONE);
 				}
 				else {
@@ -238,7 +255,7 @@ public class ActivityFutureLayout extends Fragment {
 		//Get info about the event
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		String lang = GM.getLang();
-		Cursor cursor = db.rawQuery("SELECT id, name_" + lang + ", description_" + lang + ", place, route, start, end, FROM activity_itinerary WHERE activity.id = " + id + " ORDER BY start;", null);
+		Cursor cursor = db.rawQuery("SELECT id, name_" + lang + ", description_" + lang + ", place, route, start, end FROM activity_itinerary WHERE id = " + id + " ORDER BY start;", null);
 		if (cursor.getCount() > 0){
 
 			cursor.moveToNext();
@@ -293,17 +310,15 @@ public class ActivityFutureLayout extends Fragment {
 				Cursor routeCursor = db.rawQuery("SELECT id, c_lat, c_lon, zoom FROM route WHERE id = " + routeId + ";", null);
 				if (routeCursor.moveToNext()) {
 
-					// Configure map route
-					mapController.setZoom(routeCursor.getInt(3));
-					GeoPoint center = new GeoPoint(routeCursor.getDouble(1), routeCursor.getDouble(2));
-					mapController.setCenter(center);
-
 					// Read from route_point and draw the route on the map.
 					Cursor pointCursor = db.rawQuery("SELECT lat_o, lon_o, lat_d, lon_d FROM route_point WHERE route = " + routeId + " ORDER BY part;", null);
 					final ArrayList<GeoPoint> points = new ArrayList<>();
 					GeoPoint lastPoint = new GeoPoint(0.0, 0.0);
+					GeoPoint firstPoint = null;
 					while (pointCursor.moveToNext()){
-
+						if (firstPoint == null){
+							firstPoint = new GeoPoint(pointCursor.getDouble(0), pointCursor.getDouble(1));
+						}
 						points.add(new GeoPoint(pointCursor.getDouble(0), pointCursor.getDouble(1)));
 						lastPoint = new GeoPoint(pointCursor.getDouble(2), pointCursor.getDouble(3));
 					}
@@ -312,11 +327,37 @@ public class ActivityFutureLayout extends Fragment {
 
 					pointCursor.close();
 
-					//Create path
+					// Center map
+					mapController.setCenter(firstPoint);
+					mapController.setZoom(routeCursor.getInt(3));
+
+					// Create path
 					Polyline line = new Polyline();
 					line.setPoints(points);
-					line.setColor(getResources().getColor(R.color.background_menu, null));
+					line.setColor(getResources().getColor(R.color.map_route, null));
+					line.setWidth(30.0f);
 					mapView.getOverlays().add(line);
+
+					// Set markers
+					OverlayItem startOverlay = new OverlayItem(title, title, firstPoint);
+					Drawable startMarker = this.getResources().getDrawable(R.drawable.pinpoint_start, null);
+					startOverlay.setMarker(startMarker);
+					OverlayItem endOverlay = new OverlayItem(title, title, lastPoint);
+					Drawable endMarker = this.getResources().getDrawable(R.drawable.pinpoint_end, null);
+					endOverlay.setMarker(endMarker);
+					final ArrayList<OverlayItem> markers = new ArrayList<>();
+					markers.add(startOverlay);
+					markers.add(endOverlay);
+					ItemizedIconOverlay markersOverlay = new ItemizedIconOverlay<>(markers,
+					  new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+					        public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+					                return true;
+					        }
+					        public boolean onItemLongPress(final int index, final OverlayItem item) {
+					                return true;
+					        }
+					  }, getContext());
+					mapView.getOverlays().add(markersOverlay);
 
 				}
 				routeCursor.close();

@@ -929,7 +929,8 @@ final class GM {
 		 * URL of the server.
 		 */
 		//static final String SERVER = "https://margolariak.com";
-		static final String SERVER = "http://192.168.1.101";
+		//static final String SERVER = "http://192.168.1.101";
+		static final String SERVER = "http://47.61.32.194:8101";
 	}
 
 	/**
