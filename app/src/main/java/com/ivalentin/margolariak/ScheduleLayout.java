@@ -109,7 +109,7 @@ public class ScheduleLayout extends Fragment{
 			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event_gm WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' ORDER BY daydate;", null);
 		}
 		else{
-			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event_vity WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' ORDER BY daydate;", null);
+			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event_city WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' ORDER BY daydate;", null);
 		}
 
 
@@ -324,7 +324,7 @@ public class ScheduleLayout extends Fragment{
 
 			//Set address
 			tvRowAddress = (TextView) entry.findViewById(R.id.tv_row_schedule_address);
-			if (cursor.getString(7) == null || cursor.getString(7).length() <= 0 || cursor.getString(7).equals(cursor.getString(6))) {
+			if (cursor.getString(7) == null || cursor.getString(7).length() <= 0 || cursor.getString(7).equalsIgnoreCase(cursor.getString(6))) {
 				tvRowAddress.setVisibility(View.GONE);
 			}
 			else {

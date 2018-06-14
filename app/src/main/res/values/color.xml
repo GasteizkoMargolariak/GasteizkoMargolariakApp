@@ -41,11 +41,15 @@
     <!-- Color for maps -->
     <color name="map_border">#0077ff</color>
     <color name="map_background">#ffffff</color>
-    <color name="map_route">#0022aaaa</color>
+    <color name="map_route">#0022aa</color>
 
     <!--Colors for album covers -->
     <color name="album_border">#111111</color>
     <color name="album_background">#aaaaaa</color>
+
+    <!-- Color for schedule rows -->
+    <color name="schedule_place">#555577</color>
+    <color name="schedule_address">#8888aa</color>
 
 </resources>
 

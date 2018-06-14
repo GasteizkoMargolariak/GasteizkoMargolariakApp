@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textAppearance="@android:style/TextAppearance.Small"
-                    android:textColor="#000000"/>
+                    android:textColor="@color/schedule_place"/>
 
                 <TextView
                     android:id="@+id/tv_row_schedule_address"
@@ -115,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textStyle="italic"
+                    android:textColor="@color/schedule_address"
                     android:textAppearance="@android:style/TextAppearance.Small"/>
             </LinearLayout>
         </LinearLayout>
