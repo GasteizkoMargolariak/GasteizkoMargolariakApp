@@ -77,9 +77,8 @@ public class LablancaLayout extends Fragment {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
-					if (fpath.mkdirs()) {
-						new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage, GM.IMG.SIZE.PREVIEW).execute();
-					}
+					fpath.mkdirs();
+					new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, headerImage, GM.IMG.SIZE.PREVIEW).execute();
 				}
 			} else {
 				headerImage.setVisibility(View.GONE);

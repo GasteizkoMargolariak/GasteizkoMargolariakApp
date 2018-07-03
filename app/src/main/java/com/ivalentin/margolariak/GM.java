@@ -1115,7 +1115,13 @@ final class GM {
 	static final class PERMISSION {
 
 		/**
-		 * Code for the location permission request
+		 * Code for the storage persmission request.
+		 */
+
+		static final int STORAGE = 0;
+
+		/**
+		 * Code for the location permission request.
 		 */
 		static final int LOCATION = 1;
 	}
