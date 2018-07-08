@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +25,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +47,6 @@ import android.widget.Toast;
  * @see Fragment
  *
  */
-@SuppressWarnings("UnusedReturnValue")
 public class HomeLayout extends Fragment implements LocationListener {
 
 	//The location manager
@@ -61,6 +58,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 	}
 
 	private View view;
+
 
 	/**
 	 * Run when the fragment is inflated.
@@ -74,21 +72,25 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
 	public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout.
-		view = inflater.inflate(R.layout.fragment_layout_home, null);
+		view = inflater.inflate(R.layout.fragment_layout_home, container, false);
+
+		//Request storage permissions if not set
+		if (!checkStoragePermission()) {
+			requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, GM.PERMISSION.STORAGE);
+		}
 
 		//Request location permissions if not set
-		if (ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
+		if (!checkLocationPermission()) {
+			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
 		}
 
 		//Set Location manager
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
 			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 		}
@@ -109,10 +111,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Set up the gallery section
 		setUpGallery(view);
 
-		//Asynchronously set up location section
-		//This will trigger onLocationChanged, that will trigger setUpLocation
-		new HomeSectionLocation(view).execute();
-
 		//Set up schedule sections
 		setUpSchedule(1, view);
 		setUpSchedule(0, view);
@@ -129,7 +127,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return The number of entries shown.
 	 */
-	@SuppressLint("InflateParams")
 	private int setUpSchedule(int gm, View view) {
 		int count = 0;
 
@@ -182,7 +179,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 		calendarEnd = calendar;
 		calendarEnd.add(Calendar.MINUTE, -40);
 		endString = dateFormat.format(calendarEnd.getTime());
-		query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND ((start <= '" + nowString + "' AND end > '" + nowString + "') OR (start > '" + endString + "' AND start < '" + nowString + "')) AND gm = " + gm + " ORDER BY start LIMIT 2";
+		if (gm == 1) {
+			query = "SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_gm, place WHERE place = place.id AND ((start <= '" + nowString + "' AND end > '" + nowString + "') OR (start > '" + endString + "' AND start < '" + nowString + "')) ORDER BY start LIMIT 2";
+		}
+		else{
+			query = "SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_city, place WHERE place = place.id AND ((start <= '" + nowString + "' AND end > '" + nowString + "') OR (start > '" + endString + "' AND start < '" + nowString + "')) ORDER BY start LIMIT 2";
+		}
 
 		//Execute query and loop
 		Cursor cursorNow = db.rawQuery(query, null);
@@ -192,7 +194,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		while (cursorNow.moveToNext()) {
 			count++;
 
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, listNow, false);
 
 			//Set id
 			tvRowId = (TextView) entry.findViewById(R.id.tv_row_home_schedule_id);
@@ -216,16 +218,20 @@ public class HomeLayout extends Fragment implements LocationListener {
 			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_home_schedule_time);
 			tvRowTime.setVisibility(View.GONE);
 
-			//Add the view
 			listNow.addView(entry);
 		}
 		cursorNow.close();
 
-		//Prepare query for upcaming events
+		//Prepare query for upcoming events
 		calendarEnd = calendar;
 		calendarEnd.add(Calendar.MINUTE, 320);
 		endString = dateFormat.format(calendarEnd.getTime());
-		query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND start > '" + nowString + "' AND start < '" + endString + "' AND gm = " + gm + " ORDER BY start LIMIT 2";
+		if (gm == 1) {
+			query = "SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_gm, place WHERE place = place.id AND start > '" + nowString + "' AND start < '" + endString + "' ORDER BY start LIMIT 2";
+		}
+		else{
+			query = "SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event_city, place WHERE place = place.id AND start > '" + nowString + "' AND start < '" + endString + "' ORDER BY start LIMIT 2";
+		}
 
 		//Execute query and loop
 		Cursor cursorNext = db.rawQuery(query, null);
@@ -235,7 +241,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		while (cursorNext.moveToNext()) {
 			count++;
 
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_schedule, listNext, false);
 
 			//Set id
 			tvRowId = (TextView) entry.findViewById(R.id.tv_row_home_schedule_id);
@@ -261,7 +267,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 			String tm = cursorNext.getString(4).substring(cursorNext.getString(4).length() - 8, cursorNext.getString(4).length() - 3);
 			tvRowTime.setText(tm);
 
-			//Add the view
 			listNext.addView(entry);
 		}
 		cursorNext.close();
@@ -396,7 +401,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return True if the section has been shown, false otherwise.
 	 */
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private boolean setUpLablanca(View view) {
 		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 		Boolean set = false;
@@ -421,10 +425,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 			if (cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				llSection.setVisibility(View.VISIBLE);
-
-				//Enable menu entries
-				//this.getActivity().findViewById(R.id.menu_lablanca_gm_schedule).setVisibility(View.VISIBLE);
-				//this.getActivity().findViewById(R.id.menu_lablanca_schedule).setVisibility(View.VISIBLE);
 
 				//Set text
 				String text = Html.fromHtml(cursor.getString(0)).toString();
@@ -508,7 +508,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			}
 		}
 		catch (Exception ex){
-			Log.e("Location", "Couldn't set up home location section: " + ex.toString());
+			Log.e("HOME_LAYOUT", "Couldn't set up home location section: " + ex.toString());
 		}
 
 		return false;
@@ -521,7 +521,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpGallery(View view) {
 		int counter = 0;
 
@@ -606,12 +605,10 @@ public class HomeLayout extends Fragment implements LocationListener {
 	/**
 	 * Populates the Past Activities section of the home screen.
 	 * Makes the section visible and adds two rows with the two last activities.
-	 * Tapping them takes to the post, tapping anywhere else, to the blog section.
+	 * Tapping them takes to the activity, tapping anywhere else, to the activities section.
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpPastActivities(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
@@ -641,7 +638,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		//Print rows
 		while (cursor.moveToNext()) {
 			//Create a new row
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, llList, false);
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -725,7 +722,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 				}
 			});
 
-			//Add to the list
 			llList.addView(entry);
 			counter++;
 		}
@@ -741,12 +737,10 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * Populates the Future activities section of the home screen.
 	 * If there are future activities, makes the section visible.
 	 * Adds two rows with the two next activities.
-	 * Tapping them takes to the post, tapping anywhere else, to the blog section.
+	 * Tapping them takes to the activity, tapping anywhere else, to the activities section.
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpFutureActivities(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
@@ -779,7 +773,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 			//Print rows
 			while (cursor.moveToNext()) {
 				//Create a new row
-				entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, null);
+				entry = (LinearLayout) factory.inflate(R.layout.row_home_activities, llList, false);
 
 				//Set margins
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -856,7 +850,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 					}
 				});
 
-				//Add to the list
 				llList.addView(entry);
 				counter++;
 			}
@@ -875,8 +868,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 *
 	 * @return The number of entries shown
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private int setUpBlog(View view) {
 		int counter = 0;
 		String lang = GM.getLang();
@@ -906,7 +897,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		while (cursor.moveToNext()) {
 
 			//Create a new row
-			entry = (LinearLayout) factory.inflate(R.layout.row_home_blog, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_home_blog, llList, false);
 
 			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -975,7 +966,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 				}
 			});
 
-			//Add to the list
 			llList.addView(entry);
 
 			counter++;
@@ -1051,11 +1041,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onPause() {
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.removeUpdates(this);
 		}
 		super.onPause();
 	}
+
 
 	/**
 	 * Called when the fragment is destroyed.
@@ -1065,27 +1056,45 @@ public class HomeLayout extends Fragment implements LocationListener {
 	@Override
 	public void onDestroy() {
 		try {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+			if (checkLocationPermission()) {
 				locationManager.removeUpdates(this);
 			}
 		}
 		catch (Exception ex){
-			Log.e("Location manager", "Unable to stop location manager on destroy: " + ex.toString());
+			Log.e("HOME_LAYOUT", "Unable to stop location manager on destroy: " + ex.toString());
 		}
 		super.onDestroy();
 	}
-	
+
+
 	/**
-	 * Called when the fragment is brought back into the foreground. 
+	 * Called when the fragment is brought back into the foreground.
 	 * Resumes the map and the location manager.
-	 * 
+	 *
 	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
 	public void onResume(){
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+		if (checkLocationPermission()) {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		}
 		super.onResume();
+	}
+
+
+	/**
+	 * Checks app permission to write device storage, user for OSM cache.
+	 * @return true if the permission has been granted, false otherwise.
+	 */
+        private boolean checkStoragePermission(){
+                return getContext().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        }
+
+	/**
+	 * Checks app permission to access the user location.
+	 * @return true if the permission has been granted, false otherwise.
+	 */
+	private boolean checkLocationPermission(){
+		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 	}
 }

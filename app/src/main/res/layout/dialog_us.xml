@@ -16,12 +16,9 @@
         android:background="@drawable/section_title"
         android:paddingBottom="4dp"
         android:paddingEnd="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp"
         android:paddingStart="20dp"
         android:paddingTop="4dp"
-        android:textColor="@color/section_title"
-        android:layout_alignParentTop="true"/>
+        android:textColor="@color/section_title"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,8 +26,7 @@
         android:orientation="vertical"
         android:background="@drawable/entry"
         android:layout_margin="8dp"
-        android:padding="7dp"
-        >
+        android:padding="7dp">
 
         <ImageView
             android:id="@+id/iv_dialog_us_image"
@@ -39,7 +35,8 @@
             android:adjustViewBounds="true"
             android:maxHeight="140dp"
             android:minHeight="100dp"
-            app:srcCompat="@drawable/photo_placeholder_thumb"/>
+            android:src="@drawable/photo_placeholder_thumb"
+            android:contentDescription="@string/app_name"/>
 
         <TextView
             android:id="@+id/tv_dialog_us_text"
@@ -58,7 +55,6 @@
         android:text="@string/notification_close"
         android:textColor="@color/input_text_color"
         android:textStyle="bold"
-        android:layout_alignParentBottom="true"
         android:layout_height="50dp"/>
 
 </LinearLayout>

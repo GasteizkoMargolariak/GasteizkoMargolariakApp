@@ -46,14 +46,14 @@ class ReceiveLocation extends AsyncTask<Void, Void, Void> {
 
 			int httpCode = urlConnection.getResponseCode();
 			switch (httpCode) {
-				case 400:	//Client error: Bad request
-					Log.e("LOCATION", "The server returned a 400 code (Client Error: Bad request) for the url \"" + uri + "\"");
+				case 400: //Client error: Bad request
+					Log.e("RECEIVE_LOCATION", "The server returned a 400 code (Client Error: Bad request) for the url \"" + uri + "\"");
 					break;
-				case 204:	//Success: No content
-					Log.d("LOCATION", "The server returned a 204 code (Success: No content) for the url \"" + uri + "\". Not getting location...");
+				case 204: //Success: No content
+					Log.d("RECEIVE_LOCATION", "The server returned a 204 code (Success: No content) for the url \"" + uri + "\". Not getting location...");
 					break;
-				case 200:	//Success: OK
-					Log.d("LOCATION", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now getting location...");
+				case 200: //Success: OK
+					Log.d("RECEIVE_LOCATION", "The server returned a 200 code (Success: OK) for the url \"" + uri + "\". Now getting location...");
 					BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 					StringBuilder sb = new StringBuilder();
 					String o;
@@ -66,10 +66,14 @@ class ReceiveLocation extends AsyncTask<Void, Void, Void> {
 					String lat = strLocation.substring(strLocation.indexOf("\"lat\":\"") + 7, strLocation.indexOf("\"", strLocation.indexOf("\"lat\":\"") + 8));
 					String lon = strLocation.substring(strLocation.indexOf("\"lon\":\"") + 7, strLocation.indexOf("\"", strLocation.indexOf("\"lon\":\"") + 8));
 					String dtime = strLocation.substring(strLocation.indexOf("\"dtime\":\"") + 9, strLocation.indexOf("\"", strLocation.indexOf("\"dtime\":\"") + 10));
-					Log.d("LOCATION", "Found location [" +lat + ", " + lon + "] sent " + dtime);
+					Log.d("RECEIVE_LOCATION", "Found location [" +lat + ", " + lon + "] sent " + dtime);
 
 					//Insert into the database
 					SQLiteDatabase db = activity.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+					if (db.isReadOnly()){
+						Log.e("RECEIVE_LOCATION", "Database is in read only mode. Skipping.");
+						return null;
+					}
 					db.execSQL("INSERT INTO location VALUES ('" + dtime + "', " + lat + ", " + lon + ")");
 					db.close();
 
@@ -78,10 +82,15 @@ class ReceiveLocation extends AsyncTask<Void, Void, Void> {
 			}
 
 
-		} catch (MalformedURLException e) {
-			Log.e("LOCATION", "Unable to get location, malformed URL: " + e.toString());
-		} catch (IOException e) {
-			Log.e("LOCATION", "Unable to get location, IO exception: " + e.toString());
+		}
+		catch (MalformedURLException e) {
+			Log.e("RECEIVE_LOCATION", "Unable to get location, malformed URL: " + e.toString());
+		}
+		catch (IOException e) {
+			Log.e("RECEIVE_LOCATION", "Unable to get location, IO exception: " + e.toString());
+		}
+		catch (Exception e) {
+			Log.e("RECEIVE_LOCATION", "Unable to get location, unknown exception: " + e.toString());
 		}
 
 

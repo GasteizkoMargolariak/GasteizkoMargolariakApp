@@ -19,16 +19,11 @@
 	<string name="menu_blog">Blog</string>
 	<string name="menu_gallery">Gallery</string>
 	<string name="menu_settings">Settings</string>
-
-	<string name="tutorial_menu">Touch the Margolariak icon or slide the screen to the right to toggle the menu.</string>
-	<string name="tutorial_content">Toca the content to navigate between sections.</string>
-	<string name="tutorial_button">Understood</string>
-
 	<!-- Schedule strings -->
 	<string name="schedule_filter">Search&#8230;</string>
 	<string name="schedule_close">Close</string>
 	<string name="schedule_host">Host: %1$s</string>
-
+	<string name="schedule_osm">® OpenStreetMap contributors</string>
 
 
 	<!-- Day strings -->
@@ -39,7 +34,6 @@
 	<!-- Home section strings -->
 
 	<string name="home_section_location">Find us</string>
-	<string name="home_section_lablanca">La Blanca</string>
 	<string name="home_section_gmschedule">Margolari Schedule</string>
 	<string name="home_section_cityschedule">City Schedule</string>
 	<string name="home_section_around">Around me</string>
@@ -53,26 +47,7 @@
 	<string name="home_section_location_text_short" tools:ignore="PluralsCandidate">They are just %1$d meters away from you!\n(About %2$d minutes walking)</string>
 	<string name="home_section_location_text_long">They are just %1$s kilometers away from you!</string>
 
-
-
-	<!-- Settings section strings -->
-
-	<string name="settings_notification">Receive notifications</string>
-	<string name="settings_notification_on">You will receive notifications</string>
-	<string name="settings_notification_off">You won\'t receive notifications</string>
-	<string name="settings_license">License</string>
-	<string name="settings_privacy">Privacy</string>
-	<string name="settings_about">About us</string>
-	<string name="settings_transparency">Transparency</string>
-	<string name="settings_license_content">Copyright 2016 Iñigo Valentin&lt;br/>&lt;br/>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.&lt;br/>&lt;br/>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details at http://www.gnu.org/licenses/.&lt;br/>&lt;br/>The name "Gasteizko Margolariak" and its logotype are property of Gasteizko Margolariak.&lt;br/>&lt;br/>&lt;br/>&lt;div style="background-color:#bbbbbb;padding:6px;border-radius:5px;border-style:solid;border-width:2px;border-color:#333333;text-align:center;">You can get the source code for this project at &lt;a href="https://github.com/Seavenois/GM">Github&lt;/a>&lt;/div></string>
-	<string name="settings_privacy_content"><![CDATA[In Gasteizko Margolariak we respect your privacy. We don\'t collect ANY data from our users, including personal information, location, shopping habits, sexual preferences, favourite colour, first love\'s name… ANY.<br/><br/>In order of making you believe us, we\'ll explain what we DO store:<br/><br/><ul><li>A randomly generated user code, unique to your device. This is necessary to sync content with aur database, so you can get info about our post, activities… But it\'s done in a way that won\'t allow un to identify you as a person with that number.</li><li>When commenting on a photo ar an entry, we store your current IP address. This is incredibly useful for us to know how many actual people are posting comments, and it also makes imposible for us to identify you as a person.</li></ul>]]></string>
-	<string name="settings_about_content">La Asociación Cultural Gasteizko Margolariak nace en el año 2013 con la idea de estimular la participación ciudadana y fortalecer la cultura y las tradiciones de Vitoria-Gasteiz.&lt;br/>&lt;br/>En nuestro nombre se refleja un barrio en el que las calles nos recuerdan a grandes pintores: el barrio de San Martín. Estamos representados en los barrios, y creemos que son la esencia de esta ciudad.&lt;br/>&lt;br/>Nos convertimos en Cuadrilla de Blusas y Neskas en 2013, y en ese mismo año, miembros de la Comisión de Blusas y Neskas.&lt;br/>&lt;br/>Desde entonces no hemos hecho más que crecer junto con todos los que han decidido, año tras año, apostar por nosotros.</string>
-	<string name="settings_transparency_content">¿Te preocupa saber dónde va tu dinero? En Gasteizko Margolariak queremos que estés tranquilo.&lt;br/>&lt;br/>Muchas de nuestras actividades son gratuitas. Otras, como las fiestas de La Blanca, tienen una cuota de inscripción. Gasteizko Margolariak no es una empresa, es una Asociación Cultural, y como tal, no tenemos beneficios.&lt;br/>&lt;br/>Queremos ser transparentes, y por eso, empezando en 2016, pondremos a tu disposición nuestras cuentas de manera online, para que sepas que cada euro se reinvierte en tí.</string>
-
-	
-
 	<!-- Activity section strings -->
-	<string name="activity_city">City:</string>
 	<string name="activity_price">Price:</string>
 	<string name="activity_no_future">There are no upcaming activities for now. We\'ll tell you when there is something planned!</string>
 	<string name="activity_schedule">Schedule</string>
@@ -98,8 +73,6 @@
 	<string name="lablanca_schedule">Schedule</string>
 	<string name="lablanca_schedule_city">City schedule</string>
 	<string name="lablanca_schedule_gm">Margolariak schedule</string>
-	<string name="lablanca_date_july">July %1$s</string>
-	<string name="lablanca_date_august">August %1$s</string>
 
 	<!--Schedule section strings-->
 	<string name="schedule_month_july">July</string>
@@ -138,7 +111,6 @@
 	<string name="notification_action_lablanca"> Open La Blanca </string>
 	<string name="notification_action_gmschedule"> Open Margolari schedule </string>
 	<string name="notification_action_cityschedule"> Open city schedule </string>
-	<string name="notification_action_location"> Show location </string>
 	<string name="notification_action_blog"> Open blog </string>
 	<string name="notification_action_activities"> Open activities </string>
 	<string name="notification_action_gallery"> Open gallery </string>
@@ -153,14 +125,14 @@
 	<string name="dialog_sync_text_3">Tú eres el piloto</string>
 	<string name="dialog_sync_text_4">Afinando la tuba&#8230;</string>
 	<string name="dialog_sync_text_5">Margolari camina pa\'lante, margolari camina pa\'trás.</string>
-	<string name="dialog_sync_text_6">Ari ari ari!</string>
+	<string name="dialog_sync_text_6" tools:ignore="Typos">Ari ari ari!</string>
 	<string name="dialog_sync_text_7">Llegando tarde…</string>
 	<string name="dialog_sync_text_8">¿Cabe más gente en el Foro Margolari?</string>
-	<string name="dialog_sync_text_9">Arreglando el tirador de cerveza...</string>
-	<string name="dialog_sync_text_10">Descorchando botellas...</string>
-	<string name="dialog_sync_text_11">Repartiendo pulseras...</string>
-	<string name="dialog_sync_text_12">Pintando las fiestas...</string>
-	<string name="dialog_sync_text_13">Desplegando pancarta...</string>
+	<string name="dialog_sync_text_9">Arreglando el tirador de cerveza…</string>
+	<string name="dialog_sync_text_10">Descorchando botellas…</string>
+	<string name="dialog_sync_text_11">Repartiendo pulseras…</string>
+	<string name="dialog_sync_text_12">Pintando las fiestas…</string>
+	<string name="dialog_sync_text_13">Desplegando pancarta…</string>
 	<string name="dialog_sync_failed_title">Synchronization failed</string>
 	<string name="dialog_sync_failed_text">Couldn\'t download content.\n\nMake sure you have a network connection and try again.</string>
 	<string name="dialog_sync_failed_close">Close</string>
@@ -170,15 +142,15 @@
 	<string name="lablanca_nofestivals_2_title">Dormir es de cobardes:</string>
 	<string name="lablanca_nofestivals_2"><![CDATA[Casi todos los días organizamos actividades desde la mañana, ya sean almuerzos, actividades para el público general o competiciones en los Herri Kirolak. Después solemos ir a comer juntos, antes de los paseillos, y después, siempre cenamos juntos. Y por la noche, hasta que el cuerpo aguante!]]></string>
 	<string name="lablanca_nofestivals_3_title">Especialistas en paseillos:</string>
-	<string name="lablanca_nofestivals_3"><![CDATA[A la hora de hacer paseillos, no hay quien nos gane. Con nuestra furgoneta siempre abierta a la cabeza, y la txaranga El Postín animando desde atrás, es imposible aburrirse. Y entre paseillos tampoco descansamos, siempre estamos organizando cosas: juegos, carreras, bingos, música, ida a las barracas...]]></string>
+	<string name="lablanca_nofestivals_3"><![CDATA[A la hora de hacer paseillos, no hay quien nos gane. Con nuestra furgoneta siempre abierta a la cabeza, y la txaranga El Postín animando desde atrás, es imposible aburrirse. Y entre paseillos tampoco descansamos, siempre estamos organizando cosas: juegos, carreras, bingos, música, ida a las barracas…]]></string>
 	<string name="lablanca_nofestivals_4_title">Nos gusta comer:</string>
 	<string name="lablanca_nofestivals_4"><![CDATA[No queremos que un Margolari pase hambre. Las comidas en Gasteizko Margolariak son en restaurante, con un buen men&ú, que nos den fuerzas para aguantar el resto del día. Las cenas las hacemos bien en la calle o bien en restaurante, pero siempre con comida buena y caliente. Los mismo que los almuerzos.]]></string>
 	<string name="lablanca_nofestivals_5_title">Y beber:</string>
 	<string name="lablanca_nofestivals_5"><![CDATA[Sea cual sea tu veneno, lo tenemos: Ron, vodka, kalimotxo, cerveza, whiskey, agua, refrescos Durante los paseillos (y varias veces m&aacute;s a lo largo del d&iacute;a) en la furgoneta tendr&aacute;s barra libre de todo lo que quieras.]]></string>
 	<string name="lablanca_nofestivals_6_title">Nos apuntamos a un bombardeo:</string>
-	<string name="lablanca_nofestivals_6"><![CDATA[Carrera de Barricas, Herri Kirolak... Nunca hemos faltado a nada. Ganar, lo que es ganar, aún lo tenemos pendiente, pero lo pasamos bien. Así que ya sabes, si quieres representar a Gasteizko Margolariak, avísanos!]]></string>
+	<string name="lablanca_nofestivals_6"><![CDATA[Carrera de Barricas, Herri Kirolak… Nunca hemos faltado a nada. Ganar, lo que es ganar, aún lo tenemos pendiente, pero lo pasamos bien. Así que ya sabes, si quieres representar a Gasteizko Margolariak, avísanos!]]></string>
 	<string name="lablanca_nofestivals_7_title">Por la ciudad, para la ciudad:</string>
-	<string name="lablanca_nofestivals_7"><![CDATA[No nos gusta mirarnos el ombligo. Aunque la mayor parte de actividades que organizamos son para los miembros de Gasteizko Margolariak, hay otras que son para todo el público. Hasta ahora hemos organizado talleres de Cesta Punta para txikis, Margotxef (un concurso de cocina infantil), visitas a residencias de ancianos...]]></string>
+	<string name="lablanca_nofestivals_7"><![CDATA[No nos gusta mirarnos el ombligo. Aunque la mayor parte de actividades que organizamos son para los miembros de Gasteizko Margolariak, hay otras que son para todo el público. Hasta ahora hemos organizado talleres de Cesta Punta para txikis, Margotxef (un concurso de cocina infantil), visitas a residencias de ancianos…]]></string>
 	<string name="lablanca_nofestivals_8_title">Margolaris:</string>
 	<string name="lablanca_nofestivals_8"><![CDATA[Todo lo demás no sirve de nada si en una cuadrilla no hay buen ambiente. En Gasteizko Margolariak podemos presumir de gente cercana, participativa, capaz de hacer que desde el primer día ya te sientas como en casa. Además, los organizadores son gente cercana, que escucha y está siempre abierta a nuevas propuestas. Por esto, quien prueba, repite.]]></string>
 	<string name="home_section_location_text_calculating">Calculating distance…</string>
@@ -189,18 +161,16 @@
 	<string name="sponsors_url">Open web site</string>
 
 	<!-- Us -->
-	<string name="us_title">Nosotros</string>
 	<string name="us_association">La asociación</string>
 	<string name="us_association_content">La Asociación Cultural Gasteizko Margolariak nace en el año 2013 con la idea de estimular la participación ciudadana y fortalecer la cultura y las tradiciones de Vitoria-Gasteiz.\n\nEn nuestro nombre se refleja un barrio en el que las calles nos recuerdan a grandes pintores: el barrio de San Martín. Estamos representados en los barrios, y creemos que son la esencia de esta ciudad.</string>
 	<string name="us_cuadrilla">La cuadrilla</string>
 	<string name="us_cuadrilla_content">Nos convertimos en Cuadrilla de Blusas y Neskas en 2013, y en ese mismo año, miembros de la Comisión de Blusas y Neskas.\n\nDesde entonces no hemos hecho mas que crecer junto con todos los que han decidido, año tras año, apostar por nosotros.</string>
 	<string name="us_activities">Lo que hacemos</string>
-	<string name="us_activities_content">Excursiones, partidos, causas benéficas... No solo se nos ve en fiestas.\n\nCreemos que, como Cuadrilla de Blusas y Neskas, existimos por y para la ciudad, y por eso organizamos actividades durante todo el año, para todo aquel que quiera acompañarnos.</string>
+	<string name="us_activities_content">Excursiones, partidos, causas benéficas… No solo se nos ve en fiestas.\n\nCreemos que, como Cuadrilla de Blusas y Neskas, existimos por y para la ciudad, y por eso organizamos actividades durante todo el año, para todo aquel que quiera acompañarnos.</string>
 	<string name="us_transparency">Transparencia</string>
 	<string name="us_transparency_content">¿Te preocupa saber dónde va tu dinero? En Gasteizko Margolariak queremos que estés tranquilo.\n\nMuchas de nuestras actividades son gratuitas. Otras, como las fiestas de La Blanca, tienen una cuota de inscripción. Gasteizko Margolariak no es una empresa, es una Asociación Cultural, y como tal, no tenemos beneficios.\n\nQueremos ser transparentes, y por eso, empezando en 2017, pondremos a tu disposición nuestras cuentas de manera online, para que sepas que cada euro se reinvierte en ti.</string>
 
 
-	<string name="preferences">Preferences</string>
 	<string name="preferences_info">Information</string>
 	<string name="preferences_info_feedback">Feedback</string>
 	<string name="preferences_info_feedback_summary">Send anonymous feedback to the developer</string>
@@ -209,7 +179,6 @@
 	<string name="preferences_info_version">App version</string>
 	<string name="preferences_sync">Sync</string>
 	<string name="preferences_sync_notifications">Notifications</string>
-	<string name="preferences_sync_usage">Background data usage</string>
 	<string name="preferences_sync_sync_on">Background sync is enabled</string>
 	<string name="preferences_sync_notifications_on">Notifications will be received</string>
 	<string name="preferences_sync_notifications_off">Notifications will not be received</string>
@@ -219,7 +188,6 @@
 	<string name="changelog">Changelog</string>
 
 	<!-- Share menu -->
-	<string name="share">Share</string>
 	<string name="share_with">Share using…</string>
 	<string name="share_home">Gasteizko Margolariak</string>
 	<string name="share_lablanca">La Blanca - Gasteizko Margolariak</string>
@@ -229,5 +197,6 @@
 	<string name="share_with_title">%s - Gasteizko Margolariak</string>
 
 	<string name="accept">Accept</string>
+	<string name="schedule_sponsor">Sponsor: %1$s</string>
 
 </resources>

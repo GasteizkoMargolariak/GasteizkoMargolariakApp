@@ -3,30 +3,22 @@ package com.ivalentin.margolariak;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnShowListener;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.ActivityCompat;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -44,59 +36,52 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.Polyline;
+
 /**
  * Fragment to be inflated showing the festivals schedule.
  * Contains a date selector and a ScrollView with all the activities for the day.
- * 
+ *
  * @author Inigo Valentin
  *
  */
-public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
-
-	private Bundle bund;
+public class ScheduleLayout extends Fragment{
 
 	private final String dates[] = new String[40];
 	private int dateCount = 0;
 	private int selected = 0;
-
-	//Indicates official schedule
-	private int schedule;
-
-	//Map stuff for the dialog
-	private MapView mapView;
-	private GoogleMap map;
-	private LatLng location;
-	private View view;
-	private String markerName = "";
 	
+	private View view;
+
 	/**
 	 * Run when the fragment is inflated.
 	 * Assigns views, gets the date and does the first call to the populateSchedule function.
-	 * 
+	 *
 	 * @param inflater A LayoutInflater to manage views
 	 * @param container The container View
 	 * @param savedInstanceState Bundle containing the state
-	 * 
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 *
+	 * @see Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
-	@SuppressLint("InflateParams") //Throws unknown error when done properly.
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		Calendar calendar = Calendar.getInstance();
 		String year = Integer.toString(calendar.get(Calendar.YEAR));
 
-
-		//Set bundle for the map
-		bund = savedInstanceState;
-		
 		//Load the layout
-		view = inflater.inflate(R.layout.fragment_layout_schedule, null);
+		view = inflater.inflate(R.layout.fragment_layout_schedule, container, false);
 		view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 			@Override
 			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
 				CustomScrollView sv = (CustomScrollView) v.findViewById(R.id.sv_schedule);
-				Log.d("SV", "INVALIDATED");
 				sv.invalidate();
 			}
 		});
@@ -104,8 +89,8 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		//Get schedule type
 		TextView title = (TextView) view.findViewById(R.id.tv_schedule_type);
 		Bundle bundle = this.getArguments();
-		schedule = bundle.getInt(GM.SCHEDULE.KEY, GM.SCHEDULE.CITY);
-		
+		final int schedule = bundle.getInt(GM.SCHEDULE.KEY, GM.SCHEDULE.CITY);
+
 		//Set the title
 		if (schedule == GM.SCHEDULE.CITY) {
 			((MainActivity) getActivity()).setSectionTitle(view.getContext().getString(R.string.menu_lablanca_schedule));
@@ -121,10 +106,10 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		Cursor cursor;
 		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
-			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 1 ORDER BY daydate;", null);
+			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event_gm WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' ORDER BY daydate;", null);
 		}
 		else{
-			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' AND gm = 0 ORDER BY daydate;", null);
+			cursor = db.rawQuery("SELECT DISTINCT date(start) AS daydate FROM festival_event_city WHERE strftime('%Y', start) = '" + year + "' AND strftime('%H', start) > '06' ORDER BY daydate;", null);
 		}
 
 
@@ -152,17 +137,17 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			@Override
 			public void onClick(View v) {
 				selected --;
-				populateSchedule();
+				populateSchedule(schedule);
 			}
 		});
 		btR.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				selected ++;
-				populateSchedule();
+				populateSchedule(schedule);
 			}
 		});
-		
+
 		//Assign the filter text
 		EditText etFilter = (EditText) view.findViewById(R.id.et_schedule_filter);
 		etFilter.addTextChangedListener(new TextWatcher() {
@@ -176,25 +161,24 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 	        @Override
 	        public void onTextChanged(CharSequence s, int start, int before, int count) {
 	        	//Repopulate when the text is changed
-	        	populateSchedule();
-	          
+	        	populateSchedule(schedule);
 	        }
 		});
-		
+
 		//Populate the activity list
-		populateSchedule();
-		
+		populateSchedule(schedule);
+
 		//Return the fragment view
 		return view;
 	}
 
 	/**
-	 * Populates the list of activities with the ones n the selected day.
-	 * 
+	 * Populates the list of activities with the ones in the selected day.
+	 *
+	 * @param schedule GM.SCHEDULE.GM or GM.SCHEDULE.CITY
 	 */
-	@SuppressLint({"InflateParams", "SwitchIntDef"})
 	//Views are added from a loop: I can't specify the parent when inflating.
-	private int populateSchedule() {
+	private int populateSchedule(final int schedule) {
 
 		int eventCount = 0;
 
@@ -225,7 +209,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		try {
 			calendar.setTime(dateFormat.parse(dates[selected] + " 06:00:00"));
 		} catch (Exception ex) {
-			Log.e("Datetime error", ex.toString());
+			Log.e("SCHEDULE_LAYOUT", "Datetime error: " + ex.toString());
 		}
 
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
@@ -248,13 +232,14 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 
 		tvDayNumber.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-		switch (calendar.get(Calendar.MONTH)) {
-			case 6:
-				tvDayMonth.setText(getString(R.string.schedule_month_july));
-				break;
-			case 7:
-				tvDayMonth.setText(getString(R.string.schedule_month_august));
-				break;
+		int i = calendar.get(Calendar.MONTH);
+		if (i == Calendar.JULY) {
+			tvDayMonth.setText(getString(R.string.schedule_month_july));
+
+		}
+		else if (i == Calendar.AUGUST) {
+			tvDayMonth.setText(getString(R.string.schedule_month_august));
+
 		}
 		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
 			Cursor cursorDay = db.rawQuery("SELECT name_" + lang + " FROM festival_day WHERE date(date) = '" + dates[selected] + "';", null);
@@ -274,24 +259,38 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		try {
 			c.setTime(sdf.parse(dates[selected]));
 		} catch (Exception ex) {
-			Log.e("Date parsing error", ex.toString());
+			Log.e("SCHEDULE_LAYOUT", "Date parsing error: " + ex.toString());
 			return eventCount;
 		}
 		c.add(Calendar.DATE, 1);  // number of days to add
 		String endDate = sdf.format(c.getTime());
 
-		String query = "SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon FROM festival_event, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59' AND ";
+		String query;
 
 		if (schedule == GM.SCHEDULE.MARGOLARIAK) {
-			query = query + "gm = 1 ";
-		} else {
-			query = query + "gm = 0 ";
+			query = "SELECT festival_event_gm.id AS id, title_" + lang + " AS title, description_" + lang + " AS description, place AS place_id, start, end, name_" + lang + " AS place, address_" + lang + " AS address, lat, lon, route FROM festival_event_gm, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59'";
+		}
+		else {
+			query = "SELECT festival_event_city.id AS id, title_" + lang + " AS title, description_" + lang + " AS description, place AS place_id, start, end, name_" + lang + " AS place, address_" + lang + " AS address, lat, lon, route FROM festival_event_city, place WHERE place = place.id AND start >= '" + dates[selected] + " 06:00:00' AND start < '" + endDate + " 05:59:59'";
 		}
 		if (filter.length() > 0) {
 			query = query + "AND (title_" + lang + " like '%" + filter + "%' OR description_" + lang + " like '%" + filter + "%' OR name_" + lang + " like '%" + filter + "%' OR address_" + lang + " like '%" + filter + "%') ";
 		}
 		query = query + " ORDER BY start;";
 		Cursor cursor = db.rawQuery(query, null);
+		/*
+		 * 0: id
+		 * 1: title
+		 * 2: description
+		 * 3: place_id
+		 * 4: start
+		 * 5: end
+		 * 6: place
+		 * 7: address
+		 * 8: lat
+		 * 9: lon
+		 * 10: route
+		 */
 
 		//Clear the list
 		list = (LinearLayout) view.findViewById(R.id.ll_schedule_list);
@@ -300,7 +299,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 		while (cursor.moveToNext()) {
 			eventCount++;
 
-			entry = (LinearLayout) factory.inflate(R.layout.row_schedule, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_schedule, list, false);
 
 			//Set id
 			tvRowId = (TextView) entry.findViewById(R.id.tv_row_schedule_id);
@@ -314,7 +313,8 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			tvRowDesc = (TextView) entry.findViewById(R.id.tv_row_schedule_description);
 			if (cursor.getString(2) == null || cursor.getString(2).length() <= 0 || cursor.getString(2).equals(cursor.getString(1))) {
 				tvRowDesc.setVisibility(View.GONE);
-			} else {
+			}
+			else {
 				tvRowDesc.setText(cursor.getString(2));
 			}
 
@@ -324,18 +324,18 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 			//Set address
 			tvRowAddress = (TextView) entry.findViewById(R.id.tv_row_schedule_address);
-			if (cursor.getString(7) == null || cursor.getString(7).length() <= 0 || cursor.getString(7).equals(cursor.getString(6))) {
+			if (cursor.getString(7) == null || cursor.getString(7).length() <= 0 || cursor.getString(7).equalsIgnoreCase(cursor.getString(6))) {
 				tvRowAddress.setVisibility(View.GONE);
-			} else {
+			}
+			else {
 				tvRowAddress.setText(cursor.getString(7));
 			}
 
 			//Set icon
-			if (schedule == GM.SCHEDULE.MARGOLARIAK) {
+			if (cursor.getString(10) != null){
 				ImageView pinPoint = (ImageView) entry.findViewById(R.id.iv_row_schedule_pinpoint);
-				pinPoint.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/pinpoint_gm", null, null));
+				pinPoint.setImageResource(R.drawable.pinpoint_route);
 			}
-
 
 			//Set time
 			tvRowTime = (TextView) entry.findViewById(R.id.tv_row_schedule_time);
@@ -348,7 +348,7 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 				public void onClick(View v) {
 					TextView tvId = (TextView) v.findViewById(R.id.tv_row_schedule_id);
 					int id = Integer.parseInt(tvId.getText().toString());
-					showDialog(id);
+					showDialog(id, schedule);
 				}
 			});
 
@@ -365,65 +365,107 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			sw.scrollTo(0, 0);
 		}
 		catch(Exception ex){
-			Log.e("Schedule scroll", "Culdnt get scrollview to scroll: " + ex.toString());
+			Log.e("SCHEDULE_LAYOUT", "Culdn't get scrollview to scroll: " + ex.toString());
 		}
 
 		return eventCount;
 
 	}
-	
+
 	/**
 	 * Shows a dialog with info about the selected event.
-	 * 
+	 *
 	 * @param id The event id
+	 * @param schedule GM.SCHEDULE.GM or GM.SCHEDULE.CITY
 	 */
-	@SuppressWarnings("ConstantConditions")
-	private void showDialog(final int id){
-		
+	private void showDialog(final int id, final int schedule){
+
 		//Create the dialog
 		final Dialog dialog = new Dialog(getActivity());
-		
+
 		//Set up dialog window
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_schedule);
-		
+
 		//Date formatters
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd-", Locale.US);
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
- 
+
 		//Set the custom dialog components - text, image and button
 		TextView tvTitle = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_title);
 		TextView tvDescription = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_description);
 		TextView tvHost = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_host);
+		TextView tvSponsor = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_sponsor);
 		TextView tvDate = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_date);
 		TextView tvTime = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_time);
+		LinearLayout llPlace = (LinearLayout) dialog.findViewById(R.id.ll_dialog_schedule_place);
 		TextView tvPlace = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_place);
 		TextView tvAddress = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_address);
 		Button btClose = (Button) dialog.findViewById(R.id.bt_schedule_close);
-		
+		TextView tvOsm = (TextView) dialog.findViewById(R.id.tv_dialog_schedule_osm);
+		MapView mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
+
+		// Basic map configuration
+		mapView.setMultiTouchControls(true);
+		IMapController mapController = mapView.getController();
+
 		//Get info about the event
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 		String lang = GM.getLang();
-		Cursor cursor = db.rawQuery("SELECT festival_event.id, title_" + lang + ", description_" + lang + ", place, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host FROM festival_event, place WHERE place = place.id AND festival_event.id = " + id + ";", null);
+		Cursor cursor;
+		if (schedule == GM.SCHEDULE.MARGOLARIAK){
+			//cursor = db.rawQuery("SELECT festival_event_gm.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM festival_event_gm, place WHERE place = place.id AND festival_event_gm.id = " + id + ";", null);
+			cursor = db.rawQuery("SELECT id, title_" + lang + ", description_" + lang + ", place, route, start, end, host, sponsor FROM festival_event_gm WHERE id = " + id + ";", null);
+		}
+		else{
+			//cursor = db.rawQuery("SELECT festival_event_city.id, title_" + lang + ", description_" + lang + ", place, route, start, end, name_" + lang + ", address_" + lang + ", lat, lon, host, sponsor FROM, sponsor festival_event_city, place WHERE place = place.id AND festival_event_city.id = " + id + ";", null);
+			cursor = db.rawQuery("SELECT id, title_" + lang + ", description_" + lang + ", place, route, start, end, host, sponsor FROM festival_event_city WHERE id = " + id + ";", null);
+		}
 		if (cursor.getCount() > 0){
 			cursor.moveToNext();
-		
+
+			String title = cursor.getString(1);
+			String description = "";
+			if (!cursor.isNull(2)){
+				description = cursor.getString(2);
+			}
+			String strStart = cursor.getString(5);
+			String strEnd = "";
+			if (!cursor.isNull(6)){
+				strEnd = cursor.getString(6);
+			}
+			int placeId = 0;
+			if (!cursor.isNull(3)){
+				placeId = cursor.getInt(3);
+			}
+			int routeId = 0;
+			if (!cursor.isNull(4)){
+				routeId = cursor.getInt(4);
+			}
+			int hostId = 0;
+			if (!cursor.isNull(7)){
+				hostId = cursor.getInt(7);
+			}
+			int sponsorId = 0;
+			if (!cursor.isNull(8)){
+				sponsorId = cursor.getInt(8);
+			}
+
 			//Set title
-			tvTitle.setText(cursor.getString(1));
-			markerName = cursor.getString(1);
-			
+			tvTitle.setText(title);
+
 			//Set description
-			if (cursor.getString(2) != null && cursor.getString(2).length() > 0) {
-				tvDescription.setText(cursor.getString(2));
+			if (description.length() > 0) {
+				tvDescription.setText(description);
 			}
 			else{
 				tvDescription.setVisibility(View.GONE);
 			}
-			
+
 			//Set host
-			if (cursor.getString(10) != null){
-				Cursor hostCursor = db.rawQuery("SELECT name_" + lang + " FROM people WHERE id = " + cursor.getString(10) + ";", null);
+			if (hostId != 0){
+				Cursor hostCursor = db.rawQuery("SELECT name_" + lang + " FROM people WHERE id = " + hostId + ";", null);
 				if (hostCursor.moveToNext()){
 					tvHost.setVisibility(View.VISIBLE);
 					tvHost.setText(String.format(getString(R.string.schedule_host), hostCursor.getString(0)));
@@ -432,28 +474,41 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 			}
 			else{
 				tvHost.setVisibility(View.GONE);
-			}				
-			
+			}
+
+			//Set sponsor
+			if (sponsorId != 0){
+				Cursor sponsorCursor = db.rawQuery("SELECT name_" + lang + " FROM people WHERE id = " + sponsorId + ";", null);
+				if (sponsorCursor.moveToNext()){
+					tvSponsor.setVisibility(View.VISIBLE);
+					tvSponsor.setText(String.format(getString(R.string.schedule_sponsor), sponsorCursor.getString(0)));
+				}
+				sponsorCursor.close();
+			}
+			else{
+					tvSponsor.setVisibility(View.GONE);
+			}
+
+
 			//Set date
 			try{
-				Date day = dateFormat.parse(cursor.getString(4));
+				Date day = dateFormat.parse(strStart);
 				Date date = new Date();
 				//If the event is today, show "Today" instead of the date
 				if (dayFormat.format(day).equals(dayFormat.format(date)))
 					tvDate.setText(dialog.getContext().getString(R.string.today));
-				
 				else{
 					Calendar cal = Calendar.getInstance();
-				    cal.setTime(date);
-				    cal.add(Calendar.HOUR_OF_DAY, 24);
-				    
-				    //If the event is tomorrow, show "Tomorrow" instead of the date
-				    if (dayFormat.format(cal.getTime()).equals(dayFormat.format(date))){
-				    	tvDate.setText(dialog.getContext().getString(R.string.tomorrow));
-				    }
-					
-				    //Else, show the date
-				    else{
+					cal.setTime(date);
+					cal.add(Calendar.HOUR_OF_DAY, 24);
+
+					//If the event is tomorrow, show "Tomorrow" instead of the date
+					if (dayFormat.format(cal.getTime()).equals(dayFormat.format(date))){
+						tvDate.setText(dialog.getContext().getString(R.string.tomorrow));
+					}
+
+					//Else, show the date
+					else{
 						SimpleDateFormat printFormat;
 						switch (lang){
 							case "en":
@@ -476,63 +531,153 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 				}
 			}
 			catch (Exception ex){
-				Log.e("Error parsing date", ex.toString());
+				Log.e("SCHEDULE_LAYOUT", "Error parsing date: " + ex.toString());
 			}
-			
+
 			//Set time
 			try{
-				if (cursor.getString(5) == null || cursor.getString(5).length() == 0) {
-					tvTime.setText(timeFormat.format(dateFormat.parse(cursor.getString(4))));
+				if (strEnd.length() == 0) {
+					tvTime.setText(timeFormat.format(dateFormat.parse(strStart)));
 				}
 				else {
-					String time = timeFormat.format(dateFormat.parse(cursor.getString(4))) + " - " + timeFormat.format(dateFormat.parse(cursor.getString(5)));
+					String time = timeFormat.format(dateFormat.parse(strStart)) + " - " + timeFormat.format(dateFormat.parse(strEnd));
 					tvTime.setText(time);
 				}
 			}
 			catch (ParseException ex){
-				Log.e("Error parsing time", ex.toString());
+				Log.e("SCHEDULE_LAYOUT", "Error parsing time: " + ex.toString());
 			}
-			
+
+
+
+
 			//Set the place
-			tvPlace.setText(cursor.getString(6));
-			tvAddress.setText(cursor.getString(7));
-			
-			//Set up map
-			location = new LatLng(Double.parseDouble(cursor.getString(8)), Double.parseDouble(cursor.getString(9)));
-			mapView = (MapView) dialog.findViewById(R.id.mv_dialog_schedule_map);
-			mapView.onCreate(bund);
-			
+			if (routeId != 0){
+				llPlace.setVisibility(View.GONE);
+				Cursor routeCursor = db.rawQuery("SELECT id, c_lat, c_lon, zoom FROM route WHERE id = " + routeId + ";", null);
+				if (routeCursor.moveToNext()) {
+
+					// Read from route_point and draw the route on the map.
+					Cursor pointCursor = db.rawQuery("SELECT lat_o, lon_o, lat_d, lon_d FROM route_point WHERE route = " + routeId + " ORDER BY part;", null);
+					final ArrayList<GeoPoint> points = new ArrayList<>();
+					GeoPoint lastPoint = new GeoPoint(0.0, 0.0);
+					GeoPoint firstPoint = null;
+					while (pointCursor.moveToNext()){
+						points.add(new GeoPoint(pointCursor.getDouble(0), pointCursor.getDouble(1)));
+						lastPoint = new GeoPoint(pointCursor.getDouble(2), pointCursor.getDouble(3));
+						if (firstPoint == null){
+							firstPoint = new GeoPoint(pointCursor.getDouble(0), pointCursor.getDouble(1));
+						}
+					}
+					// For the last one, also take destination
+					points.add(lastPoint);
+
+					pointCursor.close();
+
+					// Center map
+					mapController.setCenter(firstPoint);
+					mapController.setZoom(routeCursor.getInt(3));
+
+					// Create path
+					Polyline line = new Polyline();
+					line.setPoints(points);
+					line.setColor(getResources().getColor(R.color.map_route, null));
+					line.setWidth(30.0f);
+					mapView.getOverlays().add(line);
+
+					// Set markers
+					OverlayItem startOverlay = new OverlayItem(title, title, firstPoint);
+					Drawable startMarker = this.getResources().getDrawable(R.drawable.pinpoint_start, null);
+					startOverlay.setMarker(startMarker);
+					OverlayItem endOverlay = new OverlayItem(title, title, lastPoint);
+					Drawable endMarker = this.getResources().getDrawable(R.drawable.pinpoint_end, null);
+					endOverlay.setMarker(endMarker);
+					final ArrayList<OverlayItem> markers = new ArrayList<>();
+					markers.add(startOverlay);
+					markers.add(endOverlay);
+                                        ItemizedIconOverlay markersOverlay = new ItemizedIconOverlay<>(markers,
+					  new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+					  	public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+							return true;
+						}
+						public boolean onItemLongPress(final int index, final OverlayItem item) {
+							return true;
+						}
+					  }, getContext());
+					mapView.getOverlays().add(markersOverlay);
+
+				}
+				routeCursor.close();
+
+			}
+			else{
+				Cursor placeCursor = db.rawQuery("SELECT name_" + lang + ", address_" + lang + ", lat, lon FROM place WHERE id = " + placeId + ";", null);
+				if (placeCursor.moveToNext()){
+					tvPlace.setText(placeCursor.getString(0));
+					tvAddress.setText(placeCursor.getString(1));
+
+					// Configure map marker
+					mapController.setZoom(17);
+					GeoPoint center = new GeoPoint(placeCursor.getDouble(2), placeCursor.getDouble(3));
+					mapController.setCenter(center);
+					OverlayItem locationOverlayItem = new OverlayItem(title, placeCursor.getString(0), center);
+					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
+					locationOverlayItem.setMarker(locationMarker);
+					final ArrayList<OverlayItem> items = new ArrayList<>();
+					items.add(locationOverlayItem);
+					ItemizedIconOverlay locationOverlay = new ItemizedIconOverlay<>(items,
+							new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+								public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+									return true;
+								}
+								public boolean onItemLongPress(final int index, final OverlayItem item) {
+									return true;
+								}
+							}, getContext());
+					mapView.getOverlays().add(locationOverlay);
+				}
+				placeCursor.close();
+			}
+
+			//Set up OpenStreetMap attribution
+			tvOsm.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData(Uri.parse(GM.URL.OSM_COPYRIGHT));
+					startActivity(i);
+				}
+			});
+
+
 			//Close the db connection
 			cursor.close();
 			db.close();
-			
-			//Set close button			
-        	btClose.setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				dialog.dismiss();
-    			}
-    		});
-			
+
+			//Set close button
+	        	btClose.setOnClickListener(new OnClickListener() {
+	    			@Override
+	    			public void onClick(View v) {
+    					dialog.dismiss();
+    				}
+    			});
+
 			//Actions to take when the dialog is cancelled
 			dialog.setOnCancelListener(new OnCancelListener(){
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					if (map != null) {
-						if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-							map.setMyLocationEnabled(false);
-						}
-					}
-					if (mapView != null){
-    					mapView.onResume();
-    					mapView.onDestroy();
-    				}					
 				}
 			});
-			
+
 			//Show the dialog
 			WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-			lp.copyFrom(dialog.getWindow().getAttributes());
+			try {
+				//noinspection ConstantConditions
+				lp.copyFrom(dialog.getWindow().getAttributes());
+			}
+			catch(NullPointerException e){
+				Log.e("SCHEDULE_LAYOUT", "Error setting dialog parameters: " + e.toString());
+			}
 			lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 			lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 			lp.gravity = Gravity.CENTER;
@@ -541,148 +686,21 @@ public class ScheduleLayout extends Fragment implements OnMapReadyCallback{
 
 			//Show dialog
 			dialog.show();
-			
-			//Start the map
-			startMap();
-			mapView.onResume();
-			dialog.setOnShowListener(new OnShowListener(){
 
-				@Override
-				public void onShow(DialogInterface dialog) {
-					// Gets to GoogleMap from the MapView and does initialization stuff
-					startMap();
-					
-				}
-			});		
-			
 		}
 	}
-	
+
+
 	/**
-	 * Starts the map in the dialog.
-	 */
-	private void startMap(){
-		mapView.getMapAsync(this);
-	}
-	
-	/**
-	 * Called when the fragment is brought back into the foreground. 
-	 * Resumes the map and the location manager.
-	 * 
+	 * Called when the activity is resumed.
+	 * Lets the map handle this situation.
+	 *
 	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
 	public void onResume() {
-		if (mapView != null)
-			mapView.onResume();
-		if (map != null) {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-				map.setMyLocationEnabled(true);
-			}
-		}
+		Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
 		super.onResume();
 	}
 
-	/**
-	 * Called when the fragment is destroyed. 
-	 * Finishes the map. 
-	 * 
-	 * @see android.app.Fragment#onDestroy()
-	 */
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (map != null) {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-				map.setMyLocationEnabled(false);
-			}
-		}
-		if (mapView != null){
-			try{
-				mapView.onResume();
-				mapView.onDestroy();
-			}
-			catch(Exception e){
-				Log.e("Error destroying mapview: ", e.toString());
-			}
-		}
-	}
-	
-	/**
-	 * Called when the fragment is paused. 
-	 * Finishes the map. 
-	 * 
-	 * @see android.app.Fragment#onPause()
-	 */
-	@Override
-	public void onPause() {
-		super.onDestroy();
-		if (map != null) {
-			if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-				try{
-					map.setMyLocationEnabled(false);
-				}
-				catch(Exception e){
-					Log.e("Error pausing map: ", e.toString());
-				}
-			}
-		}
-		if (mapView != null){
-			try{
-				mapView.onPause();
-			}
-			catch(Exception e){
-				Log.e("Error pausing mapview: ", e.toString());
-			}
-		}
-	}
-
-	/**
-	 * Called in a situation of low memory.
-	 * Lets the map handle this situation.
-	 * 
-	 * @see android.app.Fragment#onLowMemory()
-	 */
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		if (mapView != null){
-			mapView.onResume();
-			mapView.onLowMemory();
-		}
-	}
-
-	/**
-	 * Called when the map is ready to be displayed. 
-	 * Sets the map options and a marker for the map.
-	 * 
-	 * @param googleMap The map to be shown
-	 * 
-	 * @see com.google.android.gms.maps.OnMapReadyCallback#onMapReady(com.google.android.gms.maps.GoogleMap)
-	 */
-	@Override
-	public void onMapReady(GoogleMap googleMap) {
-		this.map = googleMap;
-		
-		map.getUiSettings().setMyLocationButtonEnabled(false);
-		if (!(ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-			map.setMyLocationEnabled(true);
-		}
-		// Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-		try {
-			MapsInitializer.initialize(this.getActivity());
-			CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 14);
-			map.animateCamera(cameraUpdate);
-		}
-		catch (Exception e) {
-			Log.e("Error initializing maps", e.toString());
-		}
-		//Set GM marker
-		MarkerOptions mo = new MarkerOptions();
-		mo.title(markerName);
-		mo.position(location);
-		map.addMarker(mo);
-		
-	}
-		
 }

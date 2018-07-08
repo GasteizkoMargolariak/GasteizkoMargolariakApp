@@ -16,9 +16,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,11 +36,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.os.Handler;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 /**
  * The main Activity of the app. It's actually the only content activity, and it loads other fragments.
  *
@@ -58,6 +51,7 @@ public class MainActivity extends Activity {
 
 	//Handler to periodically check for location updates
 	private final Handler locationHandler = new Handler();
+
 	// Code to check for location updates
 	private MainActivity activity = this;
 	private final Runnable checkForLocation = new Runnable() {
@@ -71,15 +65,10 @@ public class MainActivity extends Activity {
 		}
 	};
 
-	/**
-	 * ATTENTION: This was auto-generated to implement the App Indexing API.
-	 * See https://g.co/AppIndexing/AndroidStudio for more information.
-	 */
-	private GoogleApiClient client;
-
 	// Shareable URL
 	private String shareURL = GM.SHARE.HOME;
 	private String shareTitle = "";
+
 
 	/**
 	 * Sets the displayed section url and localized title.
@@ -95,6 +84,7 @@ public class MainActivity extends Activity {
 		shareURL = url;
 	}
 
+
 	/**
 	 * Returns the url of the current sections and a title.
 	 * To be used with the share option.
@@ -104,6 +94,7 @@ public class MainActivity extends Activity {
 	public String[] getShareLink(){
 		return(new String[]{shareTitle, shareURL});
 	}
+
 
 	/**
 	 * Enables o disables the location section.
@@ -126,6 +117,7 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+
 
 	/**
 	 * Opens and closes the app menu.
@@ -296,9 +288,11 @@ public class MainActivity extends Activity {
 		ft.addToBackStack(title);
 		ft.commit();
 		setSectionTitle(title);
+
 		//Set the shareable url
 		setShareLink(shareTitle, shareURL);
 	}
+
 
 	/**
 	 * Sets the title of the current section.
@@ -310,13 +304,13 @@ public class MainActivity extends Activity {
 		tvTitle.setText(title);
 	}
 
+
 	/**
 	 * Runs when the activity is created.
 	 *
 	 * @param savedInstanceState Saved state of the activity.
 	 * @see Activity#onCreate(Bundle)
 	 */
-	@SuppressWarnings("deprecation, ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -345,7 +339,7 @@ public class MainActivity extends Activity {
 						}
 					});
 				} catch (InterruptedException e) {
-					Log.e("Sleep interrupted", e.toString());
+					Log.e("MAIN_ACTIVITY", "Sleep interrupted: " +  e.toString());
 				}
 			}
 		};
@@ -441,7 +435,7 @@ public class MainActivity extends Activity {
 
 		//If the database has just been updated, recreate the database
 		if (sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) < BuildConfig.VERSION_CODE) {
-			Log.d("UPDATE", "App updated from version " + sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) + " to " + BuildConfig.VERSION_CODE + ". Forcing a new sync...");
+			Log.d("MAIN_ACTIVITY", "App updated from version " + sharedData.getInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, GM.DATA.DEFAULT.PREVIOUS_APP_VERSION) + " to " + BuildConfig.VERSION_CODE + ". Forcing a new sync...");
 			deleteDatabase();
 			dataEditor.putInt(GM.DATA.KEY.PREVIOUS_APP_VERSION, BuildConfig.VERSION_CODE);
 			dataEditor.apply();
@@ -487,7 +481,7 @@ public class MainActivity extends Activity {
 					});
 
 					//Set the icon
-					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
+					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher, null);
 					if (dialogIcon != null) {
 						dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 					}
@@ -618,7 +612,13 @@ public class MainActivity extends Activity {
 
 					//Set dialog parameters
 					WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-					lp.copyFrom(dialog.getWindow().getAttributes());
+					try {
+						//noinspection ConstantConditions
+						lp.copyFrom(dialog.getWindow().getAttributes());
+					}
+					catch (NullPointerException e){
+						Log.e("MAIN_ACTIVITY", "Error setting dialog parameters: " + e.toString());
+					}
 					lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 					lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 					lp.gravity = Gravity.CENTER;
@@ -632,11 +632,8 @@ public class MainActivity extends Activity {
 				}
 			}
 		}
-
-		// ATTENTION: This was auto-generated to implement the App Indexing API.
-		// See https://g.co/AppIndexing/AndroidStudio for more information.
-		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 	}
+
 
 	/**
 	 * Creates the app database and fills it with the hard coded, default data.
@@ -654,7 +651,8 @@ public class MainActivity extends Activity {
 			db.execSQL(GM.DB.QUERY.CREATE.ALBUM);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_DAY);
-			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_CITY);
+			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_GM);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_EVENT_IMAGE);
 			db.execSQL(GM.DB.QUERY.CREATE.FESTIVAL_OFFER);
 			db.execSQL(GM.DB.QUERY.CREATE.LOCATION);
@@ -668,14 +666,16 @@ public class MainActivity extends Activity {
 			db.execSQL(GM.DB.QUERY.CREATE.POST_COMMENT);
 			db.execSQL(GM.DB.QUERY.CREATE.POST_IMAGE);
 			db.execSQL(GM.DB.QUERY.CREATE.POST_TAG);
-			//db.execSQL(GM.DB.QUERY.CREATE.SETTINGS);
+			db.execSQL(GM.DB.QUERY.CREATE.ROUTE);
+			db.execSQL(GM.DB.QUERY.CREATE.ROUTE_POINT);
 			db.execSQL(GM.DB.QUERY.CREATE.SPONSOR);
 			db.execSQL(GM.DB.QUERY.CREATE.VERSION);
 			db.close();
 		} catch (Exception ex) {
-			Log.e("Error creating database", ex.toString());
+			Log.e("MAIN_ACTIVITY", "Error creating database: " + ex.toString());
 		}
 	}
+
 
 	/**
 	 * Creates the app database and fills it with the hard coded, default data.
@@ -684,9 +684,10 @@ public class MainActivity extends Activity {
 		try {
 			getApplicationContext().deleteDatabase(GM.DB.NAME);
 		} catch (Exception ex) {
-			Log.e("Error deleting database", ex.toString());
+			Log.e("MAIN_ACTIVITY", "Error deleting database: " + ex.toString());
 		}
 	}
+
 
 	/**
 	 * Performs a full sync against the remote database.
@@ -697,6 +698,7 @@ public class MainActivity extends Activity {
 		new Sync(this, pbSync, ivSync).execute();
 	}
 
+
 	/**
 	 * Asks the activity to performa a sync.
 	 * Intended to be called from any screen.
@@ -705,12 +707,12 @@ public class MainActivity extends Activity {
 		new Sync(this).execute();
 	}
 
+
 	/**
 	 * Perform an initial sync before the app can be used.
 	 * A dialog will block the UI.
 	 * It is intended to be used only when the database is empty.
 	 */
-	@SuppressWarnings("ConstantConditions")
 	private void initialSync() {
 		//Create a dialog
 		Dialog dialog = new Dialog(this);
@@ -722,8 +724,13 @@ public class MainActivity extends Activity {
 
 		//Set dialog parameters
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-		lp.copyFrom(dialog.getWindow().getAttributes());
-		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+		try {
+			//noinspection ConstantConditions
+			lp.copyFrom(dialog.getWindow().getAttributes());
+		}
+		catch (NullPointerException e){
+			Log.e("MAIN_ACTIVITY", "Error setting dialog parameters: " + e.toString());
+		}		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp.gravity = Gravity.CENTER;
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -735,17 +742,17 @@ public class MainActivity extends Activity {
 		new Sync(this, pbSync, ivSync, dialog, this).execute();
 	}
 
+
 	/**
 	 * Overrides onBackPressed().
 	 * Used to show the previous fragment instead of finishing the app.
 	 *
-	 * @see AppCompatActivity#onBackPressed()
+	 * @see Activity#onBackPressed()
 	 */
 	@Override
 	public void onBackPressed() {
 		try {
 			FragmentManager fm = getFragmentManager();
-			Log.d("BACK", "StackEntryCount " + fm.getBackStackEntryCount());
 			if (fm.getBackStackEntryCount() > 1) {
 				fm.popBackStack();
 			} else {
@@ -753,17 +760,17 @@ public class MainActivity extends Activity {
 				super.onBackPressed();
 			}
 		} catch (Exception ex) {
-			Log.e("Error going back", "Finishing activity: " + ex.toString());
+			Log.e("MAIN_ACTIVITY", "Error going back. Finishing activity: " + ex.toString());
 			locationHandler.removeCallbacks(checkForLocation);
 			finish();
-			//super.onBackPressed();
 		}
 
 	}
 
+
 	/**
 	 * Overrides onKeyUp().
-	 * Used to toggle the menu whent the key is pressed.
+	 * Used to toggle the menu when the key is pressed.
 	 *
 	 * @see Activity#onKeyUp(int, KeyEvent)
 	 */
@@ -775,6 +782,7 @@ public class MainActivity extends Activity {
 		}
 		return super.onKeyUp(keyCode, event);
 	}
+
 
 	/**
 	 * Overrides onResume().
@@ -788,6 +796,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 	}
 
+
 	/**
 	 * Overrides onPause().
 	 * Stops the location handler to check for location regularly.
@@ -799,6 +808,7 @@ public class MainActivity extends Activity {
 		locationHandler.removeCallbacks(checkForLocation);
 		super.onPause();
 	}
+
 
 	/**
 	 * Overrides onDestroy().
@@ -812,39 +822,4 @@ public class MainActivity extends Activity {
 		super.onDestroy();
 	}
 
-	/**
-	 * ATTENTION: This was auto-generated to implement the App Indexing API.
-	 * See https://g.co/AppIndexing/AndroidStudio for more information.
-	 */
-	public Action getIndexApiAction() {
-		Thing object = new Thing.Builder()
-				.setName("Main Page") // TODO: Define a title for the content shown.
-				// TODO: Make sure this auto-generated URL is correct.
-				.setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-				.build();
-		return new Action.Builder(Action.TYPE_VIEW)
-				.setObject(object)
-				.setActionStatus(Action.STATUS_TYPE_COMPLETED)
-				.build();
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		// ATTENTION: This was auto-generated to implement the App Indexing API.
-		// See https://g.co/AppIndexing/AndroidStudio for more information.
-		client.connect();
-		AppIndex.AppIndexApi.start(client, getIndexApiAction());
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		// ATTENTION: This was auto-generated to implement the App Indexing API.
-		// See https://g.co/AppIndexing/AndroidStudio for more information.
-		AppIndex.AppIndexApi.end(client, getIndexApiAction());
-		client.disconnect();
-	}
 }

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.ivalentin.margolariak"
-    android:versionCode="26"
-    android:versionName="3.1" >
+    android:versionCode="27"
+    android:versionName="4" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -24,23 +24,15 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppBaseTheme"
+        android:theme="@style/AppTheme"
         android:supportsRtl="true"
         android:isGame="false"
         android:fullBackupContent="@xml/backup"
         android:hardwareAccelerated="true"
         android:allowClearUserData="true"
-        tools:ignore="UnusedAttribute"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         android:name="android.support.multidex.MultiDexApplication">
-        
-        <meta-data
-    		android:name="com.google.android.gms.version"
-    		android:value="@integer/google_play_services_version" />
-        
-        <meta-data
-    		android:name="com.google.android.geo.API_KEY"
-    		android:value="AIzaSyC6DgCJRiBkYiNUivE0VH9fsTZDbfVDpS0"/>
-        
+
         <activity
             android:name="com.ivalentin.margolariak.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
@@ -50,7 +42,7 @@
             
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -70,11 +62,11 @@
         
         <receiver
             android:name="com.ivalentin.margolariak.BootReceiver"
-			android:enabled="false">
-		    <intent-filter>
-		        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-		    </intent-filter>
-		</receiver>
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

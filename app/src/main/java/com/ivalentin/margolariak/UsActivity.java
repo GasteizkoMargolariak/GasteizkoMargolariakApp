@@ -1,10 +1,10 @@
 package com.ivalentin.margolariak;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.File;
 
 /**
  * Activity with info about Gasteizko margolariak.
@@ -32,7 +31,6 @@ public class UsActivity extends Activity {
 	 * @param savedInstanceState Saved state of the activity.
 	 * @see Activity#onCreate(Bundle)
 	 */
-	@SuppressLint("InflateParams")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -53,25 +51,25 @@ public class UsActivity extends Activity {
 		llCuadrilla.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_cuadrilla), getString(R.string.us_cuadrilla_content), getResources().getDrawable(R.drawable.us_cuadrilla));
+				openDialog(getString(R.string.us_cuadrilla), getString(R.string.us_cuadrilla_content), getResources().getDrawable(R.drawable.us_cuadrilla, null));
 			}
 		});
 		llAssociation.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_association), getString(R.string.us_association_content), getResources().getDrawable(R.drawable.us_asociacion));
+				openDialog(getString(R.string.us_association), getString(R.string.us_association_content), getResources().getDrawable(R.drawable.us_asociacion, null));
 			}
 		});
 		llActivities.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_activities), getString(R.string.us_activities_content), getResources().getDrawable(R.drawable.us_activities));
+				openDialog(getString(R.string.us_activities), getString(R.string.us_activities_content), getResources().getDrawable(R.drawable.us_activities, null));
 			}
 		});
 		llTransparency.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_transparency), getString(R.string.us_transparency_content), getResources().getDrawable(R.drawable.us_transparency));
+				openDialog(getString(R.string.us_transparency), getString(R.string.us_transparency_content), getResources().getDrawable(R.drawable.us_transparency, null));
 			}
 		});
 
@@ -84,7 +82,6 @@ public class UsActivity extends Activity {
 	 * @param text The dialog text.
 	 * @param img The dialog image.
 	 */
-	@SuppressWarnings("ConstantConditions")
 	private void openDialog(final String title, final String text, final Drawable img){
 
 		//Create the dialog
@@ -117,7 +114,13 @@ public class UsActivity extends Activity {
 
 		//Show the dialog
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-		lp.copyFrom(dialog.getWindow().getAttributes());
+		try {
+			//noinspection ConstantConditions
+			lp.copyFrom(dialog.getWindow().getAttributes());
+		}
+		catch (NullPointerException e){
+			Log.e("SETTINGS_ACTIVITY", "Error setting the dialog attributes: " + e.toString());
+		}
 		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp.gravity = Gravity.CENTER;

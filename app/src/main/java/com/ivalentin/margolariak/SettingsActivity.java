@@ -45,7 +45,7 @@ public class SettingsActivity extends Activity {
 	 *
 	 * @see Activity#onCreate(Bundle)
 	 */
-	@SuppressLint("CommitPrefEdits") // apply() is called in other methods
+	@SuppressLint("CommitPrefEdits")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -249,7 +249,6 @@ public class SettingsActivity extends Activity {
 		//Set the web view
 		WebView wv = (WebView) dialog.findViewById(R.id.wv_changelog);
 		wv.getSettings().setAllowContentAccess(true);
-		Log.e("URL", "file:///android_assets/changelog_" + GM.getLang() + ".html");
 		wv.loadUrl("file:///android_asset/changelog_" + GM.getLang() + ".html");
 
 		//Set close button
@@ -263,7 +262,13 @@ public class SettingsActivity extends Activity {
 
 		//Prep the dialog
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-		lp.copyFrom(dialog.getWindow().getAttributes());
+		try {
+			//noinspection ConstantConditions
+			lp.copyFrom(dialog.getWindow().getAttributes());
+		}
+		catch (NullPointerException e){
+			Log.e("SETTINGS_ACTIVITY", "Error setting the dialog attributes: " + e.toString());
+		}
 		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp.gravity = Gravity.CENTER;

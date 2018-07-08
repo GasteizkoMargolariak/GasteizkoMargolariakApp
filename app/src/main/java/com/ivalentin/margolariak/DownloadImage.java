@@ -22,10 +22,11 @@ import java.net.URLConnection;
  */
 class DownloadImage extends AsyncTask<Void, Void, Void> {
 
-    private final String file;
-    private final String path;
-    private final ImageView iv;
+	private final String file;
+	private final String path;
+	private final ImageView iv;
 	private final int size;
+
 
 	/**
 	 * Constructor.
@@ -37,63 +38,62 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
 	 *
 	 * @see android.widget.ImageView
 	 */
-    public DownloadImage(String file, String path, ImageView iv, int size) {
-        super();
-        this.file = file;
-        this.path = path;
-        this.iv = iv;
+	public DownloadImage(String file, String path, ImageView iv, int size) {
+		super();
+		this.file = file;
+		this.path = path;
+		this.iv = iv;
 		this.size = size;
-    }
+	}
 
-    /**
-     * Downloading file in background thread.
+
+	/**
+	 * Downloading file in background thread.
 	 */
-    @Override
-    protected Void doInBackground(Void... v) {
-        int count;
-        try {
+	@Override
+	protected Void doInBackground(Void... v) {
+		int count;
+		try {
 
-            URL url = new URL(file);
+			URL url = new URL(file);
 
-            URLConnection conection = url.openConnection();
-            conection.connect();
+			URLConnection conection = url.openConnection();
+			conection.connect();
 
-            // input stream to read file - with 8k buffer
-            InputStream input = new BufferedInputStream(url.openStream(), 8192);
+			// input stream to read file - with 8k buffer
+			InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-            // Output stream to write file
-            OutputStream output = new FileOutputStream(path);
-            byte data[] = new byte[1024];
+			// Output stream to write file
+			OutputStream output = new FileOutputStream(path);
+			byte data[] = new byte[1024];
 
-            while ((count = input.read(data)) != -1) {
+			while ((count = input.read(data)) != -1) {
 
-                // writing data to file
-                output.write(data, 0, count);
+				// writing data to file
+				output.write(data, 0, count);
 
-            }
+			}
 
-            // flushing output
-            output.flush();
+			// flushing output
+			output.flush();
 
-            // closing streams
-            output.close();
-            input.close();
+			// closing streams
+			output.close();
+			input.close();
 
-        } catch (Exception e) {
-            Log.e("Error downloading: ", e.getMessage());
-        }
+		} catch (Exception e) {
+			Log.e("DOWNLOAD_IMAGE", "Error downloading: " + e.getMessage());
+		}
 
-        return null;
-    }
+		return null;
+	}
 
 
-
-    /**
-     * After completing background task, set the image on the ImageView.
-     */
-    @Override
-    protected void onPostExecute(Void v) {
-        Log.d("File downloaded", path);
+	/**
+	 * After completing background task, set the image on the ImageView.
+	 */
+	@Override
+	protected void onPostExecute(Void v) {
 		try {
 			File file = new File(path);
 			iv.setImageBitmap(GM.decodeSampledBitmapFromFile(file.getAbsolutePath(), size));
@@ -102,6 +102,6 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
 		catch(Exception ex){
 			Log.e("Bitmap error", "Not loading image " + path + ": " + ex.toString());
 		}
-    }
+	}
 
 }

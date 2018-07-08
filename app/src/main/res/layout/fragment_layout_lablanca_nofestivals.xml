@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.ivalentin.margolariak.CustomScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/section"
             android:orientation="vertical"
-            >
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/textView4"
@@ -28,8 +27,6 @@
                 android:background="@drawable/section_title"
                 android:paddingBottom="4dp"
                 android:paddingEnd="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
                 android:paddingStart="20dp"
                 android:paddingTop="4dp"
                 android:text="@string/lablanca_title"
@@ -61,7 +58,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -73,8 +69,8 @@
                         android:baselineAlignBottom="true"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -82,7 +78,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_1_title"
@@ -91,10 +86,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_1"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
@@ -108,7 +101,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -118,10 +110,10 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:baselineAlignBottom="false"
+                        android:importantForAccessibility="no"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -129,7 +121,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_2_title"
@@ -138,10 +129,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_2"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
@@ -156,7 +145,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -166,10 +154,10 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:baselineAlignBottom="false"
+                        android:importantForAccessibility="no"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -177,7 +165,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_3_title"
@@ -186,10 +173,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_3"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
@@ -203,7 +188,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -213,10 +197,10 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:baselineAlignBottom="false"
+                        android:importantForAccessibility="no"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -224,7 +208,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_4_title"
@@ -233,10 +216,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_4"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
@@ -250,7 +231,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -260,10 +240,10 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:baselineAlignBottom="false"
+                        android:importantForAccessibility="no"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -271,7 +251,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_5_title"
@@ -280,10 +259,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_5"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
@@ -297,7 +274,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -307,10 +283,10 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:baselineAlignBottom="false"
+                        android:importantForAccessibility="no"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -318,7 +294,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_6_title"
@@ -327,10 +302,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_6"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
@@ -344,7 +317,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -354,10 +326,10 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:baselineAlignBottom="false"
+                        android:importantForAccessibility="no"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -365,7 +337,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_7_title"
@@ -374,10 +345,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_7"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
@@ -391,7 +360,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -401,10 +369,10 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="false"
                         android:baselineAlignBottom="false"
+                        android:importantForAccessibility="no"
                         android:minHeight="15dp"
                         android:minWidth="15dp"
-                        android:src="@drawable/ul"
-                        app:srcCompat="@drawable/ul"/>
+                        android:src="@drawable/ul"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -412,7 +380,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lablanca_nofestivals_8_title"
@@ -421,10 +388,8 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:text="@string/lablanca_nofestivals_8"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>

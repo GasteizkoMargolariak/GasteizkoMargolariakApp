@@ -1,6 +1,5 @@
 package com.ivalentin.margolariak;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -39,7 +38,6 @@ public class SponsorActivity extends Activity {
 	 * @param savedInstanceState Saved state of the activity.
 	 * @see Activity#onCreate(Bundle)
 	 */
-	@SuppressLint("InflateParams")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,9 +62,9 @@ public class SponsorActivity extends Activity {
 
 		while (cursor.moveToNext()) {
 			//Create a new row
-			entry = (LinearLayout) factory.inflate(R.layout.row_sponsor, null);
+			entry = (LinearLayout) factory.inflate(R.layout.row_sponsor, llList, false);
 
-			//Set margins TODO: I don't know why it doesnt read margins from the xml
+			//Set margins
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			int margin = (int) (9 * getResources().getDisplayMetrics().density);
 			layoutParams.setMargins(margin, margin, margin, margin);

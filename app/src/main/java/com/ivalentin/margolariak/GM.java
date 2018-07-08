@@ -12,7 +12,7 @@ import java.util.Locale;
 
 /**
  * Final class that contains useful static values to be used across the app.
- * 
+ *
  * @author Iñigo Valentin
  *
  */
@@ -26,12 +26,158 @@ final class GM {
 		/**
 		 * Name of the database.
 		 */
-		static final String NAME = "gm";
+		static final String NAME = "gmv3";
 
 		/**
 		 * Initial version of the database.
 		 */
 		static final int INITIAL_VERSION = 0;
+
+		/**
+		 * Names of the tables of the database.
+		 */
+		final class TABLE {
+
+			/**
+			 * Name of the table "activity".
+			 */
+			static final String ACTIVITY = "activity";
+
+			/**
+			 * Name of the table "activity_comment".
+			 */
+			static final String ACTIVITY_COMMENT = "activity_comment";
+
+			/**
+			 * Name of the table "activity_image".
+			 */
+			static final String ACTIVITY_IMAGE = "activity_image";
+
+			/**
+			 * Name of the table "activity_itinerary".
+			 */
+			static final String ACTIVITY_ITINERARY = "activity_itinerary";
+
+			/**
+			 * Name of the table "activity_tag".
+			 */
+			static final String ACTIVITY_TAG = "activity_tag";
+
+			/**
+			 * Name of the table "album".
+			 */
+			static final String ALBUM = "album";
+
+			/**
+			 * Name of the table "festival".
+			 */
+			static final String FESTIVAL = "festival";
+
+			/**
+			 * Name of the table "festival_day".
+			 */
+			static final String FESTIVAL_DAY = "festival_day";
+
+			/**
+			 * Name of the table "festival_event_city".
+			 */
+			static final String FESTIVAL_EVENT_CITY = "festival_event_city";
+
+			/**
+			 * Name of the table "festival_event_gm".
+			 */
+			static final String FESTIVAL_EVENT_GM = "festival_event_gm";
+
+			/**
+			 * Name of the table "festival_event_image".
+			 */
+			static final String FESTIVAL_EVENT_IMAGE = "festival_event_image";
+
+			/**
+			 * Name of the table "festival_offer".
+			 */
+			static final String FESTIVAL_OFFER = "festival_offer";
+
+			/**
+			 * Name of the table "location".
+			 */
+			static final String LOCATION = "location";
+
+			/**
+			 * Name of the table "notification".
+			 */
+			static final String NOTIFICATION = "notification";
+
+			/**
+			 * Name of the table "people".
+			 */
+			static final String PEOPLE = "people";
+
+			/**
+			 * Name of the table "photo".
+			 */
+			static final String PHOTO = "photo";
+
+			/**
+			 * Name of the table "photo_album".
+			 */
+			static final String PHOTO_ALBUM = "photo_album";
+
+			/**
+			 * Name of the table "photo_comment".
+			 */
+			static final String PHOTO_COMMENT = "photo_comment";
+
+			/**
+			 * Name of the table "place".
+			 */
+			static final String PLACE = "place";
+
+			/**
+			 * Name of the table "post".
+			 */
+			static final String POST = "post";
+
+			/**
+			 * Name of the table "post_comment".
+			 */
+			static final String POST_COMMENT = "post_comment";
+
+			/**
+			 * Name of the table "post_image".
+			 */
+			static final String POST_IMAGE = "post_image";
+
+			/**
+			 * Name of the table "post_tag".
+			 */
+			static final String POST_TAG = "post_tag";
+
+			/**
+			 * Name of the table "route".
+			 */
+			static final String ROUTE = "route";
+
+			/**
+			 * Name of the table "route_point".
+			 */
+			static final String ROUTE_POINT = "route_point";
+
+			/**
+			 * Name of the table "settings".
+			 */
+			static final String SETTINGS = "settings";
+
+			/**
+			 * Name of the table "sponsor".
+			 */
+			static final String SPONSOR = "sponsor";
+
+			/**
+			 * Name of the table "version".
+			 */
+			static final String VERSION = "version";
+		}
 
 		/**
 		 * Column types
@@ -82,7 +228,7 @@ final class GM {
 				/**
 				 * Creates the table "activity_itinerary" on the database.
 				 */
-				static final String ACTIVITY_ITINERARY = "CREATE TABLE IF NOT EXISTS activity_itinerary (id INT, activity INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, start DATETIME, end DATETIME, place INT);";
+				static final String ACTIVITY_ITINERARY = "CREATE TABLE IF NOT EXISTS activity_itinerary (id INT, activity INT, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, start DATETIME, end DATETIME, place INT, route INT);";
 
 				/**
 				 * Creates the table "activity_tag" on the database.
@@ -102,12 +248,17 @@ final class GM {
 				/**
 				 * Creates the table "festival_day" on the database.
 				 */
-				static final String FESTIVAL_DAY = "CREATE TABLE IF NOT EXISTS festival_day (id INT, date DATETIME, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, price INT);";
+				static final String FESTIVAL_DAY = "CREATE TABLE IF NOT EXISTS festival_day (id INT, date DATETIME, name_es VARCHAR, name_en VARCHAR, name_eu VARCHAR, price INT, people INT, max_people INT);";
 
 				/**
-				 * Creates the table "festival_event" on the database.
+				 * Creates the table "festival_event_city" on the database.
 				 */
-				static final String FESTIVAL_EVENT = "CREATE TABLE IF NOT EXISTS festival_event (id INT, gm INT, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, host INT, place INT, start DATETIME, end DATETIME);";
+				static final String FESTIVAL_EVENT_CITY = "CREATE TABLE IF NOT EXISTS festival_event_city (id INT, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, host INT, sponsor INT, place INT, route INT, start DATETIME, end DATETIME, interest INT);";
+
+				/**
+				 * Creates the table "festival_event_gm" on the database.
+				 */
+				static final String FESTIVAL_EVENT_GM = "CREATE TABLE IF NOT EXISTS festival_event_gm (id INT, title_es VARCHAR, title_en VARCHAR, title_eu VARCHAR, description_es VARCHAR, description_en VARCHAR, description_eu VARCHAR, host INT, sponsor INT, place INT, route INT, start DATETIME, end DATETIME, interest INT);";
 
 				/**
 				 * Creates the table "festival_event_image" on the database.
@@ -175,6 +326,16 @@ final class GM {
 				static final String POST_TAG = "CREATE TABLE IF NOT EXISTS post_tag (post INT, tag VARCHAR);";
 
 				/**
+				 * Creates the table "route" on the database.
+				 */
+				static final String ROUTE = "CREATE TABLE IF NOT EXISTS route (id INT, name VARCHAR, mins INT, c_lat DOUBLE, c_lon DOUBLE, zoom INT);";
+
+				/**
+				 * Creates the table "route_point" on the database.
+				 */
+				static final String ROUTE_POINT = "CREATE TABLE IF NOT EXISTS route_point (id INT, route INT, part INT, lat_o DOUBLE, lon_o DOUBLE, lat_d DOUBLE, lon_d DOUBLE, mins INT, visible INT);";
+
+				/**
 				 * Creates the table "settings" on the database.
 				 */
 				static final String SETTINGS = "CREATE TABLE IF NOT EXISTS settings (name VARCHAR, value VARCHAR);";
@@ -236,9 +397,14 @@ final class GM {
 				static final String FESTIVAL_DAY = "DROP TABLE festival_day;";
 
 				/**
-				 * Deletes the table "festival_event" from the database.
+				 * Deletes the table "festival_event_city" from the database.
 				 */
-				static final String FESTIVAL_EVENT = "DROP TABLE festival_event;";
+				static final String FESTIVAL_EVENT_CITY = "DROP TABLE festival_event_city;";
+
+				/**
+				 * Deletes the table "festival_event_gm" from the database.
+				 */
+				static final String FESTIVAL_EVENT_GM = "DROP TABLE festival_event_gm;";
 
 				/**
 				 * Deletes the table "festival_event_image" from the database.
@@ -306,6 +472,16 @@ final class GM {
 				static final String POST_TAG = "DROP TABLE post_tag;";
 
 				/**
+				 * Deletes the table "route" from the database.
+				 */
+				static final String ROUTE = "DROP TABLE route;";
+
+				/**
+				 * Deletes the table "route_point" from the database.
+				 */
+				static final String ROUTE_POINT = "DROP TABLE route_point;";
+
+				/**
 				 * Deletes the table "settings" from the database.
 				 */
 				static final String SETTINGS = "DROP TABLE settings;";
@@ -368,12 +544,17 @@ final class GM {
 				static final String FESTIVAL_DAY = "DELETE FROM festival_day;";
 
 				/**
-				 * Empties the table "festival_event".
+				 * Empties the table "festival_event_city".
 				 */
-				static final String FESTIVAL_EVENT = "DELETE FROM festival_event;";
+				static final String FESTIVAL_EVENT_CITY = "DELETE FROM festival_event_city;";
 
 				/**
-				 * Empties the table "festival_event".
+				 * Empties the table "festival_event_gm".
+                 */
+				static final String FESTIVAL_EVENT_GM = "DELETE FROM festival_event_gm;";
+
+				/**
+				 * Empties the table "festival_event_image".
 				 */
 				static final String FESTIVAL_EVENT_IMAGE = "DELETE FROM festival_event_image;";
 
@@ -438,6 +619,16 @@ final class GM {
 				static final String POST_TAG = "DELETE FROM post_tag;";
 
 				/**
+				 * Empties the table "route".
+				 */
+				static final String ROUTE = "DELETE FROM route;";
+
+				/**
+				 * Empties the table "route_point".
+				 */
+				static final String ROUTE_POINT = "DELETE FROM route_point;";
+
+				/**
 				 * Empties the table "settings".
 				 */
 				static final String SETTINGS = "DELETE FROM settings;";
@@ -500,9 +691,14 @@ final class GM {
 				static final String FESTIVAL_DAY = GM.DB.QUERY.DROP.FESTIVAL_DAY + GM.DB.QUERY.CREATE.FESTIVAL_DAY;
 
 				/**
-				 * Deletes and then recreates the table "festival_event".
+				 * Deletes and then recreates the table "festival_event_city".
 				 */
-				static final String FESTIVAL_EVENT = GM.DB.QUERY.DROP.FESTIVAL_EVENT + GM.DB.QUERY.CREATE.FESTIVAL_EVENT;
+				static final String FESTIVAL_EVENT_CITY = GM.DB.QUERY.DROP.FESTIVAL_EVENT_CITY + GM.DB.QUERY.CREATE.FESTIVAL_EVENT_CITY;
+
+				/**
+				 * Deletes and then recreates the table "festival_event_gm".
+				 */
+				static final String FESTIVAL_EVENT_GM = GM.DB.QUERY.DROP.FESTIVAL_EVENT_GM + GM.DB.QUERY.CREATE.FESTIVAL_EVENT_GM;
 
 				/**
 				 * Deletes and then recreates the table "festival_event_image".
@@ -568,6 +764,16 @@ final class GM {
 				 * Deletes and then recreates the table "post_tag".
 				 */
 				static final String POST_TAG = GM.DB.QUERY.DROP.POST_TAG + GM.DB.QUERY.CREATE.POST_TAG;
+
+				/**
+				 * Deletes and then recreates the table "route".
+				 */
+				static final String ROUTE = GM.DB.QUERY.DROP.ROUTE + GM.DB.QUERY.CREATE.ROUTE;
+
+				/**
+				 * Deletes and then recreates the table "route_point".
+				 */
+				static final String ROUTE_PONT = GM.DB.QUERY.DROP.ROUTE_POINT + GM.DB.QUERY.CREATE.ROUTE_POINT;
 
 				/**
 				 * Deletes and then recreates the table "settings".
@@ -715,6 +921,11 @@ final class GM {
 		static final String GITHUB = "https://github.com/GasteizkoMargolariak/GasteizkoMargolariakApp";
 
 		/**
+		 * URL of the Open Street Maps copyright.
+		 */
+		static final String OSM_COPYRIGHT = "https://www.openstreetmap.org/copyright";
+
+		/**
 		 * URL of the server.
 		 */
 		static final String SERVER = "https://margolariak.com";
@@ -736,14 +947,25 @@ final class GM {
 		static final String SERVER = URL.SERVER;
 
 		/**
-		 * Utilities for the Sync V1 API.
+		 * Utilities for the Sync V3 API.
 		 */
 		static final class SYNC {
 
 			/**
 			 * Path to the API.
 			 */
-			static final String PATH = "/API/v1/sync.php";
+			static final class PATH {
+
+				/**
+				 * Path to the fast sync API.
+				 */
+				static final String FAST= "/API/v3/fastsync.php";
+
+				/**
+				 * Path to the regular sync API.
+				 */
+				static final String COMPLETE= "/API/v3/sync.php";
+			}
 
 			/**
 			 * Keys fotr the API parameters.
@@ -759,102 +981,35 @@ final class GM {
 				 * Key for the user identifier.
 				 */
 				static final String USER = "user";
-
-				/**
-				 * Key for the action to perform with the API ("sync" or "version").
-				 */
-				static final String ACTION = "action";
-
-				/**
-				 * Key for the section to sync.
-				 */
-				static final String SECTION = "section";
-
-				/**
-				 * Key for the current version of the database to send to the API.
-				 */
-				static final String VERSION = "version";
 
 				/**
 				 * Key to indicate to the API if the sync is being performed on the foreground.
 				 */
 				static final String FOREGROUND = "foreground";
 
-				/**
-				 * Key to indicate the format of the data for the API to send.
-				 */
-				static final String FORMAT = "format";
-
-				/**
-				 * Key to indicate the language to the API.
-				 */
-				static final String LANG = "lang";
 			}
-
-			/**
-			 * Values for the parameters.
-			 */
-			 static final class VALUE {
-
-				/**
-				 * Value for the ACTION key.
-				 */
-				static final String ACTION = "sync";
-
-				/**
-				 * Value for the SECTION key,
-				 */
-				 static final String SECTION = "all";
-
-				/**
-				 * Value for the FORMAT key.
-				 */
-				static final String FORMAT = "json";
-			 }
 		}
 
 		/**
-		 * Utilities for the Location V1 API.
+		 * Utilities for the Location V3 API.
 		 */
 		static final class LOCATION {
 
 			/**
 			 * Path to the API.
 			 */
-			static final String PATH = "/API/v1/location.php";
-
-			/**
-			 * Keys fotr the API parameters.
-			 */
-			static final class KEY {
-
-				/**
-				 * Key to indicate the format of the data for the API to send.
-				 */
-				static final String FORMAT = "format";
-			}
-
-			/**
-			 * Values for the parameters.
-			 */
-			static final class VALUE {
-
-				/**
-				 * Value for the FORMAT key.
-				 */
-				static final String FORMAT = "json";
-			}
+			static final String PATH = "/API/v3/location.php";
 		}
 
 		/**
-		 * Utilities for the Notifications V1 API.
+		 * Utilities for the Notifications V3 API.
 		 */
 		static final class NOTIFICATION {
 
 			/**
 			 * Path to the API.
 			 */
-			static final String PATH = "/API/v1/notifications.php";
+			static final String PATH = "/API/v3/notifications.php";
 
 			/**
 			 * Keys fotr the API parameters.
@@ -875,37 +1030,42 @@ final class GM {
 				 * Key for the action to perform with the API ("sync" or "version").
 				 */
 				static final String TARGET = "target";
-
-				/**
-				 * Key to indicate the format of the data for the API to send.
-				 */
-				static final String FORMAT = "format";
-			}
-
-			/**
-			 * Values for the parameters.
-			 */
-			static final class VALUE {
-
-				/**
-				 * Value for the FORMAT key.
-				 */
-				static final String FORMAT = "json";
 			}
 		}
 
 		/**
-		 * Utilities for the COMMENT V1 API.
+		 * Utilities for posting comment
 		 */
 		static final class COMMENT {
 
 			/**
 			 * Path to the API.
 			 */
-			static final String PATH = "/API/v1/comment.php";
+			static final String PATH = "/API/v3/comment.php";
 
 			/**
-			 * Keys fotr the API parameters.
+			 * Sections where comments can be posted
+			 */
+			static final class TYPE {
+
+				/**
+				 * Comment in a blog post.
+				 */
+				static final String BLOG = "post";
+
+				/**
+				 * Comment in an activity.
+				 */
+				static final String ACTIVITIES = "activity";
+
+				/**
+				 * Comment in a photo.
+				 */
+				static final String GALLERY = "photo";
+			}
+
+			/**
+			 * Keys for the API parameters.
 			 */
 			static final class KEY {
 
@@ -920,12 +1080,12 @@ final class GM {
 				static final String USER = "user";
 
 				/**
-				 * Key for the action to perform with the API ("sync" or "version").
+				 * Key to indicate the section.
 				 */
-				static final String TARGET = "target";
+				static final String TYPE = "target";
 
 				/**
-				 * Key to indicate the format of the data for the API to send.
+				 * Key to indicate the entry ID.
 				 */
 				static final String ID = "id";
 
@@ -939,6 +1099,11 @@ final class GM {
 				 */
 				static final String TEXT = "text";
 
+				/**
+				 * Key to indicate the text language.
+				 */
+				static final String LANGUAGE = "lang";
+
 			}
 		}
 
@@ -950,7 +1115,13 @@ final class GM {
 	static final class PERMISSION {
 
 		/**
-		 * Code for the location permission request
+		 * Code for the storage persmission request.
+		 */
+
+		static final int STORAGE = 0;
+
+		/**
+		 * Code for the location permission request.
 		 */
 		static final int LOCATION = 1;
 	}
@@ -1185,6 +1356,32 @@ final class GM {
 	}
 
 	/**
+	 * Text encoding.
+	 */
+	static final String ENCODING = "UTF-8";
+
+	/**
+	 * Valid languages.
+	 */
+	static final class LANGUAGE{
+
+		/**
+		 * Spanish
+		 */
+		static final String ES = "es";
+
+		/**
+		 * English
+		 */
+		static final String EN = "en";
+
+		/**
+		 * Basque
+		 */
+		static final String EU = "eu";
+	}
+
+	/**
 	 * Gets the language code for sql queries.
 	 * Only three values can be returned: es, eu, en.
 	 * Defaults to es.
@@ -1215,9 +1412,8 @@ final class GM {
 	 * @param includeYear Also returns the year.
 	 * @param includeTime Also returns the hour and minute.
 	 *
-	 * @return The fragment view
+	 * @return The formatted date.
 	 *
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	static String formatDate(String dateString, String lang, boolean includeDay, boolean includeYear, boolean includeTime){
 
@@ -1299,7 +1495,7 @@ final class GM {
 			}
 		}
 		catch(Exception ex){
-			Log.e("Date format error", ex.toString());
+			Log.e("GM", "Date format error: " + ex.toString());
 		}
 
 		return output;

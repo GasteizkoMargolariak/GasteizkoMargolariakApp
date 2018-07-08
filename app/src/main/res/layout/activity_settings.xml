@@ -1,6 +1,5 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
@@ -63,8 +62,7 @@
             android:background="#00000000"
             android:contentDescription="@android:string/yes"
             android:onClick="finish"
-            android:src="@android:drawable/ic_menu_revert"
-            app:srcCompat="@android:drawable/ic_menu_revert"/>
+            android:src="@android:drawable/ic_menu_revert"/>
 
     </LinearLayout>
 
@@ -126,7 +124,6 @@
                         android:textColor="@android:color/black"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textStyle="italic"
                         android:alpha="0.8"/>
                 </LinearLayout>
@@ -185,7 +182,6 @@
                         android:textColor="@android:color/black"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textStyle="italic"
                         android:alpha="0.8"/>
                 </LinearLayout>
@@ -242,7 +238,6 @@
                     android:textColor="@android:color/black"
                     android:layout_marginTop="4dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight=".15"
                     android:textStyle="italic"
                     android:alpha="0.8"/>
@@ -282,7 +277,6 @@
                     android:textColor="@android:color/black"
                     android:layout_marginTop="4dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight=".15"
                     android:textStyle="italic"
                     android:alpha="0.8"/>
@@ -324,7 +318,6 @@
                     android:textColor="@android:color/black"
                     android:layout_marginTop="4dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_weight=".15"
                     android:textStyle="italic"
                     android:alpha="0.8"/>

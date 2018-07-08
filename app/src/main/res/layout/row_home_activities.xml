@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/entry"
@@ -54,8 +55,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textStyle="italic"
                 android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:id="@+id/tv_row_home_activity_city"
@@ -64,8 +64,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textStyle="italic"
                 android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -77,19 +76,21 @@
                 android:minHeight="30dp"/>
 
             <ImageView
+                android:importantForAccessibility="no"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="40dp"
                 android:layout_marginTop="-40dp"
-                android:background="@drawable/gradient_v_white"/>
+                android:background="@drawable/gradient_v_white"
+                tools:ignore="NestedWeights"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/tv_row_home_activity_price"
+                android:importantForAccessibility="no"
                 android:layout_weight="1"
-                android:layout_marginLeft="35dp"
                 android:layout_marginStart="35dp"/>
         </LinearLayout>
 

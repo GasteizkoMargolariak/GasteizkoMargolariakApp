@@ -1,6 +1,5 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
@@ -63,7 +62,6 @@
             android:contentDescription="@android:string/yes"
             android:layout_weight=".2"
             android:id="@+id/bt_back"
-            app:srcCompat="@android:drawable/ic_menu_revert"
             android:background="#00000000"/>
 
     </LinearLayout>
@@ -96,8 +94,6 @@
                 android:background="@drawable/section_title"
                 android:paddingBottom="4dp"
                 android:paddingEnd="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
                 android:paddingStart="20dp"
                 android:paddingTop="4dp"
                 android:textColor="@color/section_title"/>

@@ -52,7 +52,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight=".4">
+        android:layout_weight=".2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,11 +79,11 @@
             android:layout_marginBottom="10dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/iv_row_activity_itinerary_pinpoint"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:contentDescription="@string/app_cdesc"
-                android:src="@drawable/pinpoint_map"
+                android:src="@drawable/pinpoint"
                 android:layout_gravity="center_vertical" />
 
             <LinearLayout

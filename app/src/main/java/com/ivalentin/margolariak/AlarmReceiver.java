@@ -2,8 +2,10 @@ package com.ivalentin.margolariak;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +16,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.util.Log;
 
@@ -54,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			try{
 				fu = new FetchURL();
 				fu.Run(GM.API.SERVER + GM.API.NOTIFICATION.PATH);
-				Log.d("NOTIFICATIONS", "Fetched notifications");
+				Log.d("ALARM_RECEIVER", "Fetched notifications");
 
 				//Parse info
 				String o = fu.getOutput().toString();
@@ -64,13 +64,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 				try {
 					db = context.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 					if (db.isReadOnly()) {
-						Log.e("NOTIFICATIONS", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
+						Log.e("ALARM_RECEIVER", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
 						new Sync(context).execute(); // Sync before exiting.
 						return;
 					}
 				}
 				catch(SQLiteDatabaseLockedException ex){
-					Log.e("NOTIFICATIONS", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
+					Log.e("ALARM_RECEIVER", "Database is locked and in read only mode. Not reading new notifications now, but I'll try to sync.");
 					new Sync(context).execute(); // Sync before exiting.
 					return;
 				}
@@ -138,7 +138,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 						TaskStackBuilder stackBuilder;
 
 						//Send the notification.
-						NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+						Notification.Builder mBuilder = new Notification.Builder(context)
 								.setSmallIcon(R.drawable.ic_notification)
 								.setContentTitle(title)
 								.setAutoCancel(true)
@@ -181,10 +181,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 			}
 			catch(NumberFormatException ex) {
-				Log.e("NOTIFICATION", "Error parsing remote file: " + ex.toString());
+				Log.e("ALARM_RECEIVER", "Notification: Error parsing remote file: " + ex.toString());
 			}
 			catch (Exception ex){
-				Log.e("NOTIFICATION", "Error fetching notifications: " + ex.toString());
+				Log.e("ALARM_RECEIVER", "Notification: Error fetching notifications: " + ex.toString());
 			}
     	}
 
@@ -198,7 +198,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		 * @param in String to be decoded.
 		 * @return Decoded string.
 		 */
-		static final String decode(final String in){
+		static String decode(final String in){
 			String working = in;
 			int index = working.indexOf("\\u");
 			while(index > -1){
@@ -218,7 +218,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 		}
 
     /**
-     * Sets a repeating alarm. 
+     * Sets a repeating alarm. o
+
      * When the alarm fires, the app broadcasts an Intent to this WakefulBroadcastReceiver.
      * @param context The context of the app
      */
