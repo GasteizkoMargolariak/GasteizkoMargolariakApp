@@ -60,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/tv_row_album_comments_left"
+                android:textColor="@color/text_dark"
                 android:layout_gravity="center_vertical" />
 
             <ImageView
@@ -128,6 +129,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
                 android:id="@+id/tv_row_album_comments_right"
+                android:textColor="@color/text_dark"
                 android:layout_gravity="center_vertical" />
 
             <ImageView

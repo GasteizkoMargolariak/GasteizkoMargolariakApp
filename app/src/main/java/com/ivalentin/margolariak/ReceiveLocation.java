@@ -1,5 +1,6 @@
 package com.ivalentin.margolariak;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -24,7 +25,8 @@ import java.net.URL;
 
 class ReceiveLocation extends AsyncTask<Void, Void, Void> {
 
-	private MainActivity activity;
+	@SuppressLint("StaticFieldLeak")
+	private final MainActivity activity;
 	private boolean report = false;
 
 	/**

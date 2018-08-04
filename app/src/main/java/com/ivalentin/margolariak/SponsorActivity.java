@@ -258,7 +258,7 @@ public class SponsorActivity extends Activity {
 	 *
 	 * @see Activity#finish()
 	 */
-	public void finish(View v){
+	public void finish(@SuppressWarnings("unused") View v){
 		finish();
 	}
 

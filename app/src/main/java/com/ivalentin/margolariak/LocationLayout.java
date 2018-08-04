@@ -3,6 +3,7 @@ package com.ivalentin.margolariak;
 import java.util.Locale;
 import java.util.ArrayList;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -27,6 +28,8 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
+
+import static android.os.Build.VERSION.SDK_INT;
 
 /**
  * Section that shows a map with the location of Gasteizko Margolariak.
@@ -59,7 +62,6 @@ public class LocationLayout extends Fragment implements LocationListener {
 
 			if (mapView != null) {
 				if (refreshLocation()) {
-					
 					OverlayItem locationOverlayItem = new OverlayItem("Gasteizko Margolariak", "", gmLocation);
 					locationOverlayItem.setMarker(locationMarker);
 					final ArrayList<OverlayItem> items = new ArrayList<>();
@@ -72,7 +74,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 								public boolean onItemLongPress(final int index, final OverlayItem item) {
 									return true;
 								}
-							}, getContext());
+							}, mapView.getContext());
 					mapView.getOverlays().add(locationOverlay);
 				}
 			}
@@ -96,11 +98,22 @@ public class LocationLayout extends Fragment implements LocationListener {
 		//Get the view
 		v = inflater.inflate(R.layout.fragment_layout_location, container, false);
 
+		// Ask for location permissions.
+		if (!getLocationPermission()){
+			askLocationPermission();
+		}
+
 		//Set up
 		locationManager = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
-		if (checkLocationPermission()){
-			locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
+
+		if (getLocationPermission()){
+			try{
+				locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
+			}
+			catch (SecurityException ex){
+				Log.e("LOCATION_LAYOUT", "Missing location permission: " + ex.toString());
+			}
 		}
 
 		//Set the title
@@ -118,7 +131,7 @@ public class LocationLayout extends Fragment implements LocationListener {
 		IMapController mapController = mapView.getController();
 		mapController.setZoom(17);
 		mapController.setCenter(gmLocation);
-		this.locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
+		this.locationMarker = this.getResources().getDrawable(R.drawable.pinpoint);
 
 		//Return the view
 		return v;
@@ -133,8 +146,13 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onResume() {
-		if (checkLocationPermission()){
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
+		if (getLocationPermission()) {
+			try{
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
+			}
+			catch (SecurityException ex){
+				Log.e("LOCATION_LAYOUT", "Missing location permission: " + ex.toString());
+			}
 		}
 		super.onResume();
 		markerHandler.post(resetMarker);
@@ -148,11 +166,10 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onPause(){
-		if (checkLocationPermission()) {
+		if (getLocationPermission()) {
 			locationManager.removeUpdates(this);
 		}
 		super.onPause();
-
 		markerHandler.removeCallbacks(resetMarker);
 	}
 
@@ -165,11 +182,15 @@ public class LocationLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
-		if (checkLocationPermission()) {
-			locationManager.removeUpdates(this);
+		try {
+			if (getLocationPermission()) {
+				locationManager.removeUpdates(this);
+			}
 		}
-
+		catch (Exception ex){
+			Log.e("LOCATION_LAYOUT", "Unable to stop location manager on destroy: " + ex.toString());
+		}
+		super.onDestroy();
 		markerHandler.removeCallbacks(resetMarker);
 	}
 
@@ -246,12 +267,23 @@ public class LocationLayout extends Fragment implements LocationListener {
 
 	/**
 	 * Checks app permission to access the user location.
-	 * @return true if the permission has been granted, false otherwise.
+	 * If the SDK version doesn't handle individual permissions, it will always
+	 * return true.
 	 *
-	 * @see android.app.Fragment#onResume()
+	 * @return true if the permission has been granted, false otherwise.
 	 */
-	private boolean checkLocationPermission(){
-		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+	private boolean getLocationPermission() {
+		return SDK_INT < 23 || getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+	}
+
+
+	/**
+	 * Asks for location permissions. For SDK under 23, it does nothing.
+	 */
+	private void askLocationPermission(){
+		if (SDK_INT >= 23){
+			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
+		}
 	}
 
 

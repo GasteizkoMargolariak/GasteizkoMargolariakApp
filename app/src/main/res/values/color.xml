@@ -17,6 +17,13 @@
     <color name="entry_border">#6D6990</color>
     <color name="entry_title">#275573</color>
 
+    <!-- Text colors -->
+    <color name="text_black">#000000</color>
+    <color name="text_gray">#aaaaaa</color>
+    <color name="text_dark">#555555</color>
+    <color name="text_blue">#0078ff</color>
+   
+
     <!--Color for the border of the image-->
     <color name="image_border">#292690</color>
     
@@ -24,9 +31,6 @@
     <color name="menu_entry">#ffffff</color>
 
     <!-- Colors for top bar -->
-
-    <color name="background_bar">#9bc1da</color>
-    <color name="background_bar_gradient">#bdf8fd</color>
     <color name="menu_selected">#ccccff</color>
 
     <!-- Color for input fields -->
@@ -45,7 +49,6 @@
 
     <!--Colors for album covers -->
     <color name="album_border">#111111</color>
-    <color name="album_background">#aaaaaa</color>
 
     <!-- Color for schedule rows -->
     <color name="schedule_place">#555577</color>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Backgrounds for several sections -->
+    
+    <color name="background_app">#b5d3e5</color>
+    <color name="background_menu">#0078ff</color>
+    <color name="background_notification">#000000</color>
+    <color name="background_separator">#000000</color>
+
+
+    <color name="section_background">#98c8ff</color>
+    <color name="section_border">#000011</color>
+    <color name="section_title">#ffffff</color>
+    <color name="section_title_background">#0078ff</color>
+    <color name="entry_background">#ffffff</color>
+    <color name="entry_border">#6D6990</color>
+    <color name="entry_title">#275573</color>
+
+    <!--Color for the border of the image-->
+    <color name="image_border">#292690</color>
+    
+    <!-- Color for the menu entries -->
+    <color name="menu_entry">#ffffff</color>
+
+    <!-- Colors for top bar -->
+    <color name="menu_selected">#ccccff</color>
+
+    <!-- Color for input fields -->
+    <color name="input_background">#ccddff</color>
+    <color name="input_border">#0078ff</color>
+    <color name="input_text_color">#0078ff</color>
+    <color name="input_hint_color">#888888</color>
+    <color name="input_button_background">#124567</color>
+    <color name="input_button_color">#cccccc</color>
+    <color name="input_button_background_pressed">#446688</color>
+
+    <!-- Color for maps -->
+    <color name="map_border">#0077ff</color>
+    <color name="map_background">#ffffff</color>
+    <color name="map_route">#0022aa</color>
+
+    <!--Colors for album covers -->
+    <color name="album_border">#111111</color>
+
+    <!-- Color for schedule rows -->
+    <color name="schedule_place">#555577</color>
+    <color name="schedule_address">#8888aa</color>
+
+</resources>
+

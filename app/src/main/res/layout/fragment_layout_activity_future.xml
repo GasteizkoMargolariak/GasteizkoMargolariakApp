@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ivalentin.margolariak.CustomScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background_app">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="vertical"
@@ -168,4 +167,4 @@
 
     </LinearLayout>
 
-</com.ivalentin.margolariak.CustomScrollView>
+</ScrollView>

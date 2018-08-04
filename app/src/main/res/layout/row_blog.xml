@@ -96,19 +96,21 @@
         android:layout_marginRight="10dp">
 
         <TextView
+            android:id="@+id/tv_row_blog_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight=".5"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/tv_row_blog_date"
-            android:layout_weight=".5" />
+            android:textColor="#666666" />
 
         <TextView
+            android:id="@+id/tv_row_blog_details"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/tv_row_blog_details"
             android:layout_weight=".5"
-            android:gravity="end" />
+            android:gravity="end"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#666666" />
 
         <ImageView
             android:layout_width="10dp"

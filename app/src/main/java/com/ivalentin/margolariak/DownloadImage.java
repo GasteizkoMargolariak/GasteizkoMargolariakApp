@@ -1,5 +1,6 @@
 package com.ivalentin.margolariak;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ class DownloadImage extends AsyncTask<Void, Void, Void> {
 
 	private final String file;
 	private final String path;
+	@SuppressLint("StaticFieldLeak")
 	private final ImageView iv;
 	private final int size;
 

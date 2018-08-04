@@ -51,25 +51,25 @@ public class UsActivity extends Activity {
 		llCuadrilla.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_cuadrilla), getString(R.string.us_cuadrilla_content), getResources().getDrawable(R.drawable.us_cuadrilla, null));
+				openDialog(getString(R.string.us_cuadrilla), getString(R.string.us_cuadrilla_content), getResources().getDrawable(R.drawable.us_cuadrilla));
 			}
 		});
 		llAssociation.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_association), getString(R.string.us_association_content), getResources().getDrawable(R.drawable.us_asociacion, null));
+				openDialog(getString(R.string.us_association), getString(R.string.us_association_content), getResources().getDrawable(R.drawable.us_asociacion));
 			}
 		});
 		llActivities.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_activities), getString(R.string.us_activities_content), getResources().getDrawable(R.drawable.us_activities, null));
+				openDialog(getString(R.string.us_activities), getString(R.string.us_activities_content), getResources().getDrawable(R.drawable.us_activities));
 			}
 		});
 		llTransparency.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openDialog(getString(R.string.us_transparency), getString(R.string.us_transparency_content), getResources().getDrawable(R.drawable.us_transparency, null));
+				openDialog(getString(R.string.us_transparency), getString(R.string.us_transparency_content), getResources().getDrawable(R.drawable.us_transparency));
 			}
 		});
 

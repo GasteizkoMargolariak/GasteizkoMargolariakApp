@@ -81,7 +81,7 @@ public class ScheduleLayout extends Fragment{
 		view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 			@Override
 			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-				CustomScrollView sv = (CustomScrollView) v.findViewById(R.id.sv_schedule);
+				ScrollView sv = (ScrollView) v.findViewById(R.id.sv_schedule);
 				sv.invalidate();
 			}
 		});
@@ -178,9 +178,7 @@ public class ScheduleLayout extends Fragment{
 	 * @param schedule GM.SCHEDULE.GM or GM.SCHEDULE.CITY
 	 */
 	//Views are added from a loop: I can't specify the parent when inflating.
-	private int populateSchedule(final int schedule) {
-
-		int eventCount = 0;
+	private void populateSchedule(final int schedule) {
 
 		//Hide or show buttons
 		Button btNext = (Button) view.findViewById(R.id.bt_schedule_r);
@@ -198,7 +196,7 @@ public class ScheduleLayout extends Fragment{
 
 		//If there are no events,return now
 		if (selected < 0 || selected >= dateCount) {
-			return eventCount;
+			return;
 		}
 
 		//Search filter
@@ -260,7 +258,7 @@ public class ScheduleLayout extends Fragment{
 			c.setTime(sdf.parse(dates[selected]));
 		} catch (Exception ex) {
 			Log.e("SCHEDULE_LAYOUT", "Date parsing error: " + ex.toString());
-			return eventCount;
+			return;
 		}
 		c.add(Calendar.DATE, 1);  // number of days to add
 		String endDate = sdf.format(c.getTime());
@@ -297,7 +295,6 @@ public class ScheduleLayout extends Fragment{
 		list.removeAllViews();
 
 		while (cursor.moveToNext()) {
-			eventCount++;
 
 			entry = (LinearLayout) factory.inflate(R.layout.row_schedule, list, false);
 
@@ -367,8 +364,6 @@ public class ScheduleLayout extends Fragment{
 		catch(Exception ex){
 			Log.e("SCHEDULE_LAYOUT", "Culdn't get scrollview to scroll: " + ex.toString());
 		}
-
-		return eventCount;
 
 	}
 
@@ -581,16 +576,16 @@ public class ScheduleLayout extends Fragment{
 					// Create path
 					Polyline line = new Polyline();
 					line.setPoints(points);
-					line.setColor(getResources().getColor(R.color.map_route, null));
+					line.setColor(getResources().getColor(R.color.map_route));
 					line.setWidth(30.0f);
 					mapView.getOverlays().add(line);
 
 					// Set markers
 					OverlayItem startOverlay = new OverlayItem(title, title, firstPoint);
-					Drawable startMarker = this.getResources().getDrawable(R.drawable.pinpoint_start, null);
+					Drawable startMarker = this.getResources().getDrawable(R.drawable.pinpoint_start);
 					startOverlay.setMarker(startMarker);
 					OverlayItem endOverlay = new OverlayItem(title, title, lastPoint);
-					Drawable endMarker = this.getResources().getDrawable(R.drawable.pinpoint_end, null);
+					Drawable endMarker = this.getResources().getDrawable(R.drawable.pinpoint_end);
 					endOverlay.setMarker(endMarker);
 					final ArrayList<OverlayItem> markers = new ArrayList<>();
 					markers.add(startOverlay);
@@ -603,7 +598,7 @@ public class ScheduleLayout extends Fragment{
 						public boolean onItemLongPress(final int index, final OverlayItem item) {
 							return true;
 						}
-					  }, getContext());
+					  }, view.getContext());
 					mapView.getOverlays().add(markersOverlay);
 
 				}
@@ -621,7 +616,7 @@ public class ScheduleLayout extends Fragment{
 					GeoPoint center = new GeoPoint(placeCursor.getDouble(2), placeCursor.getDouble(3));
 					mapController.setCenter(center);
 					OverlayItem locationOverlayItem = new OverlayItem(title, placeCursor.getString(0), center);
-					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
+					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint);
 					locationOverlayItem.setMarker(locationMarker);
 					final ArrayList<OverlayItem> items = new ArrayList<>();
 					items.add(locationOverlayItem);
@@ -633,7 +628,7 @@ public class ScheduleLayout extends Fragment{
 								public boolean onItemLongPress(final int index, final OverlayItem item) {
 									return true;
 								}
-							}, getContext());
+							}, view.getContext());
 					mapView.getOverlays().add(locationOverlay);
 				}
 				placeCursor.close();
@@ -699,7 +694,7 @@ public class ScheduleLayout extends Fragment{
 	 */
 	@Override
 	public void onResume() {
-		Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+		Configuration.getInstance().load(view.getContext(), PreferenceManager.getDefaultSharedPreferences(view.getContext()));
 		super.onResume();
 	}
 

@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/tv_row_activity_past_date"
+                android:textColor="@color/text_dark"
                 android:layout_marginStart="10dp"
                 android:textStyle="italic"
                 android:layout_marginTop="10dp"/>

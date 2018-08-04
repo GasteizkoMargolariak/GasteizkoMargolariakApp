@@ -38,6 +38,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 /**
  * Section that will be seen when the app is started. 
  * Contains info from almost every other section.
@@ -47,6 +49,7 @@ import android.widget.Toast;
  * @see Fragment
  *
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class HomeLayout extends Fragment implements LocationListener {
 
 	//The location manager
@@ -79,20 +82,24 @@ public class HomeLayout extends Fragment implements LocationListener {
 		view = inflater.inflate(R.layout.fragment_layout_home, container, false);
 
 		//Request storage permissions if not set
-		if (!checkStoragePermission()) {
-			requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, GM.PERMISSION.STORAGE);
+		if (!getStoragePermission()){
+			askStoragePermission();
+		}
+		if (!getLocationPermission()){
+			askLocationPermission();
 		}
 
-		//Request location permissions if not set
-		if (!checkLocationPermission()) {
-			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
-		}
 
 		//Set Location manager
 		locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
-		if (checkLocationPermission()) {
-			locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
-			onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+		if (getLocationPermission()) {
+			try {
+				locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
+				onLocationChanged(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+			}
+			catch (SecurityException ex){
+				Log.e("HOME_LAYOUT", "Missing location permission: " + ex.toString());
+			}
 		}
 
 		//Set the title
@@ -124,15 +131,13 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 	/**
 	 * Populates the schedule sections of the home screen.
-	 *
-	 * @return The number of entries shown.
 	 */
-	private int setUpSchedule(int gm, View view) {
+	private void setUpSchedule(int gm, View view) {
 		int count = 0;
 
 		SharedPreferences data = view.getContext().getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 		if (!data.getBoolean(GM.DATA.KEY.LABLANCA, GM.DATA.DEFAULT.LABLANCA)) {
-			return count;
+			return;
 		}
 
 		SQLiteDatabase db = SQLiteDatabase.openDatabase(getActivity().getDatabasePath(GM.DB.NAME).getAbsolutePath(), null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
@@ -293,7 +298,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 		}
 
 		db.close();
-		return count;
 	}
 
 	/**
@@ -398,12 +402,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 	/**
 	 * Populates the La Blanca section of the home screen.
-	 *
-	 * @return True if the section has been shown, false otherwise.
 	 */
-	private boolean setUpLablanca(View view) {
+	private void setUpLablanca(View view) {
 		SharedPreferences preferences = view.getContext().getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
-		Boolean set = false;
 		if (preferences.getBoolean(GM.DATA.KEY.LABLANCA, GM.DATA.DEFAULT.LABLANCA)) {
 			LinearLayout llSection = (LinearLayout) view.findViewById(R.id.ll_home_section_lablanca);
 			TextView tvText = (TextView) view.findViewById(R.id.tv_home_section_lablanca_text);
@@ -437,8 +438,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 					tvText.setText(shortText);
 				}
 
-				set = true;
-
 				//Set image
 				String image = cursor.getString(1);
 				if (image != null && image.length() > 0){
@@ -467,15 +466,15 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 
 		}
-		return set;
 	}
 
 	/**
 	 * Populates the Location section of the home screen.
 	 *
-	 * @return True if the section has been shown, false otherwise.
+	 * @param location Last known location.
+	 * @param view The parent view.
 	 */
-	private boolean setUpLocation(Location location, View view) {
+	private void setUpLocation(Location location, View view) {
 		try {
 
 			Double lat, lon;
@@ -486,7 +485,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 			if (cursor.getCount() == 0){
 				cursor.close();
 				db.close();
-				return false;
 			}
 			else {
 				cursor.moveToFirst();
@@ -500,18 +498,16 @@ public class HomeLayout extends Fragment implements LocationListener {
 				if (distance <= 2) {
 					distance = 1000 * distance;
 					text.setText(String.format(getString(R.string.home_section_location_text_short), distance.intValue(), (int) (0.012 * distance.intValue())));
-				} else {
+				}
+				else {
 					text.setText(String.format(getString(R.string.home_section_location_text_long), String.format(Locale.US, "%.02f", distance)));
 				}
 
-				return true;
 			}
 		}
 		catch (Exception ex){
 			Log.e("HOME_LAYOUT", "Couldn't set up home location section: " + ex.toString());
 		}
-
-		return false;
 	}
 
 	/**
@@ -519,9 +515,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * Loads four photos.
 	 * Tapping them takes to the respective album, tapping anywhere else, to the gallery section.
 	 *
-	 * @return The number of entries shown
+	 * @param view The parent view.
 	 */
-	private int setUpGallery(View view) {
+	private void setUpGallery(View view) {
 		int counter = 0;
 
 		//Set onClick listener of section
@@ -599,7 +595,6 @@ public class HomeLayout extends Fragment implements LocationListener {
 		cursor.close();
 		db.close();
 
-		return counter;
 	}
 
 	/**
@@ -607,10 +602,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * Makes the section visible and adds two rows with the two last activities.
 	 * Tapping them takes to the activity, tapping anywhere else, to the activities section.
 	 *
-	 * @return The number of entries shown
+	 * @param view The parent view.
 	 */
-	private int setUpPastActivities(View view) {
-		int counter = 0;
+	private void setUpPastActivities(View view) {
 		String lang = GM.getLang();
 
 		//Get data from the database of the future activities
@@ -723,14 +717,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 			});
 
 			llList.addView(entry);
-			counter++;
 		}
 
 		//Close db
 		cursor.close();
 		db.close();
 
-		return counter;
 	}
 
 	/**
@@ -866,10 +858,9 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 * Populates the Blog section of the home screen.
 	 * Adds two rows with the two latest posts. Tapping them takes to the post, tapping anywhere else, to the blog section.
 	 *
-	 * @return The number of entries shown
+	 * @param view The parent view.
 	 */
-	private int setUpBlog(View view) {
-		int counter = 0;
+	private void setUpBlog(View view) {
 		String lang = GM.getLang();
 
 		LinearLayout llBlog = (LinearLayout) view.findViewById(R.id.ll_home_section_blog);
@@ -968,14 +959,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 			llList.addView(entry);
 
-			counter++;
 		}
 
 		//Close database
 		cursor.close();
 		db.close();
 
-		return counter;
 	}
 
 	/**
@@ -1041,7 +1030,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onPause() {
-		if (checkLocationPermission()) {
+		if (getLocationPermission()) {
 			locationManager.removeUpdates(this);
 		}
 		super.onPause();
@@ -1056,7 +1045,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 	@Override
 	public void onDestroy() {
 		try {
-			if (checkLocationPermission()) {
+			if (getLocationPermission()) {
 				locationManager.removeUpdates(this);
 			}
 		}
@@ -1075,26 +1064,58 @@ public class HomeLayout extends Fragment implements LocationListener {
 	 */
 	@Override
 	public void onResume(){
-		if (checkLocationPermission()) {
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
+		if (getLocationPermission()) {
+			try{
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GM.LOCATION.ACCURACY.TIME, GM.LOCATION.ACCURACY.SPACE, this);
+			}
+			catch (SecurityException ex){
+				Log.e("HOME_LAYOUT", "Missing location permission: " + ex.toString());
+			}
 		}
 		super.onResume();
 	}
 
 
 	/**
-	 * Checks app permission to write device storage, user for OSM cache.
+	 * Checks app permission to write device storage, user for OSM cache
+	 * and photo downloads.
+	 * If the SDK version doesn't handle individual permissions, it will always
+	 * return true.
+	 *
 	 * @return true if the permission has been granted, false otherwise.
 	 */
-        private boolean checkStoragePermission(){
-                return getContext().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        }
+	private boolean getStoragePermission() {
+		return SDK_INT < 23 || getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+	}
+
+
+	/**
+	 * Asks for storage permissions. For SDK under 23, it does nothing.
+	 */
+	private void askStoragePermission(){
+		if (SDK_INT >= 23){
+			requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, GM.PERMISSION.STORAGE);
+		}
+	}
 
 	/**
 	 * Checks app permission to access the user location.
+	 * If the SDK version doesn't handle individual permissions, it will always
+	 * return true.
+	 *
 	 * @return true if the permission has been granted, false otherwise.
 	 */
-	private boolean checkLocationPermission(){
-		return getContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+	private boolean getLocationPermission() {
+		return SDK_INT < 23 || getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getContext().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+	}
+
+
+	/**
+	 * Asks for location permissions. For SDK under 23, it does nothing.
+	 */
+	private void askLocationPermission(){
+		if (SDK_INT >= 23){
+			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GM.PERMISSION.LOCATION);
+		}
 	}
 }

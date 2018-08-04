@@ -17,6 +17,7 @@ import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.content.BroadcastReceiver;
+import android.os.Build;
 import android.util.Log;
 
 /**
@@ -36,7 +37,7 @@ public class AlarmReceiver extends BroadcastReceiver {
      * @param context Context of the activity or application
      * @param intent Receiver intent
      * 
-     * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+     * @see BroadcastReceiver#onReceive(Context, Intent)
      */
     @Override
 	@SuppressWarnings("deprecation")
@@ -144,10 +145,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 								.setAutoCancel(true)
 								.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
 								.setVibrate((new long[]{400, 400, 400}))
-								.setColor(context.getResources().getColor(R.color.background_notification))
 								.setSubText(context.getString(R.string.app_name))
 								.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 								.setContentText(text);
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+							mBuilder.setColor(context.getResources().getColor(R.color.background_notification));
+						}
 
 						// Creates an intent for an Activity to be launched from the notification.
 						resultIntent = new Intent(context, MainActivity.class);
@@ -168,7 +171,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 						mBuilder.setContentIntent(resultPendingIntent);
 
 						//Actually send the notification.
-						mNotificationManager.notify(id, mBuilder.build());
+						if (mNotificationManager != null) {
+							mNotificationManager.notify(id, mBuilder.build());
+						}
 
 					}
 					cursor.close();
@@ -198,7 +203,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		 * @param in String to be decoded.
 		 * @return Decoded string.
 		 */
-		static String decode(final String in){
+		private static String decode(final String in){
 			String working = in;
 			int index = working.indexOf("\\u");
 			while(index > -1){
@@ -233,8 +238,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 			PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
 			//Set the alarm cycle.
-			//TODO: Set the most appropiate interval
-			alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, GM.PERIOD_SYNC.FESTIVALS, GM.PERIOD_SYNC.FESTIVALS, alarmIntent);
+			//TODO: Set the most appropriate interval
+			if (alarmMgr != null) {
+				alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, GM.PERIOD_SYNC.FESTIVALS, GM.PERIOD_SYNC.FESTIVALS, alarmIntent);
+			}
 
 			// Enable SampleBootReceiver to automatically restart the alarm when the device is rebooted.
 			ComponentName receiver = new ComponentName(context, BootReceiver.class);

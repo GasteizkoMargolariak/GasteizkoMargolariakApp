@@ -1,4 +1,4 @@
-<com.ivalentin.margolariak.CustomScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sh_home_layout"
@@ -748,4 +748,4 @@
 
     </LinearLayout>
 
-</com.ivalentin.margolariak.CustomScrollView>
+</ScrollView>

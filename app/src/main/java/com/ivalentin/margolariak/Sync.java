@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -46,15 +47,20 @@ import org.json.*;
  */
 class Sync extends AsyncTask<Void, Void, Void> {
 	
-	private final Context myContextRef;
+	@SuppressLint("StaticFieldLeak")
+	private final Context ctx;
+	@SuppressLint("StaticFieldLeak")
 	private ProgressBar pbSync;
+	@SuppressLint("StaticFieldLeak")
 	private ImageView ivSync;
 	private Dialog dialog;
+	@SuppressLint("StaticFieldLeak")
 	private MainActivity activity;
 	private int fg;
 	private String strings[];
 	private boolean doProgress = false;
 	private long millis = 0;
+	@SuppressLint("StaticFieldLeak")
 	private TextView tv;
 	
 	
@@ -78,21 +84,21 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			//Show the dialog and assign the elements on it
 			dialog.show();
 			strings = new String[15];
-			strings[0] = myContextRef.getString(R.string.dialog_sync_text_0);
-			strings[1] = myContextRef.getString(R.string.dialog_sync_text_1);
-			strings[2] = myContextRef.getString(R.string.dialog_sync_text_2);
-			strings[3] = myContextRef.getString(R.string.dialog_sync_text_3);
-			strings[4] = myContextRef.getString(R.string.dialog_sync_text_4);
-			strings[5] = myContextRef.getString(R.string.dialog_sync_text_5);
-			strings[6] = myContextRef.getString(R.string.dialog_sync_text_6);
-			strings[7] = myContextRef.getString(R.string.dialog_sync_text_7);
-			strings[8] = myContextRef.getString(R.string.dialog_sync_text_8);
-			strings[9] = myContextRef.getString(R.string.dialog_sync_text_9);
-			strings[10] = myContextRef.getString(R.string.dialog_sync_text_10);
-			strings[11] = myContextRef.getString(R.string.dialog_sync_text_11);
-			strings[12] = myContextRef.getString(R.string.dialog_sync_text_12);
-			strings[13] = myContextRef.getString(R.string.dialog_sync_text_13);
-			strings[14] = myContextRef.getString(R.string.dialog_sync_text_0); //In case I get a 13;
+			strings[0] = ctx.getString(R.string.dialog_sync_text_0);
+			strings[1] = ctx.getString(R.string.dialog_sync_text_1);
+			strings[2] = ctx.getString(R.string.dialog_sync_text_2);
+			strings[3] = ctx.getString(R.string.dialog_sync_text_3);
+			strings[4] = ctx.getString(R.string.dialog_sync_text_4);
+			strings[5] = ctx.getString(R.string.dialog_sync_text_5);
+			strings[6] = ctx.getString(R.string.dialog_sync_text_6);
+			strings[7] = ctx.getString(R.string.dialog_sync_text_7);
+			strings[8] = ctx.getString(R.string.dialog_sync_text_8);
+			strings[9] = ctx.getString(R.string.dialog_sync_text_9);
+			strings[10] = ctx.getString(R.string.dialog_sync_text_10);
+			strings[11] = ctx.getString(R.string.dialog_sync_text_11);
+			strings[12] = ctx.getString(R.string.dialog_sync_text_12);
+			strings[13] = ctx.getString(R.string.dialog_sync_text_13);
+			strings[14] = ctx.getString(R.string.dialog_sync_text_0); //In case I get a 13;
 			tv = (TextView) dialog.findViewById(R.id.tv_dialog_sync_text);
 			int idx = (int) (Math.random() * 13);
 			tv.setText(strings[idx]);
@@ -123,7 +129,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 			dialog.dismiss();
 
 			//Check db version again
-			SQLiteDatabase db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+			SQLiteDatabase db = ctx.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()){
 				Log.e("SYNC", "Database is in read only mode. Skipping sync.");
 				return;
@@ -186,10 +192,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * Called when the AsyncTask is created.
 	 * This constructor is intended for syncs on the background.
 	 *
-	 * @param myContextRef The Context of the calling activity.
+	 * @param ctx The Context of the calling activity.
 	 */
-	public Sync(Activity myContextRef){
-		this.myContextRef = myContextRef;
+	public Sync(Activity ctx){
+		this.ctx = ctx;
 	}
 
     /**
@@ -197,11 +203,11 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * This constructor is intended for syncs done from the foreground,
 	 * because it shows and hides a spinner (except for the initial one).
      * 
-     * @param myContextRef The Context of the calling activity.
+     * @param ctx The Context of the calling activity.
      * @param pb The progress bar that will be shown while the sync goes on.
      */
-    public Sync(Activity myContextRef, ProgressBar pb, ImageView iv) {
-        this.myContextRef = myContextRef;
+    public Sync(Activity ctx, ProgressBar pb, ImageView iv) {
+        this.ctx = ctx;
         dialog = null;
         pbSync = pb;
 		ivSync = iv;
@@ -213,15 +219,15 @@ class Sync extends AsyncTask<Void, Void, Void> {
      * This constructor is intended to use only in the first sync,
      * from the foreground, because a dialog will block the UI.
      * 
-     * @param myContextRef The Context of the calling activity.
+     * @param ctx The Context of the calling activity.
      * @param d Dialog of the initial sync
      * @param pb The progress bar that will be shown while the sync goes on.
      * @param activity The calling MainActvity
      */
-    public Sync(Activity myContextRef, ProgressBar pb, ImageView iv, Dialog d, MainActivity activity) {
+    public Sync(Activity ctx, ProgressBar pb, ImageView iv, Dialog d, MainActivity activity) {
     	this.dialog = d;
     	this.activity = activity;
-        this.myContextRef = myContextRef;
+        this.ctx = ctx;
         pbSync = pb;
 		ivSync = iv;
         fg = 1;
@@ -233,7 +239,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
      * @param context The Context of the calling activity.
      */
     public Sync(Context context) {
-        this.myContextRef = context;
+        this.ctx = context;
         pbSync = null;
         fg = 0;
     }
@@ -263,14 +269,14 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 * @return The URL that will be used for syncing.
 	 */
 	private String buildUrl(SQLiteDatabase db, String user, int foreground){
-		String url = "";
+		StringBuilder url = new StringBuilder();
 		try {
 
 			// Common parameters
-			url = GM.API.SERVER + GM.API.SYNC.PATH.COMPLETE + "?" +
-			  GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
-			  GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
-			  GM.API.SYNC.KEY.FOREGROUND + "=" + foreground;
+			url = new StringBuilder(GM.API.SERVER + GM.API.SYNC.PATH.COMPLETE + "?" +
+					GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
+					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground);
 
 			// Versions of the tables
 			Cursor cursor;
@@ -293,7 +299,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				List<String> tableList = Arrays.asList(tables);
 				while (cursor.moveToNext()) {
 					if(tableList.contains(cursor.getString(0))){
-						url = url + "&" + cursor.getString(0) + "=" + cursor.getString(1);
+						url.append("&").append(cursor.getString(0)).append("=").append(cursor.getString(1));
 					}
 				}
 			}
@@ -302,7 +308,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		catch (java.io.UnsupportedEncodingException ex){
 			Log.e("SYNC", "Error encoding url for sync \"" + url + "\" - " + ex.toString());
 		}
-		return url;
+		return url.toString();
 	}
 
 
@@ -389,7 +395,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	 */
 	private boolean saveSettings(String settings){
 
-		SharedPreferences sharedData = myContextRef.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+		SharedPreferences sharedData = ctx.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedData.edit();
 		try{
 			String value;
@@ -560,13 +566,13 @@ class Sync extends AsyncTask<Void, Void, Void> {
 				}
 
 				//Start building the query
-				String q = "INSERT INTO " + table + "(";
+				StringBuilder q = new StringBuilder("INSERT INTO " + table + "(");
 
 				//Add column names
 				for (int j = 0; j < i; j++) {
-					q = q + columns[j] + ", ";
+					q.append(columns[j]).append(", ");
 				}
-				q = q.substring(0, q.length() - 2) + ") VALUES (";
+				q = new StringBuilder(q.substring(0, q.length() - 2) + ") VALUES (");
 
 				//Loop trough values
 				for (int j = 0; j < i; j++) {
@@ -574,7 +580,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 					//If the value is empty or null, I don't care what type is it, it will be 'null'.
 					if (values[j].length() == 0 || "null".equalsIgnoreCase(values[j])) {
 						val = "null";
-						q = q + val + ", ";
+						q.append(val).append(", ");
 					}
 
 					//If the value is not empty, I need the type
@@ -586,29 +592,29 @@ class Sync extends AsyncTask<Void, Void, Void> {
 
 								//Check that is really a number to prevent injection.
 								if (Pattern.matches("-?\\d+", values[j]))
-									q = q + values[j] + ", ";
+									q.append(values[j]).append(", ");
 								else{
 									//If its not and actually number, just insert null to avoid problems.
-									q = q + "null, ";
+									q.append("null, ");
 								}
 								break;
 
 							case GM.DB.COLUMN.DATETIME:
 								//The API formats ('YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS') are good for inserting. Just escape and add quotes.
-								q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
+								q.append(DatabaseUtils.sqlEscapeString(values[j])).append(", ");
 								break;
 
 							default: //VARCHAR
 								//Just escape and add quotes.
-								q = q + DatabaseUtils.sqlEscapeString(values[j]) + ", ";
+								q.append(DatabaseUtils.sqlEscapeString(values[j])).append(", ");
 						}
 					}
 
 				}
 
 				//End the query string and add it to the array.
-				q = q.substring(0, q.length() - 2) + ")";
-				queries.add(q);
+				q = new StringBuilder(q.substring(0, q.length() - 2) + ")");
+				queries.add(q.toString());
 
 			}
 			catch (JSONException e) {
@@ -648,7 +654,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 	protected Void doInBackground(Void... params) {
 
 		//Get preferences
-		SharedPreferences preferences = myContextRef.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
+		SharedPreferences preferences = ctx.getSharedPreferences(GM.DATA.DATA, Context.MODE_PRIVATE);
 
 		//Get useful data for the uri
 		String userCode = preferences.getString(GM.DATA.KEY.USER, GM.DATA.DEFAULT.USER);
@@ -656,7 +662,7 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		//Get database. Stop if it's locked
 		SQLiteDatabase db;
 		try {
-			db = myContextRef.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+			db = ctx.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
 			if (db.isReadOnly()) {
 				Log.e("SYNC", "Database is in read only mode. Skipping sync.");
 				return null;

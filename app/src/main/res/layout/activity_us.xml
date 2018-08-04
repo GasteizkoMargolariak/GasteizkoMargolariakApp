@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/background_app">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -69,8 +68,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_app"
-        >
+        android:background="@color/background_app">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,8 +97,6 @@
                 android:textColor="@color/section_title"/>
 
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/ll_us_cuadrilla"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -168,8 +164,6 @@
             </LinearLayout>
 
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/ll_us_asociacion"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -237,8 +231,6 @@
             </LinearLayout>
 
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/ll_us_activities"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -306,8 +298,6 @@
             </LinearLayout>
 
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/ll_us_transparency"
                 android:orientation="vertical"
                 android:layout_width="match_parent"

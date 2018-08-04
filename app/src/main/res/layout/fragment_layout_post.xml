@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ivalentin.margolariak.CustomScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background_app">
 
-
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
 
         <LinearLayout
@@ -115,10 +113,11 @@
                     android:contentDescription="@string/empty"/>
 
                 <TextView
+                    android:id="@+id/tv_post_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_post_date"
-                    android:layout_gravity="end" />
+                    android:layout_gravity="end"
+                    android:textColor="#666666" />
             </LinearLayout>
 
             <LinearLayout
@@ -239,4 +238,4 @@
 
     </LinearLayout>
 
-</com.ivalentin.margolariak.CustomScrollView>
+</ScrollView>

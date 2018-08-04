@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
 	private final Handler locationHandler = new Handler();
 
 	// Code to check for location updates
-	private MainActivity activity = this;
+	private final MainActivity activity = this;
 	private final Runnable checkForLocation = new Runnable() {
 		@Override
 		public void run() {
@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 	 *
 	 * @return String array. Index 0 has the title of the section. Index 1 has the URL.
 	 */
-	public String[] getShareLink(){
+	private String[] getShareLink(){
 		return(new String[]{shareTitle, shareURL});
 	}
 
@@ -481,7 +481,7 @@ public class MainActivity extends Activity {
 					});
 
 					//Set the icon
-					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher, null);
+					dialogIcon = getResources().getDrawable(R.drawable.ic_launcher);
 					if (dialogIcon != null) {
 						dialogIcon.setBounds(0, 0, (int) (tvDialogTitle.getTextSize() * 1.4), (int) (tvDialogTitle.getTextSize() * 1.4));
 					}

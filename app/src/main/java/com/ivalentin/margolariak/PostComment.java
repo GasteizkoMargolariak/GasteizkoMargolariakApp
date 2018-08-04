@@ -1,5 +1,6 @@
 package com.ivalentin.margolariak;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -31,12 +32,14 @@ class PostComment extends AsyncTask<String, String, Integer> {
 	//Elements passed from fragments
 	private final String type, user, text, language;
 	private String userCode;
+	@SuppressLint("StaticFieldLeak")
 	private final LinearLayout list, form;
 	private final int id;
+	@SuppressLint("StaticFieldLeak")
 	private final Context context;
-
-	//Elements calculated here
+	@SuppressLint("StaticFieldLeak")
 	private Button btSend;
+	@SuppressLint("StaticFieldLeak")
 	private ProgressBar pb;
 
 	private int code = 404;

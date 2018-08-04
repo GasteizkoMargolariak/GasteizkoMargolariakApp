@@ -52,11 +52,13 @@ import org.osmdroid.views.overlay.Polyline;
  */
 public class ActivityFutureLayout extends Fragment {
 
+	private View view;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		//Load the layout
-		View view = inflater.inflate(R.layout.fragment_layout_activity_future, container, false);
+		view = inflater.inflate(R.layout.fragment_layout_activity_future, container, false);
 
 		//Get bundled id
 		Bundle bundle = this.getArguments();
@@ -334,16 +336,16 @@ public class ActivityFutureLayout extends Fragment {
 					// Create path
 					Polyline line = new Polyline();
 					line.setPoints(points);
-					line.setColor(getResources().getColor(R.color.map_route, null));
+					line.setColor(getResources().getColor(R.color.map_route));
 					line.setWidth(30.0f);
 					mapView.getOverlays().add(line);
 
 					// Set markers
 					OverlayItem startOverlay = new OverlayItem(title, title, firstPoint);
-					Drawable startMarker = this.getResources().getDrawable(R.drawable.pinpoint_start, null);
+					Drawable startMarker = this.getResources().getDrawable(R.drawable.pinpoint_start);
 					startOverlay.setMarker(startMarker);
 					OverlayItem endOverlay = new OverlayItem(title, title, lastPoint);
-					Drawable endMarker = this.getResources().getDrawable(R.drawable.pinpoint_end, null);
+					Drawable endMarker = this.getResources().getDrawable(R.drawable.pinpoint_end);
 					endOverlay.setMarker(endMarker);
 					final ArrayList<OverlayItem> markers = new ArrayList<>();
 					markers.add(startOverlay);
@@ -356,7 +358,7 @@ public class ActivityFutureLayout extends Fragment {
 					        public boolean onItemLongPress(final int index, final OverlayItem item) {
 					                return true;
 					        }
-					  }, getContext());
+					  }, mapView.getContext());
 					mapView.getOverlays().add(markersOverlay);
 
 				}
@@ -374,7 +376,7 @@ public class ActivityFutureLayout extends Fragment {
 					GeoPoint center = new GeoPoint(placeCursor.getDouble(2), placeCursor.getDouble(3));
 					mapController.setCenter(center);
 					OverlayItem locationOverlayItem = new OverlayItem(title, placeCursor.getString(0), center);
-					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint, null);
+					Drawable locationMarker = this.getResources().getDrawable(R.drawable.pinpoint);
 					locationOverlayItem.setMarker(locationMarker);
 					final ArrayList<OverlayItem> items = new ArrayList<>();
 					items.add(locationOverlayItem);
@@ -386,7 +388,7 @@ public class ActivityFutureLayout extends Fragment {
 								public boolean onItemLongPress(final int index, final OverlayItem item) {
 									return true;
 								}
-							}, getContext());
+							}, mapView.getContext());
 					mapView.getOverlays().add(locationOverlay);
 				}
 				placeCursor.close();
@@ -437,7 +439,7 @@ public class ActivityFutureLayout extends Fragment {
 	 */
 	@Override
 	public void onResume() {
-		Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+		Configuration.getInstance().load(view.getContext(), PreferenceManager.getDefaultSharedPreferences(view.getContext()));
 		super.onResume();
 	}
 
