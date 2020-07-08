@@ -4,7 +4,7 @@
 ---
 
 
-# Androizko Gasteizko Margolariak aplikazioia #
+# Androizko Gasteizko Margolariak aplikazioia (Descontinuado) #
 
 Una aplicacion para dispositivos Android para miembros de [Gasteizko Margolariak](https://margolariak.com/) [Vitoria-Gasteiz](http://www.vitoria-gasteiz.org/).
 

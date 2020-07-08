@@ -4,7 +4,7 @@
 ---
 
 
-# Gasteizko Margolariak Android App #
+# Gasteizko Margolariak Android App (Discontinued) #
 
 An Android app intended for members of [Gasteizko Margolariak](https://margolariak.com/) in [Vitoria-Gasteiz](http://www.vitoria-gasteiz.org/), Spain.
 
