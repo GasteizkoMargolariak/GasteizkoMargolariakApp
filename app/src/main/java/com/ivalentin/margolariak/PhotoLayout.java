@@ -220,9 +220,8 @@ public class PhotoLayout extends Fragment {
 			imageView.setImageResource(getResources().getIdentifier("com.ivalentin.margolariak:drawable/photo_placeholder", null, null));
 			File fpath;
 			fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/view/");
-			if (fpath.mkdirs()) {
-				new DownloadImage(GM.API.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView, GM.IMG.SIZE.VIEW).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			}
+			fpath.mkdirs();
+			new DownloadImage(GM.API.SERVER + "/img/galeria/view/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/view/" + image, imageView, GM.IMG.SIZE.VIEW).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
 
 		//Hide or show comments, as needed

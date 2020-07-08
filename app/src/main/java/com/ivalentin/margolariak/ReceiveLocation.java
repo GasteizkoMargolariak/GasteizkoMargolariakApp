@@ -70,6 +70,10 @@ class ReceiveLocation extends AsyncTask<Void, Void, Void> {
 
 					//Insert into the database
 					SQLiteDatabase db = activity.openOrCreateDatabase(GM.DB.NAME, Activity.MODE_PRIVATE, null);
+					if (db.isReadOnly()){
+						Log.e("RECEIVE_LOCATION", "Database is in read only mode. Skipping.");
+						return null;
+					}
 					db.execSQL("INSERT INTO location VALUES ('" + dtime + "', " + lat + ", " + lon + ")");
 					db.close();
 
@@ -84,6 +88,9 @@ class ReceiveLocation extends AsyncTask<Void, Void, Void> {
 		}
 		catch (IOException e) {
 			Log.e("RECEIVE_LOCATION", "Unable to get location, IO exception: " + e.toString());
+		}
+		catch (Exception e) {
+			Log.e("RECEIVE_LOCATION", "Unable to get location, unknown exception: " + e.toString());
 		}
 
 

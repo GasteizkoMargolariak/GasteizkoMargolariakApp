@@ -59,6 +59,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 	private View view;
 
+
 	/**
 	 * Run when the fragment is inflated.
 	 * Assigns views, gets the date and does the first call to the {//@link populate function}.
@@ -76,6 +77,11 @@ public class HomeLayout extends Fragment implements LocationListener {
 
 		//Load the layout.
 		view = inflater.inflate(R.layout.fragment_layout_home, container, false);
+
+		//Request storage permissions if not set
+		if (!checkStoragePermission()) {
+			requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, GM.PERMISSION.STORAGE);
+		}
 
 		//Request location permissions if not set
 		if (!checkLocationPermission()) {
@@ -448,9 +454,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 						//If not, create directories and download asynchronously
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/");
-						if (fpath.mkdirs()) {
-							new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG.SIZE.PREVIEW).execute();
-						}
+						fpath.mkdirs();
+						new DownloadImage(GM.API.SERVER + "/img/fiestas/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/fiestas/preview/" + image, ivImage, GM.IMG.SIZE.PREVIEW).execute();
 					}
 				}
 				else {
@@ -559,9 +564,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 				//If not, create directories and download asynchronously
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/preview/");
-				if (fpath.mkdirs()){
-					new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG.SIZE.PREVIEW).execute();
-				}
+				fpath.mkdirs();
+				new DownloadImage(GM.API.SERVER + "/img/galeria/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/preview/" + image, ivPhoto[counter], GM.IMG.SIZE.PREVIEW).execute();
 			}
 
 			//Set listeners for images
@@ -691,9 +695,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-					if (fpath.mkdirs()) {
-						new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
-					}
+					fpath.mkdirs();
+					new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 				}
 			}
 			cursorImage.close();
@@ -820,9 +823,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 						//If not, create directories and download asynchronously
 						File fpath;
 						fpath = new File(this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/");
-						if (fpath.mkdirs()) {
-							new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
-						}
+						fpath.mkdirs();
+						new DownloadImage(GM.API.SERVER + "/img/actividades/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/actividades/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 					}
 				}
 
@@ -937,9 +939,8 @@ public class HomeLayout extends Fragment implements LocationListener {
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/miniature/");
-					if (fpath.mkdirs()) {
-						new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
-					}
+					fpath.mkdirs();
+					new DownloadImage(GM.API.SERVER + "/img/blog/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/miniature/" + image, iv, GM.IMG.SIZE.MINIATURE).execute();
 				}
 			}
 
@@ -1046,6 +1047,7 @@ public class HomeLayout extends Fragment implements LocationListener {
 		super.onPause();
 	}
 
+
 	/**
 	 * Called when the fragment is destroyed.
 	 * Stops the location manager
@@ -1063,11 +1065,12 @@ public class HomeLayout extends Fragment implements LocationListener {
 		}
 		super.onDestroy();
 	}
-	
+
+
 	/**
-	 * Called when the fragment is brought back into the foreground. 
+	 * Called when the fragment is brought back into the foreground.
 	 * Resumes the map and the location manager.
-	 * 
+	 *
 	 * @see android.app.Fragment#onResume()
 	 */
 	@Override
@@ -1077,6 +1080,15 @@ public class HomeLayout extends Fragment implements LocationListener {
 		}
 		super.onResume();
 	}
+
+
+	/**
+	 * Checks app permission to write device storage, user for OSM cache.
+	 * @return true if the permission has been granted, false otherwise.
+	 */
+        private boolean checkStoragePermission(){
+                return getContext().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        }
 
 	/**
 	 * Checks app permission to access the user location.

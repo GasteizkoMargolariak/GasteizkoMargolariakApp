@@ -123,9 +123,8 @@ public class GalleryLayout extends Fragment{
 					//If not, create directories and download asynchronously
 					File fpath;
 					fpath = new File(this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/");
-					if (fpath.mkdirs()) {
-						new DownloadImage(GM.API.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG.SIZE.MINIATURE).execute();
-					}
+					fpath.mkdirs();
+					new DownloadImage(GM.API.SERVER + "/img/galeria/miniature/" + image, this.getActivity().getFilesDir().toString() + "/img/galeria/miniature/" + image, preview[i], GM.IMG.SIZE.MINIATURE).execute();
 				}
 
 				//Rotate the image

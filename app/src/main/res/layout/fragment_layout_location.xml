@@ -50,7 +50,7 @@
 				android:layout_height="wrap_content"
 				android:layout_margin="10dp"
 				android:text="@string/home_section_location_text_calculating"
-				android:textAppearance="?android:attr/textAppearanceSmall"/>
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 			<LinearLayout
 				android:layout_width="match_parent"

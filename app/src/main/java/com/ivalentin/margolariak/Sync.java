@@ -267,17 +267,10 @@ class Sync extends AsyncTask<Void, Void, Void> {
 		try {
 
 			// Common parameters
-			url = GM.API.SERVER;
-			if (pbSync != null) { // First sync
-				url = url + GM.API.SYNC.PATH.FAST;
-			}
-			else{ // Regular sync
-				url = url + GM.API.SYNC.PATH.COMPLETE;
-			}
-			url = url + "?" +
-					GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
-					GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
-					GM.API.SYNC.KEY.FOREGROUND + "=" + foreground + "&";
+			url = GM.API.SERVER + GM.API.SYNC.PATH.COMPLETE + "?" +
+			  GM.API.SYNC.KEY.CLIENT + "=" + URLEncoder.encode(GM.API.CLIENT, "UTF-8") + "&" +
+			  GM.API.SYNC.KEY.USER + "=" + URLEncoder.encode(user, "UTF-8") + "&" +
+			  GM.API.SYNC.KEY.FOREGROUND + "=" + foreground;
 
 			// Versions of the tables
 			Cursor cursor;

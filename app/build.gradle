@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.ivalentin.margolariak"
@@ -23,10 +23,23 @@ android {
         preDexLibraries = false
         javaMaxHeapSize "2g"
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
     compile 'com.android.support:multidex:1.0.1'
     compile 'org.osmdroid:osmdroid-android:5.6.5@aar'
+}
+
+
+allprojects {
+    repositories {
+        // The order in which you list these repositories matter.
+        google()
+        jcenter()
+    }
 }

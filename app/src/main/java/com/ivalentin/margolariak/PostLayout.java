@@ -101,9 +101,8 @@ public class PostLayout extends Fragment {
 				//If not, create directories and download asynchronously
 				File fpath;
 				fpath = new File(this.getActivity().getFilesDir().toString() + "/img/blog/preview/");
-				if (fpath.mkdirs()) {
-					new DownloadImage(GM.API.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i], GM.IMG.SIZE.PREVIEW).execute();
-				}
+				fpath.mkdirs();
+				new DownloadImage(GM.API.SERVER + "/img/blog/preview/" + image, this.getActivity().getFilesDir().toString() + "/img/blog/preview/" + image, images[i], GM.IMG.SIZE.PREVIEW).execute();
 			}
 			images[i].setVisibility(View.VISIBLE);
 			i ++;
